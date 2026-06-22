@@ -5,18 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>2026 秋季家族自駕遊</title>
 
+    <!-- ================= APP 化核心設定 (安卓 & iOS 雙棲完美版) ================= -->
     <meta name="theme-color" content="#1E3A8A">
     
+    <!-- iOS 專用隱藏網址列與圖示 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="日本秋遊">
     <link rel="apple-touch-icon" href="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f341.png">
 
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="日本秋遊">
-    <link rel="icon" type="image/png" sizes="72x72" href="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f341.png">
-    
-    <link rel="manifest" href='data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%222026%E7%A7%8B%E5%AD%A3%E6%97%A5%E6%9C%AC%E9%81%8A%22%2C%22short_name%22%3A%22%E6%97%A5%E6%9C%AC%E9%81%8A%22%2C%22display%22%3A%22standalone%22%2C%22start_url%22%3A%22.%2F%22%2C%22background_color%22%3A%22%23f4f6f8%22%2C%22theme_color%22%3A%22%231E3A8A%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fcdnjs.cloudflare.com%2Fajax%2Flibs%2Ftwemoji%2F14.0.2%2F72x72%2F1f341.png%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fpng%22%7D%2C%7B%22src%22%3A%22https%3A%2F%2Fcdnjs.cloudflare.com%2Fajax%2Flibs%2Ftwemoji%2F14.0.2%2F72x72%2F1f341.png%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D'>
+    <!-- 安卓專用的獨立設定檔 (解決無圖示與網址列問題) -->
+    <link rel="manifest" href="manifest.json">
+    <!-- ========================================================================= -->
+
+    <style>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f6f8; margin: 0; padding-bottom: 80px; }
         .header { background-color: #1E3A8A; color: white; padding: 16px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
