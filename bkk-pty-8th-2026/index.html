@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2026 曼谷芭達雅避暑遊 (籌備中)</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#10b981"> <!-- 泰國換成清爽的綠色系 -->
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f0fdf4; margin: 0; padding-bottom: 80px; }
+        .header { background-color: #059669; color: white; padding: 16px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .header h1 { margin: 0; font-size: 18px; }
+        .main-view { display: none; } .main-view.active { display: block; }
+        .container { padding: 16px; }
+        .tab-scroll-container { background-color: #059669; position: sticky; top: 53px; z-index: 99; overflow-x: auto; white-space: nowrap; padding: 0 10px 10px; }
+        .tab-scroll-container::-webkit-scrollbar { display: none; }
+        .tab-btn { background: rgba(255,255,255,0.2); color: #d1fae5; border: none; padding: 8px 16px; border-radius: 20px; font-size: 14px; margin-right: 8px; cursor: pointer; transition: all 0.2s;}
+        .tab-btn.active { background: white; color: #059669; font-weight: bold; }
+        .card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); border-left: 4px solid #10b981;}
+        .date-header { font-size: 18px; font-weight: bold; margin-bottom: 16px; border-left: 4px solid #059669; padding-left: 8px; color: #0f172a;}
+        .event { font-size: 16px; font-weight: 700; margin-bottom: 4px; color: #1e293b;}
+        .desc { font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 8px;}
+        
+        /* 底部導覽 */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding: 12px 0; z-index: 100; padding-bottom: calc(12px + env(safe-area-inset-bottom));}
+        .nav-item { cursor: pointer; color: #94a3b8; font-size: 11px; font-weight: 600; text-align: center; flex: 1; transition: color 0.2s;}
+        .nav-item.active { color: #059669; }
+        .nav-icon { font-size: 20px; display: block; margin-bottom: 4px; }
+        
+        /* 記帳與打卡佔位符 */
+        .placeholder-box { text-align: center; padding: 40px 20px; color: #64748b; background: #f8fafc; border-radius: 12px; border: 2px dashed #cbd5e1; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="header"><h1>🌴 2026 曼谷芭達雅避暑遊</h1></div>
+
+<!-- ==================== 行程視圖 ==================== -->
+<div id="view-itinerary" class="main-view active">
+    <div class="tab-scroll-container">
+        <button class="tab-btn active" onclick="showDay('d1', this)">Day 1</button>
+        <button class="tab-btn" onclick="showDay('d2', this)">Day 2</button>
+        <button class="tab-btn" onclick="showDay('d3', this)">Day 3</button>
+    </div>
+
+    <div class="container">
+        <!-- Day 1 -->
+        <div id="d1" class="day-content" style="display:block;">
+            <div class="date-header">Day 1 | 飛往微笑國度 🐘</div>
+            <div class="card">
+                <div class="event">🛫 行程籌備中...</div>
+                <div class="desc">曼谷的機票與飯店尚未確認，等資料備齊後，再請 AI 幫忙一鍵替換這裡的內容！</div>
+            </div>
+        </div>
+
+        <!-- Day 2 -->
+        <div id="d2" class="day-content" style="display:none;">
+            <div class="date-header">Day 2 | 曼谷市區探索 🛕</div>
+            <div class="card">
+                <div class="event">🚗 行程規劃中...</div>
+                <div class="desc">可能是大皇宮、鄭王廟，或是直接去百貨公司吹冷氣血拼？</div>
+            </div>
+        </div>
+
+        <!-- Day 3 -->
+        <div id="d3" class="day-content" style="display:none;">
+            <div class="date-header">Day 3 | 芭達雅渡假 🏖️</div>
+            <div class="card">
+                <div class="event">🌊 景點規劃中...</div>
+                <div class="desc">準備包車前往芭達雅享受陽光與沙灘。</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== 美食視圖 ==================== -->
+<div id="view-food" class="main-view">
+    <div class="container">
+        <div class="date-header">🍲 泰國美食口袋名單</div>
+        <div class="placeholder-box">
+            <div style="font-size: 24px; margin-bottom: 10px;">🇹🇭</div>
+            <strong>冬蔭功、芒果糯米飯、泰式奶茶</strong><br><br>
+            口袋名單尚未建檔，敬請期待！
+        </div>
+    </div>
+</div>
+
+<!-- ==================== 票券視圖 ==================== -->
+<div id="view-tickets" class="main-view">
+    <div class="container">
+        <div class="date-header">🎟️ 票券與簽證控管</div>
+        <div class="placeholder-box">
+            <div style="font-size: 24px; margin-bottom: 10px;">🎫</div>
+            <strong>按摩券、秀場門票、水上樂園</strong><br><br>
+            尚未確認採買清單。
+        </div>
+    </div>
+</div>
+
+<!-- ==================== 帳本與打卡視圖 (共用佔位) ==================== -->
+<div id="view-system" class="main-view">
+    <div class="container">
+        <div class="date-header">⚙️ 系統尚未連線</div>
+        <div class="placeholder-box">
+            <div style="font-size: 24px; margin-bottom: 10px;">🔗</div>
+            <strong>雲端帳本與打卡系統</strong><br><br>
+            等待建立全新的「泰國專用 Google 試算表」，並填入新的 GAS 金鑰網址後即可啟用！
+        </div>
+    </div>
+</div>
+
+<!-- ==================== 底部導覽列 ==================== -->
+<div class="bottom-nav">
+    <div class="nav-item active" onclick="switchView('view-itinerary', this)"><span class="nav-icon">📅</span>行程</div>
+    <div class="nav-item" onclick="switchView('view-food', this)"><span class="nav-icon">🍲</span>美食</div>
+    <div class="nav-item" onclick="switchView('view-tickets', this)"><span class="nav-icon">🎟️</span>票券</div>
+    <div class="nav-item" onclick="switchView('view-system', this)"><span class="nav-icon">💰</span>帳本</div>
+    <div class="nav-item" onclick="switchView('view-system', this)"><span class="nav-icon">📍</span>打卡</div>
+</div>
+
+<script>
+// ===== 分頁切換 =====
+function switchView(id, btn) {
+    document.querySelectorAll('.main-view').forEach(el => el.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    btn.classList.add('active');
+    window.scrollTo(0, 0);
+}
+
+// ===== 日期切換 =====
+function showDay(id, btn) {
+    document.querySelectorAll('.day-content').forEach(el => el.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    btn.classList.add('active');
+    btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+}
+</script>
+</body>
+</html>
