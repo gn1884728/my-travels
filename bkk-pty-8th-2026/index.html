@@ -6,14 +6,20 @@
     <title>2026 泰國芭達雅五天四夜行程表</title>
     
     <!-- ==================== PWA 行動 App 隱藏網址列設定 ==================== -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="泰國避暑遊">
     <meta name="theme-color" content="#059669">
     
-    <!-- 精美手機桌面圖示 (自動生成帶有南洋度假感的高質感綠色底圖) -->
+    <!-- iOS 專用隱藏網址列與圖示 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="泰國避暑遊">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23059669%22/><text y=%2265%22 x=%2218%22 fill=%22white%22 font-size=%2242%22 font-weight=%22bold%22 font-family=%22sans-serif%22>泰</text></svg>">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="泰國避暑遊">
+    <link rel="icon" type="image/svg+xml" sizes="72x72" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23059669%22/><text y=%2265%22 x=%2218%22 fill=%22white%22 font-size=%2242%22 font-weight=%22bold%22 font-family=%22sans-serif%22>泰</text></svg>">
+    
+    <!-- 讓安卓乖乖聽話的完美 manifest -->
+    <link rel="manifest" href='data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%222026%E6%B3%B0%E5%9C%8B%E9%81%BF%E6%9A%91%E9%81%8A%22%2C%22short_name%22%3A%22%E6%B3%B0%E5%9C%8B%E9%81%8A%22%2C%22display%22%3A%22standalone%22%2C%22start_url%22%3A%22.%2F%22%2C%22background_color%22%3A%22%23f0fdf4%22%2C%22theme_color%22%3A%22%23059669%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%253E%253Crect%20width%3D'100'%20height%3D'100'%20rx%3D'20'%20fill%3D'%2523059669'%2F%253E%253Ctext%20y%3D'65'%20x%3D'18'%20fill%3D'white'%20font-size%3D'42'%20font-weight%3D'bold'%20font-family%3D'sans-serif'%253E%E6%B3%B0%253C%2Ftext%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22any%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D'>
 
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f0fdf4; margin: 0; padding-bottom: 80px; }
@@ -362,7 +368,6 @@
                 <label class="check-item"><input type="checkbox" id="chk-9"><div class="check-text-box"><div class="check-text">泰國上網卡 / eSIM</div><div class="check-subtext">出發前先確認網卡</div></div></label>
             </div>
             
-            <!-- 修正：移除點心，完全對齊紅圈字體樣式，純文字僅留四個字「過敏提示」，點擊後解鎖綠色虛體面板 -->
             <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;">
             <div class="checklist-group-title" onclick="toggleSafePanel()" style="color: #059669; font-weight: bold;">過敏提示</div>
             <div id="safe-panel" class="safe-hidden-panel">
@@ -409,7 +414,6 @@
             <div class="expense-total" id="expense-total" style="display:none;"></div>
         </div>
         
-        <!-- 已加回：固定住宿點數與費用明細預算表 -->
         <div class="card" style="border-left: 4px solid #10b981;">
             <div class="event" style="color: #047857;">📊 已訂房明細與固定成本</div>
             <table class="budget-table">
@@ -453,7 +457,6 @@
     </div>
 </div>
 
-<!-- ==================== 底部導覽列 ==================== -->
 <div class="bottom-nav">
     <div class="nav-item active" onclick="switchView('view-itinerary', this)"><span class="nav-icon">📅</span>行程</div>
     <div class="nav-item" onclick="switchView('view-food', this)"><span class="nav-icon">🍲</span>美食</div>
