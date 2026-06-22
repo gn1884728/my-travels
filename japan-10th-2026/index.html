@@ -33,6 +33,8 @@
         .tab-scroll-container::-webkit-scrollbar { display: none; }
         .tab-btn { background: rgba(255,255,255,0.2); color: #cbd5e1; border: none; padding: 8px 16px; border-radius: 20px; font-size: 14px; margin-right: 8px; cursor: pointer; transition: all 0.2s;}
         .tab-btn.active { background: white; color: #1E3A8A; font-weight: bold; }
+        
+        /* 卡片與內容樣式 */
         .card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); border-left: 4px solid #94a3b8;}
         .card.highlight { border-left: 4px solid #d97706; }
         .date-header { font-size: 18px; font-weight: bold; margin-bottom: 16px; border-left: 4px solid #1E3A8A; padding-left: 8px; color: #0f172a;}
@@ -41,19 +43,51 @@
         .event { font-size: 16px; font-weight: 700; margin-bottom: 4px; color: #1e293b;}
         .desc { font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 8px;}
         .hotel-tag { font-size: 13px; color: #047857; background: #d1fae5; padding: 6px 10px; border-radius: 6px; display: inline-block; font-weight: 600; margin-bottom: 8px;}
+        .drive-info { background: #fffbeb; color: #b45309; padding: 6px 10px; border-radius: 6px; font-size: 13px; font-weight: bold; margin-top: 8px; border-left: 3px solid #f59e0b; display: inline-block;}
+        
+        /* 表格樣式 */
         .budget-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
         .budget-table th, .budget-table td { border: 1px solid #e2e8f0; padding: 10px; text-align: left; }
         .budget-table th { background: #f8fafc; color: #1E3A8A; font-weight: bold; }
         .budget-table tr:nth-child(even) { background: #fdfdfd; }
         .total-row { font-weight: bold; background: #fee2e2 !important; color: #991b1b; }
+        
+        /* 按鈕樣式 */
+        .btn-link, .btn-map { display: block; text-align: center; padding: 10px 12px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: bold; margin-top: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: opacity 0.2s;}
+        .btn-map { background: #4285F4; color: white; }
+        .btn-mark { display: block; background: #1E3A8A; color: white; border: none; text-align: center; padding: 10px; border-radius: 8px; font-size: 14px; font-weight: bold; margin-top: 12px; cursor: pointer; width: 100%; box-shadow: 0 2px 4px rgba(0,0,0,0.1);}
+        .btn-unmark { display: block; background: #94a3b8; color: white; border: none; text-align: center; padding: 8px; border-radius: 8px; font-size: 13px; cursor: pointer; width: 100%; margin-top: 8px;}
 
-        /* 記帳與打卡 */
+        /* 清單樣式 */
+        .checklist-group { margin-bottom: 20px; }
+        .checklist-group-title { font-size: 15px; font-weight: bold; color: #1E3A8A; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 12px; }
+        .check-item { display: flex; align-items: flex-start; margin-bottom: 12px; cursor: pointer; }
+        .check-item input[type="checkbox"] { margin-top: 4px; margin-right: 12px; width: 18px; height: 18px; accent-color: #1E3A8A; cursor: pointer; flex-shrink: 0;}
+        .check-text { font-size: 15px; color: #334155; transition: all 0.2s; line-height: 1.4;}
+        .check-subtext { font-size: 12px; color: #64748b; margin-top: 2px; }
+        .check-item input[type="checkbox"]:checked + .check-text-box .check-text { color: #94a3b8; text-decoration: line-through; }
+
+        /* 美食印章 */
+        .food-visited-btn { display: inline-block; margin-top: 8px; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; cursor: pointer; border: 2px solid #1E3A8A; color: #1E3A8A; background: white; transition: all 0.2s; }
+        .food-visited-btn.visited { background: #1E3A8A; color: white; }
+        .food-visited-stamp { display: none; font-size: 13px; color: #1E3A8A; font-weight: bold; margin-top: 4px; }
+        .food-visited-stamp.show { display: block; }
+
+        /* 票券標籤 */
+        .ticket-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+        .status-badge { font-size: 12px; padding: 4px 10px; border-radius: 20px; font-weight: bold; white-space: nowrap; transition: all 0.3s; flex-shrink: 0; margin-left: 8px;}
+        .status-badge.bought { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .status-badge.pending { background: #fef08a; color: #854d0e; border: 1px solid #fde047; }
+        .ticket-details { background: #f8fafc; border-radius: 8px; padding: 12px; margin-top: 12px; font-size: 13px; color: #334155; border-left: 3px solid #1E3A8A; line-height: 1.8; display: none;}
+
+        /* 記帳與打卡樣式 */
         .expense-input-card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .expense-input-card .input-row { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
         .expense-input-card input, .expense-input-card select { flex: 1; min-width: 120px; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; }
         .expense-input-card .btn-add { background: #1E3A8A; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; white-space: nowrap; }
         .expense-list { margin-top: 16px; }
         .expense-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+        .expense-item:last-child { border-bottom: none; }
         .expense-item .e-name { color: #334155; flex: 1; }
         .expense-item .e-cat { color: #64748b; font-size: 12px; background: #f1f5f9; padding: 2px 8px; border-radius: 10px; margin: 0 8px; }
         .expense-item .e-amt { font-weight: bold; color: #1E3A8A; white-space: nowrap; }
@@ -63,6 +97,9 @@
         .checkin-card select, .checkin-card textarea, .checkin-card input { width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; margin-bottom: 10px; box-sizing: border-box; font-family: inherit; }
         .checkin-card textarea { resize: none; height: 80px; }
         .btn-checkin { background: #d97706; color: white; border: none; padding: 12px; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; width: 100%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .btn-checkin:active { background: #b45309; }
+        
+        .checkin-log { margin-top: 16px; }
         .checkin-log-title { font-size: 15px; font-weight: bold; color: #1E3A8A; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 12px; }
         .checkin-item { background: #fffbeb; border-radius: 10px; padding: 12px; margin-bottom: 8px; border-left: 3px solid #d97706; }
         .checkin-item .ci-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
@@ -74,17 +111,18 @@
         .checkin-status { font-size: 13px; color: #64748b; margin-top: 8px; text-align: center; }
         .checkin-status.success { color: #1E3A8A; font-weight: bold; }
         .checkin-status.error { color: #ef4444; }
-        .btn-unmark { display: inline-block; background: #94a3b8; color: white; border: none; text-align: center; padding: 8px; border-radius: 8px; font-size: 13px; cursor: pointer;}
 
         .live-checkin-banner { background: linear-gradient(135deg, #1E3A8A, #3B82F6); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; color: white; }
         .live-checkin-banner .lcb-title { font-size: 13px; font-weight: bold; opacity: 0.8; margin-bottom: 8px; }
         .live-checkin-item { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 13px; }
+        .live-checkin-item:last-child { margin-bottom: 0; }
         .live-avatar { width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; flex-shrink: 0; }
         .live-info { flex: 1; }
         .live-place { font-weight: bold; }
         .live-msg { opacity: 0.8; font-size: 12px; }
         .live-time { font-size: 11px; opacity: 0.6; white-space: nowrap; }
 
+        /* 底部導覽 */
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding: 12px 0; z-index: 100; padding-bottom: calc(12px + env(safe-area-inset-bottom));}
         .nav-item { cursor: pointer; color: #94a3b8; font-size: 11px; font-weight: 600; text-align: center; flex: 1; transition: color 0.2s;}
         .nav-item.active { color: #1E3A8A; }
@@ -101,42 +139,115 @@
         <button class="tab-btn active" onclick="showDay('d1', this)">Day 1</button>
         <button class="tab-btn" onclick="showDay('d2', this)">Day 2</button>
         <button class="tab-btn" onclick="showDay('d3', this)">Day 3</button>
+        <button class="tab-btn" onclick="showDay('d4', this)">Day 4</button>
+        <button class="tab-btn" onclick="showDay('d5', this)">Day 5</button>
+        <button class="tab-btn" onclick="showDay('d6', this)">Day 6</button>
     </div>
 
     <div class="container">
+        <!-- 打卡動態顯示區 -->
         <div id="live-checkin-area" class="live-checkin-banner" style="display:none;">
             <div class="lcb-title">📍 團員即時動態</div>
             <div id="live-checkin-list"></div>
         </div>
 
+        <!-- Day 1 -->
         <div id="d1" class="day-content" style="display:block;">
-            <div class="date-header">Day 1 | 飛往日本</div>
-            <div class="card"><span class="time">14:00</span><div class="event-group"><div class="event">抵達機場</div><div class="desc">準備入境與租車手續。</div></div></div>
+            <div class="date-header">Day 1 | 飛往日本 ✈️</div>
+            <div class="card">
+                <span class="time">14:00</span>
+                <div class="event-group">
+                    <div class="event">抵達機場</div>
+                    <div class="desc">準備入境與租車手續。</div>
+                </div>
+            </div>
+            <div class="card highlight">
+                <span class="time">16:00</span>
+                <div class="event-group">
+                    <div class="event">取車出發 🚗</div>
+                    <div class="desc">辦理完手續，開啟自駕之旅！</div>
+                    <div class="hotel-tag">🏨 宿：待確認飯店</div>
+                </div>
+            </div>
         </div>
+
+        <!-- Day 2-6 預留完整區塊 -->
         <div id="d2" class="day-content" style="display:none;">
-            <div class="date-header">Day 2 | 景點探索</div>
-            <div class="card"><span class="time">全日</span><div class="event-group"><div class="event">行程籌備中</div></div></div>
+            <div class="date-header">Day 2 | 景點探索 🍁</div>
+            <div class="card"><span class="time">全日</span><div class="event-group"><div class="event">行程籌備中...</div><div class="desc">準備規劃自駕路線與賞楓景點。</div></div></div>
         </div>
         <div id="d3" class="day-content" style="display:none;">
-            <div class="date-header">Day 3 | 行程籌備</div>
-            <div class="card"><span class="time">全日</span><div class="event-group"><div class="event">行程籌備中</div></div></div>
+            <div class="date-header">Day 3 | 景點探索 🍁</div>
+            <div class="card"><span class="time">全日</span><div class="event-group"><div class="event">行程籌備中...</div><div class="desc">準備規劃自駕路線與賞楓景點。</div></div></div>
+        </div>
+        <div id="d4" class="day-content" style="display:none;">
+            <div class="date-header">Day 4 | 景點探索 🍁</div>
+            <div class="card"><span class="time">全日</span><div class="event-group"><div class="event">行程籌備中...</div><div class="desc">準備規劃自駕路線與賞楓景點。</div></div></div>
+        </div>
+        <div id="d5" class="day-content" style="display:none;">
+            <div class="date-header">Day 5 | 景點探索 🍁</div>
+            <div class="card"><span class="time">全日</span><div class="event-group"><div class="event">行程籌備中...</div><div class="desc">準備規劃自駕路線與賞楓景點。</div></div></div>
+        </div>
+        <div id="d6" class="day-content" style="display:none;">
+            <div class="date-header">Day 6 | 滿載而歸 🛍️</div>
+            <div class="card"><span class="time">待定</span><div class="event-group"><div class="event">機場還車與賦歸</div><div class="desc">結束美好的旅程。</div></div></div>
         </div>
     </div>
 </div>
 
 <!-- ==================== 美食視圖 ==================== -->
 <div id="view-food" class="main-view">
-    <div class="container"><div class="date-header">🍲 美食口袋名單</div><div class="card"><div class="event">口袋名單建構中</div></div></div>
+    <div class="container">
+        <div class="date-header">🍲 日本美食口袋名單</div>
+        <div class="desc" style="margin-bottom: 16px;">吃貨必備！燒肉、拉麵、壽司吃起來！</div>
+
+        <div class="card" id="food-1">
+            <div class="event">和牛燒肉名店</div>
+            <div class="desc">來日本一定要安排一頓頂級和牛！</div>
+            <span class="hotel-tag" style="background:#fef08a; color:#854d0e;">🥩 必吃推薦</span>
+            <br>
+            <button class="food-visited-btn" onclick="toggleFoodVisited('food-1', this)">✔ 標記已去過</button>
+            <div class="food-visited-stamp">✅ 已去過！</div>
+        </div>
+    </div>
 </div>
 
 <!-- ==================== 票券視圖 ==================== -->
 <div id="view-tickets" class="main-view">
-    <div class="container"><div class="date-header">🎟️ 票券與採購</div><div class="card"><div class="event">票券清單建構中</div></div></div>
+    <div class="container">
+        <div class="date-header">🎟️ 票券與採購控管中心</div>
+        <div class="desc" style="margin-bottom: 16px;">精準追蹤租車與門票採買進度。</div>
+
+        <div class="card ticket-card" id="ticket-0">
+            <div class="ticket-header">
+                <div class="event">日本 WiFi 機 / 上網卡</div>
+                <span class="status-badge pending">⏳ 待採買</span>
+            </div>
+            <div class="desc">確保旅途中有穩定的網路導航。</div>
+            <div class="ticket-details"></div>
+            <button class="btn-mark" onclick="markAsBought(this, 0)">✔️ 標記為已購買並記錄</button>
+        </div>
+    </div>
 </div>
 
 <!-- ==================== 清單視圖 ==================== -->
 <div id="view-checklist" class="main-view">
-    <div class="container"><div class="date-header">📝 行前裝備清單</div><div class="card"><div class="event">清單建構中</div></div></div>
+    <div class="container">
+        <div class="date-header">📝 日本行前裝備清單</div>
+        <div class="desc" style="margin-bottom: 20px;">日本秋天早晚溫差大，請準備好洋蔥式穿搭！</div>
+        <div class="card">
+            <div class="checklist-group">
+                <div class="checklist-group-title">🛂 必備證件與自駕</div>
+                <label class="check-item"><input type="checkbox" id="chk-jp-1"><div class="check-text-box"><div class="check-text">護照正本</div><div class="check-subtext">確認效期超過 6 個月</div></div></label>
+                <label class="check-item"><input type="checkbox" id="chk-jp-2"><div class="check-text-box"><div class="check-text">台灣駕照正本</div><div class="check-subtext">非常重要，一定要帶</div></div></label>
+                <label class="check-item"><input type="checkbox" id="chk-jp-3"><div class="check-text-box"><div class="check-text">駕照日文譯本</div><div class="check-subtext">去監理所申請</div></div></label>
+            </div>
+            <div class="checklist-group">
+                <div class="checklist-group-title">🧥 秋季衣物</div>
+                <label class="check-item"><input type="checkbox" id="chk-jp-4"><div class="check-text-box"><div class="check-text">發熱衣與輕羽絨</div><div class="check-subtext">洋蔥式穿搭為主</div></div></label>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- ==================== 帳本視圖 ==================== -->
@@ -144,16 +255,18 @@
     <div class="container">
         <div class="date-header">💰 雲端總帳本 ＆ 即時記帳</div>
 
+        <!-- 快速記帳輸入 -->
         <div class="expense-input-card">
             <div class="event" style="margin-bottom: 12px;">➕ 快速記帳</div>
             <div class="input-row">
-                <input type="text" id="exp-name" placeholder="支出項目" />
+                <input type="text" id="exp-name" placeholder="支出項目（例：午餐）" />
                 <select id="exp-cat">
                     <option value="🍜 餐飲">🍜 餐飲</option>
                     <option value="🎟️ 票券">🎟️ 票券</option>
                     <option value="🚗 交通">🚗 交通</option>
                     <option value="🛍️ 購物">🛍️ 購物</option>
                     <option value="🏨 住宿">🏨 住宿</option>
+                    <option value="🍁 其他">🍁 其他</option>
                 </select>
             </div>
             <div class="input-row">
@@ -166,15 +279,20 @@
             </div>
         </div>
 
+        <!-- 支出清單 -->
         <div class="card">
             <div class="event" style="margin-bottom: 12px; display:flex; justify-content:space-between; align-items:center;">
-                📋 支出明細 <button class="btn-unmark" onclick="loadExpenses()">🔄 更新</button>
+                📋 支出明細 
+                <!-- 獨立的更新按鈕，樣式不跑掉 -->
+                <button class="btn-unmark" style="width:auto; margin:0; padding:4px 8px; font-size:12px;" onclick="loadExpenses()">🔄 更新</button>
             </div>
-            <div class="expense-list" id="expense-list"><div class="checkin-empty">讀取雲端帳本中... ☁️</div></div>
+            <div class="expense-list" id="expense-list">
+                <div class="checkin-empty" id="expense-empty">讀取雲端帳本中... ☁️</div>
+            </div>
             <div class="expense-total" id="expense-total" style="display:none;"></div>
         </div>
 
-        <!-- 🇯🇵 幫你找回來的東北自駕預算表！ -->
+        <!-- 🇯🇵 東北自駕預算表 (完好無缺保留) -->
         <div class="card" style="border-left: 4px solid #1E3A8A;">
             <div class="event" style="color: #1E3A8A;">📊 東北雙人自駕預算估算</div>
             <div class="desc" style="margin-bottom: 12px; font-weight: bold; color: #475569;">仙台取車 ➔ 新青森還車 + 新幹線回東京</div>
@@ -198,6 +316,8 @@
 <div id="view-checkin" class="main-view">
     <div class="container">
         <div class="date-header">📍 團員打卡回報</div>
+        <div class="desc" style="margin-bottom: 16px;">到達景點後打卡，讓其他人知道你在哪裡！</div>
+
         <div class="checkin-card">
             <div class="event" style="margin-bottom: 12px;">📌 我要打卡</div>
             <select id="ci-member">
@@ -207,12 +327,18 @@
                 <option value="語">語</option>
                 <option value="呈">呈</option>
             </select>
-            <input type="text" id="ci-place" placeholder="輸入目前地點 (例：仙台車站)">
-            <textarea id="ci-msg" placeholder="留言"></textarea>
+            <input type="text" id="ci-place" placeholder="輸入目前地點 (例：仙台機場)">
+            <textarea id="ci-msg" placeholder="留言（例：終於到了！準備租車 🚗）"></textarea>
             <button class="btn-checkin" onclick="submitCheckin()">📍 送出打卡！</button>
             <div class="checkin-status" id="ci-status"></div>
         </div>
-        <div class="checkin-log"><div class="checkin-log-title">📋 最新打卡動態</div><div id="checkin-log-list"></div></div>
+
+        <div class="checkin-log">
+            <div class="checkin-log-title">📋 最新打卡動態</div>
+            <div id="checkin-log-list">
+                <div class="checkin-empty">還沒有人打卡，快來第一個！</div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -227,26 +353,36 @@
 </div>
 
 <script>
-// ⚠️ 你原本的日本 GAS 金鑰網址
+// ⚠️ 日本專屬 GAS 金鑰網址
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbz-Ut5BZXa4daIX_BylaaaC8LlWWlj-EQKUgq9mIoyMddZwFAz-nlSTlYqiw37376Iw/exec';
 
+// ===== 🕒 時間時區自動轉換神器 =====
 function formatLocalTime(timeStr) {
     if (!timeStr) return '';
     const d = new Date(timeStr);
     if (isNaN(d.getTime())) return timeStr;
-    return d.toLocaleString('zh-TW', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
+    return d.toLocaleString('zh-TW', { 
+        month: '2-digit', 
+        day: '2-digit', 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour12: false
+    });
 }
 
+// ===== 分頁切換 =====
 function switchView(id, btn) {
     document.querySelectorAll('.main-view').forEach(el => el.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
     btn.classList.add('active');
     window.scrollTo(0, 0);
+    
     if (id === 'view-checkin') loadCheckinLog();
     if (id === 'view-expenses') loadExpenses();
 }
 
+// ===== 日期切換 =====
 function showDay(id, btn) {
     document.querySelectorAll('.day-content').forEach(el => el.style.display = 'none');
     document.getElementById(id).style.display = 'block';
@@ -255,94 +391,275 @@ function showDay(id, btn) {
     btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 }
 
+// ===== 票券功能（含 LocalStorage 持久化） =====
+function markAsBought(btn, idx) {
+    const card = btn.closest('.ticket-card');
+    const platform = prompt('請輸入購買平台：', 'Klook');
+    if (platform === null) return;
+    const price = prompt('請輸入購買價格總額：', 'NT$ ');
+    if (price === null) return;
+    const cardUsed = prompt('請輸入刷卡卡別：', '玉山熊本熊卡');
+    if (cardUsed === null) return;
+
+    const data = { platform, price, cardUsed };
+    localStorage.setItem('jp_ticket_' + idx, JSON.stringify(data));
+    applyTicketBought(card, data);
+}
+
+function applyTicketBought(card, data) {
+    const badge = card.querySelector('.status-badge');
+    badge.className = 'status-badge bought';
+    badge.innerText = '✅ 已完成採購';
+    const detailsDiv = card.querySelector('.ticket-details');
+    detailsDiv.innerHTML = `<div>🛒 <strong>購買平台：</strong>${data.platform}</div><div>💰 <strong>購買價格：</strong>${data.price}</div><div>💳 <strong>使用信用卡：</strong>${data.cardUsed}</div>`;
+    detailsDiv.style.display = 'block';
+    const markBtn = card.querySelector('.btn-mark');
+    if (markBtn) markBtn.style.display = 'none';
+    
+    let unmarkBtn = card.querySelector('.btn-unmark');
+    if (!unmarkBtn) {
+        unmarkBtn = document.createElement('button');
+        unmarkBtn.className = 'btn-unmark';
+        unmarkBtn.textContent = '↩ 取消標記';
+        const idx = card.id.replace('ticket-', '');
+        unmarkBtn.onclick = () => unmarkTicket(card, parseInt(idx));
+        card.appendChild(unmarkBtn);
+    }
+    unmarkBtn.style.display = 'block';
+}
+
+function unmarkTicket(card, idx) {
+    localStorage.removeItem('jp_ticket_' + idx);
+    const badge = card.querySelector('.status-badge');
+    badge.className = 'status-badge pending';
+    badge.innerText = '⏳ 待採買';
+    card.querySelector('.ticket-details').style.display = 'none';
+    card.querySelector('.ticket-details').innerHTML = '';
+    const markBtn = card.querySelector('.btn-mark');
+    if (markBtn) markBtn.style.display = 'block';
+    const unmarkBtn = card.querySelector('.btn-unmark');
+    if (unmarkBtn) unmarkBtn.style.display = 'none';
+}
+
+// ===== 美食「已去過」功能 =====
+function toggleFoodVisited(cardId, btn) {
+    const card = document.getElementById(cardId);
+    const stamp = card.querySelector('.food-visited-stamp');
+    const isVisited = btn.classList.contains('visited');
+    if (isVisited) {
+        btn.classList.remove('visited');
+        btn.textContent = '✔ 標記已去過';
+        stamp.classList.remove('show');
+        localStorage.removeItem('jp_food_' + cardId);
+        card.style.opacity = '1';
+    } else {
+        btn.classList.add('visited');
+        btn.textContent = '✅ 已去過';
+        stamp.classList.add('show');
+        localStorage.setItem('jp_food_' + cardId, '1');
+        card.style.opacity = '0.7';
+    }
+}
+
+// ===== 💰 雲端帳本功能 =====
 async function addExpense(btn) {
     const name = document.getElementById('exp-name').value.trim();
     const cat = document.getElementById('exp-cat').value;
     const amt = document.getElementById('exp-amt').value;
     const curr = document.getElementById('exp-curr').value;
     const who = localStorage.getItem('jp_travel_identity') || '未知';
+
     if (!name || !amt || amt <= 0) { alert('請填寫項目名稱和正確的金額！'); return; }
-    btn.innerText = "寫入中..."; btn.disabled = true;
+
+    btn.innerText = "寫入中...";
+    btn.disabled = true;
+
+    const params = new URLSearchParams({ action: 'addExpense', name, cat, amt, curr, who });
+
     try {
-        await fetch(GAS_URL + '?' + new URLSearchParams({ action: 'addExpense', name, cat, amt, curr, who }).toString());
-        document.getElementById('exp-name').value = ''; document.getElementById('exp-amt').value = '';
-        btn.innerText = "記帳"; btn.disabled = false; loadExpenses();
-    } catch(e) { alert('連線失敗'); btn.innerText = "記帳"; btn.disabled = false; }
+        await fetch(GAS_URL + '?' + params.toString());
+        document.getElementById('exp-name').value = '';
+        document.getElementById('exp-amt').value = '';
+        btn.innerText = "記帳";
+        btn.disabled = false;
+        loadExpenses();
+    } catch(e) {
+        alert('連線失敗，請檢查網路。');
+        btn.innerText = "記帳";
+        btn.disabled = false;
+    }
 }
 
 async function loadExpenses() {
     const list = document.getElementById('expense-list');
     const total = document.getElementById('expense-total');
     list.innerHTML = '<div class="checkin-empty">讀取雲端帳本中... ☁️</div>';
+
     try {
         const res = await fetch(GAS_URL + '?action=getExpenses');
         const data = await res.json();
-        if (!data || data.length === 0) { list.innerHTML = '<div class="checkin-empty">還沒有記帳資料！</div>'; total.style.display = 'none'; return; }
+
+        if (!data || data.length === 0) {
+            list.innerHTML = '<div class="checkin-empty">還沒有記帳資料，快去花錢吧！🛍️</div>';
+            total.style.display = 'none';
+            return;
+        }
+
         let ntd = 0, jpy = 0;
         list.innerHTML = data.map(e => {
-            if (e.curr === '¥') jpy += parseFloat(e.amt); else ntd += parseFloat(e.amt);
-            return `<div class="expense-item"><span class="e-name">${e.name} <br><small style="color:#94a3b8;">${e.who} · ${formatLocalTime(e.time)}</small></span><span class="e-cat">${e.cat}</span><span class="e-amt">${e.curr}${Number(e.amt).toLocaleString()}</span></div>`;
+            if (e.curr === '¥') jpy += parseFloat(e.amt);
+            else ntd += parseFloat(e.amt);
+            const localTime = formatLocalTime(e.time);
+            return `
+            <div class="expense-item">
+                <span class="e-name">${e.name} <br><small style="color:#94a3b8;">${e.who} · ${localTime}</small></span>
+                <span class="e-cat">${e.cat}</span>
+                <span class="e-amt">${e.curr}${Number(e.amt).toLocaleString()}</span>
+            </div>
+            `;
         }).join('');
-        let tStr = '';
-        if (ntd > 0) tStr += `NT$${ntd.toLocaleString()} `;
-        if (jpy > 0) tStr += `¥${jpy.toLocaleString()}`;
-        total.textContent = '💰 累計：' + tStr; total.style.display = 'block';
-    } catch(e) { list.innerHTML = '<div class="checkin-empty">❌ 無法讀取帳本</div>'; }
+
+        let totalStr = '';
+        if (ntd > 0) totalStr += `NT$${ntd.toLocaleString()} `;
+        if (jpy > 0) totalStr += `¥${jpy.toLocaleString()}`;
+        total.textContent = '💰 累計支出：' + totalStr;
+        total.style.display = 'block';
+
+    } catch(e) {
+        list.innerHTML = '<div class="checkin-empty">❌ 無法讀取帳本，請確認網路連線。</div>';
+    }
 }
 
+// ===== 📍 雲端打卡功能 =====
 async function submitCheckin() {
     const member = document.getElementById('ci-member').value;
     const place = document.getElementById('ci-place').value;
     const msg = document.getElementById('ci-msg').value.trim();
     const status = document.getElementById('ci-status');
-    if (!member || !place) { status.className = 'checkin-status error'; status.textContent = '⚠️ 請選擇團員和填寫地點！'; return; }
-    status.className = 'checkin-status'; status.textContent = '📡 傳送中...';
+
+    if (!member || !place) { status.className = 'checkin-status error'; status.textContent = '⚠️ 請選擇團員和輸入地點！'; return; }
+
+    status.className = 'checkin-status';
+    status.textContent = '📡 傳送中...';
+
+    const params = new URLSearchParams({ action: 'checkin', member, place, msg });
+
     try {
-        await fetch(GAS_URL + '?' + new URLSearchParams({ action: 'checkin', member, place, msg }).toString());
-        status.className = 'checkin-status success'; status.textContent = `✅ 打卡成功！`;
-        document.getElementById('ci-place').value = ''; document.getElementById('ci-msg').value = '';
+        await fetch(GAS_URL + '?' + params.toString());
+        status.className = 'checkin-status success';
+        status.textContent = `✅ ${member} 打卡成功！`;
+        document.getElementById('ci-place').value = '';
+        document.getElementById('ci-msg').value = '';
+
         loadCheckinLog();
-    } catch(e) { status.className = 'checkin-status error'; status.textContent = '❌ 傳送失敗'; }
+    } catch(e) {
+        status.className = 'checkin-status error';
+        status.textContent = '❌ 傳送失敗，請稍後再試';
+    }
 }
 
 async function loadCheckinLog() {
     try {
         const res = await fetch(GAS_URL + '?action=getCheckins');
         const data = await res.json();
+        
         if (data && data.length > 0) {
             localStorage.setItem('jp_checkins', JSON.stringify(data));
-            renderCheckinLog(data); renderLiveBanner(data);
-        } else { renderCheckinLog([]); renderLiveBanner([]); }
+            renderCheckinLog(data);
+            renderLiveBanner(data);
+        } else {
+            renderCheckinLog([]);
+            renderLiveBanner([]);
+        }
     } catch(e) {
         const local = JSON.parse(localStorage.getItem('jp_checkins') || '[]');
-        renderCheckinLog(local); renderLiveBanner(local);
+        renderCheckinLog(local);
+        renderLiveBanner(local);
     }
 }
 
 function renderCheckinLog(list) {
-    const c = document.getElementById('checkin-log-list');
-    if (!list || list.length===0) { c.innerHTML = '<div class="checkin-empty">還沒有人打卡！</div>'; return; }
-    c.innerHTML = list.slice(0, 15).map(i => `<div class="checkin-item"><div class="ci-header"><span class="ci-name">👤 ${i.member}</span><span class="ci-time">${formatLocalTime(i.time)}</span></div><div class="ci-place">📍 ${i.place}</div>${i.msg ? `<div class="ci-msg">「${i.msg}」</div>` : ''}</div>`).join('');
+    const container = document.getElementById('checkin-log-list');
+    if (!list || list.length === 0) {
+        container.innerHTML = '<div class="checkin-empty">還沒有人打卡，快來第一個！</div>';
+        return;
+    }
+    const avatarColors = { '吳哥':'#1E3A8A', '吳嫂':'#d97706', '語':'#ef4444', '呈':'#f97316' };
+    container.innerHTML = list.slice(0, 15).map(c => {
+        const localTime = formatLocalTime(c.time);
+        return `
+        <div class="checkin-item">
+            <div class="ci-header">
+                <span class="ci-name" style="color:${avatarColors[c.member] || '#b45309'}">👤 ${c.member}</span>
+                <span class="ci-time">${localTime}</span>
+            </div>
+            <div class="ci-place">📍 ${c.place}</div>
+            ${c.msg ? `<div class="ci-msg">「${c.msg}」</div>` : ''}
+        </div>
+        `;
+    }).join('');
 }
 
 function renderLiveBanner(list) {
     const area = document.getElementById('live-checkin-area');
     const listEl = document.getElementById('live-checkin-list');
     if (!list || list.length === 0) { area.style.display = 'none'; return; }
+    const avatarColors = { '吳哥':'#93C5FD', '吳嫂':'#FCD34D', '語':'#FCA5A5', '呈':'#FDBA74' };
+    
     const latest = {};
     list.forEach(c => { if (!latest[c.member]) latest[c.member] = c; });
-    listEl.innerHTML = Object.values(latest).map(c => `<div class="live-checkin-item"><div class="live-avatar">${c.member[0]}</div><div class="live-info"><span class="live-place">${c.member} 在 ${c.place}</span>${c.msg ? `<div class="live-msg">${c.msg}</div>` : ''}</div><span class="live-time">${formatLocalTime(c.time)}</span></div>`).join('');
+    
+    listEl.innerHTML = Object.values(latest).map(c => {
+        const localTime = formatLocalTime(c.time);
+        return `
+        <div class="live-checkin-item">
+            <div class="live-avatar" style="background:${avatarColors[c.member] || 'rgba(255,255,255,0.2)'}; color:#1e1e1e;">${c.member[0]}</div>
+            <div class="live-info">
+                <span class="live-place">${c.member} 在 ${c.place}</span>
+                ${c.msg ? `<div class="live-msg">${c.msg}</div>` : ''}
+            </div>
+            <span class="live-time">${localTime}</span>
+        </div>
+        `;
+    }).join('');
     area.style.display = 'block';
 }
 
+// ===== 頁面載入初始化 =====
 document.addEventListener('DOMContentLoaded', () => {
-    const m = document.getElementById('ci-member');
-    if (m) {
-        const s = localStorage.getItem('jp_travel_identity');
-        if (s) m.value = s;
-        m.addEventListener('change', function() { localStorage.setItem('jp_travel_identity', this.value); });
+    document.querySelectorAll('.check-item input[type="checkbox"]').forEach(box => {
+        if (localStorage.getItem('jp_' + box.id) === 'true') box.checked = true;
+        box.addEventListener('change', function() { localStorage.setItem('jp_' + this.id, this.checked); });
+    });
+
+    document.querySelectorAll('.ticket-card').forEach((card, idx) => {
+        const saved = localStorage.getItem('jp_ticket_' + idx);
+        if (saved) applyTicketBought(card, JSON.parse(saved));
+    });
+
+    ['food-1'].forEach(id => {
+        if (localStorage.getItem('jp_food_' + id)) {
+            const card = document.getElementById(id);
+            if (card) {
+                const btn = card.querySelector('.food-visited-btn');
+                const stamp = card.querySelector('.food-visited-stamp');
+                btn.classList.add('visited');
+                btn.textContent = '✅ 已去過';
+                stamp.classList.add('show');
+                card.style.opacity = '0.7';
+            }
+        }
+    });
+
+    const memberSelect = document.getElementById('ci-member');
+    if (memberSelect) {
+        const savedId = localStorage.getItem('jp_travel_identity');
+        if (savedId) memberSelect.value = savedId;
+        memberSelect.addEventListener('change', function() { localStorage.setItem('jp_travel_identity', this.value); });
     }
-    loadCheckinLog(); loadExpenses();
+
+    loadCheckinLog();
+    loadExpenses();
 });
 </script>
 </body>
