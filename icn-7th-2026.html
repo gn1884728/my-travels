@@ -63,7 +63,6 @@
         .food-visited-stamp { display: none; font-size: 13px; color: #10b981; font-weight: bold; margin-top: 4px; }
         .food-visited-stamp.show { display: block; }
         
-        /* 記帳與打卡專用 CSS */
         .expense-input-card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .expense-input-card .input-row { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
         .expense-input-card input, .expense-input-card select { flex: 1; min-width: 120px; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; box-sizing: border-box;}
@@ -110,7 +109,6 @@
 
 <div class="header"><h1>🇰🇷 首爾快閃自由行 App</h1></div>
 
-<!-- ================= 📅 行程分頁 ================= -->
 <div id="view-itinerary" class="main-view active">
     <div class="tab-scroll-container">
         <button class="tab-btn active" onclick="showDay('d1', this)">7/3 (五)</button>
@@ -129,8 +127,8 @@
             <div class="date-header">7/3 (五) | 江南主場與魔幻星空夜</div>
             
             <div class="card"><span class="time">04:20</span><div class="event-group">
-                <div class="event">機場接送出發 🚗</div>
-                <div class="desc">搭乘預約之機場接送專車，前往桃園國際機場第二航廈（T2）。</div>
+                <div class="event">Uber 🚗</div>
+                <div class="desc">搭乘預約之 Uber，前往桃園國際機場第二航廈（T2）。</div>
             </div></div>
             
             <div class="card"><span class="time">04:50</span><div class="event-group">
@@ -139,7 +137,7 @@
             </div></div>
             
             <div class="card highlight"><span class="time">07:30</span><div class="event-group">
-                <div class="event">長榮 BR170 商務艙 ✈️</div>
+                <div class="event">長榮 BR170 經濟艙 ✈️</div>
                 <div class="desc">07:30 桃園起飛，11:00 順利降落仁川機場第一航廈（T1）。</div>
             </div></div>
 
@@ -149,7 +147,7 @@
             </div></div>
 
             <div class="card highlight"><span class="time">13:10</span><div class="event-group">
-                <div class="event">首爾站地鐵轉乘 (總務精算動線) 🚇</div>
+                <div class="event">首爾站地鐵轉乘 🚇</div>
                 <div class="desc">
                     <strong>地鐵無縫流程：</strong><br>
                     1. 於首爾站順著藍色指標轉乘 <strong>4號線</strong>（往南下方向）。<br>
@@ -187,13 +185,13 @@
             </div></div>
 
             <div class="card purple"><span class="time">10:00</span><div class="event-group">
-                <div class="event">📱 科技外掛：倫敦貝果線上排隊 🥯</div>
-                <div class="desc"><strong>關鍵動作：</strong>不需早起罰站，在餐廳內用手機點開 Catch Table 連結，遠端登記「倫敦貝果蠶室店」外帶（Take-out）。隨後回房間悠閒打包行李、監控號碼。</div>
+                <div class="event">📱 倫敦貝果線上排隊 🥯</div>
+                <div class="desc">不需早起罰站，在餐廳內用手機點開 Catch Table 連結，遠端登記「倫敦貝果蠶室店」外帶（Take-out）。隨後回房間悠閒打包行李、監控號碼。</div>
                 <a href="https://www.catchtable.net/zh-TW/shop/london_bagel_museum_jamsil?operationType=REMOTE_WAITING_GLOBAL" class="btn-link" target="_blank">📱 開啟 遠端排隊連結</a>
             </div></div>
 
             <div class="card"><span class="time">11:00</span><div class="event-group">
-                <div class="event">移防蠶室免排隊取貨 🛍️</div>
+                <div class="event">蠶室免排隊取貨 🛍️</div>
                 <div class="desc">辦理退房，大行李拉上計程車（車程 7-10 分鐘）直奔蠶室樂天世界購物中心，憑號碼直接提走熱騰騰的現做熱貝果！</div>
                 <span class="badge-info">💡 大使特權評估：若花 225 美金加購白金洲際大使，可延後退房至 16:00。中午可留在洲際享用五折午餐，下午再輕裝出發。</span>
             </div></div>
@@ -209,7 +207,7 @@
             </div></div>
 
             <div class="card purple"><span class="time">16:30</span><div class="event-group">
-                <div class="event">移防明洞 voco 路線 🚖</div>
+                <div class="event">前往明洞 voco 路線 🚖</div>
                 <div class="desc">結束江北散步後，搭乘計程車（約 10 分鐘）直接前往明洞 voco 辦理進房，動線順暢不走回頭路。</div>
             </div></div>
 
@@ -231,7 +229,7 @@
 
             <div class="card highlight"><span class="time">09:30</span><div class="event-group">
                 <div class="event">樂天超市「空行李箱」大掃貨 🛒</div>
-                <div class="desc"><strong>總務大叔絕招：</strong>夫妻拉著 20 吋空行李箱，自明洞搭地鐵（僅 1 站）直達首爾車站樂天超市。瘋狂採買伴手禮、零食與海苔，當場塞進行李箱，輕鬆拉回飯店。</div>
+                <div class="desc">夫妻拉著 20 吋空行李箱，自明洞搭地鐵（僅 1 站）直達首爾車站樂天超市。瘋狂採買伴手禮、零食與海苔，當場塞進行李箱，輕鬆拉回飯店。</div>
             </div></div>
 
             <div class="card"><span class="time">11:30</span><div class="event-group">
@@ -241,7 +239,7 @@
 
             <div class="card purple"><span class="time">15:30</span><div class="event-group">
                 <div class="event">神級舒適：6015 機場巴士流 🚌</div>
-                <div class="desc"><strong>疼老婆大絕：</strong>完全免拉行李擠地鐵！直接在 voco 門口的「南大門市場」站牌搭乘 6015 路機場巴士。大行李交給司機放行李箱，上車一路無腦睡 90 分鐘直達機場第二航廈。</div>
+                <div class="desc">完全免拉行李擠地鐵！直接在 voco 門口的「南大門市場」站牌搭乘 6015 路機場巴士。大行李交給司機放行李箱，上車一路無腦睡 90 分鐘直達機場第二航廈。</div>
                 <span class="badge-info">💵 費用：每人 17,000 韓元 | 班距：15~20 分鐘一班</span>
             </div></div>
 
@@ -251,14 +249,13 @@
             </div></div>
 
             <div class="card"><span class="time">20:05</span><div class="event-group">
-                <div class="event">華航 CI0163 啟航返台 🛫</div>
-                <div class="desc">20:05 仁川起飛，台灣時間 21:50 降落桃園機場第一航廈，搭上預約好的機場接送專車返家。首爾之旅圓滿成功！</div>
+                <div class="event">華航 CI0163 經濟艙 啟航返台 🛫</div>
+                <div class="desc">20:05 仁川起飛，台灣時間 21:50 降落桃園機場第一航廈，搭上預約好的 Uber 專車返家。首爾之旅圓滿成功！</div>
             </div></div>
         </div>
     </div>
 </div>
 
-<!-- ================= 🍔 美食分頁 ================= -->
 <div id="view-food" class="main-view">
     <div class="container">
         <div class="date-header">🍔 首爾吃貨應變名單</div>
@@ -290,7 +287,6 @@
     </div>
 </div>
 
-<!-- ================= 🎟️ 票券控管分頁 ================= -->
 <div id="view-tickets" class="main-view">
     <div class="container">
         <div class="date-header">🎟️ 首爾權益與票券中心</div>
@@ -314,7 +310,6 @@
     </div>
 </div>
 
-<!-- ================= 📝 行前清單分頁 ================= -->
 <div id="view-checklist" class="main-view">
     <div class="container">
         <div class="date-header">📝 裝備與高端卡友查檢表</div>
@@ -328,13 +323,13 @@
             <div class="checklist-group">
                 <div class="checklist-group-title">📱 數位外掛</div>
                 <label class="check-item"><input type="checkbox" id="k-chk-4"><div class="check-text-box"><div class="check-text">Catch Table 帳號綁定</div><div class="check-subtext">綁定台灣手機號碼以利 D2 遠端搶貝果</div></div></label>
-                <label class="check-item"><input type="checkbox" id="k-chk-5"><div class="check-text-box"><div class="check-text">Kakao T 叫車 App 註冊</div><div class="check-subtext">綁定信用卡，首爾暢行無阻</div></div></label>
+                <label class="check-item"><input type="checkbox" id="k-chk-5"><div class="check-text-box"><div class="check-text">電子入境卡 (e-Arrival Card / K-ETA)</div><div class="check-subtext">出發前 3 天務必上網申請完成</div></div></label>
+                <label class="check-item"><input type="checkbox" id="k-chk-6"><div class="check-text-box"><div class="check-text">韓國專屬導航 App</div><div class="check-subtext">下載 Naver Map 或 KakaoMap 並提前熟悉介面</div></div></label>
             </div>
         </div>
     </div>
 </div>
 
-<!-- ================= 💰 記帳本分頁 ================= -->
 <div id="view-expenses" class="main-view">
     <div class="container">
         <div class="date-header">💰 雲端總帳本 ＆ 即時記帳</div>
@@ -372,22 +367,20 @@
             <div class="expense-total" id="expense-total" style="display:none;"></div>
         </div>
 
-        <!-- 自動精算卡 -->
         <div class="card" style="border-left: 4px solid #10b981;">
             <div class="event" style="color: #166534;">📊 飯店固定開銷精算 (已折合台幣)</div>
             <table class="budget-table">
                 <thead><tr><th>項目</th><th>韓元原價</th><th>台幣價值 (精算)</th></tr></thead>
                 <tbody>
-                    <tr><td>🏨 首爾洲際酒店</td><td>179,233 ₩</td><td><strong>NT$ 5,002</strong> <br><small style="color:gray;">(含+700元台幣)</small></td></tr>
-                    <tr><td>🏨 voco 明洞酒店</td><td>115,460 ₩</td><td><strong>NT$ 2,771</strong></td></tr>
-                    <tr class="total-row"><td>💰 住宿小計</td><td>294,693 ₩</td><td><strong>NT$ 7,773</strong></td></tr>
+                    <tr><td>🏨 首爾洲際酒店</td><td>179,233 ₩</td><td><strong>NT$ 4,396</strong> <br><small style="color:gray;">(匯率 48.5 換算 + 700元台幣)</small></td></tr>
+                    <tr><td>🏨 voco 明洞酒店</td><td>115,460 ₩</td><td><strong>NT$ 3,081</strong> <br><small style="color:gray;">(匯率 48.5 換算 + 700元台幣)</small></td></tr>
+                    <tr class="total-row"><td>💰 住宿小計</td><td>294,693 ₩</td><td><strong>NT$ 7,477</strong></td></tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-<!-- ================= 📍 打卡分頁 ================= -->
 <div id="view-checkin" class="main-view">
     <div class="container">
         <div class="date-header">📍 團員打卡回報</div>
@@ -397,13 +390,11 @@
             <div class="event" style="margin-bottom: 12px;">📌 我要打卡</div>
             <select id="ci-member">
                 <option value="">-- 選擇團員 --</option>
-                <!-- ✨ 專屬兩人打卡名單 ✨ -->
                 <option value="我">我</option>
                 <option value="太太">太太</option>
             </select>
             <select id="ci-place">
                 <option value="">-- 選擇景點 --</option>
-                <!-- ✨ 首爾專屬打卡清單 ✨ -->
                 <optgroup label="📅 7/3 (五) 江南">
                     <option>桃園機場 T2</option>
                     <option>仁川機場 T1</option>
@@ -453,10 +444,8 @@
 </div>
 
 <script>
-// ✨ 已經為你替換成你剛剛提供的最新專屬 GAS 網址 ✨
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbzNeTSt2-2EPsjOgfcMNpfiU5U0K7rGmVJSSmJ0ttlEXNmIH8zkDbHebj9ccaQM9vZE/exec';
 
-// ===== 🕒 時間時區自動轉換 =====
 function formatLocalTime(timeStr) {
     if (!timeStr) return '';
     const d = new Date(timeStr);
@@ -464,7 +453,6 @@ function formatLocalTime(timeStr) {
     return d.toLocaleString('zh-TW', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
 }
 
-// ===== 分頁切換 =====
 function switchView(id, btn) {
     document.querySelectorAll('.main-view').forEach(el => el.classList.remove('active'));
     document.getElementById(id).classList.add('active');
@@ -502,7 +490,6 @@ function toggleFoodVisited(cardId, btn) {
     }
 }
 
-// ===== 💰 雲端帳本功能 =====
 async function addExpense(btn) {
     const name = document.getElementById('exp-name').value.trim();
     const cat = document.getElementById('exp-cat').value;
@@ -571,7 +558,6 @@ async function loadExpenses() {
     }
 }
 
-// ===== 📍 雲端打卡功能 =====
 async function submitCheckin() {
     const member = document.getElementById('ci-member').value;
     const place = document.getElementById('ci-place').value;
@@ -664,7 +650,6 @@ function renderLiveBanner(list) {
     area.style.display = 'block';
 }
 
-// ===== 頁面載入初始化 =====
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.check-item input[type="checkbox"]').forEach(box => {
         if (localStorage.getItem('seoul_' + box.id) === 'true') box.checked = true;
