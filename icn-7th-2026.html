@@ -7,7 +7,6 @@
     
     <meta name="theme-color" content="#4A90E2">
     
-    <!-- iOS 專用隱藏網址列與圖示 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="首爾快閃">
@@ -15,10 +14,8 @@
 
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="首爾快閃">
-    <link rel="icon" type="image/png" sizes="72x72" href="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f1f0-1f1f7.png">
     
-    <!-- 完美內嵌 Manifest 讓網址列徹底消失 (Standalone 模式) -->
-    <link rel="manifest" href='data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%222026%E9%A6%96%E7%85%BE%E5%BF%AB%E9%96%83%E8%87%AA%E7%94%B1%E8%A1%8C%22%2C%22short_name%22%3A%22%E9%A6%96%E7%85%BE%E8%A1%8C%22%2C%22display%22%3A%22standalone%22%2C%22start_url%22%3A%22icn-7th-2026.html%22%2C%22background_color%22%3A%22%23f4f6f8%22%2C%22theme_color%22%3A%22%234A90E2%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fcdnjs.cloudflare.com%2Fajax%2Flibs%2Ftwemoji%2F14.0.2%2F72x72%2F1f1f0-1f1f7.png%22%2C%22sizes%22%3A%2272x72%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D'>
+    <link rel="manifest" href='data:application/manifest+json;charset=utf-8,%7B%22id%22%3A%22seoul2026%22%2C%22name%22%3A%222026%E9%A6%96%E7%85%BE%E5%BF%AB%E9%96%83%E8%87%AA%E7%94%B1%E8%A1%8C%22%2C%22short_name%22%3A%22%E9%A6%96%E7%85%BE%E8%A1%8C%22%2C%22display%22%3A%22standalone%22%2C%22start_url%22%3A%22icn-7th-2026.html%22%2C%22background_color%22%3A%22%23f4f6f8%22%2C%22theme_color%22%3A%22%234A90E2%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fcdnjs.cloudflare.com%2Fajax%2Flibs%2Ftwemoji%2F14.0.2%2F72x72%2F1f1f0-1f1f7.png%22%2C%22sizes%22%3A%2272x72%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D'>
 
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f6f8; margin: 0; padding-bottom: 80px; }
@@ -122,13 +119,12 @@
             <div id="live-checkin-list"></div>
         </div>
 
-        <!-- DAY 1 -->
         <div id="d1" class="day-content" style="display:block;">
             <div class="date-header">7/3 (五) | 江南主場與魔幻星空夜</div>
             
-            <div class="card"><span class="time">04:20</span><div class="event-group">
-                <div class="event">Uber 🚗</div>
-                <div class="desc">搭乘預約之 Uber，前往桃園國際機場第二航廈（T2）。</div>
+            <div class="card"><span class="time">04:30</span><div class="event-group">
+                <div class="event">機場接送出發 🚗</div>
+                <div class="desc">搭乘預約之機場接送專車，前往桃園國際機場第二航廈（T2）。</div>
             </div></div>
             
             <div class="card"><span class="time">04:50</span><div class="event-group">
@@ -175,7 +171,6 @@
             </div></div>
         </div>
 
-        <!-- DAY 2 -->
         <div id="d2" class="day-content" style="display:none;">
             <div class="date-header">7/4 (六) | 五星早餐、貝果大作戰與江北古風</div>
             
@@ -218,7 +213,6 @@
             </div></div>
         </div>
 
-        <!-- DAY 3 -->
         <div id="d3" class="day-content" style="display:none;">
             <div class="date-header">7/5 (日) | 終極大採購與無腦歸國流線</div>
             
@@ -250,7 +244,7 @@
 
             <div class="card"><span class="time">20:05</span><div class="event-group">
                 <div class="event">華航 CI0163 經濟艙 啟航返台 🛫</div>
-                <div class="desc">20:05 仁川起飛，台灣時間 21:50 降落桃園機場第一航廈，搭上預約好的 Uber 專車返家。首爾之旅圓滿成功！</div>
+                <div class="desc">20:05 仁川起飛，台灣時間 21:50 降落桃園機場第一航廈，搭上預約好的機場接送專車返家。首爾之旅圓滿成功！</div>
             </div></div>
         </div>
     </div>
@@ -384,8 +378,6 @@
 <div id="view-checkin" class="main-view">
     <div class="container">
         <div class="date-header">📍 團員打卡回報</div>
-        <div class="desc" style="margin-bottom: 16px;">到達景點後打卡，記錄首爾專屬足跡！</div>
-
         <div class="checkin-card">
             <div class="event" style="margin-bottom: 12px;">📌 我要打卡</div>
             <select id="ci-member">
@@ -558,6 +550,57 @@ async function loadExpenses() {
     }
 }
 
+// Javascript 的 JS prompt 預設卡片對齊更新
+function markAsBought(btn, idx) {
+    const card = btn.closest('.ticket-card');
+    const platform = prompt('請輸入購買平台（例：Klook, KKday, 官網）：', 'Klook');
+    if (platform === null) return;
+    const price = prompt('請輸入購買價格總額：', 'NT$ ');
+    if (price === null) return;
+    const cardUsed = prompt('請輸入刷卡卡別：', '中信華航璀璨無限卡');
+    if (cardUsed === null) return;
+
+    const data = { platform, price, cardUsed };
+    localStorage.setItem('ticket_' + idx, JSON.stringify(data));
+    applyTicketBought(card, data);
+}
+
+function applyTicketBought(card, data) {
+    const badge = card.querySelector('.status-badge');
+    badge.className = 'status-badge bought';
+    badge.innerText = '✅ 已完成採購';
+    const detailsDiv = card.querySelector('.ticket-details');
+    detailsDiv.innerHTML = `<div>🛒 <strong>購買平台：</strong>${data.platform}</div><div>💰 <strong>購買價格：</strong>${data.price}</div><div>💳 <strong>使用信用卡：</strong>${data.cardUsed}</div>`;
+    detailsDiv.style.display = 'block';
+    const markBtn = card.querySelector('.btn-mark');
+    if (markBtn) markBtn.style.display = 'none';
+    
+    let unmarkBtn = card.querySelector('.btn-unmark');
+    if (!unmarkBtn) {
+        unmarkBtn = document.createElement('button');
+        unmarkBtn.className = 'btn-unmark';
+        unmarkBtn.textContent = '↩ 取消標記';
+        const idx = card.id.replace('ticket-', '');
+        unmarkBtn.onclick = () => unmarkTicket(card, parseInt(idx));
+        card.appendChild(unmarkBtn);
+    }
+    unmarkBtn.style.display = 'block';
+}
+
+function unmarkTicket(card, idx) {
+    localStorage.removeItem('ticket_' + idx);
+    const badge = card.querySelector('.status-badge');
+    badge.className = 'status-badge pending';
+    badge.innerText = '⏳ 待採買';
+    card.querySelector('.ticket-details').style.display = 'none';
+    card.querySelector('.ticket-details').innerHTML = '';
+    const markBtn = card.querySelector('.btn-mark');
+    if (markBtn) markBtn.style.display = 'block';
+    const unmarkBtn = card.querySelector('.btn-unmark');
+    if (unmarkBtn) unmarkBtn.style.display = 'none';
+}
+
+
 async function submitCheckin() {
     const member = document.getElementById('ci-member').value;
     const place = document.getElementById('ci-place').value;
@@ -679,6 +722,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadCheckinLog();
     loadExpenses();
+    
+    // 初始化票券狀態
+    document.querySelectorAll('.ticket-card').forEach((card, idx) => {
+        const saved = localStorage.getItem('ticket_' + idx);
+        if (saved) applyTicketBought(card, JSON.parse(saved));
+    });
 });
 </script>
 </body>
