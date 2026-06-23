@@ -1,1 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2026 首爾快閃自由行</title>
+    
+    <meta name="theme-color" content="#4A90E2">
+    
+    <!-- iOS 專用隱藏網址列與圖示 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="首爾快閃">
+    <link rel="apple-touch-icon" href="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f1f0-1f1f7.png">
 
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="首爾快閃">
+    <link rel="icon" type="image/png" sizes="72x72" href="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f1f0-1f1f7.png">
+    
+    <!-- 完美內嵌 Manifest 讓網址列徹底消失 (Standalone 模式) -->
+    <link rel="manifest" href='data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%222026%E9%A6%96%E7%85%BE%E5%BF%AB%E9%96%83%E8%87%AA%E7%94%B1%E8%A1%8C%22%2C%22short_name%22%3A%22%E9%A6%96%E7%85%BE%E8%A1%8C%22%2C%22display%22%3A%22standalone%22%2C%22start_url%22%3A%22.%2F%22%2C%22background_color%22%3A%22%23f4f6f8%22%2C%22theme_color%22%3A%22%234A90E2%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fcdnjs.cloudflare.com%2Fajax%2Flibs%2Ftwemoji%2F14.0.2%2F72x72%2F1f1f0-1f1f7.png%22%2C%22sizes%22%3A%2272x72%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D'>
+
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f6f8; margin: 0; padding-bottom: 80px; }
+        .header { background-color: #4A90E2; color: white; padding: 16px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .header h1 { margin: 0; font-size: 18px; }
+        .main-view { display: none; } .main-view.active { display: block; }
+        .container { padding: 16px; }
+        .tab-scroll-container { background-color: #4A90E2; position: sticky; top: 53px; z-index: 99; overflow-x: auto; white-space: nowrap; padding: 0 10px 10px; }
+        .tab-scroll-container::-webkit-scrollbar { display: none; }
+        .tab-btn { background: rgba(255,255,255,0.2); color: #cbd5e1; border: none; padding: 8px 16px; border-radius: 20px; font-size: 14px; margin-right: 8px; cursor: pointer; transition: all 0.2s;}
+        .tab-btn.active { background: white; color: #4A90E2; font-weight: bold; }
+        .card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); border-left: 4px solid #94a3b8;}
+        .card.highlight { border-left: 4px solid #d97706; }
+        .card.purple { border-left: 4px solid #8b5cf6; }
+        .date-header { font-size: 18px; font-weight: bold; margin-bottom: 16px; border-left: 4px solid #4A90E2; padding-left: 8px; color: #0f172a;}
+        .time { color: #4A90E2; font-weight: 800; display: inline-block; width: 65px; vertical-align: top;}
+        .event-group { display: inline-block; width: calc(100% - 70px); }
+        .event { font-size: 16px; font-weight: 700; margin-bottom: 4px; color: #1e293b;}
+        .desc { font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 8px;}
+        .hotel-tag { font-size: 13px; color: #0369a1; background: #e0f2fe; padding: 6px 10px; border-radius: 6px; display: inline-block; font-weight: 600; margin-bottom: 8px;}
+        .badge-info { background: #f0fdf4; color: #166534; padding: 6px 10px; border-radius: 6px; font-size: 13px; font-weight: bold; margin-top: 4px; border-left: 3px solid #10b981; display: inline-block;}
+        .budget-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+        .budget-table th, .budget-table td { border: 1px solid #e2e8f0; padding: 10px; text-align: left; }
+        .budget-table th { background: #f8fafc; color: #4A90E2; font-weight: bold; }
+        .budget-table tr:nth-child(even) { background: #fdfdfd; }
+        .total-row { font-weight: bold; background: #fee2e2 !important; color: #991b1b; }
+        .btn-map, .btn-link { display: block; text-align: center; padding: 10px 12px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: bold; margin-top: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .btn-map { background: #4285F4; color: white; }
+        .btn-link { background: #FF5B00; color: white; }
+        .status-badge { font-size: 12px; padding: 4px 10px; border-radius: 20px; font-weight: bold; white-space: nowrap; height: fit-content; }
+        .status-badge.bought { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .status-badge.pending { background: #fef08a; color: #854d0e; border: 1px solid #fde047; }
+        .checklist-group { margin-bottom: 20px; }
+        .checklist-group-title { font-size: 15px; font-weight: bold; color: #4A90E2; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 12px; }
+        .check-item { display: flex; align-items: flex-start; margin-bottom: 12px; cursor: pointer; }
+        .check-item input[type="checkbox"] { margin-top: 4px; margin-right: 12px; width: 18px; height: 18px; accent-color: #10b981; flex-shrink: 0;}
+        .check-text { font-size: 15px; color: #334155; line-height: 1.4;}
+        .check-subtext { font-size: 12px; color: #64748b; margin-top: 2px; }
+        .check-item input[type="checkbox"]:checked + .check-text-box .check-text { color: #94a3b8; text-decoration: line-through; }
+        .food-visited-btn { display: inline-block; margin-top: 8px; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; cursor: pointer; border: 2px solid #10b981; color: #10b981; background: white; }
+        .food-visited-btn.visited { background: #10b981; color: white; }
+        .food-visited-stamp { display: none; font-size: 13px; color: #10b981; font-weight: bold; margin-top: 4px; }
+        .food-visited-stamp.show { display: block; }
+        
+        /* 記帳與打卡專用 CSS */
+        .expense-input-card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .expense-input-card .input-row { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+        .expense-input-card input, .expense-input-card select { flex: 1; min-width: 120px; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; box-sizing: border-box;}
+        .expense-input-card .btn-add { background: #4A90E2; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; white-space: nowrap; }
+        .expense-list { margin-top: 16px; }
+        .expense-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+        .expense-item .e-name { color: #334155; flex: 1; }
+        .expense-item .e-cat { color: #64748b; font-size: 12px; background: #f1f5f9; padding: 2px 8px; border-radius: 10px; margin: 0 8px; }
+        .expense-item .e-amt { font-weight: bold; color: #4A90E2; white-space: nowrap; }
+        .expense-total { background: #4A90E2; color: white; border-radius: 10px; padding: 14px 16px; text-align: center; margin-top: 16px; font-size: 16px; font-weight: bold; }
+
+        .checkin-card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-left: 4px solid #8b5cf6; }
+        .checkin-card select, .checkin-card textarea { width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; margin-bottom: 10px; box-sizing: border-box; }
+        .checkin-card textarea { resize: none; height: 80px; }
+        .btn-checkin { background: #8b5cf6; color: white; border: none; padding: 12px; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; width: 100%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .checkin-log-title { font-size: 15px; font-weight: bold; color: #4A90E2; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 12px; }
+        .checkin-item { background: #faf5ff; border-radius: 10px; padding: 12px; margin-bottom: 8px; border-left: 3px solid #8b5cf6; }
+        .checkin-item .ci-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+        .checkin-item .ci-name { font-weight: bold; color: #5b21b6; font-size: 14px; }
+        .checkin-item .ci-time { font-size: 12px; color: #94a3b8; }
+        .checkin-item .ci-place { font-size: 13px; color: #334155; margin-bottom: 4px; }
+        .checkin-item .ci-msg { font-size: 13px; color: #475569; font-style: italic; }
+        .checkin-empty { text-align: center; color: #94a3b8; font-size: 14px; padding: 24px 0; }
+        .checkin-status { font-size: 13px; color: #64748b; margin-top: 8px; text-align: center; }
+        .checkin-status.success { color: #10b981; font-weight: bold; }
+        .checkin-status.error { color: #ef4444; }
+
+        .live-checkin-banner { background: linear-gradient(135deg, #5b21b6, #8b5cf6); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; color: white; }
+        .live-checkin-banner .lcb-title { font-size: 13px; font-weight: bold; opacity: 0.8; margin-bottom: 8px; }
+        .live-checkin-item { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 13px; }
+        .live-avatar { width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; flex-shrink: 0; }
+        .live-info { flex: 1; }
+        .live-place { font-weight: bold; }
+        .live-msg { opacity: 0.8; font-size: 12px; }
+        .live-time { font-size: 11px; opacity: 0.6; white-space: nowrap; }
+
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding: 12px 0; z-index: 100; padding-bottom: calc(12px + env(safe-area-inset-bottom));}
+        .nav-item { cursor: pointer; color: #94a3b8; font-size: 11px; font-weight: 600; text-align: center; flex: 1;}
+        .nav-item.active { color: #4A90E2; }
+        .nav-icon { font-size: 20px; display: block; margin-bottom: 4px; }
+    </style>
+</head>
+<body>
+
+<div class="header"><h1>🇰🇷 首爾快閃自由行 App</h1></div>
+
+<!-- ================= 📅 行程分頁 ================= -->
+<div id="view-itinerary" class="main-view active">
+    <div class="tab-scroll-container">
+        <button class="tab-btn active" onclick="showDay('d1', this)">7/3 (五)</button>
+        <button class="tab-btn" onclick="showDay('d2', this)">7/4 (六)</button>
+        <button class="tab-btn" onclick="showDay('d3', this)">7/5 (日)</button>
+    </div>
+
+    <div class="container">
+        <div id="live-checkin-area" class="live-checkin-banner" style="display:none;">
+            <div class="lcb-title">📍 即時動態</div>
+            <div id="live-checkin-list"></div>
+        </div>
+
+        <!-- DAY 1 -->
+        <div id="d1" class="day-content" style="display:block;">
+            <div class="date-header">7/3 (五) | 江南主場與魔幻星空夜</div>
+            
+            <div class="card"><span class="time">04:20</span><div class="event-group">
+                <div class="event">機場接送出發 🚗</div>
+                <div class="desc">搭乘預約之機場接送專車，前往桃園國際機場第二航廈（T2）。</div>
+            </div></div>
+            
+            <div class="card"><span class="time">04:50</span><div class="event-group">
+                <div class="event">金卡權益 & 貴賓室巡禮 💎</div>
+                <div class="desc">利用星盟金卡權益：優先報到、優先行李、優先登機。開航前可使用長榮 Star 貴賓室、新航銀刃貴賓室，或前往東方宇逸/環亞貴賓室品嚐「雙月愛恨椒芝麵」。</div>
+            </div></div>
+            
+            <div class="card highlight"><span class="time">07:30</span><div class="event-group">
+                <div class="event">長榮 BR170 商務艙 ✈️</div>
+                <div class="desc">07:30 桃園起飛，11:00 順利降落仁川機場第一航廈（T1）。</div>
+            </div></div>
+
+            <div class="card purple"><span class="time">12:18</span><div class="event-group">
+                <div class="event">AREX 機場快線 (車次 A1022) 🚄</div>
+                <div class="desc">12:18 自仁川 T1 準時發車，13:01 抵達「首爾車站」。使用先前贈送之車票與加購車票。</div>
+            </div></div>
+
+            <div class="card highlight"><span class="time">13:10</span><div class="event-group">
+                <div class="event">首爾站地鐵轉乘 (總務精算動線) 🚇</div>
+                <div class="desc">
+                    <strong>地鐵無縫流程：</strong><br>
+                    1. 於首爾站順著藍色指標轉乘 <strong>4號線</strong>（往南下方向）。<br>
+                    2. 搭乘 9 站至 <strong>「舍堂站」</strong> 下車。<br>
+                    3. 跨月台輕鬆轉乘 <strong>2號線</strong>（綠色，往江南東行方向）。<br>
+                    4. 搭乘 6 站抵達 <strong>「三成站」</strong>，走 5/6 號出口，免出地面直接走大理石連通道直通飯店 B1。
+                </div>
+            </div></div>
+
+            <div class="card"><span class="time">下午</span><div class="event-group">
+                <div class="event">下午茶 / 聖水洞潮流散步 🛍️</div>
+                <div class="desc">若時間來得及，先享用首爾洲際精緻下午茶。若時間交錯，則由三成站直接搭 2 號線（僅 4 站）直達「聖水站」體驗首爾最前線潮流、打卡 DIOR 旗艦店。</div>
+                <span class="badge-info">💡 鐵律：必須在 17:30 前返回飯店享受 Happy Hour</span>
+            </div></div>
+
+            <div class="card"><span class="time">17:30</span><div class="event-group">
+                <div class="event">洲際 Happy Hour & 晚餐 🥂</div>
+                <div class="desc">17:30 開始享用洲際行政酒廊尊榮 Happy Hour。晚餐可抉擇享用洲際飯店 Grand Kitchen 高級自助餐（五折權益），或至共構之 COEX Mall 吃在地傳統韓食。</div>
+                <div class="hotel-tag">🏨 宿：首爾帕納斯洲際酒店</div>
+            </div></div>
+
+            <div class="card highlight"><span class="time">21:00</span><div class="event-group">
+                <div class="event">👑 核心打卡：夜間星空圖書館 🌌</div>
+                <div class="desc">由飯店 B1 連通道散步 3 分鐘即達。21:00 後人潮退去，13 米高的巨型書牆點燈後魔幻感十足，帶太太搭乘手扶梯至 2 樓俯拍，是最完美的取景時間。</div>
+            </div></div>
+        </div>
+
+        <!-- DAY 2 -->
+        <div id="d2" class="day-content" style="display:none;">
+            <div class="date-header">7/4 (六) | 五星早餐、貝果大作戰與江北古風</div>
+            
+            <div class="card highlight"><span class="time">08:30</span><div class="event-group">
+                <div class="event">👑 奢華早餐：洲際 Grand Kitchen 🥞</div>
+                <div class="desc">在飯店一樓挑高大廳優雅、放慢腳步享用 Diamond 雙人免費頂級自助早餐。</div>
+            </div></div>
+
+            <div class="card purple"><span class="time">10:00</span><div class="event-group">
+                <div class="event">📱 科技外掛：倫敦貝果線上排隊 🥯</div>
+                <div class="desc"><strong>關鍵動作：</strong>不需早起罰站，在餐廳內用手機點開 Catch Table 連結，遠端登記「倫敦貝果蠶室店」外帶（Take-out）。隨後回房間悠閒打包行李、監控號碼。</div>
+                <a href="https://www.catchtable.net/zh-TW/shop/london_bagel_museum_jamsil?operationType=REMOTE_WAITING_GLOBAL" class="btn-link" target="_blank">📱 開啟 遠端排隊連結</a>
+            </div></div>
+
+            <div class="card"><span class="time">11:00</span><div class="event-group">
+                <div class="event">移防蠶室免排隊取貨 🛍️</div>
+                <div class="desc">辦理退房，大行李拉上計程車（車程 7-10 分鐘）直奔蠶室樂天世界購物中心，憑號碼直接提走熱騰騰的現做熱貝果！</div>
+                <span class="badge-info">💡 大使特權評估：若花 225 美金加購白金洲際大使，可延後退房至 16:00。中午可留在洲際享用五折午餐，下午再輕裝出發。</span>
+            </div></div>
+
+            <div class="card highlight"><span class="time">12:15</span><div class="event-group">
+                <div class="event">廣藏市場小吃大長征 (必去！) 🍜</div>
+                <div class="desc">從江南直奔江北廣藏市場（計程車約 30 分鐘）。中午直接開吃米其林生拌牛肉、現炸綠豆煎餅、麻藥飯捲。</div>
+            </div></div>
+
+            <div class="card"><span class="time">14:00</span><div class="event-group">
+                <div class="event">古風巡禮：益善洞 ➔ 仁寺洞 🪵</div>
+                <div class="desc">從廣藏市場步行或搭車至隔壁的益善洞韓屋村，在復古韓屋咖啡廳裡喝下午茶，順便品嚐早上的倫敦貝果。接著散步逛至仁寺洞體驗傳統工藝。</div>
+            </div></div>
+
+            <div class="card purple"><span class="time">16:30</span><div class="event-group">
+                <div class="event">移防明洞 voco 路線 🚖</div>
+                <div class="desc">結束江北散步後，搭乘計程車（約 10 分鐘）直接前往明洞 voco 辦理進房，動線順暢不走回頭路。</div>
+            </div></div>
+
+            <div class="card"><span class="time">18:00</span><div class="event-group">
+                <div class="event">明洞不夜城 & voco 酒廊 🍻</div>
+                <div class="desc">首爾明洞沃科酒店（voco）進房。身為鑽卡享有酒廊權益，可先前往 Happy Hour 喝一杯，隨後開逛明洞商圈、狂掃大創（Daiso），晚餐可補刀明洞餃子或韓式烤肉。</div>
+                <div class="hotel-tag">🏨 宿：首爾明洞沃科酒店 (voco Seoul Myeongdong)</div>
+            </div></div>
+        </div>
+
+        <!-- DAY 3 -->
+        <div id="d3" class="day-content" style="display:none;">
+            <div class="date-header">7/5 (日) | 終極大採購與無腦歸國流線</div>
+            
+            <div class="card"><span class="time">08:30</span><div class="event-group">
+                <div class="event">明洞早餐時間 ☕</div>
+                <div class="desc">在 voco 悠閒享用早餐，或是步行至明洞商圈品嚐經典爆漿吐司（Isaac Toast）。</div>
+            </div></div>
+
+            <div class="card highlight"><span class="time">09:30</span><div class="event-group">
+                <div class="event">樂天超市「空行李箱」大掃貨 🛒</div>
+                <div class="desc"><strong>總務大叔絕招：</strong>夫妻拉著 20 吋空行李箱，自明洞搭地鐵（僅 1 站）直達首爾車站樂天超市。瘋狂採買伴手禮、零食與海苔，當場塞進行李箱，輕鬆拉回飯店。</div>
+            </div></div>
+
+            <div class="card"><span class="time">11:30</span><div class="event-group">
+                <div class="event">南大門市場最後衝刺 & 大打包 📦</div>
+                <div class="desc">利用中午時間至飯店隔壁的南大門市場做最後採購（如阿珠媽棉被或乾貨）。13:00 回飯店房間進行大合體大打包，辦理 Check-out。</div>
+            </div></div>
+
+            <div class="card purple"><span class="time">15:30</span><div class="event-group">
+                <div class="event">神級舒適：6015 機場巴士流 🚌</div>
+                <div class="desc"><strong>疼老婆大絕：</strong>完全免拉行李擠地鐵！直接在 voco 門口的「南大門市場」站牌搭乘 6015 路機場巴士。大行李交給司機放行李箱，上車一路無腦睡 90 分鐘直達機場第二航廈。</div>
+                <span class="badge-info">💵 費用：每人 17,000 韓元 | 班距：15~20 分鐘一班</span>
+            </div></div>
+
+            <div class="card highlight"><span class="time">17:15</span><div class="event-group">
+                <div class="event">仁川機場 T2 達陣 ✈️</div>
+                <div class="desc">抵達第二航廈。憑華航金卡權益優先報到、優先行李、優先登機。辦理現場退稅後，前往貴賓室放鬆休息。</div>
+            </div></div>
+
+            <div class="card"><span class="time">20:05</span><div class="event-group">
+                <div class="event">華航 CI0163 啟航返台 🛫</div>
+                <div class="desc">20:05 仁川起飛，台灣時間 21:50 降落桃園機場第一航廈，搭上預約好的機場接送專車返家。首爾之旅圓滿成功！</div>
+            </div></div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= 🍔 美食分頁 ================= -->
+<div id="view-food" class="main-view">
+    <div class="container">
+        <div class="date-header">🍔 首爾吃貨應變名單</div>
+        <div class="desc" style="margin-bottom: 16px;">不被時間綁架的彈性吃貨指南！</div>
+
+        <div class="card" id="food-1">
+            <div class="event">洲際 Grand Kitchen 自助餐</div>
+            <div class="desc">使用無限卡等會籍特權享有五折優惠，頂級牛排與海鮮必吃。</div>
+            <span class="hotel-tag" style="background:#fee2e2; color:#991b1b;">⭐ 五折權益</span>
+            <br><button class="food-visited-btn" onclick="toggleFoodVisited('food-1', this)">✔ 標記已去過</button>
+            <div class="food-visited-stamp">✅ 已去過！</div>
+        </div>
+
+        <div class="card" id="food-2">
+            <div class="event">富村生拌牛肉 (부촌육회)</div>
+            <div class="desc">廣藏市場內米其林推薦老店，鮮嫩生牛肉搭配生蛋黃與甜梨絲，極度震撼。</div>
+            <span class="hotel-tag" style="background:#fef08a; color:#854d0e;">👑 米其林推薦</span>
+            <br><button class="food-visited-btn" onclick="toggleFoodVisited('food-2', this)">✔ 標記已去過</button>
+            <div class="food-visited-stamp">✅ 已去過！</div>
+        </div>
+        
+        <div class="card" id="food-3">
+            <div class="event">順熙家綠豆煎餅</div>
+            <div class="desc">現磨綠豆仁在石磨上碾碎後現炸，外皮酥脆香濃，配洋蔥醬油超解膩。</div>
+            <span class="hotel-tag" style="background:#e0f2fe; color:#0369a1;">🦪 在地必吃</span>
+            <br><button class="food-visited-btn" onclick="toggleFoodVisited('food-3', this)">✔ 標記已去過</button>
+            <div class="food-visited-stamp">✅ 已去過！</div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= 🎟️ 票券控管分頁 ================= -->
+<div id="view-tickets" class="main-view">
+    <div class="container">
+        <div class="date-header">🎟️ 首爾權益與票券中心</div>
+        <div class="desc" style="margin-bottom: 16px;">控管首爾行票券與會籍成本。</div>
+
+        <div class="card ticket-card">
+            <div class="ticket-header">
+                <div class="event">AREX 機場快線單程車票</div>
+                <span class="status-badge pending">⏳ 待採買</span>
+            </div>
+            <div class="desc">仁川1航到首爾站使用。需買1張，另1張友人贈送。</div>
+        </div>
+
+        <div class="card ticket-card">
+            <div class="ticket-header">
+                <div class="event">IHG 白金洲際大使會籍</div>
+                <span class="status-badge pending">⏳ 評估中</span>
+            </div>
+            <div class="desc">可在首爾洲際享有房型升等、迎賓禮以及「延後退房至下午 4 點」之特權。</div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= 📝 行前清單分頁 ================= -->
+<div id="view-checklist" class="main-view">
+    <div class="container">
+        <div class="date-header">📝 裝備與高端卡友查檢表</div>
+        <div class="card">
+            <div class="checklist-group">
+                <div class="checklist-group-title">🛂 核心證件</div>
+                <label class="check-item"><input type="checkbox" id="k-chk-1"><div class="check-text-box"><div class="check-text">護照正本</div><div class="check-subtext">效期需滿 6 個月以上</div></div></label>
+                <label class="check-item"><input type="checkbox" id="k-chk-2"><div class="check-text-box"><div class="check-text">高端信用卡 (無限卡/世界卡)</div><div class="check-subtext">核對貴賓室使用額度與機場接送門檻</div></div></label>
+                <label class="check-item"><input type="checkbox" id="k-chk-3"><div class="check-text-box"><div class="check-text">20吋空行李箱</div><div class="check-subtext">D3 樂天超市戰略掃貨必備</div></div></label>
+            </div>
+            <div class="checklist-group">
+                <div class="checklist-group-title">📱 數位外掛</div>
+                <label class="check-item"><input type="checkbox" id="k-chk-4"><div class="check-text-box"><div class="check-text">Catch Table 帳號綁定</div><div class="check-subtext">綁定台灣手機號碼以利 D2 遠端搶貝果</div></div></label>
+                <label class="check-item"><input type="checkbox" id="k-chk-5"><div class="check-text-box"><div class="check-text">Kakao T 叫車 App 註冊</div><div class="check-subtext">綁定信用卡，首爾暢行無阻</div></div></label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= 💰 記帳本分頁 ================= -->
+<div id="view-expenses" class="main-view">
+    <div class="container">
+        <div class="date-header">💰 雲端總帳本 ＆ 即時記帳</div>
+
+        <div class="expense-input-card">
+            <div class="event" style="margin-bottom: 12px;">➕ 快速記帳</div>
+            <div class="input-row">
+                <input type="text" id="exp-name" placeholder="支出項目（例：午餐）" />
+                <select id="exp-cat">
+                    <option value="🍜 餐飲">🍜 餐飲</option>
+                    <option value="🎟️ 票券">🎟️ 票券</option>
+                    <option value="🚗 交通">🚗 交通</option>
+                    <option value="🛍️ 購物">🛍️ 購物</option>
+                    <option value="🏨 住宿">🏨 住宿</option>
+                    <option value="🎌 其他">🎌 其他</option>
+                </select>
+            </div>
+            <div class="input-row">
+                <input type="number" id="exp-amt" placeholder="金額" />
+                <select id="exp-curr">
+                    <option value="¥">¥ 韓元(KRW)</option>
+                    <option value="NT$">NT$ 台幣</option>
+                </select>
+                <button class="btn-add" onclick="addExpense(this)">記帳</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="event" style="margin-bottom: 12px; display:flex; justify-content:space-between; align-items:center;">
+                📋 支出明細 <button style="background: #94a3b8; color: white; border: none; padding: 4px 8px; border-radius: 6px; font-size: 12px;" onclick="loadExpenses()">🔄 更新</button>
+            </div>
+            <div class="expense-list" id="expense-list">
+                <div class="checkin-empty" id="expense-empty">讀取雲端帳本中... ☁️</div>
+            </div>
+            <div class="expense-total" id="expense-total" style="display:none;"></div>
+        </div>
+
+        <!-- 自動精算卡 -->
+        <div class="card" style="border-left: 4px solid #10b981;">
+            <div class="event" style="color: #166534;">📊 飯店固定開銷精算 (已折合台幣)</div>
+            <table class="budget-table">
+                <thead><tr><th>項目</th><th>韓元原價</th><th>台幣價值 (精算)</th></tr></thead>
+                <tbody>
+                    <tr><td>🏨 首爾洲際酒店</td><td>179,233 ₩</td><td><strong>NT$ 5,002</strong> <br><small style="color:gray;">(含+700元台幣)</small></td></tr>
+                    <tr><td>🏨 voco 明洞酒店</td><td>115,460 ₩</td><td><strong>NT$ 2,771</strong></td></tr>
+                    <tr class="total-row"><td>💰 住宿小計</td><td>294,693 ₩</td><td><strong>NT$ 7,773</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- ================= 📍 打卡分頁 ================= -->
+<div id="view-checkin" class="main-view">
+    <div class="container">
+        <div class="date-header">📍 團員打卡回報</div>
+        <div class="desc" style="margin-bottom: 16px;">到達景點後打卡，記錄首爾專屬足跡！</div>
+
+        <div class="checkin-card">
+            <div class="event" style="margin-bottom: 12px;">📌 我要打卡</div>
+            <select id="ci-member">
+                <option value="">-- 選擇團員 --</option>
+                <!-- ✨ 專屬兩人打卡名單 ✨ -->
+                <option value="我">我</option>
+                <option value="太太">太太</option>
+            </select>
+            <select id="ci-place">
+                <option value="">-- 選擇景點 --</option>
+                <!-- ✨ 首爾專屬打卡清單 ✨ -->
+                <optgroup label="📅 7/3 (五) 江南">
+                    <option>桃園機場 T2</option>
+                    <option>仁川機場 T1</option>
+                    <option>首爾車站</option>
+                    <option>首爾洲際酒店</option>
+                    <option>聖水洞商圈</option>
+                    <option>星空圖書館</option>
+                </optgroup>
+                <optgroup label="📅 7/4 (六) 江北">
+                    <option>洲際 Grand Kitchen</option>
+                    <option>倫敦貝果蠶室店</option>
+                    <option>廣藏市場</option>
+                    <option>益善洞韓屋村</option>
+                    <option>仁寺洞</option>
+                    <option>明洞 voco</option>
+                    <option>明洞商圈</option>
+                </optgroup>
+                <optgroup label="📅 7/5 (日) 返台">
+                    <option>首爾站樂天超市</option>
+                    <option>南大門市場</option>
+                    <option>6015 機場巴士</option>
+                    <option>仁川機場 T2</option>
+                    <option>抵達台灣</option>
+                </optgroup>
+            </select>
+            <textarea id="ci-msg" placeholder="留言（例：生拌牛肉太好吃了！🥩）"></textarea>
+            <button class="btn-checkin" onclick="submitCheckin()">📍 送出打卡！</button>
+            <div class="checkin-status" id="ci-status"></div>
+        </div>
+
+        <div class="checkin-log">
+            <div class="checkin-log-title">📋 最新打卡動態</div>
+            <div id="checkin-log-list">
+                <div class="checkin-empty">還沒有人打卡，快來第一個！</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bottom-nav">
+    <div class="nav-item active" onclick="switchView('view-itinerary', this)"><span class="nav-icon">📅</span>行程</div>
+    <div class="nav-item" onclick="switchView('view-food', this)"><span class="nav-icon">🍔</span>美食</div>
+    <div class="nav-item" onclick="switchView('view-tickets', this)"><span class="nav-icon">🎟️</span>票券</div>
+    <div class="nav-item" onclick="switchView('view-checklist', this)"><span class="nav-icon">📝</span>清單</div>
+    <div class="nav-item" onclick="switchView('view-expenses', this)"><span class="nav-icon">💰</span>帳本</div>
+    <div class="nav-item" onclick="switchView('view-checkin', this)"><span class="nav-icon">📍</span>打卡</div>
+</div>
+
+<script>
+// ✨ 已經為你替換成你剛剛提供的最新專屬 GAS 網址 ✨
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzNeTSt2-2EPsjOgfcMNpfiU5U0K7rGmVJSSmJ0ttlEXNmIH8zkDbHebj9ccaQM9vZE/exec';
+
+// ===== 🕒 時間時區自動轉換 =====
+function formatLocalTime(timeStr) {
+    if (!timeStr) return '';
+    const d = new Date(timeStr);
+    if (isNaN(d.getTime())) return timeStr;
+    return d.toLocaleString('zh-TW', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
+}
+
+// ===== 分頁切換 =====
+function switchView(id, btn) {
+    document.querySelectorAll('.main-view').forEach(el => el.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    btn.classList.add('active');
+    window.scrollTo(0, 0);
+    
+    if (id === 'view-checkin') loadCheckinLog();
+    if (id === 'view-expenses') loadExpenses();
+}
+
+function showDay(id, btn) {
+    document.querySelectorAll('.day-content').forEach(el => el.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    btn.classList.add('active');
+}
+
+function toggleFoodVisited(cardId, btn) {
+    const card = document.getElementById(cardId);
+    const stamp = card.querySelector('.food-visited-stamp');
+    const isVisited = btn.classList.contains('visited');
+    if (isVisited) {
+        btn.classList.remove('visited');
+        btn.textContent = '✔ 標記已去過';
+        stamp.classList.remove('show');
+        localStorage.removeItem('food_' + cardId);
+        card.style.opacity = '1';
+    } else {
+        btn.classList.add('visited');
+        btn.textContent = '✅ 已去過';
+        stamp.classList.add('show');
+        localStorage.setItem('food_' + cardId, '1');
+        card.style.opacity = '0.7';
+    }
+}
+
+// ===== 💰 雲端帳本功能 =====
+async function addExpense(btn) {
+    const name = document.getElementById('exp-name').value.trim();
+    const cat = document.getElementById('exp-cat').value;
+    const amt = document.getElementById('exp-amt').value;
+    const curr = document.getElementById('exp-curr').value;
+    const who = localStorage.getItem('travel_identity') || '未知';
+
+    if (!name || !amt || amt <= 0) { alert('請填寫項目名稱和正確的金額！'); return; }
+
+    btn.innerText = "寫入中...";
+    btn.disabled = true;
+
+    const params = new URLSearchParams({ action: 'addExpense', name, cat, amt, curr, who });
+
+    try {
+        await fetch(GAS_URL + '?' + params.toString());
+        document.getElementById('exp-name').value = '';
+        document.getElementById('exp-amt').value = '';
+        btn.innerText = "記帳";
+        btn.disabled = false;
+        loadExpenses();
+    } catch(e) {
+        alert('連線失敗，請檢查網路。');
+        btn.innerText = "記帳";
+        btn.disabled = false;
+    }
+}
+
+async function loadExpenses() {
+    const list = document.getElementById('expense-list');
+    const total = document.getElementById('expense-total');
+    list.innerHTML = '<div class="checkin-empty">讀取雲端帳本中... ☁️</div>';
+
+    try {
+        const res = await fetch(GAS_URL + '?action=getExpenses');
+        const data = await res.json();
+
+        if (!data || data.length === 0) {
+            list.innerHTML = '<div class="checkin-empty">還沒有記帳資料，快去首爾花錢吧！🛍️</div>';
+            total.style.display = 'none';
+            return;
+        }
+
+        let krw = 0, ntd = 0;
+        list.innerHTML = data.map(e => {
+            if (e.curr === '¥' || e.curr === 'KRW') krw += parseFloat(e.amt); else ntd += parseFloat(e.amt);
+            const localTime = formatLocalTime(e.time);
+            return `
+            <div class="expense-item">
+                <span class="e-name">${e.name} <br><small style="color:#94a3b8;">${e.who} · ${localTime}</small></span>
+                <span class="e-cat">${e.cat}</span>
+                <span class="e-amt">${e.curr}${Number(e.amt).toLocaleString()}</span>
+            </div>
+            `;
+        }).join('');
+
+        let totalStr = '';
+        if (krw > 0) totalStr += `₩${krw.toLocaleString()}`;
+        if (krw > 0 && ntd > 0) totalStr += ' ＋ ';
+        if (ntd > 0) totalStr += `NT$${ntd.toLocaleString()}`;
+        total.textContent = '💰 累計支出：' + totalStr;
+        total.style.display = 'block';
+
+    } catch(e) {
+        list.innerHTML = '<div class="checkin-empty">❌ 無法讀取帳本，請確認網路連線。</div>';
+    }
+}
+
+// ===== 📍 雲端打卡功能 =====
+async function submitCheckin() {
+    const member = document.getElementById('ci-member').value;
+    const place = document.getElementById('ci-place').value;
+    const msg = document.getElementById('ci-msg').value.trim();
+    const status = document.getElementById('ci-status');
+
+    if (!member || !place) { status.className = 'checkin-status error'; status.textContent = '⚠️ 請選擇團員和景點！'; return; }
+
+    status.className = 'checkin-status';
+    status.textContent = '📡 傳送中...';
+
+    const params = new URLSearchParams({ action: 'checkin', member, place, msg });
+
+    try {
+        await fetch(GAS_URL + '?' + params.toString());
+        status.className = 'checkin-status success';
+        status.textContent = `✅ ${member} 打卡成功！`;
+        document.getElementById('ci-msg').value = '';
+        loadCheckinLog();
+    } catch(e) {
+        status.className = 'checkin-status error';
+        status.textContent = '❌ 傳送失敗，請稍後再試';
+    }
+}
+
+async function loadCheckinLog() {
+    try {
+        const res = await fetch(GAS_URL + '?action=getCheckins');
+        const data = await res.json();
+        
+        if (data && data.length > 0) {
+            localStorage.setItem('checkins_seoul', JSON.stringify(data));
+            renderCheckinLog(data);
+            renderLiveBanner(data);
+        } else {
+            renderCheckinLog([]);
+            renderLiveBanner([]);
+        }
+    } catch(e) {
+        const local = JSON.parse(localStorage.getItem('checkins_seoul') || '[]');
+        renderCheckinLog(local);
+        renderLiveBanner(local);
+    }
+}
+
+function renderCheckinLog(list) {
+    const container = document.getElementById('checkin-log-list');
+    if (!list || list.length === 0) {
+        container.innerHTML = '<div class="checkin-empty">還沒有人打卡，快來第一個！</div>';
+        return;
+    }
+    const avatarColors = { '我':'#1E3A8A', '太太':'#d97706' };
+    container.innerHTML = list.slice(0, 15).map(c => {
+        const localTime = formatLocalTime(c.time);
+        return `
+        <div class="checkin-item">
+            <div class="ci-header">
+                <span class="ci-name" style="color:${avatarColors[c.member] || '#5b21b6'}">👤 ${c.member}</span>
+                <span class="ci-time">${localTime}</span>
+            </div>
+            <div class="ci-place">📍 ${c.place}</div>
+            ${c.msg ? `<div class="ci-msg">「${c.msg}」</div>` : ''}
+        </div>
+        `;
+    }).join('');
+}
+
+function renderLiveBanner(list) {
+    const area = document.getElementById('live-checkin-area');
+    const listEl = document.getElementById('live-checkin-list');
+    if (!list || list.length === 0) { area.style.display = 'none'; return; }
+    const avatarColors = { '我':'#A5B4FC', '太太':'#FCD34D' };
+    
+    const latest = {};
+    list.forEach(c => { if (!latest[c.member]) latest[c.member] = c; });
+    
+    listEl.innerHTML = Object.values(latest).map(c => {
+        const localTime = formatLocalTime(c.time);
+        return `
+        <div class="live-checkin-item">
+            <div class="live-avatar" style="background:${avatarColors[c.member] || 'rgba(255,255,255,0.2)'}; color:#1e1e1e;">${c.member[0]}</div>
+            <div class="live-info">
+                <span class="live-place">${c.member} 在 ${c.place}</span>
+                ${c.msg ? `<div class="live-msg">${c.msg}</div>` : ''}
+            </div>
+            <span class="live-time">${localTime}</span>
+        </div>
+        `;
+    }).join('');
+    area.style.display = 'block';
+}
+
+// ===== 頁面載入初始化 =====
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.check-item input[type="checkbox"]').forEach(box => {
+        if (localStorage.getItem('seoul_' + box.id) === 'true') box.checked = true;
+        box.addEventListener('change', function() { localStorage.setItem('seoul_' + this.id, this.checked); });
+    });
+
+    ['food-1','food-2','food-3'].forEach(id => {
+        if (localStorage.getItem('food_' + id)) {
+            const card = document.getElementById(id);
+            if (card) {
+                const btn = card.querySelector('.food-visited-btn');
+                const stamp = card.querySelector('.food-visited-stamp');
+                btn.classList.add('visited');
+                btn.textContent = '✅ 已去過';
+                stamp.classList.add('show');
+                card.style.opacity = '0.7';
+            }
+        }
+    });
+
+    const memberSelect = document.getElementById('ci-member');
+    if (memberSelect) {
+        const savedId = localStorage.getItem('travel_identity');
+        if (savedId) memberSelect.value = savedId;
+        memberSelect.addEventListener('change', function() { localStorage.setItem('travel_identity', this.value); });
+    }
+
+    loadCheckinLog();
+    loadExpenses();
+});
+</script>
+</body>
+</html>
