@@ -7,17 +7,15 @@
     
     <meta name="theme-color" content="#059669">
     
-    <!-- iOS 專用隱藏網址列與專屬「泰」字圖示 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="泰國避暑遊">
+    <meta name="apple-mobile-web-app-title" content="泰國遊">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23059669%22/><text y=%2265%22 x=%2218%22 fill=%22white%22 font-size=%2242%22 font-weight=%22bold%22 font-family=%22sans-serif%22>泰</text></svg>">
 
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="泰國遊">
     
-    <!-- 完美內嵌 Manifest 讓網址列徹底消失 (精準鎖定 bkk-pty-8th-2026.html) -->
-    <link rel="manifest" href='data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%222026%E6%B3%B0%E5%9C%8B%E9%81%BF%E6%9A%91%E9%81%8A%22%2C%22short_name%22%3A%22%E6%B3%B0%E5%9C%8B%E9%81%8A%22%2C%22display%22%3A%22standalone%22%2C%22start_url%22%3A%22bkk-pty-8th-2026.html%22%2C%22background_color%22%3A%22%23f0fdf4%22%2C%22theme_color%22%3A%22%23059669%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fcdnjs.cloudflare.com%2Fajax%2Flibs%2Ftwemoji%2F14.0.2%2F72x72%2F1f3dd.png%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fpng%22%7D%2C%7B%22src%22%3A%22https%3A%2F%2Fcdnjs.cloudflare.com%2Fajax%2Flibs%2Ftwemoji%2F14.0.2%2F72x72%2F1f3dd.png%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D'>
+    <link rel="manifest" href='data:application/manifest+json;charset=utf-8,%7B%22id%22%3A%22thai2026%22%2C%22name%22%3A%222026%E6%B3%B0%E5%9C%8B%E9%81%BF%E6%9A%91%E9%81%8A%22%2C%22short_name%22%3A%22%E6%B3%B0%E5%9C%8B%E9%81%8A%22%2C%22display%22%3A%22standalone%22%2C%22start_url%22%3A%22bkk-pty-8th-2026.html%22%2C%22background_color%22%3A%22%23f0fdf4%22%2C%22theme_color%22%3A%22%23059669%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fcdnjs.cloudflare.com%2Fajax%2Flibs%2Ftwemoji%2F14.0.2%2F72x72%2F1f3dd.png%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fpng%22%7D%2C%7B%22src%22%3A%22https%3A%2F%2Fcdnjs.cloudflare.com%2Fajax%2Flibs%2Ftwemoji%2F14.0.2%2F72x72%2F1f3dd.png%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D'>
 
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f0fdf4; margin: 0; padding-bottom: 80px; }
@@ -51,7 +49,7 @@
         .btn-mark { display: block; background: #10b981; color: white; border: none; text-align: center; padding: 10px; border-radius: 8px; font-size: 14px; font-weight: bold; margin-top: 12px; cursor: pointer; width: 100%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: background 0.2s; box-sizing: border-box;}
         .btn-unmark { display: block; background: #94a3b8; color: white; border: none; text-align: center; padding: 8px; border-radius: 8px; font-size: 13px; cursor: pointer; width: 100%; margin-top: 8px; box-sizing: border-box;}
         .checklist-group { margin-bottom: 20px; }
-        .checklist-group-title { font-size: 15px; font-weight: bold; color: #059669; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; }
+        .checklist-group-title { font-size: 15px; font-weight: bold; color: #059669; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 12px; display: flex; align-items: center; }
         .check-item { display: flex; align-items: flex-start; margin-bottom: 12px; cursor: pointer; }
         .check-item input[type="checkbox"] { margin-top: 4px; margin-right: 12px; width: 18px; height: 18px; accent-color: #10b981; cursor: pointer; flex-shrink: 0;}
         .check-text { font-size: 15px; color: #334155; transition: all 0.2s; line-height: 1.4;}
@@ -104,31 +102,28 @@
         .nav-item.active { color: #059669; }
         .nav-icon { font-size: 20px; display: block; margin-bottom: 4px; }
         
-        /* 隱藏過敏原面板樣式 */
-        .safe-hidden-panel { display: none; margin-top: 10px; padding: 14px; background-color: #f0fdf4; border-radius: 8px; border: 2px dashed #059669; font-size: 14px; color: #047857; line-height: 1.8; font-weight: bold; }
+        /* 過敏原面板全開樣式 */
+        .safe-panel { margin-top: 10px; padding: 14px; background-color: #f0fdf4; border-radius: 8px; border: 2px dashed #059669; font-size: 14px; color: #047857; line-height: 1.8; font-weight: bold; }
     </style>
 </head>
 <body>
 <div class="header"><h1>🌴 2026 泰國避暑之旅</h1></div>
 
-<!-- ==================== 行程視圖 ==================== -->
 <div id="view-itinerary" class="main-view active">
     <div class="tab-scroll-container">
-        <button class="tab-btn active" onclick="showDay('d1', this)">08/22 (出發・芭達雅)</button>
-        <button class="tab-btn" onclick="showDay('d2', this)">08/23 (芭達雅)</button>
-        <button class="tab-btn" onclick="showDay('d3', this)">08/24 (芭達雅)</button>
-        <button class="tab-btn" onclick="showDay('d4', this)">08/25 (曼谷市區)</button>
-        <button class="tab-btn" onclick="showDay('d5', this)">08/26 (曼谷・回程)</button>
+        <button class="tab-btn active" onclick="showDay('d1', this)">8/22 (六)</button>
+        <button class="tab-btn" onclick="showDay('d2', this)">8/23 (日)</button>
+        <button class="tab-btn" onclick="showDay('d3', this)">8/24 (一)</button>
+        <button class="tab-btn" onclick="showDay('d4', this)">8/25 (二)</button>
+        <button class="tab-btn" onclick="showDay('d5', this)">8/26 (三)</button>
     </div>
     
     <div class="container">
-        <!-- 即時動態看板 -->
         <div id="live-checkin-area" class="live-checkin-banner" style="display:none;">
             <div class="lcb-title">📍 團員即時動態</div>
             <div id="live-checkin-list"></div>
         </div>
 
-        <!-- 會籍看板 -->
         <div class="card highlight" style="background: #fffbeb;">
             <div class="event" style="color: #b45309;">💡 會籍權益與重要時程</div>
             <div class="desc" style="font-size: 13px; font-weight: 600; line-height: 1.6;">
@@ -137,9 +132,8 @@
             </div>
         </div>
 
-        <!-- 08/22 -->
         <div id="d1" class="day-content" style="display:block;">
-            <div class="date-header">8月22日（六）啟程與海景浪漫晚宴 【芭達雅】</div>
+            <div class="date-header">8/22 (六) | 啟程與海景浪漫晚宴 【芭達雅】</div>
             <div class="hotel-tag">🏨 宿：芭達雅假日酒店（預計升等海景套房）</div>
             
             <div class="card"><span class="time">07:50</span><div class="event-group">
@@ -174,9 +168,8 @@
             </div></div>
         </div>
 
-        <!-- 08/23 -->
         <div id="d2" class="day-content" style="display:none;">
-            <div class="date-header">8月23日（日）震撼木雕與懸崖海景放鬆一日遊 【芭達雅】</div>
+            <div class="date-header">8/23 (日) | 震撼木雕與懸崖海景放鬆一日遊 【芭達雅】</div>
             <div class="hotel-tag">🏨 宿：芭達雅假日酒店</div>
             
             <div class="card"><span class="time">08:30</span><div class="event-group">
@@ -205,9 +198,8 @@
             </div></div>
         </div>
 
-        <!-- 08/24 -->
         <div id="d3" class="day-content" style="display:none;">
-            <div class="date-header">8月24日（一）世界級熱帶花園與海上漂浮日落 【芭達雅】</div>
+            <div class="date-header">8/24 (一) | 世界級熱帶花園與海上漂浮日落 【芭達雅】</div>
             <div class="hotel-tag">🏨 宿：芭達雅假日酒店</div>
             
             <div class="card"><span class="time">08:30</span><div class="event-group">
@@ -217,7 +209,7 @@
 
             <div class="card"><span class="time">10:00</span><div class="event-group">
                 <div class="event">景點：東芭樂園 (Nong Nooch Garden) 🦖</div>
-                <div class="desc">參觀世界級巨型法式花園、巨大仙人掌區與恐立谷。</div>
+                <div class="desc">參觀世界級巨型法式花園、巨大仙人掌區與恐龍谷。</div>
             </div></div>
 
             <div class="card"><span class="time">15:30</span><div class="event-group">
@@ -231,9 +223,8 @@
             </div></div>
         </div>
 
-        <!-- 08/25 -->
         <div id="d4" class="day-content" style="display:none;">
-            <div class="date-header">8月25日（二）慢慢移防曼谷市區 【曼谷】</div>
+            <div class="date-header">8/25 (二) | 慢慢移防曼谷市區 【曼谷】</div>
             <div class="hotel-tag">🏨 宿：曼谷洲際酒店（OP特惠價房型）</div>
             
             <div class="card"><span class="time">08:30</span><div class="event-group">
@@ -273,9 +264,8 @@
             </div></div>
         </div>
 
-        <!-- 08/26 -->
         <div id="d5" class="day-content" style="display:none;">
-            <div class="date-header">8月26日（三）經典祈福與返台收尾 【曼谷】</div>
+            <div class="date-header">8/26 (三) | 經典祈福與返台收尾 【曼谷】</div>
             
             <div class="card"><span class="time">08:30</span><div class="event-group">
                 <div class="event">洲際奢華早餐 🍳</div>
@@ -306,7 +296,6 @@
     </div>
 </div>
 
-<!-- ==================== 美食視圖 ==================== -->
 <div id="view-food" class="main-view">
     <div class="container">
         <div class="date-header">🍲 泰國美食口袋名單</div>
@@ -330,7 +319,6 @@
     </div>
 </div>
 
-<!-- ==================== 票券視圖 ==================== -->
 <div id="view-tickets" class="main-view">
     <div class="container">
         <div class="date-header">🎟️ 交通調度中心</div>
@@ -358,7 +346,6 @@
     </div>
 </div>
 
-<!-- ==================== 清單視圖 ==================== -->
 <div id="view-checklist" class="main-view">
     <div class="container">
         <div class="date-header">📝 泰國行前精算裝備清單</div>
@@ -373,7 +360,6 @@
             <div class="checklist-group">
                 <div class="checklist-group-title">🛄 必備基本證件</div>
                 <label class="check-item"><input type="checkbox" id="chk-1"><div class="check-text-box"><div class="check-text">護照正本（效期超長6個月）</div></div></label>
-                <!-- ✨ 電子入境卡按鈕完美植入 ✨ -->
                 <label class="check-item"><input type="checkbox" id="chk-12"><div class="check-text-box"><div class="check-text">泰國電子入境卡 (e-Arrival Card)</div><div class="check-subtext">出發前務必上網申請完成。<a href="https://tdac.immigration.go.th/arrival-card/#/home" class="btn-link" target="_blank" style="margin-top: 6px; padding: 6px 12px; font-size: 12px;">👉 點我前往申請</a></div></div></label>
                 <label class="check-item"><input type="checkbox" id="chk-2"><div class="check-text-box"><div class="check-text">實體高端信用卡、泰銖現金</div></div></label>
             </div>
@@ -393,8 +379,8 @@
             </div>
             
             <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;">
-            <div class="checklist-group-title" onclick="toggleSafePanel()" style="color: #059669; font-weight: bold;">⚠️ 過敏提示 (點擊展開)</div>
-            <div id="safe-panel" class="safe-hidden-panel">
+            <div class="checklist-group-title" style="color: #059669; font-weight: bold;">⚠️ 過敏提示</div>
+            <div id="safe-panel" class="safe-panel">
                 • ❌ 絕對不可吃：牛肉、螃蟹、泰國蝦（大頭蝦）、胡蘿蔔。<br>
                 • ✅ 安全可享用：海水草蝦、白蝦、小卷（透抽 OK！）、雞肉、魚肉、原型蔬菜。
             </div>
@@ -402,7 +388,6 @@
     </div>
 </div>
 
-<!-- ==================== 帳本視圖 ==================== -->
 <div id="view-expenses" class="main-view">
     <div class="container">
         <div class="date-header">💰 雲端總帳本 ＆ 即時記帳</div>
@@ -452,7 +437,6 @@
     </div>
 </div>
 
-<!-- ==================== 打卡視圖 ==================== -->
 <div id="view-checkin" class="main-view">
     <div class="container">
         <div class="date-header">📍 團員打卡回報</div>
@@ -479,7 +463,6 @@
             <div class="checkin-status" id="ci-status"></div>
         </div>
 
-        <!-- ✨ 補齊首爾版的打卡動態牆 ✨ -->
         <div class="checkin-log">
             <div class="checkin-log-title">📋 最新打卡動態</div>
             <div id="checkin-log-list">
@@ -507,15 +490,6 @@ function formatLocalTime(timeStr) {
     const d = new Date(timeStr);
     if (isNaN(d.getTime())) return timeStr;
     return d.toLocaleString('zh-TW', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
-}
-
-function toggleSafePanel() {
-    const panel = document.getElementById('safe-panel');
-    if (panel.style.display === 'block') {
-        panel.style.display = 'none';
-    } else {
-        panel.style.display = 'block';
-    }
 }
 
 function switchView(id, btn) {
@@ -617,7 +591,6 @@ async function loadExpenses() {
     } catch(e) { list.innerHTML = '<div class="checkin-empty">❌ 帳本讀取失敗。</div>'; }
 }
 
-// ✨ 補齊首爾版的完整雲端打卡邏輯 ✨
 async function submitCheckin() {
     const member = document.getElementById('ci-member').value; const place = document.getElementById('ci-place').value; const msg = document.getElementById('ci-msg').value.trim(); const status = document.getElementById('ci-status');
     if (!member || !place) { status.className = 'checkin-status error'; status.textContent = '⚠️ 請選擇填寫欄位！'; return; }
@@ -664,7 +637,6 @@ function renderCheckinLog(list) {
         container.innerHTML = '<div class="checkin-empty">還沒有人打卡，快來第一個！</div>';
         return;
     }
-    // 泰國版專屬團員頭像顏色設定
     const avatarColors = { '精算大師(您)':'#059669', '太太':'#d97706', '白白':'#8b5cf6', '小寶':'#3b82f6' };
     container.innerHTML = list.slice(0, 15).map(c => {
         const localTime = formatLocalTime(c.time);
@@ -686,7 +658,6 @@ function renderLiveBanner(list) {
     const listEl = document.getElementById('live-checkin-list');
     if (!list || list.length === 0) { area.style.display = 'none'; return; }
     
-    // 泰國版專屬團員頭像顏色設定
     const avatarColors = { '精算大師(您)':'#6EE7B7', '太太':'#FCD34D', '白白':'#C4B5FD', '小寶':'#93C5FD' };
     
     const latest = {};
