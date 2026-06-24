@@ -29,7 +29,6 @@
         body { -webkit-tap-highlight-color: transparent; }
         @keyframes pulse-slow { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         .animate-pulse-slow { animation: pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-        /* C位按鈕專屬陰影 */
         .c-btn-shadow { box-shadow: 0 -4px 10px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.1); }
     </style>
 </head>
@@ -94,7 +93,7 @@
         let globalData = null;
         let currentTab = 'food';
 
-        // 🏨 獨立的飯店比價資料庫 (內建)
+        // 🏨 飯店內部資料庫
         const hotelsData = [
             { region: 'tokyo', name: '東橫INN - 上野田原町站', platform: 'TRIP', price: 2500, url: 'https://www.trip.com/t/sKpnwNLTFV2' },
             { region: 'tokyo', name: '東京上野喜來登福朋飯店', platform: 'TRIP', price: 5800, url: 'https://www.trip.com/t/ZZvb04WTFV2' },
@@ -108,6 +107,21 @@
 
         let activeHotelRegion = 'tokyo';
         let hotelMaxPrice = 15000;
+        
+        // 📅 初始化日期參數（預設明天與後天）
+        let checkInDate = '';
+        let checkOutDate = '';
+
+        function initDates() {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const dayAfter = new Date();
+            dayAfter.setDate(dayAfter.getDate() + 2);
+            
+            checkInDate = tomorrow.toISOString().split('T')[0];
+            checkOutDate = dayAfter.toISOString().split('T')[0];
+        }
+        initDates();
 
         function updateNoticeBanner() {
             const date = new Date().getDate();
@@ -116,7 +130,7 @@
             
             if (currentTab === 'hotel') {
                 banner.className = "w-full text-xs py-1.5 px-2.5 rounded-md font-bold flex items-center shadow-inner bg-orange-100 text-orange-800";
-                text.innerText = "🔍 已啟動住房比價雷達，為您篩選高 CP 值住宿！";
+                text.innerText = "📅 日期已連動！點擊飯店將帶入您選擇的入住時程。";
                 return;
             }
 
@@ -129,7 +143,7 @@
             }
         }
 
-        // --- 🏨 住房比價專屬渲染器 ---
+        // --- 🏨 住房比價 UI 渲染（含日期選擇器） ---
         function renderHotelUI() {
             const container = document.getElementById('dynamic-content');
             
@@ -148,22 +162,29 @@
             `).join('');
 
             container.innerHTML = `
-                <div class="grid grid-cols-4 gap-2 mb-5">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-4 grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 mb-1"><i class="far fa-calendar-check mr-1 text-orange-500"></i>入住日期</label>
+                        <input type="date" id="checkInInput" value="${checkInDate}" onchange="handleDateChange('in', this.value)" class="w-full text-xs font-bold bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-2 text-gray-700 focus:outline-none focus:border-orange-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 mb-1"><i class="far fa-calendar-times mr-1 text-blue-500"></i>退房日期</label>
+                        <input type="date" id="checkOutInput" value="${checkOutDate}" onchange="handleDateChange('out', this.value)" class="w-full text-xs font-bold bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-2 text-gray-700 focus:outline-none focus:border-blue-500">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-4 gap-2 mb-4">
                     ${regionBtns}
                 </div>
 
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-5">
-                    <div class="flex justify-between items-center mb-4">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-4">
+                    <div class="flex justify-between items-center mb-3">
                         <span class="font-bold text-gray-700 text-sm"><i class="fas fa-sliders-h mr-1.5 text-blue-500"></i>每晚預算上限</span>
                         <span class="font-black text-blue-600 text-lg">NT$ <span id="priceDisplay">${hotelMaxPrice}</span></span>
                     </div>
                     <input type="range" min="1500" max="15000" step="500" value="${hotelMaxPrice}" 
                            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600" 
                            oninput="updateHotelPrice(this.value)">
-                    <div class="flex justify-between text-[10px] text-gray-400 mt-2 font-semibold">
-                        <span>$1,500</span>
-                        <span>$15,000+</span>
-                    </div>
                 </div>
 
                 <div id="hotelListContainer" class="space-y-3"></div>
@@ -172,48 +193,71 @@
             renderHotelList();
         }
 
+        function handleDateChange(type, value) {
+            if (type === 'in') {
+                checkInDate = value;
+                // 自動將退房日期設為入住隔天
+                let d = new Date(value);
+                d.setDate(d.getDate() + 1);
+                checkOutDate = d.toISOString().split('T')[0];
+                document.getElementById('checkOutInput').value = checkOutDate;
+            } else {
+                checkOutDate = value;
+            }
+            gtag('event', 'change_hotel_date', { 'event_category': 'Engagement', 'check_in': checkInDate, 'check_out': checkOutDate });
+            renderHotelList(); // 即時動態連動更新飯店連結
+        }
+
         function setHotelRegion(regionId) {
             activeHotelRegion = regionId;
             gtag('event', 'filter_hotel_region', { 'event_category': 'Engagement', 'region': regionId });
-            renderHotelUI(); // 重新渲染上方按鈕顏色
+            renderHotelUI();
         }
 
         function updateHotelPrice(val) {
             hotelMaxPrice = parseInt(val);
             document.getElementById('priceDisplay').innerText = hotelMaxPrice.toLocaleString();
-            renderHotelList(); // 只更新列表，不干擾滑塊
+            renderHotelList();
         }
 
         function renderHotelList() {
             const listContainer = document.getElementById('hotelListContainer');
             let filteredHotels = hotelsData.filter(h => h.region === activeHotelRegion && h.price <= hotelMaxPrice);
             
-            // 價格由低到高排序
             filteredHotels.sort((a, b) => a.price - b.price);
 
             if (filteredHotels.length === 0) {
-                listContainer.innerHTML = `<div class="text-center py-10 bg-white rounded-xl border border-dashed border-gray-300 text-gray-400"><i class="fas fa-search-minus text-3xl mb-2"></i><p class="text-sm">此預算內暫無飯店，請調高上方滑塊</p></div>`;
+                listContainer.innerHTML = `<div class="text-center py-10 bg-white rounded-xl border border-dashed border-gray-300 text-gray-400"><i class="fas fa-search-minus text-3xl mb-2"></i><p class="text-sm">此預算內暫無飯店，請調整上方滑塊</p></div>`;
                 return;
             }
 
-            listContainer.innerHTML = filteredHotels.map(item => `
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden active:scale-[0.99] transition-transform duration-100">
-                    <div class="p-4">
-                        <div class="flex justify-between items-start mb-3">
-                            <span class="bg-blue-800 text-white text-[11px] font-black tracking-wider px-2 py-0.5 rounded">${item.platform}</span>
-                            <span class="text-xs font-bold text-gray-600 bg-gray-100 px-2 py-1 rounded-md">參考價 <span class="text-blue-600 ml-1">$${item.price.toLocaleString()}</span></span>
+            listContainer.innerHTML = filteredHotels.map(item => {
+                // 🚀 核心黑科技：點擊時動態將使用者選好的日期參數注入網址後面
+                let dynamicUrl = item.url;
+                if (dynamicUrl.includes('?')) {
+                    dynamicUrl += `&checkIn=${checkInDate}&checkOut=${checkOutDate}`;
+                } else {
+                    dynamicUrl += `?checkIn=${checkInDate}&checkOut=${checkOutDate}`;
+                }
+
+                return `
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden active:scale-[0.99] transition-transform duration-100">
+                        <div class="p-4">
+                            <div class="flex justify-between items-start mb-3">
+                                <span class="bg-blue-800 text-white text-[11px] font-black tracking-wider px-2 py-0.5 rounded">${item.platform}</span>
+                                <span class="text-xs font-bold text-gray-600 bg-gray-100 px-2 py-1 rounded-md">參考價 <span class="text-blue-600 ml-1">$${item.price.toLocaleString()}</span></span>
+                            </div>
+                            <h3 class="font-bold text-gray-900 text-base mb-4 leading-snug"><i class="fas fa-map-marker-alt text-orange-500 mr-1.5 text-sm"></i>${item.name}</h3>
+                            
+                            <a href="${dynamicUrl}" target="_blank" onclick="trackAffiliateClick('${item.platform}', '${item.name}')" class="w-full inline-flex justify-center items-center bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-sm py-2.5 rounded-xl border border-blue-200 transition-colors">
+                                前往查價 / 訂房 <i class="fas fa-chevron-right ml-1.5 text-[10px]"></i>
+                            </a>
                         </div>
-                        <h3 class="font-bold text-gray-900 text-base mb-4 leading-snug"><i class="fas fa-map-marker-alt text-orange-500 mr-1.5 text-sm"></i>${item.name}</h3>
-                        
-                        <a href="${item.url}" target="_blank" onclick="trackAffiliateClick('${item.platform}', '${item.name}')" class="w-full inline-flex justify-center items-center bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-sm py-2.5 rounded-xl border border-blue-200 transition-colors">
-                            前往查價 / 訂房 <i class="fas fa-chevron-right ml-1.5 text-[10px]"></i>
-                        </a>
-                    </div>
-                </div>
-            `).join('');
+                    </div>`;
+            }).join('');
         }
 
-        // --- 📡 一般活動渲染器 (保留原功能) ---
+        // --- 📡 一般分潤活動功能 ---
         function trackAffiliateClick(brand, title) {
             gtag('event', 'click_affiliate_link', {
                 'event_category': 'Outbound Link',
@@ -242,12 +286,12 @@
                 globalData = await response.json();
                 renderActiveTab();
             } catch (error) {
-                document.getElementById('dynamic-content').innerHTML = `<div class="text-center py-12 text-red-500"><i class="fas fa-wifi text-3xl mb-2"></i><p>資料連線失敗，請重新整理</p></div>`;
+                document.getElementById('dynamic-content').innerHTML = `<div class="text-center py-12 text-red-500"><i class="fas fa-wifi text-3xl mb-2"></i><p>連線失敗，請重新整理</p></div>`;
             }
         }
 
         function renderActiveTab() {
-            if (currentTab === 'hotel') return; // 如果在比價模式，交給比價渲染器
+            if (currentTab === 'hotel') return; 
             if (!globalData) return;
             
             const selectedMonth = document.getElementById('monthSelect').value;
@@ -293,16 +337,13 @@
         // --- 🎮 全域導航切換 ---
         function switchTab(tabName) {
             currentTab = tabName;
-            
             gtag('event', 'switch_tab', { 'event_category': 'Navigation', 'selected_tab': tabName });
 
-            // 重置下方所有按鈕顏色
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('text-blue-600', 'font-semibold');
                 btn.classList.add('text-gray-400');
             });
             
-            // 處理 C位 按鈕的外觀變化
             const hotelBtn = document.getElementById('tab-hotel');
             if (tabName === 'hotel') {
                 hotelBtn.classList.add('bg-blue-600');
@@ -318,7 +359,6 @@
                 }
             }
 
-            // 控制頂部「月份選擇器」的顯示與隱藏
             const monthSelector = document.getElementById('monthSelectorContainer');
             if(tabName === 'hotel') {
                 monthSelector.style.display = 'none';
@@ -331,7 +371,6 @@
             }
         }
 
-        // 🚀 啟動
         fetchGitHubData();
     </script>
 </body>
