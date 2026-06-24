@@ -230,14 +230,6 @@
                 if (item.brand.toUpperCase() === 'KLOOK') badgeColor = 'bg-orange-600'; 
                 if (item.brand.toUpperCase() === 'KKDAY') badgeColor = 'bg-cyan-500'; 
 
-                let imgHtml = '';
-                if (item.img) {
-                    imgHtml = `
-                        <div class="w-20 h-20 ml-3 flex-shrink-0 rounded-lg overflow-hidden border border-gray-100 bg-gray-100 shadow-inner flex items-center justify-center">
-                            <img src="${item.img}" class="w-full h-full object-cover" alt="縮圖">
-                        </div>`;
-                }
-
                 htmlContent += `
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden active:scale-[0.99] transition-transform duration-100">
                         <div class="p-4">
@@ -245,14 +237,8 @@
                                 <span class="${badgeColor} text-white text-[11px] font-black tracking-wider px-2 py-0.5 rounded">${item.brand}</span>
                                 <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full"><i class="far fa-clock mr-1"></i>${item.time}</span>
                             </div>
-                            
-                            <div class="flex justify-between items-start mb-4">
-                                <div class="flex-1">
-                                    <h3 class="font-bold text-gray-900 text-base mb-1">${item.title}</h3>
-                                    <p class="text-gray-500 text-xs leading-relaxed">${item.desc}</p>
-                                </div>
-                                ${imgHtml}
-                            </div>
+                            <h3 class="font-bold text-gray-900 text-base mb-1">${item.title}</h3>
+                            <p class="text-gray-500 text-xs mb-4 leading-relaxed">${item.desc}</p>
                             
                             <div class="flex space-x-2 w-full">
                                 <a href="${item.url}" target="_blank" onclick="trackAffiliateClick('${item.brand}', '${item.title}')" class="flex-1 inline-flex justify-center items-center bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold text-xs py-2.5 rounded-xl border border-blue-200 transition-colors">
@@ -267,6 +253,24 @@
             });
 
             container.innerHTML = htmlContent;
+        }
+
+        function switchTab(tabName) {
+            currentTab = tabName;
+            
+            gtag('event', 'switch_tab', {
+                'event_category': 'Navigation',
+                'selected_tab': tabName
+            });
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('text-blue-600', 'font-semibold');
+                btn.classList.add('text-gray-400');
+            });
+            const activeBtn = document.getElementById(`tab-${tabName}`);
+            activeBtn.classList.add('text-blue-600', 'font-semibold');
+            activeBtn.classList.remove('text-gray-400');
+            renderActiveTab();
         }
 
         fetchGitHubData();
