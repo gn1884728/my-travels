@@ -1,0 +1,31 @@
+{
+  "6": {
+    "food": [
+      {
+        "id": "food_001",
+        "brand": "JCB",
+        "title": "星巴克買一送一（登錄制）",
+        "time": "每月 1 號 10:30",
+        "desc": "每月限定名額登錄，手速要快！",
+        "url": "https://www.taodining.com.tw/2026cafe/"
+      },
+      {
+        "id": "food_002",
+        "brand": "VISA",
+        "title": "無限卡頂級饗宴餐廳買一送一",
+        "time": "每月 1 號 09:00",
+        "desc": "精選頂級餐廳預約優惠。",
+        "url": "https://www.freeliving.com.tw/vi/"
+      }
+    ],
+    "life": [],
+    "travel": [],
+    "credit": []
+  },
+  "7": {
+    "food": [],
+    "life": [],
+    "travel": [],
+    "credit": []
+  }
+}
