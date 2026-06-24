@@ -93,7 +93,7 @@
         let globalData = null;
         let currentTab = 'food';
 
-        // 🏨 飯店基礎資料庫 (已置入你提供的手機板長網址)
+        // 🏨 飯店基礎資料庫 (只有第一間是完整的長網址，其他是短網址，短網址點出去絕對會失效！)
         const baseHotelsData = [
             { region: 'tokyo', name: '東橫INN - 上野田原町站', platform: 'TRIP', basePrice: 2500, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Tokyo&cityId=228&hotelId=688581&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hotelType=normal&display=incavg&subStamp=756&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202' },
             { region: 'tokyo', name: '東京上野喜來登福朋飯店', platform: 'TRIP', basePrice: 5800, url: 'https://www.trip.com/t/ZZvb04WTFV2' },
@@ -240,10 +240,21 @@
             }
 
             listContainer.innerHTML = filteredHotels.map(item => {
-                // 🧠 核心黑科技：不論原網址有沒有帶日期，強行覆寫
+                // 🧠 終極黑科技：無情清洗舊日期參數，強制植入新日期
                 let finalUrl = item.url;
                 try {
                     let urlObj = new URL(item.url);
+                    
+                    // 1. 揪出所有大小寫變形的舊日期參數並刪除
+                    const keysToDelete = [];
+                    for (const key of urlObj.searchParams.keys()) {
+                        if (key.toLowerCase() === 'checkin' || key.toLowerCase() === 'checkout') {
+                            keysToDelete.push(key);
+                        }
+                    }
+                    keysToDelete.forEach(k => urlObj.searchParams.delete(k));
+                    
+                    // 2. 強制寫入乾淨標準的新日期
                     urlObj.searchParams.set('checkIn', checkInDate);
                     urlObj.searchParams.set('checkOut', checkOutDate);
                     finalUrl = urlObj.toString();
@@ -259,12 +270,13 @@
                                 <span class="text-xs font-bold text-gray-600 bg-gray-100 px-2 py-1 rounded-md">最新動態價 <span class="text-blue-600 ml-1 font-black">$${item.currentPrice.toLocaleString()}</span></span>
                             </div>
                             <h3 class="font-bold text-gray-900 text-base mb-4"><i class="fas fa-map-marker-alt text-orange-500 mr-1.5"></i>${item.name}</h3>
-                            <a href="${finalUrl}" target="_blank" onclick="trackAffiliateClick('${item.platform}', '${item.name}')" class="w-full inline-flex justify-center items-center bg-blue-50 text-blue-700 font-bold text-sm py-2.5 rounded-xl border border-blue-200">前往查價 / 訂房</a>
+                            <a href="${finalUrl}" target="_blank" onclick="trackAffiliateClick('${item.platform}', '${item.name}')" class="w-full inline-flex justify-center items-center bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-sm py-2.5 rounded-xl border border-blue-200 transition-colors">前往查價 / 訂房</a>
                         </div>
                     </div>`;
             }).join('');
         }
 
+        // --- 📡 一般功能區塊 (含加到日曆功能) ---
         function addToCalendar(title, timeStr, url) {
             let hour = 10, minute = 30; if (timeStr.includes("09:00")) { hour = 9; minute = 0; }
             const now = new Date(); let nextMonth = now.getMonth() + 1; let year = now.getFullYear();
