@@ -13,6 +13,15 @@
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3081/3081648.png">
     <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIuaIkeeahOYSquWgqyIsCiAgInNob3J0X25hbWUiIjogIuaIkeeahOYSquWgqyIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMjU2M0NFIiwKICAidGhlbWVfY29sb3IiOiAiIzI1NjNDRSIsCiAgIm9yaWVudGF0aW9uIjogInBvcnRyYWl0IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9jZG4taWNvbnMtcG5nLmZsYXRpY29uLmNvbS81MTIvMzA4MS8zMDgxNj_wNC5wbmciLAogICAgICAic2l6ZXMiOiAiaG1yeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICJwdXJwb3NlIjogImFueSBtYXJrYWJsZSIKICAgIH0KICBdCn0=">
 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JYDYNWGYMF"></script>
+    <script>
+        const GA4_ID = 'G-JYDYNWGYMF'; 
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', GA4_ID);
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -29,7 +38,7 @@
         <div class="flex justify-between items-center w-full mb-2">
             <h1 class="text-xl font-bold tracking-wider">我的優惠</h1>
             <div class="relative">
-                <select id="monthSelect" onchange="renderActiveTab()" class="bg-white text-gray-800 text-sm font-semibold rounded-lg px-3 py-1.5 pr-8 appearance-none cursor-pointer border border-gray-200 focus:outline-none shadow-sm">
+                <select id="monthSelect" onchange="trackMonthChange()" class="bg-white text-gray-800 text-sm font-semibold rounded-lg px-3 py-1.5 pr-8 appearance-none cursor-pointer border border-gray-200 focus:outline-none shadow-sm">
                     <option value="1">1 月</option>
                     <option value="2">2 月</option>
                     <option value="3">3 月</option>
@@ -129,7 +138,7 @@
                 "BEGIN:VEVENT",
                 `DTSTART;TZID=Asia/Taipei:${startStr}`,
                 `DTEND;TZID=Asia/Taipei:${endStr}`,
-                `SUMMARY:${title.replace(/<[^>]*>/g, '')}`, // 過濾掉 HTML 標籤
+                `SUMMARY:${title.replace(/<[^>]*>/g, '')}`,
                 `DESCRIPTION:活動網址: ${url}`,
                 `URL:${url}`,
                 "BEGIN:VALARM",
@@ -141,6 +150,11 @@
                 "END:VCALENDAR"
             ].join("\n");
 
+            gtag('event', 'add_to_calendar', {
+                'event_category': 'Engagement',
+                'event_label': title.replace(/<[^>]*>/g, '')
+            });
+
             const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
             const link = document.createElement('a');
             link.href = window.URL.createObjectURL(blob);
@@ -150,8 +164,25 @@
             document.body.removeChild(link);
         }
 
+        function trackAffiliateClick(brand, title) {
+            gtag('event', 'click_affiliate_link', {
+                'event_category': 'Outbound Link',
+                'brand_name': brand,
+                'discount_title': title.replace(/<[^>]*>/g, '')
+            });
+        }
+
+        function trackMonthChange() {
+            const selectedMonth = document.getElementById('monthSelect').value;
+            gtag('event', 'switch_month', {
+                'event_category': 'Navigation',
+                'selected_month': selectedMonth + '月'
+            });
+            renderActiveTab();
+        }
+
         function parseTimeScore(timeStr) {
-            if (timeStr.includes("每個月常態") || timeStr.includes("即日起")) return 0; // 常態或即時活動置頂
+            if (timeStr.includes("每個月常態") || timeStr.includes("即日起")) return 0;
             const match = timeStr.match(/(\d{2}):(\d{2})/);
             if (match) {
                 const hours = parseInt(match[1], 10);
@@ -191,12 +222,11 @@
             let htmlContent = '';
 
             items.forEach((item) => {
-                // 🎨 擴充智慧 Logo 標籤顏色引擎
                 let badgeColor = 'bg-gray-600';
                 if (item.brand.toUpperCase() === 'JCB') badgeColor = 'bg-red-500';
                 if (item.brand.toUpperCase() === 'VISA') badgeColor = 'bg-blue-800';
-                if (item.brand.toUpperCase() === 'IHG') badgeColor = 'bg-orange-950 border border-orange-500/30'; // IHG 官方深色極致質感
-                if (item.brand.toUpperCase() === 'SHOPEE') badgeColor = 'bg-orange-500'; // 蝦皮亮橘標誌色
+                if (item.brand.toUpperCase() === 'IHG') badgeColor = 'bg-orange-950 border border-orange-500/30';
+                if (item.brand.toUpperCase() === 'SHOPEE') badgeColor = 'bg-orange-500';
 
                 htmlContent += `
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden active:scale-[0.99] transition-transform duration-100">
@@ -209,7 +239,7 @@
                             <p class="text-gray-500 text-xs mb-4 leading-relaxed">${item.desc}</p>
                             
                             <div class="flex space-x-2 w-full">
-                                <a href="${item.url}" target="_blank" class="flex-1 inline-flex justify-center items-center bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold text-xs py-2.5 rounded-xl border border-blue-200 transition-colors">
+                                <a href="${item.url}" target="_blank" onclick="trackAffiliateClick('${item.brand}', '${item.title}')" class="flex-1 inline-flex justify-center items-center bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold text-xs py-2.5 rounded-xl border border-blue-200 transition-colors">
                                     前往官方網頁 <i class="fas fa-external-link-alt ml-1.5 text-[10px]"></i>
                                 </a>
                                 <button onclick="addToCalendar('${item.title}', '${item.time}', '${item.url}')" class="bg-gray-50 hover:bg-orange-50 text-orange-600 hover:text-orange-700 font-bold text-xs px-3.5 rounded-xl border border-gray-200 hover:border-orange-200 transition-colors flex items-center justify-center shadow-sm" title="加入手機行事曆鬧鐘">
@@ -225,6 +255,12 @@
 
         function switchTab(tabName) {
             currentTab = tabName;
+            
+            gtag('event', 'switch_tab', {
+                'event_category': 'Navigation',
+                'selected_tab': tabName
+            });
+
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('text-blue-600', 'font-semibold');
                 btn.classList.add('text-gray-400');
