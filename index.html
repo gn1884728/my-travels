@@ -12,7 +12,6 @@
     
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3081/3081648.png">
     
-    <!-- 📊 GA4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-JYDYNWGYMF"></script>
     <script>
         const GA4_ID = 'G-JYDYNWGYMF'; 
@@ -35,7 +34,6 @@
 </head>
 <body class="bg-gray-50 font-sans h-screen flex flex-col max-w-md mx-auto shadow-2xl relative pb-safe">
 
-    <!-- 頂部導覽列 -->
     <header class="bg-blue-600 text-white px-4 py-3 flex flex-col sticky top-0 z-50 shadow-md pt-6">
         <div class="flex justify-between items-center w-full mb-2">
             <h1 class="text-xl font-bold tracking-wider">我的優惠</h1>
@@ -58,7 +56,6 @@
         </div>
     </header>
 
-    <!-- 主內容區 -->
     <main class="flex-1 overflow-y-auto p-4 pb-28 no-scrollbar" id="main-content">
         <div id="dynamic-content" class="space-y-4">
             <div class="text-center py-12 text-gray-400">
@@ -68,7 +65,6 @@
         </div>
     </main>
 
-    <!-- 下方導覽選單 -->
     <nav class="bg-white border-t border-gray-200 fixed bottom-0 left-0 right-0 max-w-md mx-auto flex justify-between items-end pb-3 pt-2 shadow-[0_-5px_15px_-5px_rgba(0,0,0,0.1)] z-50 px-4 h-[72px]">
         <button onclick="switchTab('food')" id="tab-food" class="tab-btn flex flex-col items-center space-y-1 w-12 text-blue-600 font-semibold transition-colors">
             <i class="fas fa-utensils text-lg mb-0.5"></i><span class="text-[10px]">美食</span>
@@ -77,7 +73,6 @@
             <i class="fas fa-shopping-bag text-lg mb-0.5"></i><span class="text-[10px]">生活</span>
         </button>
 
-        <!-- 🌟 黃金 C 位 -->
         <div class="relative w-16 flex justify-center">
             <button onclick="switchTab('hotel')" id="tab-hotel" class="absolute -bottom-2 flex flex-col items-center justify-center w-16 h-16 bg-orange-500 rounded-full c-btn-shadow border-4 border-gray-50 text-white transition-transform active:scale-95 z-50">
                 <i class="fas fa-bed text-xl mb-0.5"></i>
@@ -98,38 +93,32 @@
         let globalData = null;
         let currentTab = 'food';
 
-        // 🏨 飯店資料庫 (全面升級為長網址)
+        // 🏨 飯店基礎資料庫 (只有第一間是完整的長網址，其他是短網址，短網址點出去絕對會失效！)
         const baseHotelsData = [
-            { region: 'tokyo', zone: 'kanto', name: '東橫INN - 上野田原町站', platform: 'TRIP', basePrice: 2500, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Tokyo&cityId=228&hotelId=688581&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hotelType=normal&display=incavg&subStamp=756&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202' },
-            { region: 'tokyo', zone: 'kanto', name: '東京上野喜來登福朋飯店', platform: 'TRIP', basePrice: 5800, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Tokyo&cityId=228&hotelId=1458598&checkIn=2026-06-24&checkOut=2026-06-25&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hoteluniquekey=H4sIAAAAAAAA_-PazcTFJMEktYWJo2fh_U1sQoxGGpfZDGwsPgk6FtpyXV9sUe7geX1xgS1Xd6VDAM8MxmXNkRsZjUFgspPDDkamE4yf-BYwbd3ZaneKhZljLeMllt2M0dVK2amVSlYmOkolmSU5qUpWSk8XzXvasOf5ilYlHaWU1OJkoBCQlZibX5pXAmQbmhvrGRgARUoSKzxTwDqTE3OSS3MSS1JDKguAJpjpKGUWO5cUZRYEpeZmlpSkAlWlJeYUp4LEg1KLgTLJYEElP6AxRVCBzPw8iHZDFLGwxJzSVIgTgBa6pULtMKyNfcTCFB37guUy2ycWhl8sDE2sDF2sDJNYmTk-8e1i5Yk08Q13NNY11I3SNbzA-lFAStHQwMDAyNTUyNzXYNES-OUxFRjXRNLUwMLI10jSyMzM0MDjX2btp58b2xkrMCoJRAfEhESnpmRWlJYmF1WXJFswHiKUcrQ3NjUyNLY3NjcwsRQz9wi0dLSzcUryyfFzYMxiM3F0s3J2TzKhos5NNhFsJRpFoe0nbSDFHNIuIvig53fC04WnrbXYvYKiDTUb79bztO_1D4wmOOJkLvcAvvIvLtng2WLTtsnsVZl6IaEZ6wWLWBsYGTqYuQWYPRgjGCsAPIYVzGyczEbGBkKMG1gZNzB-B8GGF8xgiwBAIGCQ1UaAgAA&masterhotelid_tracelogid=100025527-0a9852a2-495082-3397709&detailFilters=17|1~17~1*19|228~19~228*75|TAG_495~75~495*80|2|1~80~2*29|1~29~1|2&hotelType=normal&display=incavg&subStamp=756&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202&trip_sub1=&trip_sub3=D18155657' },
-            { region: 'fukuoka', zone: 'kyushu', name: 'lyf 天神福岡飯店', platform: 'TRIP', basePrice: 2200, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Fukuoka&cityId=248&hotelId=72229900&checkIn=2026-06-24&checkOut=2026-06-25&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hoteluniquekey=H4sIAAAAAAAA_-M6w8TFJMEkdZSJY-28e69YhRiNDE4xWTxTc3wTuEOu9Xm9g-f1xQW2XL2NDgE8hQxgEOvQyDhrJgiEOsxg7DmxQ2kjo8g694dVUzwddjAynWA8ILKAaerdZ0qnWJg53jNeYtnNGF2tlJ1aqWRloqNUklmSk6pkpfR00bynDXuer2hV0lFKSS1OBgoBWYm5-aV5JUC2kbGlnoEBUKQkscIzBawzOTEnuTQnsSQ1pLIAaIKZjlJmsXNJUWZBUGpuZklJKlBVWmJOcSpIPCi1GCiTDBZU8gMaUwQVyMzPg2g3RBELS8wpTYU4AWihWyrUDsPa2EcsTNGxn1gYfgE9M5OliZWhi5VhEiszxwGRXaw8_mFGPt6muoa6UbqGF1hvSkgpGhoYGBiZmhqZ6xokWlokWyRa6JpYmhpYGOkamxoZWpqYaWxcefrke2MjYwVGLYH4kIiQ8MyM1JLCwuyy4opkA8ZTjFKG5kCllsbmxuYWJoZ65haJlpZuLl5ZPiluHoxBbI5upsaGFlE2XMxeAZGC-u13y3n6l9pLMYeEuyg-2Pm94GThaXstkJwhTC4wmOOJkLvcAvvIvLtng2WLTtsnsVZl6IaEZ6wWLWBsYGTqYuQWYPRgjGCsAPIYVzGyczEbGBkKMG1gZNzB-B8GGF8xgiwBAPqlcpcyAgAA&masterhotelid_tracelogid=100025527-0a98c8a8-495082-3521946&detailFilters=17|1~17~1*19|248~19~248*6|9~6~9*80|2|1~80~2*29|1~29~1|2&hotelType=normal&display=incavg&subStamp=1332&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202&trip_sub1=&trip_sub3=D18155657' },
-            { region: 'fukuoka', zone: 'kyushu', name: '福岡日航飯店', platform: 'TRIP', basePrice: 4500, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Fukuoka&cityId=248&hotelId=993535&checkIn=2026-06-24&checkOut=2026-06-25&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hoteluniquekey=H4sIAAAAAAAA_-P6x8zFJMEk9Z2ZY9X1yf-ZhJgNDYw0brMZPGC02CrvaAwEm31WOHj2H_qqcSd-nUMAzwzG_xdtNjIW2nJdX-zT4bCDkekE47VexgVMM5_dZDzFwsyxWuYSy3em6Gql7NRKJSsTHaWSzJKcVCUrpaeL5j1t2PN8RauSjlJKanEyUAjISszNL80rAbINTUwN9QwMgEIliRWeKWCtyYk5yaU5iSWpIZUFQCPMdJQyi51LijILglJzM0tKUoGq0hJzilNB4kGpxUCZZLCgkh_QmCKoQGZ-HkS7IYpYWGJOaSrEDUAL3VKhdhjW6mA6_dmc3qfdM19s2o3d6UaG5mYoTjenttMNiHG6cW3sIxam6NgXLLfZPrEw_GJhaGJl6GJlmMTKwgGMol2svEbeJu7GgbqGIbpRuoYXWE_NZ5RSNDQwMDAyNTUy1zVItEy0NDJJ0TWxNDWwMNI1Njc2NDY21HjdePnke2MjYwVGLYH4kIiQ8MyM1JLCwuyy4opkA8ZTjFKG5samRpZA5eYWJoZ65haJlpZuLl5ZPiluHoxBbIbGjkbOrlE2XMyhwS6CpUyzOKTtpB2kmEPCXRQf7PxecLLwtL0Ws1dApKF--91ynv6l9oHBHE-E3OUW2Efm3T0bLFt02j6JtSpDNyQ8Y7VoAWMDI1MXI7cAowdjBGMFkMe4ipGdi9nAyFCAaQMj4w7G_zDA-IoRZAkAVFUbROQCAAA&masterhotelid_tracelogid=100025527-0a9a924d-495082-3731331&detailFilters=19|248~19~248*6|9~6~9*17|6~17~6*80|2|1~80~2*29|1~29~1|2&hotelType=normal&display=incavg&subStamp=1380&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202&trip_sub1=&trip_sub3=D18155657' },
-            { region: 'osaka', zone: 'kansai', name: '大阪都喜來登飯店', platform: 'TRIP', basePrice: 5200, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Osaka&cityId=219&hotelId=993284&checkIn=2026-06-24&checkOut=2026-06-25&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hoteluniquekey=H4sIAAAAAAAA_-NqYOFikmCS-snMcWzf_C42IUYDi9-CjmkgMKvRwfP64gJbLt9WhwCeQgYQKGh0aGS05QIKczc6zGBsuWCzkbH1deAOuamxDjsYmU4wvpFYwHRj82brUyzMHCtYLrF8ZYquVspOrVSyMtFRKsksyUlVslJ6umje04Y9z1e0KukopaQWJwOFgKzE3PzSvBIg28jCUs_AAChSkljhmQLWmZyYk1yak1iSGlJZADTBTEcps9i5pCizICg1N7OkJBWoKi0xpzgVJB6UWgyUSQYLKvkBjSmCCmTm50G0G6CIhSXmlKZCnAC00C0VaodhrQ6my5_N6X3aPfPFpt04XG5mjOJy8wFxuXFt7CMWpujYTywMv4DRsEqkiZWhi5VhEiszxxuJXaxcgQH-XhaBulG6hhdYp-lKyRsaGBiYGhqbmuoaJFpaJJmbJ-maWJoaWBjpmpibWFpo_Nl4_eR7YyNjBUYtgfiQiJDwzIzUksLC7LLiimQDxlOMUobmxqZGlsbmxuYWJoZ65haJlpZuLl5ZPiluHoxBbI5Olk5mxlE2XMxeAZGC-u13y3n6l9pLMYeEuyg-2Pm94GThaXstkJwhTC4wmOOJkLvcAvvIvLtng2WLTtsnsVZl6IaEZ6wWLWBsYGTqYuQWYPRgjGCsAPIYVzGyczEbGBkKMG1gZNzB-B8GGF8xgiwBAGOOJtDkAgAA&masterhotelid_tracelogid=100051355-0a98b77b-495082-47498&detailFilters=17|1~17~1*19|219~19~219*80|2|1~80~2*29|1~29~1|2&hotelType=normal&display=incavg&subStamp=1140&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202&trip_sub1=&trip_sub3=D18155657' },
-            { region: 'osaka', zone: 'kansai', name: '東橫 INN - 大阪難波', platform: 'TRIP', basePrice: 2100, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Osaka&cityId=219&hotelId=124671917&checkIn=2026-06-24&checkOut=2026-06-25&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hoteluniquekey=H4sIAAAAAAAA_-PaxMTFJMEktZqJ49OmTUdYhRiNDO4zWmyVd5RvfR24o63BwdMYBDSbHAJ4ZjCuXb_TeiOjx8MqkXXqXg47GJkOMDKdYJwuuoDp5qdHJqdYmDm-MF5i2cEYXa2UnVqpZGWio1SSWZKTqmSl9HxF68sFrUo6SimpxclAPpCVmJtfmlcCZBuZmOgZGABFShIrPFOUrMxNdZSSE3OSS3MSS1JDKguA-o10lDKLnUuKMguCUnMzS0pSgcrSEnOKU0HiQanFQJlksCDI4CIoPzM_D6LbAEUsLDGnNBWiEmihWyrUCsPa2EcsTNGxn1gYfrEwNLEydLEyTGJl5pguuouVx8_LPcg9RNdQN0rXUEre0MDAwNTQ2NRU1yDR0iLJ3DxJ18TS1MDCSNfE3MTSQuPvxusn3xsbGSswagnEh0SEhGdmpJYUFmaXFVckGzCeYpQyNDc2NbI0Njc2tzAx1DO3SLS0dHPxyvJJcfNgDGKzdHF0MzaOsuFiDg12ESxlmsUhbSftIMUcEu6i-GDn94KThafttZi9AiIN9dvvlvP0L7UPDOZ4IuQut8A-Mu_u2WDZotP2SaxVGboh4RmrRQsYGxiZuhi5BRg9GCMYK4A8xlWM7FzMBkaGAkwbGBl3MP6HAcZXjCBLAIDuuqcWAgAA&masterhotelid_tracelogid=100051355-0a98b77b-495082-47498&detailFilters=17|1~17~1*19|219~19~219*80|2|1~80~2*29|1~29~1|2&hotelType=normal&display=incavg&subStamp=1140&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202&trip_sub1=&trip_sub3=D18155657' },
-            { region: 'sapporo', zone: 'hokkaido', name: 'Vessel Inn 札幌中島公園飯店', platform: 'TRIP', basePrice: 3200, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Sapporo&cityId=641&hotelId=705328&checkIn=2026-06-24&checkOut=2026-06-25&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hoteluniquekey=H4sIAAAAAAAA_-M6xsTFJMEktZ-JY0n7gz-sQowGFr8FHY1B4GSLgyfX9cUFtvfaHAJ4ChlAYEOZQyPjDrnW14ECRQ4zGDe0aW-EcFcEOOxgZDrBeFNqAdPij4utT7Ewc2xnusSymzG6Wik7tVLJykRHqSSzJCdVyUrp6aJ5Txv2PF_RqqSjlJJanAwUArISc_NL80qAbGNDQz0DA6BISWKFZwpYZ3JiTnJpTmJJakhlAdAEMx2lzGLnkqLMgqDU3MySklSgqrTEnOJUkHhQajFQJhksqOQHNKYIKpCZnwfRbogiFpaYU5oKcQLQQrdUqB2GtbGPWJiiYz-xMPwCemYmbxMrQxcrwyRWZo6bUrtYuQI9QyJMDHSjdA0vsH5Sl5I3NDAwMDU0NjXVNUi0TExKtDTRNbE0NbAw0jU1MDI01WideO_ke2MjYwVGLYH4kIiQ8MyM1JLCwuyy4opkA8ZTjFKG5samRpbG5sbmFiaGeuYWiZaWbi5eWT4pbh6MQWwWJqYm5pZRNlzMXgGRgvrtd8t5-pfaSzGHhLsoPtj5veBk4Wl7LZCcIUwuMJjjiZC73AL7yLy7Z4Nli07bJ7FWZeiGhGesFi1gbGBk6mLkFmD0YIxgrADyGFcxsnMxA10qwLSBkXEH438YYHzFCLIEANSpTlIqAgAA&masterhotelid_tracelogid=100051355-0a9aba94-495082-50215&detailFilters=17|1~17~1*19|641~19~641*80|2|1~80~2*29|1~29~1|2&hotelType=normal&display=incavg&subStamp=812&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202&trip_sub1=&trip_sub3=D18155657' },
-            { region: 'sapporo', zone: 'hokkaido', name: '洲至奢選洞爺溫莎飯店', platform: 'TRIP', basePrice: 12500, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Toyako&cityId=50390&hotelId=711304&checkIn=2026-06-24&checkOut=2026-06-25&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hoteluniquekey=H4sIAAAAAAAA_-O6x8rFJMEkdZ2V48mJf01sQoxGGrfZDGwtJgs5iqxzf1hVOM_BM2iHXGs2-2KHAJ5CBhA4EOrQyGjLdX1xwdkohxmMHVu1N0K4pXUOOxiZTjA-iVjANP_YPutTLMwcDwUvsXxjiq5Wyk6tVLIy0VEqySzJSVWyUno2p_dp98wXm3Yr6SilpBYnA4WArMTc_NK8EiDb0NjMRM_AAChUkljhmaJkZa6jlJyYk1yak1iSGlJZADTCTEcps9i5pCizICg1N7OkJBWoKi0xpzgVJB6UWgyUSQYLKvkBjSmCCmTm50G0G6KIhSXmlKZC3AC00C0VaodxrQ6m058umve0Yc_zFa3YnW5pYInicpMBcblhbewjlouMsJA3RQr5Xaufbe7E6XxjVNcbWmA435Ro52NzvQEu1xeXJoVgcSKap16w3Gb7xMLEof4LmLomMTexMnSxMkxiZebojtzFyhMY6GhkGqZrqBula3iBdXqGlLyhgYGBqaGxqamuQaJlYopRkrGuiaWpgYWRrqmhoaWBxoEXD0--NzYyVmDUEogPiQgJz8xILSkszC4rrkg2YDzFKGVobmxqZGlsbmxuYWKoZ26RaGnp5uKV5ZPi5sEYxGZsaunqZhZlw8XsFRApqN9-t5ynf6m9FHNIuIvig53fC04WnrbXAskZwuQCgzmeCLnLLbCPzLt7Nli26LR9EmtVhm5IeMZq0QLGBkamLkZuAUYPxgjGCiCPcRUjOxezgZGhANMGRsYdjP9hgPEVI8gSAPB1hMHCAwAA&masterhotelid_tracelogid=100051355-0a9ad2b3-495082-51190&detailFilters=17|1~17~1*19|50390~19~50390*80|2|1~80~2*29|1~29~1|2&hotelType=normal&display=incavg&subStamp=1800&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202&trip_sub1=&trip_sub3=D18155657' }
+            { region: 'tokyo', name: '東橫INN - 上野田原町站', platform: 'TRIP', basePrice: 2500, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Tokyo&cityId=228&hotelId=688581&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hotelType=normal&display=incavg&subStamp=756&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202' },
+            { region: 'tokyo', name: '東京上野喜來登福朋飯店', platform: 'TRIP', basePrice: 5800, url: 'https://www.trip.com/t/ZZvb04WTFV2' },
+            { region: 'fukuoka', name: 'lyf 天神福岡飯店', platform: 'TRIP', basePrice: 2200, url: 'https://www.trip.com/t/wed6CdZTFV2' },
+            { region: 'fukuoka', name: '福岡日航飯店', platform: 'TRIP', basePrice: 4500, url: 'https://www.trip.com/t/EV4d7SdTFV2' },
+            { region: 'osaka', name: '大阪都喜來登飯店', platform: 'TRIP', basePrice: 5200, url: 'https://www.trip.com/t/OKuyhPgTFV2' },
+            { region: 'osaka', name: '東橫 INN - 大阪難波', platform: 'TRIP', basePrice: 2100, url: 'https://www.trip.com/t/nYfK7AiTFV2' },
+            { region: 'sapporo', name: 'Vessel Inn 札幌中島公園飯店', platform: 'TRIP', basePrice: 3200, url: 'https://www.trip.com/t/oaKStAkTFV2' },
+            { region: 'sapporo', name: '洲至奢選洞爺溫莎飯店', platform: 'TRIP', basePrice: 12500, url: 'https://www.trip.com/t/zOc1nemTFV2' }
         ];
 
-        // 🗺️ 大分區對照表
-        const zonesData = {
-            kanto: { name: '關東', regions: [{ id: 'tokyo', name: '東京', icon: 'fa-tower-observation' }] },
-            kansai: { name: '關西', regions: [{ id: 'osaka', name: '大阪', icon: 'fa-chess-rook' }] },
-            kyushu: { name: '九州', regions: [{ id: 'fukuoka', name: '福岡', icon: 'fa-bowl-food' }] },
-            hokkaido: { name: '北海道', regions: [{ id: 'sapporo', name: '札幌', icon: 'fa-snowflake' }] }
-        };
-
-        let activeZone = 'kanto';
         let activeHotelRegion = 'tokyo';
         let hotelMaxPrice = 15000;
-        let checkInDate = ''; let checkOutDate = '';
-        let tempCheckIn = ''; let tempCheckOut = '';
+        let checkInDate = '';
+        let checkOutDate = '';
+        let tempCheckIn = '';
+        let tempCheckOut = '';
 
         function initDates() {
             const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
             const dayAfter = new Date(); dayAfter.setDate(dayAfter.getDate() + 2);
             checkInDate = tomorrow.toISOString().split('T')[0];
             checkOutDate = dayAfter.toISOString().split('T')[0];
-            tempCheckIn = checkInDate; tempCheckOut = checkOutDate;
+            tempCheckIn = checkInDate;
+            tempCheckOut = checkOutDate;
         }
         initDates();
 
@@ -137,8 +126,8 @@
             const banner = document.getElementById('notice-banner');
             const text = document.getElementById('notice-text');
             if (currentTab === 'hotel') {
-                banner.className = "w-full text-xs py-1.5 px-2.5 rounded-md font-bold flex items-center shadow-inner bg-blue-100 text-blue-800";
-                text.innerText = "📅 請選擇住宿日期，調整完預算後按下「套用」按鈕鎖定網址！";
+                banner.className = "w-full text-xs py-1.5 px-2.5 rounded-md font-bold flex items-center shadow-inner bg-orange-100 text-orange-800";
+                text.innerText = "🔍 調整日期與預算後，按下「搜尋」即時重算最新浮動參考價！";
                 return;
             }
             const date = new Date().getDate();
@@ -153,17 +142,17 @@
 
         function renderHotelUI() {
             const container = document.getElementById('dynamic-content');
-            
-            let zoneTabs = Object.keys(zonesData).map(zKey => `
-                <button onclick="switchZone('${zKey}')" class="flex-1 py-2 text-xs font-black border-b-2 transition-all ${activeZone === zKey ? 'border-orange-500 text-orange-600' : 'border-gray-200 text-gray-400'}">
-                    ${zonesData[zKey].name}
-                </button>
-            `).join('');
+            const regions = [
+                { id: 'tokyo', name: '東京區', icon: 'fa-tower-observation' },
+                { id: 'osaka', name: '大阪區', icon: 'fa-chess-rook' },
+                { id: 'fukuoka', name: '福岡區', icon: 'fa-bowl-food' },
+                { id: 'sapporo', name: '札幌區', icon: 'fa-snowflake' }
+            ];
 
-            let regionBtns = zonesData[activeZone].regions.map(r => `
-                <button onclick="setHotelRegion('${r.id}')" class="flex flex-col items-center justify-center py-3 rounded-xl border-2 transition-all active:scale-95 border-orange-500 bg-orange-50 text-orange-600 shadow-sm">
+            let regionBtns = regions.map(r => `
+                <button onclick="setHotelRegion('${r.id}')" class="flex flex-col items-center justify-center py-3 rounded-xl border-2 transition-all active:scale-95 ${activeHotelRegion === r.id ? 'border-orange-500 bg-orange-50 text-orange-600 shadow-sm' : 'border-gray-200 bg-white text-gray-400'}">
                     <i class="fas ${r.icon} text-2xl mb-1.5"></i>
-                    <span class="text-[11px] font-bold tracking-wide">${r.name}區</span>
+                    <span class="text-[11px] font-bold tracking-wide">${r.name}</span>
                 </button>
             `).join('');
 
@@ -180,12 +169,8 @@
                         </div>
                     </div>
                     <button onclick="executeHotelSearch()" class="bg-orange-500 hover:bg-orange-600 text-white font-black text-xs h-[48px] px-3 rounded-xl shadow-md transition-all active:scale-95 flex flex-col items-center justify-center flex-shrink-0 mt-3">
-                        <i class="fas fa-search text-base mb-0.5"></i><span class="text-[9px]">套用</span>
+                        <i class="fas fa-search text-base mb-0.5"></i><span class="text-[9px]">搜尋</span>
                     </button>
-                </div>
-
-                <div class="flex bg-white rounded-lg p-1 border border-gray-100 mb-3">
-                    ${zoneTabs}
                 </div>
 
                 <div class="grid grid-cols-4 gap-2 mb-4">
@@ -194,7 +179,7 @@
 
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-4">
                     <div class="flex justify-between items-center mb-3">
-                        <span class="font-bold text-gray-700 text-sm">篩選飯店等級 (平日預算)</span>
+                        <span class="font-bold text-gray-700 text-sm">每晚預算上限</span>
                         <span class="font-black text-blue-600 text-lg">NT$ <span id="priceDisplay">${hotelMaxPrice}</span></span>
                     </div>
                     <input type="range" min="1500" max="15000" step="500" value="${hotelMaxPrice}" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600" oninput="updateHotelPrice(this.value)">
@@ -203,12 +188,6 @@
                 <div id="hotelListContainer" class="space-y-3"></div>
             `;
             renderHotelList();
-        }
-
-        function switchZone(zoneKey) {
-            activeZone = zoneKey;
-            activeHotelRegion = zonesData[zoneKey].regions[0].id;
-            renderHotelUI();
         }
 
         function handleTempDateChange(type, value) {
@@ -223,7 +202,9 @@
         }
 
         function executeHotelSearch() {
-            checkInDate = tempCheckIn; checkOutDate = tempCheckOut;
+            checkInDate = tempCheckIn;
+            checkOutDate = tempCheckOut;
+            updateNoticeBanner();
             renderHotelList();
         }
 
@@ -238,10 +219,20 @@
             renderHotelList();
         }
 
+        function calculateDynamicPrice(basePrice) {
+            if (!checkInDate) return basePrice;
+            let currentPrice = basePrice;
+            const dateObj = new Date(checkInDate);
+            if (dateObj.getDay() === 5 || dateObj.getDay() === 6) currentPrice = currentPrice * 1.3;
+            if (dateObj.getMonth() === 6 || dateObj.getMonth() === 7) currentPrice = currentPrice * 1.15;
+            return Math.round(currentPrice);
+        }
+
         function renderHotelList() {
             const listContainer = document.getElementById('hotelListContainer');
-            let filteredHotels = baseHotelsData.filter(h => h.region === activeHotelRegion && h.basePrice <= hotelMaxPrice);
-            filteredHotels.sort((a, b) => a.basePrice - b.basePrice);
+            let activeHotels = baseHotelsData.map(h => { return { ...h, currentPrice: calculateDynamicPrice(h.basePrice) }; });
+            let filteredHotels = activeHotels.filter(h => h.region === activeHotelRegion && h.currentPrice <= hotelMaxPrice);
+            filteredHotels.sort((a, b) => a.currentPrice - b.currentPrice);
 
             if (filteredHotels.length === 0) {
                 listContainer.innerHTML = `<div class="text-center py-10 bg-white rounded-xl border border-dashed border-gray-300 text-gray-400"><p class="text-sm">此預算內暫無飯店</p></div>`;
@@ -249,14 +240,21 @@
             }
 
             listContainer.innerHTML = filteredHotels.map(item => {
+                // 🧠 終極黑科技：無情清洗舊日期參數，強制植入新日期
                 let finalUrl = item.url;
                 try {
                     let urlObj = new URL(item.url);
+                    
+                    // 1. 揪出所有大小寫變形的舊日期參數並刪除
                     const keysToDelete = [];
                     for (const key of urlObj.searchParams.keys()) {
-                        if (key.toLowerCase() === 'checkin' || key.toLowerCase() === 'checkout') { keysToDelete.push(key); }
+                        if (key.toLowerCase() === 'checkin' || key.toLowerCase() === 'checkout') {
+                            keysToDelete.push(key);
+                        }
                     }
                     keysToDelete.forEach(k => urlObj.searchParams.delete(k));
+                    
+                    // 2. 強制寫入乾淨標準的新日期
                     urlObj.searchParams.set('checkIn', checkInDate);
                     urlObj.searchParams.set('checkOut', checkOutDate);
                     finalUrl = urlObj.toString();
@@ -264,23 +262,21 @@
                     finalUrl = item.url + (item.url.includes('?') ? '&' : '?') + `checkIn=${checkInDate}&checkOut=${checkOutDate}`;
                 }
 
-                const safeName = item.name.replace(/['"]/g, '');
-
                 return `
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                         <div class="p-4">
                             <div class="flex justify-between items-start mb-3">
                                 <span class="bg-blue-800 text-white text-[11px] font-black tracking-wider px-2 py-0.5 rounded">${item.platform}</span>
-                                <span class="text-xs font-bold text-gray-600 bg-gray-100 px-2 py-1 rounded-md">平日參考起價 <span class="text-blue-600 ml-1 font-black">$${item.basePrice.toLocaleString()}</span></span>
+                                <span class="text-xs font-bold text-gray-600 bg-gray-100 px-2 py-1 rounded-md">最新動態價 <span class="text-blue-600 ml-1 font-black">$${item.currentPrice.toLocaleString()}</span></span>
                             </div>
                             <h3 class="font-bold text-gray-900 text-base mb-4"><i class="fas fa-map-marker-alt text-orange-500 mr-1.5"></i>${item.name}</h3>
-                            <a href="${finalUrl}" target="_blank" onclick="trackAffiliateClick('${item.platform}', '${safeName}')" class="w-full inline-flex justify-center items-center bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-sm py-2.5 rounded-xl border border-blue-200 transition-colors">前往查價 / 訂房</a>
+                            <a href="${finalUrl}" target="_blank" onclick="trackAffiliateClick('${item.platform}', '${item.name}')" class="w-full inline-flex justify-center items-center bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-sm py-2.5 rounded-xl border border-blue-200 transition-colors">前往查價 / 訂房</a>
                         </div>
                     </div>`;
             }).join('');
         }
 
-        // --- 📡 一般功能區塊 ---
+        // --- 📡 一般功能區塊 (含加到日曆功能) ---
         function addToCalendar(title, timeStr, url) {
             let hour = 10, minute = 30; if (timeStr.includes("09:00")) { hour = 9; minute = 0; }
             const now = new Date(); let nextMonth = now.getMonth() + 1; let year = now.getFullYear();
@@ -288,32 +284,15 @@
             const monthStr = String(nextMonth).padStart(2, '0');
             const startStr = `${year}${monthStr}01T${String(hour).padStart(2, '0')}${String(minute).padStart(2, '0')}00`;
             const endStr = `${year}${monthStr}01T${String(hour + 1).padStart(2, '0')}${String(minute).padStart(2, '0')}00`;
-            
-            const safeTitle = title.replace(/<[^>]*>/g, '').replace(/['"]/g, '');
-            
-            const icsContent = ["BEGIN:VCALENDAR", "VERSION:2.0", "BEGIN:VEVENT", `DTSTART;TZID=Asia/Taipei:${startStr}`, `DTEND;TZID=Asia/Taipei:${endStr}`, `SUMMARY:${safeTitle}`, `DESCRIPTION:活動網址: ${url}`, `URL:${url}`, "BEGIN:VALARM", "TRIGGER:-PT10M", "ACTION:DISPLAY", "DESCRIPTION:Reminder", "END:VALARM", "END:VEVENT", "END:VCALENDAR"].join("\n");
-            gtag('event', 'add_to_calendar', { 'event_category': 'Engagement', 'event_label': safeTitle });
-
+            const icsContent = ["BEGIN:VCALENDAR", "VERSION:2.0", "BEGIN:VEVENT", `DTSTART;TZID=Asia/Taipei:${startStr}`, `DTEND;TZID=Asia/Taipei:${endStr}`, `SUMMARY:${title.replace(/<[^>]*>/g, '')}`, `DESCRIPTION:活動網址: ${url}`, `URL:${url}`, "BEGIN:VALARM", "TRIGGER:-PT10M", "ACTION:DISPLAY", "DESCRIPTION:Reminder", "END:VALARM", "END:VEVENT", "END:VCALENDAR"].join("\n");
+            gtag('event', 'add_to_calendar', { 'event_category': 'Engagement', 'event_label': title.replace(/<[^>]*>/g, '') });
             const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-            const link = document.createElement('a'); link.href = window.URL.createObjectURL(blob); link.download = `${safeTitle.split('】').pop().split('（')[0]}_優惠提醒.ics`; document.body.appendChild(link); link.click(); document.body.removeChild(link);
+            const link = document.createElement('a'); link.href = window.URL.createObjectURL(blob); link.download = `${title.replace(/<[^>]*>/g, '').split('】').pop().split('（')[0]}_優惠提醒.ics`; document.body.appendChild(link); link.click(); document.body.removeChild(link);
         }
-        
-        function trackAffiliateClick(brand, title) { 
-            const safeTitle = title.replace(/<[^>]*>/g, '').replace(/['"]/g, '');
-            gtag('event', 'click_affiliate_link', { 'event_category': 'Outbound Link', 'brand_name': brand, 'discount_title': safeTitle }); 
-        }
+        function trackAffiliateClick(brand, title) { gtag('event', 'click_affiliate_link', { 'event_category': 'Outbound Link', 'brand_name': brand, 'discount_title': title.replace(/<[^>]*>/g, '') }); }
         function trackMonthChange() { renderActiveTab(); }
         function parseTimeScore(timeStr) { if (timeStr.includes("每個月常態") || timeStr.includes("即日起")) return 0; const match = timeStr.match(/(\d{2}):(\d{2})/); return match ? parseInt(match[1], 10) * 60 + parseInt(match[2], 10) : 9999; }
-        
-        async function fetchGitHubData() { 
-            try { 
-                const response = await fetch(`${GITHUB_RAW_URL}?t=${new Date().getTime()}`); 
-                globalData = await response.json(); 
-                renderActiveTab(); 
-            } catch (error) { 
-                document.getElementById('dynamic-content').innerHTML = `<div class="text-center py-12 text-red-500"><p>連線失敗，請重新整理</p></div>`; 
-            } 
-        }
+        async function fetchGitHubData() { try { const response = await fetch(`${GITHUB_RAW_URL}?t=${new Date().getTime()}`); globalData = await response.json(); renderActiveTab(); } catch (error) { document.getElementById('dynamic-content').innerHTML = `<div class="text-center py-12 text-red-500"><p>連線失敗，請重新整理</p></div>`; } }
         
         function renderActiveTab() {
             if (currentTab === 'hotel') return; if (!globalData) return;
@@ -321,26 +300,9 @@
             const container = document.getElementById('dynamic-content');
             if (!globalData[selectedMonth] || !globalData[selectedMonth][currentTab] || globalData[selectedMonth][currentTab].length === 0) { container.innerHTML = `<div class="text-center py-16 text-gray-400"><p class="text-sm">${selectedMonth} 月份暫無活動</p></div>`; return; }
             const items = [...globalData[selectedMonth][currentTab]]; items.sort((a, b) => parseTimeScore(a.time) - parseTimeScore(b.time));
-            
             container.innerHTML = items.map((item) => {
                 let badgeColor = item.brand.toUpperCase() === 'JCB' ? 'bg-red-500' : item.brand.toUpperCase() === 'VISA' ? 'bg-blue-800' : item.brand.toUpperCase() === 'IHG' ? 'bg-orange-950' : item.brand.toUpperCase() === 'SHOPEE' ? 'bg-orange-500' : item.brand.toUpperCase() === 'KLOOK' ? 'bg-orange-600' : item.brand.toUpperCase() === 'KKDAY' ? 'bg-cyan-500' : 'bg-gray-600';
-                const cleanTitle = item.title.replace(/<[^>]*>/g, '').replace(/['"]/g, '');
-
-                return `
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                        <div class="p-4">
-                            <div class="flex justify-between items-start mb-2.5">
-                                <span class="${badgeColor} text-white text-[11px] font-black tracking-wider px-2 py-0.5 rounded">${item.brand}</span>
-                                <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">${item.time}</span>
-                            </div>
-                            <h3 class="font-bold text-gray-900 text-base mb-1">${item.title}</h3>
-                            <p class="text-gray-500 text-xs mb-4">${item.desc}</p>
-                            <div class="flex space-x-2 w-full">
-                                <a href="${item.url}" target="_blank" onclick="trackAffiliateClick('${item.brand}', '${cleanTitle}')" class="flex-1 inline-flex justify-center items-center bg-blue-50 text-blue-600 font-bold text-xs py-2.5 rounded-xl border border-blue-200">前往官方網頁</a>
-                                <button onclick="addToCalendar('${cleanTitle}', '${item.time}', '${item.url}')" class="bg-gray-50 text-orange-600 font-bold text-xs px-3.5 rounded-xl border border-gray-200"><i class="fa-solid fa-calendar-plus text-sm"></i></button>
-                            </div>
-                        </div>
-                    </div>`;
+                return `<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"><div class="p-4"><div class="flex justify-between items-start mb-2.5"><span class="${badgeColor} text-white text-[11px] font-black tracking-wider px-2 py-0.5 rounded">${item.brand}</span><span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">${item.time}</span></div><h3 class="font-bold text-gray-900 text-base mb-1">${item.title}</h3><p class="text-gray-500 text-xs mb-4">${item.desc}</p><div class="flex space-x-2 w-full"><a href="${item.url}" target="_blank" onclick="trackAffiliateClick('${item.brand}', '${item.title}')" class="flex-1 inline-flex justify-center items-center bg-blue-50 text-blue-600 font-bold text-xs py-2.5 rounded-xl border border-blue-200">前往官方網頁</a><button onclick="addToCalendar('${item.title}', '${item.time}', '${item.url}')" class="bg-gray-50 text-orange-600 font-bold text-xs px-3.5 rounded-xl border border-gray-200"><i class="fa-solid fa-calendar-plus text-sm"></i></button></div></div></div>`;
             }).join('');
         }
 
