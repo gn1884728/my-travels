@@ -12,7 +12,6 @@
     
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3081/3081648.png">
     
-    <!-- 📊 GA4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-JYDYNWGYMF"></script>
     <script>
         const GA4_ID = 'G-JYDYNWGYMF'; 
@@ -35,7 +34,6 @@
 </head>
 <body class="bg-gray-50 font-sans h-screen flex flex-col max-w-md mx-auto shadow-2xl relative pb-safe">
 
-    <!-- 頂部導覽列 -->
     <header class="bg-blue-600 text-white px-4 py-3 flex flex-col sticky top-0 z-50 shadow-md pt-6">
         <div class="flex justify-between items-center w-full mb-2">
             <h1 class="text-xl font-bold tracking-wider">我的優惠</h1>
@@ -58,7 +56,6 @@
         </div>
     </header>
 
-    <!-- 主內容區 -->
     <main class="flex-1 overflow-y-auto p-4 pb-28 no-scrollbar" id="main-content">
         <div id="dynamic-content" class="space-y-4">
             <div class="text-center py-12 text-gray-400">
@@ -68,7 +65,6 @@
         </div>
     </main>
 
-    <!-- 下方導覽選單 -->
     <nav class="bg-white border-t border-gray-200 fixed bottom-0 left-0 right-0 max-w-md mx-auto flex justify-between items-end pb-3 pt-2 shadow-[0_-5px_15px_-5px_rgba(0,0,0,0.1)] z-50 px-4 h-[72px]">
         <button onclick="switchTab('food')" id="tab-food" class="tab-btn flex flex-col items-center space-y-1 w-12 text-blue-600 font-semibold transition-colors">
             <i class="fas fa-utensils text-lg mb-0.5"></i><span class="text-[10px]">美食</span>
@@ -77,7 +73,6 @@
             <i class="fas fa-shopping-bag text-lg mb-0.5"></i><span class="text-[10px]">生活</span>
         </button>
 
-        <!-- 🌟 黃金 C 位 -->
         <div class="relative w-16 flex justify-center">
             <button onclick="switchTab('hotel')" id="tab-hotel" class="absolute -bottom-2 flex flex-col items-center justify-center w-16 h-16 bg-orange-500 rounded-full c-btn-shadow border-4 border-gray-50 text-white transition-transform active:scale-95 z-50">
                 <i class="fas fa-bed text-xl mb-0.5"></i>
@@ -98,32 +93,38 @@
         let globalData = null;
         let currentTab = 'food';
 
-        // 🏨 飯店資料庫 (保留長網址以確保參數注入成功)
+        // 🏨 飯店基礎資料庫
         const baseHotelsData = [
-            { region: 'tokyo', name: '東橫INN - 上野田原町站', platform: 'TRIP', basePrice: 2500, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Tokyo&cityId=228&hotelId=688581&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hotelType=normal&display=incavg&subStamp=756&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202' },
-            { region: 'tokyo', name: '東京上野喜來登福朋飯店', platform: 'TRIP', basePrice: 5800, url: 'https://www.trip.com/t/ZZvb04WTFV2' },
-            { region: 'fukuoka', name: 'lyf 天神福岡飯店', platform: 'TRIP', basePrice: 2200, url: 'https://www.trip.com/t/wed6CdZTFV2' },
-            { region: 'fukuoka', name: '福岡日航飯店', platform: 'TRIP', basePrice: 4500, url: 'https://www.trip.com/t/EV4d7SdTFV2' },
-            { region: 'osaka', name: '大阪都喜來登飯店', platform: 'TRIP', basePrice: 5200, url: 'https://www.trip.com/t/OKuyhPgTFV2' },
-            { region: 'osaka', name: '東橫 INN - 大阪難波', platform: 'TRIP', basePrice: 2100, url: 'https://www.trip.com/t/nYfK7AiTFV2' },
-            { region: 'sapporo', name: 'Vessel Inn 札幌中島公園飯店', platform: 'TRIP', basePrice: 3200, url: 'https://www.trip.com/t/oaKStAkTFV2' },
-            { region: 'sapporo', name: '洲至奢選洞爺溫莎飯店', platform: 'TRIP', basePrice: 12500, url: 'https://www.trip.com/t/zOc1nemTFV2' }
+            { region: 'tokyo', zone: 'kanto', name: '東橫INN - 上野田原町站', platform: 'TRIP', basePrice: 2500, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Tokyo&cityId=228&hotelId=688581&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hotelType=normal&display=incavg&subStamp=756&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202' },
+            { region: 'tokyo', zone: 'kanto', name: '東京上野喜來登福朋飯店', platform: 'TRIP', basePrice: 5800, url: 'https://www.trip.com/t/ZZvb04WTFV2' },
+            { region: 'fukuoka', zone: 'kyushu', name: 'lyf 天神福岡飯店', platform: 'TRIP', basePrice: 2200, url: 'https://www.trip.com/t/wed6CdZTFV2' },
+            { region: 'fukuoka', zone: 'kyushu', name: '福岡日航飯店', platform: 'TRIP', basePrice: 4500, url: 'https://www.trip.com/t/EV4d7SdTFV2' },
+            { region: 'osaka', zone: 'kansai', name: '大阪都喜來登飯店', platform: 'TRIP', basePrice: 5200, url: 'https://www.trip.com/t/OKuyhPgTFV2' },
+            { region: 'osaka', zone: 'kansai', name: '東橫 INN - 大阪難波', platform: 'TRIP', basePrice: 2100, url: 'https://www.trip.com/t/nYfK7AiTFV2' },
+            { region: 'sapporo', zone: 'hokkaido', name: 'Vessel Inn 札幌中島公園飯店', platform: 'TRIP', basePrice: 3200, url: 'https://www.trip.com/t/oaKStAkTFV2' },
+            { region: 'sapporo', zone: 'hokkaido', name: '洲至奢選洞爺溫莎飯店', platform: 'TRIP', basePrice: 12500, url: 'https://www.trip.com/t/zOc1nemTFV2' }
         ];
 
+        // 🗺️ 預留未來擴充20區的大分區對照表
+        const zonesData = {
+            kanto: { name: '關東', regions: [{ id: 'tokyo', name: '東京', icon: 'fa-tower-observation' }] },
+            kansai: { name: '關西', regions: [{ id: 'osaka', name: '大阪', icon: 'fa-chess-rook' }] },
+            kyushu: { name: '九州', regions: [{ id: 'fukuoka', name: '福岡', icon: 'fa-bowl-food' }] },
+            hokkaido: { name: '北海道', regions: [{ id: 'sapporo', name: '札幌', icon: 'fa-snowflake' }] }
+        };
+
+        let activeZone = 'kanto';
         let activeHotelRegion = 'tokyo';
         let hotelMaxPrice = 15000;
-        let checkInDate = '';
-        let checkOutDate = '';
-        let tempCheckIn = '';
-        let tempCheckOut = '';
+        let checkInDate = ''; let checkOutDate = '';
+        let tempCheckIn = ''; let tempCheckOut = '';
 
         function initDates() {
             const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
             const dayAfter = new Date(); dayAfter.setDate(dayAfter.getDate() + 2);
             checkInDate = tomorrow.toISOString().split('T')[0];
             checkOutDate = dayAfter.toISOString().split('T')[0];
-            tempCheckIn = checkInDate;
-            tempCheckOut = checkOutDate;
+            tempCheckIn = checkInDate; tempCheckOut = checkOutDate;
         }
         initDates();
 
@@ -132,7 +133,7 @@
             const text = document.getElementById('notice-text');
             if (currentTab === 'hotel') {
                 banner.className = "w-full text-xs py-1.5 px-2.5 rounded-md font-bold flex items-center shadow-inner bg-blue-100 text-blue-800";
-                text.innerText = "📅 請選擇住宿日期，我們將為您鎖定專屬優惠！";
+                text.innerText = "📅 請選擇住宿日期，調整完預算後按下「套用」按鈕鎖定網址！";
                 return;
             }
             const date = new Date().getDate();
@@ -147,17 +148,19 @@
 
         function renderHotelUI() {
             const container = document.getElementById('dynamic-content');
-            const regions = [
-                { id: 'tokyo', name: '東京區', icon: 'fa-tower-observation' },
-                { id: 'osaka', name: '大阪區', icon: 'fa-chess-rook' },
-                { id: 'fukuoka', name: '福岡區', icon: 'fa-bowl-food' },
-                { id: 'sapporo', name: '札幌區', icon: 'fa-snowflake' }
-            ];
+            
+            // 1. 渲染大分區分頁標籤 (關東、關西...)
+            let zoneTabs = Object.keys(zonesData).map(zKey => `
+                <button onclick="switchZone('${zKey}')" class="flex-1 py-2 text-xs font-black border-b-2 transition-all ${activeZone === zKey ? 'border-orange-500 text-orange-600' : 'border-gray-200 text-gray-400'}">
+                    ${zonesData[zKey].name}
+                </button>
+            `).join('');
 
-            let regionBtns = regions.map(r => `
-                <button onclick="setHotelRegion('${r.id}')" class="flex flex-col items-center justify-center py-3 rounded-xl border-2 transition-all active:scale-95 ${activeHotelRegion === r.id ? 'border-orange-500 bg-orange-50 text-orange-600 shadow-sm' : 'border-gray-200 bg-white text-gray-400'}">
+            // 2. 根據目前大分區，渲染旗下的次區域方塊
+            let regionBtns = zonesData[activeZone].regions.map(r => `
+                <button onclick="setHotelRegion('${r.id}')" class="flex flex-col items-center justify-center py-3 rounded-xl border-2 transition-all active:scale-95 border-orange-500 bg-orange-50 text-orange-600 shadow-sm">
                     <i class="fas ${r.icon} text-2xl mb-1.5"></i>
-                    <span class="text-[11px] font-bold tracking-wide">${r.name}</span>
+                    <span class="text-[11px] font-bold tracking-wide">${r.name}區</span>
                 </button>
             `).join('');
 
@@ -178,6 +181,10 @@
                     </button>
                 </div>
 
+                <div class="flex bg-white rounded-lg p-1 border border-gray-100 mb-3">
+                    ${zoneTabs}
+                </div>
+
                 <div class="grid grid-cols-4 gap-2 mb-4">
                     ${regionBtns}
                 </div>
@@ -195,6 +202,12 @@
             renderHotelList();
         }
 
+        function switchZone(zoneKey) {
+            activeZone = zoneKey;
+            activeHotelRegion = zonesData[zoneKey].regions[0].id; // 預設切換到該大區的第一個子區
+            renderHotelUI();
+        }
+
         function handleTempDateChange(type, value) {
             if (type === 'in') {
                 tempCheckIn = value;
@@ -207,8 +220,7 @@
         }
 
         function executeHotelSearch() {
-            checkInDate = tempCheckIn;
-            checkOutDate = tempCheckOut;
+            checkInDate = tempCheckIn; checkOutDate = tempCheckOut;
             renderHotelList();
         }
 
@@ -225,8 +237,6 @@
 
         function renderHotelList() {
             const listContainer = document.getElementById('hotelListContainer');
-            
-            // 使用穩健的基準參考價進行過濾
             let filteredHotels = baseHotelsData.filter(h => h.region === activeHotelRegion && h.basePrice <= hotelMaxPrice);
             filteredHotels.sort((a, b) => a.basePrice - b.basePrice);
 
@@ -236,15 +246,12 @@
             }
 
             listContainer.innerHTML = filteredHotels.map(item => {
-                // 無情清洗舊日期參數，強制植入新日期
                 let finalUrl = item.url;
                 try {
                     let urlObj = new URL(item.url);
                     const keysToDelete = [];
                     for (const key of urlObj.searchParams.keys()) {
-                        if (key.toLowerCase() === 'checkin' || key.toLowerCase() === 'checkout') {
-                            keysToDelete.push(key);
-                        }
+                        if (key.toLowerCase() === 'checkin' || key.toLowerCase() === 'checkout') { keysToDelete.push(key); }
                     }
                     keysToDelete.forEach(k => urlObj.searchParams.delete(k));
                     urlObj.searchParams.set('checkIn', checkInDate);
@@ -254,6 +261,9 @@
                     finalUrl = item.url + (item.url.includes('?') ? '&' : '?') + `checkIn=${checkInDate}&checkOut=${checkOutDate}`;
                 }
 
+                // 徹底拔除單雙引號以防 XSS 與語法中斷
+                const safeName = item.name.replace(/['"]/g, '');
+
                 return `
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                         <div class="p-4">
@@ -262,13 +272,13 @@
                                 <span class="text-xs font-bold text-gray-600 bg-gray-100 px-2 py-1 rounded-md">平日參考起價 <span class="text-blue-600 ml-1 font-black">$${item.basePrice.toLocaleString()}</span></span>
                             </div>
                             <h3 class="font-bold text-gray-900 text-base mb-4"><i class="fas fa-map-marker-alt text-orange-500 mr-1.5"></i>${item.name}</h3>
-                            <a href="${finalUrl}" target="_blank" onclick="trackAffiliateClick('${item.platform}', '${item.name}')" class="w-full inline-flex justify-center items-center bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-sm py-2.5 rounded-xl border border-blue-200 transition-colors">前往查價 / 訂房</a>
+                            <a href="${finalUrl}" target="_blank" onclick="trackAffiliateClick('${item.platform}', '${safeName}')" class="w-full inline-flex justify-center items-center bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-sm py-2.5 rounded-xl border border-blue-200 transition-colors">前往查價 / 訂房</a>
                         </div>
                     </div>`;
             }).join('');
         }
 
-        // --- 📡 一般功能區塊 (含加到日曆功能) ---
+        // --- 📡 一般功能區塊 (加到日曆功能已完美防護) ---
         function addToCalendar(title, timeStr, url) {
             let hour = 10, minute = 30; if (timeStr.includes("09:00")) { hour = 9; minute = 0; }
             const now = new Date(); let nextMonth = now.getMonth() + 1; let year = now.getFullYear();
@@ -276,15 +286,32 @@
             const monthStr = String(nextMonth).padStart(2, '0');
             const startStr = `${year}${monthStr}01T${String(hour).padStart(2, '0')}${String(minute).padStart(2, '0')}00`;
             const endStr = `${year}${monthStr}01T${String(hour + 1).padStart(2, '0')}${String(minute).padStart(2, '0')}00`;
-            const icsContent = ["BEGIN:VCALENDAR", "VERSION:2.0", "BEGIN:VEVENT", `DTSTART;TZID=Asia/Taipei:${startStr}`, `DTEND;TZID=Asia/Taipei:${endStr}`, `SUMMARY:${title.replace(/<[^>]*>/g, '')}`, `DESCRIPTION:活動網址: ${url}`, `URL:${url}`, "BEGIN:VALARM", "TRIGGER:-PT10M", "ACTION:DISPLAY", "DESCRIPTION:Reminder", "END:VALARM", "END:VEVENT", "END:VCALENDAR"].join("\n");
-            gtag('event', 'add_to_calendar', { 'event_category': 'Engagement', 'event_label': title.replace(/<[^>]*>/g, '') });
+            
+            const safeTitle = title.replace(/<[^>]*>/g, '').replace(/['"]/g, '');
+            
+            const icsContent = ["BEGIN:VCALENDAR", "VERSION:2.0", "BEGIN:VEVENT", `DTSTART;TZID=Asia/Taipei:${startStr}`, `DTEND;TZID=Asia/Taipei:${endStr}`, `SUMMARY:${safeTitle}`, `DESCRIPTION:活動網址: ${url}`, `URL:${url}`, "BEGIN:VALARM", "TRIGGER:-PT10M", "ACTION:DISPLAY", "DESCRIPTION:Reminder", "END:VALARM", "END:VEVENT", "END:VCALENDAR"].join("\n");
+            gtag('event', 'add_to_calendar', { 'event_category': 'Engagement', 'event_label': safeTitle });
+
             const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-            const link = document.createElement('a'); link.href = window.URL.createObjectURL(blob); link.download = `${title.replace(/<[^>]*>/g, '').split('】').pop().split('（')[0]}_優惠提醒.ics`; document.body.appendChild(link); link.click(); document.body.removeChild(link);
+            const link = document.createElement('a'); link.href = window.URL.createObjectURL(blob); link.download = `${safeTitle.split('】').pop().split('（')[0]}_優惠提醒.ics`; document.body.appendChild(link); link.click(); document.body.removeChild(link);
         }
-        function trackAffiliateClick(brand, title) { gtag('event', 'click_affiliate_link', { 'event_category': 'Outbound Link', 'brand_name': brand, 'discount_title': title.replace(/<[^>]*>/g, '') }); }
+        
+        function trackAffiliateClick(brand, title) { 
+            const safeTitle = title.replace(/<[^>]*>/g, '').replace(/['"]/g, '');
+            gtag('event', 'click_affiliate_link', { 'event_category': 'Outbound Link', 'brand_name': brand, 'discount_title': safeTitle }); 
+        }
         function trackMonthChange() { renderActiveTab(); }
         function parseTimeScore(timeStr) { if (timeStr.includes("每個月常態") || timeStr.includes("即日起")) return 0; const match = timeStr.match(/(\d{2}):(\d{2})/); return match ? parseInt(match[1], 10) * 60 + parseInt(match[2], 10) : 9999; }
-        async function fetchGitHubData() { try { const response = await fetch(`${GITHUB_RAW_URL}?t=${new Date().getTime()}`); globalData = await response.json(); renderActiveTab(); } catch (error) { document.getElementById('dynamic-content').innerHTML = `<div class="text-center py-12 text-red-500"><p>連線失敗，請重新整理</p></div>`; } }
+        
+        async function fetchGitHubData() { 
+            try { 
+                const response = await fetch(`${GITHUB_RAW_URL}?t=${new Date().getTime()}`); 
+                globalData = await response.json(); 
+                renderActiveTab(); 
+            } catch (error) { 
+                document.getElementById('dynamic-content').innerHTML = `<div class="text-center py-12 text-red-500"><p>連線失敗，請重新整理</p></div>`; 
+            } 
+        }
         
         function renderActiveTab() {
             if (currentTab === 'hotel') return; if (!globalData) return;
@@ -292,9 +319,28 @@
             const container = document.getElementById('dynamic-content');
             if (!globalData[selectedMonth] || !globalData[selectedMonth][currentTab] || globalData[selectedMonth][currentTab].length === 0) { container.innerHTML = `<div class="text-center py-16 text-gray-400"><p class="text-sm">${selectedMonth} 月份暫無活動</p></div>`; return; }
             const items = [...globalData[selectedMonth][currentTab]]; items.sort((a, b) => parseTimeScore(a.time) - parseTimeScore(b.time));
+            
             container.innerHTML = items.map((item) => {
                 let badgeColor = item.brand.toUpperCase() === 'JCB' ? 'bg-red-500' : item.brand.toUpperCase() === 'VISA' ? 'bg-blue-800' : item.brand.toUpperCase() === 'IHG' ? 'bg-orange-950' : item.brand.toUpperCase() === 'SHOPEE' ? 'bg-orange-500' : item.brand.toUpperCase() === 'KLOOK' ? 'bg-orange-600' : item.brand.toUpperCase() === 'KKDAY' ? 'bg-cyan-500' : 'bg-gray-600';
-                return `<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"><div class="p-4"><div class="flex justify-between items-start mb-2.5"><span class="${badgeColor} text-white text-[11px] font-black tracking-wider px-2 py-0.5 rounded">${item.brand}</span><span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">${item.time}</span></div><h3 class="font-bold text-gray-900 text-base mb-1">${item.title}</h3><p class="text-gray-500 text-xs mb-4">${item.desc}</p><div class="flex space-x-2 w-full"><a href="${item.url}" target="_blank" onclick="trackAffiliateClick('${item.brand}', '${item.title}')" class="flex-1 inline-flex justify-center items-center bg-blue-50 text-blue-600 font-bold text-xs py-2.5 rounded-xl border border-blue-200">前往官方網頁</a><button onclick="addToCalendar('${item.title}', '${item.time}', '${item.url}')" class="bg-gray-50 text-orange-600 font-bold text-xs px-3.5 rounded-xl border border-gray-200"><i class="fa-solid fa-calendar-plus text-sm"></i></button></div></div></div>`;
+                
+                // 🛠️ 核心防當機清洗：移除 HTML 與引號
+                const cleanTitle = item.title.replace(/<[^>]*>/g, '').replace(/['"]/g, '');
+
+                return `
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="p-4">
+                            <div class="flex justify-between items-start mb-2.5">
+                                <span class="${badgeColor} text-white text-[11px] font-black tracking-wider px-2 py-0.5 rounded">${item.brand}</span>
+                                <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">${item.time}</span>
+                            </div>
+                            <h3 class="font-bold text-gray-900 text-base mb-1">${item.title}</h3>
+                            <p class="text-gray-500 text-xs mb-4">${item.desc}</p>
+                            <div class="flex space-x-2 w-full">
+                                <a href="${item.url}" target="_blank" onclick="trackAffiliateClick('${item.brand}', '${cleanTitle}')" class="flex-1 inline-flex justify-center items-center bg-blue-50 text-blue-600 font-bold text-xs py-2.5 rounded-xl border border-blue-200">前往官方網頁</a>
+                                <button onclick="addToCalendar('${cleanTitle}', '${item.time}', '${item.url}')" class="bg-gray-50 text-orange-600 font-bold text-xs px-3.5 rounded-xl border border-gray-200"><i class="fa-solid fa-calendar-plus text-sm"></i></button>
+                            </div>
+                        </div>
+                    </div>`;
             }).join('');
         }
 
