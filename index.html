@@ -12,6 +12,7 @@
     
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3081/3081648.png">
     
+    <!-- 📊 GA4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-JYDYNWGYMF"></script>
     <script>
         const GA4_ID = 'G-JYDYNWGYMF'; 
@@ -34,6 +35,7 @@
 </head>
 <body class="bg-gray-50 font-sans h-screen flex flex-col max-w-md mx-auto shadow-2xl relative pb-safe">
 
+    <!-- 頂部導覽列 -->
     <header class="bg-blue-600 text-white px-4 py-3 flex flex-col sticky top-0 z-50 shadow-md pt-6">
         <div class="flex justify-between items-center w-full mb-2">
             <h1 class="text-xl font-bold tracking-wider">我的優惠</h1>
@@ -56,6 +58,7 @@
         </div>
     </header>
 
+    <!-- 主內容區 -->
     <main class="flex-1 overflow-y-auto p-4 pb-28 no-scrollbar" id="main-content">
         <div id="dynamic-content" class="space-y-4">
             <div class="text-center py-12 text-gray-400">
@@ -65,6 +68,7 @@
         </div>
     </main>
 
+    <!-- 下方導覽選單 -->
     <nav class="bg-white border-t border-gray-200 fixed bottom-0 left-0 right-0 max-w-md mx-auto flex justify-between items-end pb-3 pt-2 shadow-[0_-5px_15px_-5px_rgba(0,0,0,0.1)] z-50 px-4 h-[72px]">
         <button onclick="switchTab('food')" id="tab-food" class="tab-btn flex flex-col items-center space-y-1 w-12 text-blue-600 font-semibold transition-colors">
             <i class="fas fa-utensils text-lg mb-0.5"></i><span class="text-[10px]">美食</span>
@@ -73,6 +77,7 @@
             <i class="fas fa-shopping-bag text-lg mb-0.5"></i><span class="text-[10px]">生活</span>
         </button>
 
+        <!-- 🌟 黃金 C 位 -->
         <div class="relative w-16 flex justify-center">
             <button onclick="switchTab('hotel')" id="tab-hotel" class="absolute -bottom-2 flex flex-col items-center justify-center w-16 h-16 bg-orange-500 rounded-full c-btn-shadow border-4 border-gray-50 text-white transition-transform active:scale-95 z-50">
                 <i class="fas fa-bed text-xl mb-0.5"></i>
@@ -93,19 +98,19 @@
         let globalData = null;
         let currentTab = 'food';
 
-        // 🏨 飯店基礎資料庫
+        // 🏨 飯店資料庫 (全面升級為長網址)
         const baseHotelsData = [
             { region: 'tokyo', zone: 'kanto', name: '東橫INN - 上野田原町站', platform: 'TRIP', basePrice: 2500, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Tokyo&cityId=228&hotelId=688581&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hotelType=normal&display=incavg&subStamp=756&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202' },
-            { region: 'tokyo', zone: 'kanto', name: '東京上野喜來登福朋飯店', platform: 'TRIP', basePrice: 5800, url: 'https://www.trip.com/t/ZZvb04WTFV2' },
-            { region: 'fukuoka', zone: 'kyushu', name: 'lyf 天神福岡飯店', platform: 'TRIP', basePrice: 2200, url: 'https://www.trip.com/t/wed6CdZTFV2' },
-            { region: 'fukuoka', zone: 'kyushu', name: '福岡日航飯店', platform: 'TRIP', basePrice: 4500, url: 'https://www.trip.com/t/EV4d7SdTFV2' },
-            { region: 'osaka', zone: 'kansai', name: '大阪都喜來登飯店', platform: 'TRIP', basePrice: 5200, url: 'https://www.trip.com/t/OKuyhPgTFV2' },
-            { region: 'osaka', zone: 'kansai', name: '東橫 INN - 大阪難波', platform: 'TRIP', basePrice: 2100, url: 'https://www.trip.com/t/nYfK7AiTFV2' },
-            { region: 'sapporo', zone: 'hokkaido', name: 'Vessel Inn 札幌中島公園飯店', platform: 'TRIP', basePrice: 3200, url: 'https://www.trip.com/t/oaKStAkTFV2' },
-            { region: 'sapporo', zone: 'hokkaido', name: '洲至奢選洞爺溫莎飯店', platform: 'TRIP', basePrice: 12500, url: 'https://www.trip.com/t/zOc1nemTFV2' }
+            { region: 'tokyo', zone: 'kanto', name: '東京上野喜來登福朋飯店', platform: 'TRIP', basePrice: 5800, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Tokyo&cityId=228&hotelId=1458598&checkIn=2026-06-24&checkOut=2026-06-25&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hoteluniquekey=H4sIAAAAAAAA_-PazcTFJMEktYWJo2fh_U1sQoxGGpfZDGwsPgk6FtpyXV9sUe7geX1xgS1Xd6VDAM8MxmXNkRsZjUFgspPDDkamE4yf-BYwbd3ZaneKhZljLeMllt2M0dVK2amVSlYmOkolmSU5qUpWSk8XzXvasOf5ilYlHaWU1OJkoBCQlZibX5pXAmQbmhvrGRgARUoSKzxTwDqTE3OSS3MSS1JDKguAJpjpKGUWO5cUZRYEpeZmlpSkAlWlJeYUp4LEg1KLgTLJYEElP6AxRVCBzPw8iHZDFLGwxJzSVIgTgBa6pULtMKyNfcTCFB37guUy2ycWhl8sDE2sDF2sDJNYmTk-8e1i5Yk08Q13NNY11I3SNbzA-lFAStHQwMDAyNTUyNzXYNES-OUxFRjXRNLUwMLI10jSyMzM0MDjX2btp58b2xkrMCoJRAfEhESnpmRWlJYmF1WXJFswHiKUcrQ3NjUyNLY3NjcwsRQz9wi0dLSzcUryyfFzYMxiM3F0s3J2TzKhos5NNhFsJRpFoe0nbSDFHNIuIvig53fC04WnrbXYvYKiDTUb79bztO_1D4wmOOJkLvcAvvIvLtng2WLTtsnsVZl6IaEZ6wWLWBsYGTqYuQWYPRgjGCsAPIYVzGyczEbGBkKMG1gZNzB-B8GGF8xgiwBAIGCQ1UaAgAA&masterhotelid_tracelogid=100025527-0a9852a2-495082-3397709&detailFilters=17|1~17~1*19|228~19~228*75|TAG_495~75~495*80|2|1~80~2*29|1~29~1|2&hotelType=normal&display=incavg&subStamp=756&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202&trip_sub1=&trip_sub3=D18155657' },
+            { region: 'fukuoka', zone: 'kyushu', name: 'lyf 天神福岡飯店', platform: 'TRIP', basePrice: 2200, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Fukuoka&cityId=248&hotelId=72229900&checkIn=2026-06-24&checkOut=2026-06-25&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hoteluniquekey=H4sIAAAAAAAA_-M6w8TFJMEkdZSJY-28e69YhRiNDE4xWTxTc3wTuEOu9Xm9g-f1xQW2XL2NDgE8hQxgEOvQyDhrJgiEOsxg7DmxQ2kjo8g694dVUzwddjAynWA8ILKAaerdZ0qnWJg53jNeYtnNGF2tlJ1aqWRloqNUklmSk6pkpfR00bynDXuer2hV0lFKSS1OBgoBWYm5-aV5JUC2kbGlnoEBUKQkscIzBawzOTEnuTQnsSQ1pLIAaIKZjlJmsXNJUWZBUGpuZklJKlBVWmJOcSpIPCi1GCiTDBZU8gMaUwQVyMzPg2g3RBELS8wpTYU4AWihWyrUDsPa2EcsTNGxn1gYfgE9M5OliZWhi5VhEiszxwGRXaw8_mFGPt6muoa6UbqGF1hvSkgpGhoYGBiZmhqZ6xokWlokWyRa6JpYmhpYGOkamxoZWpqYaWxcefrke2MjYwVGLYH4kIiQ8MyM1JLCwuyy4opkA8ZTjFKG5kCllsbmxuYWJoZ65haJlpZuLl5ZPiluHoxBbI5upsaGFlE2XMxeAZGC-u13y3n6l9pLMYeEuyg-2Pm94GThaXstkJwhTC4wmOOJkLvcAvvIvLtng2WLTtsnsVZl6IaEZ6wWLWBsYGTqYuQWYPRgjGCsAPIYVzGyczEbGBkKMG1gZNzB-B8GGF8xgiwBAPqlcpcyAgAA&masterhotelid_tracelogid=100025527-0a98c8a8-495082-3521946&detailFilters=17|1~17~1*19|248~19~248*6|9~6~9*80|2|1~80~2*29|1~29~1|2&hotelType=normal&display=incavg&subStamp=1332&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202&trip_sub1=&trip_sub3=D18155657' },
+            { region: 'fukuoka', zone: 'kyushu', name: '福岡日航飯店', platform: 'TRIP', basePrice: 4500, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Fukuoka&cityId=248&hotelId=993535&checkIn=2026-06-24&checkOut=2026-06-25&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hoteluniquekey=H4sIAAAAAAAA_-P6x8zFJMEk9Z2ZY9X1yf-ZhJgNDYw0brMZPGC02CrvaAwEm31WOHj2H_qqcSd-nUMAzwzG_xdtNjIW2nJdX-zT4bCDkekE47VexgVMM5_dZDzFwsyxWuYSy3em6Gql7NRKJSsTHaWSzJKcVCUrpaeL5j1t2PN8RauSjlJKanEyUAjISszNL80rAbINTUwN9QwMgEIliRWeKWCtyYk5yaU5iSWpIZUFQCPMdJQyi51LijILglJzM0tKUoGq0hJzilNB4kGpxUCZZLCgkh_QmCKoQGZ-HkS7IYpYWGJOaSrEDUAL3VKhdhjW6mA6_dmc3qfdM19s2o3d6UaG5mYoTjenttMNiHG6cW3sIxam6NgXLLfZPrEw_GJhaGJl6GJlmMTKwgGMol2svEbeJu7GgbqGIbpRuoYXWE_NZ5RSNDQwMDAyNTUy1zVItEy0NDJJ0TWxNDWwMNI1Njc2NDY21HjdePnke2MjYwVGLYH4kIiQ8MyM1JLCwuyy4opkA8ZTjFKG5samRpZA5eYWJoZ65haJlpZuLl5ZPiluHoxBbIbGjkbOrlE2XMyhwS6CpUyzOKTtpB2kmEPCXRQf7PxecLLwtL0Ws1dApKF--91ynv6l9oHBHE-E3OUW2Efm3T0bLFt02j6JtSpDNyQ8Y7VoAWMDI1MXI7cAowdjBGMFkMe4ipGdi9nAyFCAaQMj4w7G_zDA-IoRZAkAVFUbROQCAAA&masterhotelid_tracelogid=100025527-0a9a924d-495082-3731331&detailFilters=19|248~19~248*6|9~6~9*17|6~17~6*80|2|1~80~2*29|1~29~1|2&hotelType=normal&display=incavg&subStamp=1380&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202&trip_sub1=&trip_sub3=D18155657' },
+            { region: 'osaka', zone: 'kansai', name: '大阪都喜來登飯店', platform: 'TRIP', basePrice: 5200, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Osaka&cityId=219&hotelId=993284&checkIn=2026-06-24&checkOut=2026-06-25&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hoteluniquekey=H4sIAAAAAAAA_-NqYOFikmCS-snMcWzf_C42IUYDi9-CjmkgMKvRwfP64gJbLt9WhwCeQgYQKGh0aGS05QIKczc6zGBsuWCzkbH1deAOuamxDjsYmU4wvpFYwHRj82brUyzMHCtYLrF8ZYquVspOrVSyMtFRKsksyUlVslJ6umje04Y9z1e0KukopaQWJwOFgKzE3PzSvBIg28jCUs_AAChSkljhmQLWmZyYk1yak1iSGlJZADTBTEcps9i5pCizICg1N7OkJBWoKi0xpzgVJB6UWgyUSQYLKvkBjSmCCmTm50G0G6CIhSXmlKZCnAC00C0VaodhrQ6my5_N6X3aPfPFpt04XG5mjOJy8wFxuXFt7CMWpujYTywMv4DRsEqkiZWhi5VhEiszxxuJXaxcgQH-XhaBulG6hhdYp-lKyRsaGBiYGhqbmuoaJFpaJJmbJ-maWJoaWBjpmpibWFpo_Nl4_eR7YyNjBUYtgfiQiJDwzIzUksLC7LLiimQDxlOMUobmxqZGlsbmxuYWJoZ65haJlpZuLl5ZPiluHoxBbI5Olk5mxlE2XMxeAZGC-u13y3n6l9pLMYeEuyg-2Pm94GThaXstkJwhTC4wmOOJkLvcAvvIvLtng2WLTtsnsVZl6IaEZ6wWLWBsYGTqYuQWYPRgjGCsAPIYVzGyczEbGBkKMG1gZNzB-B8GGF8xgiwBAGOOJtDkAgAA&masterhotelid_tracelogid=100051355-0a98b77b-495082-47498&detailFilters=17|1~17~1*19|219~19~219*80|2|1~80~2*29|1~29~1|2&hotelType=normal&display=incavg&subStamp=1140&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202&trip_sub1=&trip_sub3=D18155657' },
+            { region: 'osaka', zone: 'kansai', name: '東橫 INN - 大阪難波', platform: 'TRIP', basePrice: 2100, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Osaka&cityId=219&hotelId=124671917&checkIn=2026-06-24&checkOut=2026-06-25&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hoteluniquekey=H4sIAAAAAAAA_-PaxMTFJMEktZqJ49OmTUdYhRiNDO4zWmyVd5RvfR24o63BwdMYBDSbHAJ4ZjCuXb_TeiOjx8MqkXXqXg47GJkOMDKdYJwuuoDp5qdHJqdYmDm-MF5i2cEYXa2UnVqpZGWio1SSWZKTqmSl9HxF68sFrUo6SimpxclAPpCVmJtfmlcCZBuZmOgZGABFShIrPFOUrMxNdZSSE3OSS3MSS1JDKguA-o10lDKLnUuKMguCUnMzS0pSgcrSEnOKU0HiQanFQJlksCDI4CIoPzM_D6LbAEUsLDGnNBWiEmihWyrUCsPa2EcsTNGxn1gYfrEwNLEydLEyTGJl5pguuouVx8_LPcg9RNdQN0rXUEre0MDAwNTQ2NRU1yDR0iLJ3DxJ18TS1MDCSNfE3MTSQuPvxusn3xsbGSswagnEh0SEhGdmpJYUFmaXFVckGzCeYpQyNDc2NbI0Njc2tzAx1DO3SLS0dHPxyvJJcfNgDGKzdHF0MzaOsuFiDg12ESxlmsUhbSftIMUcEu6i-GDn94KThafttZi9AiIN9dvvlvP0L7UPDOZ4IuQut8A-Mu_u2WDZotP2SaxVGboh4RmrRQsYGxiZuhi5BRg9GCMYK4A8xlWM7FzMBkaGAkwbGBl3MP6HAcZXjCBLAIDuuqcWAgAA&masterhotelid_tracelogid=100051355-0a98b77b-495082-47498&detailFilters=17|1~17~1*19|219~19~219*80|2|1~80~2*29|1~29~1|2&hotelType=normal&display=incavg&subStamp=1140&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202&trip_sub1=&trip_sub3=D18155657' },
+            { region: 'sapporo', zone: 'hokkaido', name: 'Vessel Inn 札幌中島公園飯店', platform: 'TRIP', basePrice: 3200, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Sapporo&cityId=641&hotelId=705328&checkIn=2026-06-24&checkOut=2026-06-25&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hoteluniquekey=H4sIAAAAAAAA_-M6xsTFJMEktZ-JY0n7gz-sQowGFr8FHY1B4GSLgyfX9cUFtvfaHAJ4ChlAYEOZQyPjDrnW14ECRQ4zGDe0aW-EcFcEOOxgZDrBeFNqAdPij4utT7Ewc2xnusSymzG6Wik7tVLJykRHqSSzJCdVyUrp6aJ5Txv2PF_RqqSjlJJanAwUArISc_NL80qAbGNDQz0DA6BISWKFZwpYZ3JiTnJpTmJJakhlAdAEMx2lzGLnkqLMgqDU3MySklSgqrTEnOJUkHhQajFQJhksqOQHNKYIKpCZnwfRbogiFpaYU5oKcQLQQrdUqB2GtbGPWJiiYz-xMPwCemYmbxMrQxcrwyRWZo6bUrtYuQI9QyJMDHSjdA0vsH5Sl5I3NDAwMDU0NjXVNUi0TExKtDTRNbE0NbAw0jU1MDI01WideO_ke2MjYwVGLYH4kIiQ8MyM1JLCwuyy4opkA8ZTjFKG5samRpbG5sbmFiaGeuYWiZaWbi5eWT4pbh6MQWwWJqYm5pZRNlzMXgGRgvrtd8t5-pfaSzGHhLsoPtj5veBk4Wl7LZCcIUwuMJjjiZC73AL7yLy7Z4Nli07bJ7FWZeiGhGesFi1gbGBk6mLkFmD0YIxgrADyGFcxsnMxA10qwLSBkXEH438YYHzFCLIEANSpTlIqAgAA&masterhotelid_tracelogid=100051355-0a9aba94-495082-50215&detailFilters=17|1~17~1*19|641~19~641*80|2|1~80~2*29|1~29~1|2&hotelType=normal&display=incavg&subStamp=812&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202&trip_sub1=&trip_sub3=D18155657' },
+            { region: 'sapporo', zone: 'hokkaido', name: '洲至奢選洞爺溫莎飯店', platform: 'TRIP', basePrice: 12500, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Toyako&cityId=50390&hotelId=711304&checkIn=2026-06-24&checkOut=2026-06-25&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hoteluniquekey=H4sIAAAAAAAA_-O6x8rFJMEkdZ2V48mJf01sQoxGGrfZDGwtJgs5iqxzf1hVOM_BM2iHXGs2-2KHAJ5CBhA4EOrQyGjLdX1xwdkohxmMHVu1N0K4pXUOOxiZTjA-iVjANP_YPutTLMwcDwUvsXxjiq5Wyk6tVLIy0VEqySzJSVWyUno2p_dp98wXm3Yr6SilpBYnA4WArMTc_NK8EiDb0NjMRM_AAChUkljhmaJkZa6jlJyYk1yak1iSGlJZADTCTEcps9i5pCizICg1N7OkJBWoKi0xpzgVJB6UWgyUSQYLKvkBjSmCCmTm50G0G6KIhSXmlKZC3AC00C0VaodxrQ6m058umve0Yc_zFa3YnW5pYInicpMBcblhbewjlouMsJA3RQr5Xaufbe7E6XxjVNcbWmA435Ro52NzvQEu1xeXJoVgcSKap16w3Gb7xMLEof4LmLomMTexMnSxMkxiZebojtzFyhMY6GhkGqZrqBula3iBdXqGlLyhgYGBqaGxqamuQaJlYopRkrGuiaWpgYWRrqmhoaWBxoEXD0--NzYyVmDUEogPiQgJz8xILSkszC4rrkg2YDzFKGVobmxqZGlsbmxuYWKoZ26RaGnp5uKV5ZPi5sEYxGZsaunqZhZlw8XsFRApqN9-t5ynf6m9FHNIuIvig53fC04WnrbXAskZwuQCgzmeCLnLLbCPzLt7Nli26LR9EmtVhm5IeMZq0QLGBkamLkZuAUYPxgjGCiCPcRUjOxezgZGhANMGRsYdjP9hgPEVI8gSAPB1hMHCAwAA&masterhotelid_tracelogid=100051355-0a9ad2b3-495082-51190&detailFilters=17|1~17~1*19|50390~19~50390*80|2|1~80~2*29|1~29~1|2&hotelType=normal&display=incavg&subStamp=1800&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202&trip_sub1=&trip_sub3=D18155657' }
         ];
 
-        // 🗺️ 預留未來擴充20區的大分區對照表
+        // 🗺️ 大分區對照表
         const zonesData = {
             kanto: { name: '關東', regions: [{ id: 'tokyo', name: '東京', icon: 'fa-tower-observation' }] },
             kansai: { name: '關西', regions: [{ id: 'osaka', name: '大阪', icon: 'fa-chess-rook' }] },
@@ -149,14 +154,12 @@
         function renderHotelUI() {
             const container = document.getElementById('dynamic-content');
             
-            // 1. 渲染大分區分頁標籤 (關東、關西...)
             let zoneTabs = Object.keys(zonesData).map(zKey => `
                 <button onclick="switchZone('${zKey}')" class="flex-1 py-2 text-xs font-black border-b-2 transition-all ${activeZone === zKey ? 'border-orange-500 text-orange-600' : 'border-gray-200 text-gray-400'}">
                     ${zonesData[zKey].name}
                 </button>
             `).join('');
 
-            // 2. 根據目前大分區，渲染旗下的次區域方塊
             let regionBtns = zonesData[activeZone].regions.map(r => `
                 <button onclick="setHotelRegion('${r.id}')" class="flex flex-col items-center justify-center py-3 rounded-xl border-2 transition-all active:scale-95 border-orange-500 bg-orange-50 text-orange-600 shadow-sm">
                     <i class="fas ${r.icon} text-2xl mb-1.5"></i>
@@ -204,7 +207,7 @@
 
         function switchZone(zoneKey) {
             activeZone = zoneKey;
-            activeHotelRegion = zonesData[zoneKey].regions[0].id; // 預設切換到該大區的第一個子區
+            activeHotelRegion = zonesData[zoneKey].regions[0].id;
             renderHotelUI();
         }
 
@@ -261,7 +264,6 @@
                     finalUrl = item.url + (item.url.includes('?') ? '&' : '?') + `checkIn=${checkInDate}&checkOut=${checkOutDate}`;
                 }
 
-                // 徹底拔除單雙引號以防 XSS 與語法中斷
                 const safeName = item.name.replace(/['"]/g, '');
 
                 return `
@@ -278,7 +280,7 @@
             }).join('');
         }
 
-        // --- 📡 一般功能區塊 (加到日曆功能已完美防護) ---
+        // --- 📡 一般功能區塊 ---
         function addToCalendar(title, timeStr, url) {
             let hour = 10, minute = 30; if (timeStr.includes("09:00")) { hour = 9; minute = 0; }
             const now = new Date(); let nextMonth = now.getMonth() + 1; let year = now.getFullYear();
@@ -322,8 +324,6 @@
             
             container.innerHTML = items.map((item) => {
                 let badgeColor = item.brand.toUpperCase() === 'JCB' ? 'bg-red-500' : item.brand.toUpperCase() === 'VISA' ? 'bg-blue-800' : item.brand.toUpperCase() === 'IHG' ? 'bg-orange-950' : item.brand.toUpperCase() === 'SHOPEE' ? 'bg-orange-500' : item.brand.toUpperCase() === 'KLOOK' ? 'bg-orange-600' : item.brand.toUpperCase() === 'KKDAY' ? 'bg-cyan-500' : 'bg-gray-600';
-                
-                // 🛠️ 核心防當機清洗：移除 HTML 與引號
                 const cleanTitle = item.title.replace(/<[^>]*>/g, '').replace(/['"]/g, '');
 
                 return `
