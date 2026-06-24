@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>住房比價</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="data.js"></script>
+</head>
+<body class="bg-gray-100 p-4">
+    <div class="max-w-md mx-auto">
+        <h1 class="text-xl font-bold mb-4 text-center">精選飯店優惠</h1>
+        <div id="hotelList" class="space-y-4"></div>
+    </div>
+
+    <script>
+        // 這段程式碼會自動去抓 data.js 裡的飯店資料並畫出來
+        const list = document.getElementById('hotelList');
+        hotels.forEach(h => {
+            const url = `https://tw.trip.com/hotels/detail/?hotelId=${h.id}&Allianceid=7364995&SID=277926202`;
+            list.innerHTML += `
+                <div class="bg-white p-4 rounded-xl shadow-sm border">
+                    <div class="text-xs text-gray-500 uppercase">${h.region}</div>
+                    <div class="font-bold mb-2">${h.name}</div>
+                    <a href="${url}" target="_blank" class="block w-full text-center bg-blue-600 text-white py-2 rounded-lg">前往查價</a>
+                </div>`;
+        });
+    </script>
+</body>
+</html>
