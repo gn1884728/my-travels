@@ -139,6 +139,7 @@
             }
         }
 
+        // --- 🏨 住房比價 UI 渲染 (優化日期與搜尋按鈕並排結構) ---
         function renderHotelUI() {
             const container = document.getElementById('dynamic-content');
             const regions = [
@@ -156,20 +157,21 @@
             `).join('');
 
             container.innerHTML = `
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-4 shadow-sm">
-                    <div class="grid grid-cols-2 gap-3 mb-4">
+                <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 mb-4 flex items-center justify-between space-x-2">
+                    <div class="flex-1 grid grid-cols-2 gap-2">
                         <div>
-                            <label class="block text-xs font-bold text-gray-400 mb-1">入住日期</label>
-                            <input type="date" id="checkInInput" value="${tempCheckIn}" onchange="handleTempDateChange('in', this.value)" class="w-full text-xs font-bold bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-2 text-gray-700">
+                            <label class="block text-[10px] font-black text-gray-400 mb-0.5">入住</label>
+                            <input type="date" id="checkInInput" value="${tempCheckIn}" onchange="handleTempDateChange('in', this.value)" class="w-full text-[11px] font-bold bg-gray-50 border border-gray-200 rounded-lg p-1.5 text-gray-700 focus:outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-gray-400 mb-1">退房日期</label>
-                            <input type="date" id="checkOutInput" value="${tempCheckOut}" onchange="handleTempDateChange('out', this.value)" class="w-full text-xs font-bold bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-2 text-gray-700">
+                            <label class="block text-[10px] font-black text-gray-400 mb-0.5">退房</label>
+                            <input type="date" id="checkOutInput" value="${tempCheckOut}" onchange="handleTempDateChange('out', this.value)" class="w-full text-[11px] font-bold bg-gray-50 border border-gray-200 rounded-lg p-1.5 text-gray-700 focus:outline-none">
                         </div>
                     </div>
-                    <button onclick="executeHotelSearch()" class="w-full bg-orange-500 text-white font-black text-sm py-3 rounded-xl shadow-md transition-all active:scale-95 flex items-center justify-center space-x-2">
-                        <i class="fas fa-search"></i>
-                        <span>開始搜尋 / 重新計算房價</span>
+                    
+                    <button onclick="executeHotelSearch()" class="bg-orange-500 hover:bg-orange-600 text-white font-black text-xs h-[48px] px-3 rounded-xl shadow-md transition-all active:scale-95 flex flex-col items-center justify-center flex-shrink-0 mt-3" title="開始搜尋">
+                        <i class="fas fa-search text-base mb-0.5"></i>
+                        <span class="text-[9px]">搜尋</span>
                     </button>
                 </div>
 
@@ -257,6 +259,43 @@
             }).join('');
         }
 
+        // --- 📡 舊功能相容區塊 (完美補回「加到日曆」按鈕) ---
+        function addToCalendar(title, timeStr, url) {
+            let hour = 10, minute = 30;
+            if (timeStr.includes("09:00")) { hour = 9; minute = 0; }
+            
+            const now = new Date();
+            let nextMonth = now.getMonth() + 1; 
+            let year = now.getFullYear();
+            
+            if (now.getDate() > 1 || (now.getDate() === 1 && now.getHours() >= hour)) {
+                nextMonth += 1;
+                if (nextMonth > 12) { nextMonth = 1; year += 1; }
+            }
+
+            const monthStr = String(nextMonth).padStart(2, '0');
+            const startStr = `${year}${monthStr}01T${String(hour).padStart(2, '0')}${String(minute).padStart(2, '0')}00`;
+            const endStr = `${year}${monthStr}01T${String(hour + 1).padStart(2, '0')}${String(minute).padStart(2, '0')}00`;
+
+            const icsContent = [
+                "BEGIN:VCALENDAR", "VERSION:2.0", "BEGIN:VEVENT",
+                `DTSTART;TZID=Asia/Taipei:${startStr}`,
+                `DTEND;TZID=Asia/Taipei:${endStr}`,
+                `SUMMARY:${title.replace(/<[^>]*>/g, '')}`,
+                `DESCRIPTION:活動網址: ${url}`, `URL:${url}`,
+                "BEGIN:VALARM", "TRIGGER:-PT10M", "ACTION:DISPLAY", "DESCRIPTION:Reminder", "END:VALARM",
+                "END:VEVENT", "END:VCALENDAR"
+            ].join("\n");
+
+            gtag('event', 'add_to_calendar', { 'event_category': 'Engagement', 'event_label': title.replace(/<[^>]*>/g, '') });
+
+            const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = `${title.replace(/<[^>]*>/g, '').split('】').pop().split('（')[0]}_優惠提醒.ics`;
+            document.body.appendChild(link); link.click(); document.body.removeChild(link);
+        }
+
         function trackAffiliateClick(brand, title) {
             gtag('event', 'click_affiliate_link', { 'event_category': 'Outbound Link', 'brand_name': brand, 'discount_title': title.replace(/<[^>]*>/g, '') });
         }
@@ -293,7 +332,15 @@
                             </div>
                             <h3 class="font-bold text-gray-900 text-base mb-1">${item.title}</h3>
                             <p class="text-gray-500 text-xs mb-4">${item.desc}</p>
-                            <div class="flex space-x-2 w-full"><a href="${item.url}" target="_blank" class="flex-1 inline-flex justify-center items-center bg-blue-50 text-blue-600 font-bold text-xs py-2.5 rounded-xl border border-blue-200">前往官方網頁</a></div>
+                            
+                            <div class="flex space-x-2 w-full">
+                                <a href="${item.url}" target="_blank" onclick="trackAffiliateClick('${item.brand}', '${item.title}')" class="flex-1 inline-flex justify-center items-center bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold text-xs py-2.5 rounded-xl border border-blue-200 transition-colors">
+                                    前往官方網頁 <i class="fas fa-external-link-alt ml-1.5 text-[10px]"></i>
+                                </a>
+                                <button onclick="addToCalendar('${item.title}', '${item.time}', '${item.url}')" class="bg-gray-50 hover:bg-orange-50 text-orange-600 hover:text-orange-700 font-bold text-xs px-3.5 rounded-xl border border-gray-200 hover:border-orange-200 transition-colors flex items-center justify-center shadow-sm" title="加入手機行事曆鬧鐘">
+                                    <i class="fa-solid fa-calendar-plus text-sm"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>`;
             }).join('');
