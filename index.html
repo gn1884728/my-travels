@@ -11,7 +11,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3081/3081648.png">
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIuaIkeeahOYSquWgqyIsCiAgInNob3J0X25hbWUiIjogIuaIkeeahOYSquWgqyIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMjU2M0NFIiwKICAidGhlbWVfY29sb3IiOiAiIzI1NjNDRSIsCiAgIm9yaWVudGF0aW9uIjogInBvcnRyYWl0IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9jZG4taWNvbnMtcG5nLmZsYXRpY29uLmNvbS81MTIvMzA4MS8zMDgxNjQ4LnBuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICJwdXJwb3NlIjogImFueSBtYXJrYWJsZSIKICAgIH0KICBdCn0=">
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIuaIkeeahOYSquWgqyIsCiAgInNob3J0X25hbWUiIjogIuaIkeeahOYSquWgqyIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMjU2M0NFIiwKICAidGhlbWVfY29sb3IiOiAiIzI1NjNDRSIsCiAgIm9yaWVudGF0aW9uIjogInBvcnRyYWl0IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9jZG4taWNvbnMtcG5nLmZsYXRpY29uLmNvbS81MTIvMzA4MS8zMDgxNj_wNC5wbmciLAogICAgICAic2l6ZXMiOiAiaG1yeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICJwdXJwb3NlIjogImFueSBtYXJrYWJsZSIKICAgIH0KICBdCn0=">
 
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -25,7 +25,6 @@
 </head>
 <body class="bg-gray-100 font-sans h-screen flex flex-col max-w-md mx-auto shadow-2xl relative bg-white pb-safe">
 
-    <!-- 頂部導覽列 -->
     <header class="bg-blue-600 text-white px-4 py-3 flex flex-col sticky top-0 z-50 shadow-md pt-6">
         <div class="flex justify-between items-center w-full mb-2">
             <h1 class="text-xl font-bold tracking-wider">我的優惠</h1>
@@ -50,14 +49,12 @@
             </div>
         </div>
         
-        <!-- 動態提醒橫幅 -->
         <div id="notice-banner" class="w-full text-xs py-1.5 px-2.5 rounded-md font-medium flex items-center shadow-inner">
             <i class="fas fa-info-circle mr-1.5"></i>
             <span id="notice-text">正在計算本月優惠時程...</span>
         </div>
     </header>
 
-    <!-- 主內容區 -->
     <main class="flex-1 overflow-y-auto p-4 pb-24 no-scrollbar">
         <div id="dynamic-content" class="space-y-4">
             <div class="text-center py-12 text-gray-400">
@@ -67,7 +64,6 @@
         </div>
     </main>
 
-    <!-- 下方導覽選單 -->
     <nav class="bg-white border-t border-gray-200 fixed bottom-0 left-0 right-0 max-w-md mx-auto flex justify-around py-3 shadow-lg z-50 px-2">
         <button onclick="switchTab('food')" id="tab-food" class="tab-btn flex flex-col items-center space-y-1 text-blue-600 font-semibold flex-1">
             <i class="fas fa-utensils text-lg"></i>
@@ -133,7 +129,7 @@
                 "BEGIN:VEVENT",
                 `DTSTART;TZID=Asia/Taipei:${startStr}`,
                 `DTEND;TZID=Asia/Taipei:${endStr}`,
-                `SUMMARY:${title}`,
+                `SUMMARY:${title.replace(/<[^>]*>/g, '')}`, // 過濾掉 HTML 標籤
                 `DESCRIPTION:活動網址: ${url}`,
                 `URL:${url}`,
                 "BEGIN:VALARM",
@@ -148,22 +144,21 @@
             const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
             const link = document.createElement('a');
             link.href = window.URL.createObjectURL(blob);
-            link.download = `${title.split('（')[0]}_每月提醒.ics`;
+            link.download = `${title.replace(/<[^>]*>/g, '').split('】').pop().split('（')[0]}_優惠提醒.ics`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
         }
 
-        // 🧠 核心炫技點：自動解析時間字串並排序的函數
         function parseTimeScore(timeStr) {
-            // 從時間字串（例如 "每月 1 號 09:00"）中用正規表達式把數字時分挖出來
+            if (timeStr.includes("每個月常態") || timeStr.includes("即日起")) return 0; // 常態或即時活動置頂
             const match = timeStr.match(/(\d{2}):(\d{2})/);
             if (match) {
                 const hours = parseInt(match[1], 10);
                 const minutes = parseInt(match[2], 10);
-                return hours * 60 + minutes; // 轉換成分鐘總數，數字越小代表越早
+                return hours * 60 + minutes;
             }
-            return 9999; // 如果沒寫時間，排到最後面
+            return 9999;
         }
 
         async function fetchGitHubData() {
@@ -190,18 +185,18 @@
                 return;
             }
 
-            // 複製一份陣列資料，避免去污染或更動到原始 GitHub 的 globalData
             const items = [...globalData[selectedMonth][currentTab]];
-            
-            // 🚀 執行自動時間升序排序（時間早的在前面）
             items.sort((a, b) => parseTimeScore(a.time) - parseTimeScore(b.time));
 
             let htmlContent = '';
 
             items.forEach((item) => {
+                // 🎨 擴充智慧 Logo 標籤顏色引擎
                 let badgeColor = 'bg-gray-600';
                 if (item.brand.toUpperCase() === 'JCB') badgeColor = 'bg-red-500';
                 if (item.brand.toUpperCase() === 'VISA') badgeColor = 'bg-blue-800';
+                if (item.brand.toUpperCase() === 'IHG') badgeColor = 'bg-orange-950 border border-orange-500/30'; // IHG 官方深色極致質感
+                if (item.brand.toUpperCase() === 'SHOPEE') badgeColor = 'bg-orange-500'; // 蝦皮亮橘標誌色
 
                 htmlContent += `
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden active:scale-[0.99] transition-transform duration-100">
