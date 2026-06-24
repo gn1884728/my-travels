@@ -3,103 +3,451 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>我的優惠</title>
+    
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="我的優惠">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#2563EB">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3081/3081648.png">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+    <title>我的優惠與飯店</title>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-YOUR-ID-HERE');
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        body { -webkit-tap-highlight-color: transparent; }
+        * { -webkit-tap-highlight-color: transparent; }
+        @keyframes pulse-slow { 
+            0%, 100% { opacity: 1; } 
+            50% { opacity: 0.4; } 
+        }
+        .animate-pulse-slow { animation: pulse-slow 2s infinite; }
         .c-btn-shadow { box-shadow: 0 -4px 10px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.1); }
     </style>
 </head>
-<body class="bg-gray-50 font-sans h-screen flex flex-col max-w-md mx-auto shadow-2xl relative pb-safe">
+<body class="bg-gray-50 text-gray-800 antialiased min-h-screen flex flex-col relative pb-24">
 
     <header class="bg-blue-600 text-white px-4 py-3 flex flex-col sticky top-0 z-50 shadow-md pt-6">
-        <div class="flex justify-between items-center w-full mb-2">
+        <div class="flex justify-between items-center mb-2">
             <h1 class="text-xl font-bold tracking-wider">我的優惠</h1>
-            <select id="monthSelect" onchange="trackMonthChange()" class="bg-white text-gray-800 text-sm font-semibold rounded-lg px-3 py-1.5 pr-8 appearance-none cursor-pointer border border-gray-200 focus:outline-none">
-                <option value="6" selected>6 月</option><option value="7">7 月</option><option value="8">8 月</option>
-            </select>
+            <div class="relative" id="monthSelectorContainer">
+                <select id="monthSelect" onchange="trackMonthChange()" class="bg-white text-gray-800 text-sm py-1 pl-3 pr-8 rounded-full cursor-pointer border border-gray-200 focus:outline-none shadow-sm appearance-none">
+                    <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option>
+                    <option value="4">4月</option><option value="5">5月</option><option value="6">6月</option>
+                    <option value="7">7月</option><option value="8">8月</option><option value="9">9月</option>
+                    <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
+                </select>
+                <div class="absolute inset-y-0 right-0 flex items-center px-2 text-gray-600 pointer-events-none">
+                    <i class="fas fa-chevron-down text-xs"></i>
+                </div>
+            </div>
         </div>
-        <div id="notice-banner" class="w-full text-xs py-1.5 px-2.5 rounded-md font-medium flex items-center shadow-inner bg-blue-100 text-blue-800">
-            <i class="fas fa-info-circle mr-1.5"></i> <span id="notice-text">請選擇住宿日期並按「搜尋」</span>
+        <div id="notice-banner" class="w-full text-xs py-1.5 px-2.5 rounded-md font-medium flex items-center shadow-inner">
+            <i class="fas fa-info-circle mr-1.5"></i>
+            <span id="notice-text">正在計算本月優惠進度...</span>
         </div>
     </header>
 
-    <main class="flex-1 overflow-y-auto p-4 pb-28 no-scrollbar" id="main-content">
-        <div id="dynamic-content" class="space-y-4"></div>
+    <main class="flex-1 overflow-y-auto p-4" id="dynamic-content">
+        <div class="text-center py-12 text-gray-400">
+            <i class="fas fa-spinner fa-spin text-3xl mb-2"></i>
+            <p>資料即時載入...</p>
+        </div>
     </main>
 
-    <nav class="bg-white border-t border-gray-200 fixed bottom-0 left-0 right-0 max-w-md mx-auto flex justify-between items-end pb-3 pt-2 shadow-[0_-5px_15px_-5px_rgba(0,0,0,0.1)] z-50 px-4 h-[72px]">
-        <button onclick="switchTab('food')" class="tab-btn flex flex-col items-center space-y-1 w-12 text-blue-600 font-semibold"><i class="fas fa-utensils text-lg"></i><span class="text-[10px]">美食</span></button>
-        <button onclick="switchTab('life')" class="tab-btn flex flex-col items-center space-y-1 w-12 text-gray-400"><i class="fas fa-shopping-bag text-lg"></i><span class="text-[10px]">生活</span></button>
+    <nav class="bg-white border-t border-gray-200 fixed bottom-0 left-0 right-0 w-full flex justify-around items-end pb-4 pt-2 shadow-[0_-5px_15px_-5px_rgba(0,0,0,0.1)] z-50">
+        <button onclick="switchTab('food')" id="tab-food" class="tab-btn flex flex-col items-center space-y-1 w-16 text-gray-400 transition-colors">
+            <i class="fas fa-hamburger text-lg mb-0.5"></i><span class="text-[10px]">美食</span>
+        </button>
+        <button onclick="switchTab('life')" id="tab-life" class="tab-btn flex flex-col items-center space-y-1 w-16 text-gray-400 transition-colors">
+            <i class="fas fa-shopping-bag text-lg mb-0.5"></i><span class="text-[10px]">生活</span>
+        </button>
+        
         <div class="relative w-16 flex justify-center">
-            <button onclick="switchTab('hotel')" id="tab-hotel" class="absolute -bottom-2 flex flex-col items-center justify-center w-16 h-16 bg-blue-600 rounded-full c-btn-shadow border-4 border-gray-50 text-white z-50"><i class="fas fa-bed text-xl mb-0.5"></i><span class="text-[10px] font-bold">比價</span></button>
+            <button onclick="switchTab('hotel')" id="tab-hotel" class="absolute -bottom-2 flex flex-col items-center justify-center w-16 h-16 bg-orange-500 rounded-full c-btn-shadow border-4 border-gray-50 text-white transition-transform active:scale-95 z-50">
+                <i class="fas fa-bed text-xl mb-0.5"></i>
+                <span class="text-[10px] font-bold">查房價</span>
+            </button>
         </div>
-        <button onclick="switchTab('travel')" class="tab-btn flex flex-col items-center space-y-1 w-12 text-gray-400"><i class="fas fa-plane text-lg"></i><span class="text-[10px]">旅遊</span></button>
-        <button onclick="switchTab('credit')" class="tab-btn flex flex-col items-center space-y-1 w-12 text-gray-400"><i class="fas fa-credit-card text-lg"></i><span class="text-[10px]">信用卡</span></button>
+        
+        <button onclick="switchTab('travel')" id="tab-travel" class="tab-btn flex flex-col items-center space-y-1 w-16 text-gray-400 transition-colors">
+            <i class="fas fa-plane text-lg mb-0.5"></i><span class="text-[10px]">旅遊</span>
+        </button>
+        <button onclick="switchTab('credit')" id="tab-credit" class="tab-btn flex flex-col items-center space-y-1 w-16 text-gray-400 transition-colors">
+            <i class="fas fa-credit-card text-lg mb-0.5"></i><span class="text-[10px]">信用卡</span>
+        </button>
     </nav>
 
     <script>
+        const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/gn1884728/my-travels/refs/heads/main/data.json';
+        let globalData = null;
+        let currentTab = 'hotel';
+
+        // ==========================================
+        // 🏨 飯店資料庫設定
+        // ==========================================
         const baseHotelsData = [
-            { region: 'tokyo', name: '東橫INN - 上野田原町站', platform: 'TRIP', basePrice: 2500, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Tokyo&cityId=228&hotelId=688581&Allianceid=7364995&SID=277926202' },
-            { region: 'tokyo', name: '相鐵 FRESA INN - 東新宿站前', platform: 'TRIP', basePrice: 3500, url: 'https://hk.trip.com/hotels/detail/?cityEnName=Tokyo&cityId=228&hotelId=688315&Allianceid=7364995&SID=277926202' },
-            { region: 'tokyo', name: '東京上野喜來登福朋飯店', platform: 'TRIP', basePrice: 5800, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Tokyo&cityId=228&hotelId=1458598&Allianceid=7364995&SID=277926202' },
-            { region: 'fukuoka', name: 'lyf 天神福岡飯店', platform: 'TRIP', basePrice: 2200, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Fukuoka&cityId=248&hotelId=72229900&Allianceid=7364995&SID=277926202' },
-            { region: 'fukuoka', name: '福岡日航飯店', platform: 'TRIP', basePrice: 4500, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Fukuoka&cityId=248&hotelId=993535&Allianceid=7364995&SID=277926202' },
-            { region: 'osaka', name: '大阪都喜來登飯店', platform: 'TRIP', basePrice: 5200, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Osaka&cityId=219&hotelId=993284&Allianceid=7364995&SID=277926202' },
-            { region: 'osaka', name: '東橫 INN - 大阪難波', platform: 'TRIP', basePrice: 2100, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Osaka&cityId=219&hotelId=124671917&Allianceid=7364995&SID=277926202' },
-            { region: 'sapporo', name: 'Vessel Inn 札幌中島公園飯店', platform: 'TRIP', basePrice: 3200, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Sapporo&cityId=641&hotelId=705328&Allianceid=7364995&SID=277926202' },
-            { region: 'sapporo', name: '洲至奢選洞爺溫莎飯店', platform: 'TRIP', basePrice: 12500, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Toyako&cityId=50390&hotelId=711304&Allianceid=7364995&SID=277926202' }
+            {region: 'tokyo', zone: 'kanto', name: '東橫INN - 上野田原町站', platform: 'TRIP', basePrice: 2500, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Tokyo&cityId=228&hotelId=688581&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hotelType=normal&display=incavg&subStamp=756&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202' },
+            {region: 'tokyo', zone: 'kanto', name: '東京上野喜來登福朋飯店', platform: 'TRIP', basePrice: 5800, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Tokyo&cityId=228&hotelId=1458598&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hotelType=normal&display=incavg&subStamp=756&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202' },
+            
+            // 🌟 這是你新加入的【關東 - 新宿】飯店
+            {region: 'shinjuku', zone: 'kanto', name: '新宿精選飯店 (可修改名稱)', platform: 'TRIP', basePrice: 4000, url: 'https://hk.trip.com/hotels/detail/?cityEnName=Tokyo&cityId=228&hotelId=688315&checkIn=2026-06-24&checkOut=2026-06-25&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hoteluniquekey=H4sIAAAAAAAA_-O6yMTFJMEkdYqJ4-3Zd21MQsyGBkYat9kMHjBabJV3XFJgy3VdtMnBsxBILxZqcwjgKWQAAz2HRsZqkXXuD6s0HWYw7m7U2siYBgLP4h12MDKdYOwRXcA07fFNxlMszByXWS6x7GCMrlbKTq1UsjLRUSrJLMlJVbJSer6i9eWCViUdpZTU4mQgH8hKzM0vzSsBsk0tTfUMDIAiJYkVnilKVuamOkrJiTnJpTmJJakhlQVA_UY6SpnFziVFmQVBqbmZJSWpQGVpiTnFqSDxoNRioEwyWBBkcBGUn5mfB9FtgCIWlphTmgpRCbTQLRVqhWFt7CMWpujYFyy32T6xMPxiYeJwaWJl6GJlmMTKzHFfchcrr6-Lm0WUr65hiG6UruEF1l4xKRVDAwMDU0NjU1Ndg0RLY_MUAxNdE0tTAwszXaCMkaGFhbmRpcb__T8uvDc2MlZg1BKID4kICc_MSC0pLMwuK65INmA8xShlaG5haGluYWBqYmRsoGeUmJxWFFxkZOpuZOrBGMRmbmJi5mIcZcPFHBrsImh57WiuiYO0gxRzSLiLYnbtxAvTik_bazF7BUQa9k0Kfy4xYal9YDDHEyF3uQX2kTD5JNaqDF0P74zVogWMXYzcAowejBGMFYwNjIyrGNm5mIFOFWDawMi4g_E_DDC-YgTZAABoqnwrNwIAAA&masterhotelid_tracelogid=100051355-0a937d04-495086-1002188729&detailFilters=9|94250~9~94250|35.6938401|139.7035494|1|新宿區*17|1~17~1*80|0|1~80~0*29|1~29~1|2&hotelType=normal&display=exavg&subStamp=649&isCT=true&isFlexible=F&locale=zh-HK&Allianceid=7364995&SID=277926202' },
+
+            {region: 'fukuoka', zone: 'kyushu', name: 'lyf天神福岡飯店', platform: 'TRIP', basePrice: 2200, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Fukuoka&cityId=248&hotelId=72229900&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hotelType=normal&display=incavg&subStamp=1332&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202' },
+            {region: 'fukuoka', zone: 'kyushu', name: '福岡日航飯店', platform: 'TRIP', basePrice: 4500, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Fukuoka&cityId=248&hotelId=993535&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hotelType=normal&display=incavg&subStamp=1380&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202' },
+            
+            {region: 'osaka', zone: 'kansai', name: '大阪都喜來登飯店', platform: 'TRIP', basePrice: 5200, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Osaka&cityId=219&hotelId=993284&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hotelType=normal&display=incavg&subStamp=1140&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202' },
+            {region: 'osaka', zone: 'kansai', name: '東橫 INN - 大阪難波', platform: 'TRIP', basePrice: 2100, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Osaka&cityId=219&hotelId=124671917&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hotelType=normal&display=incavg&subStamp=1140&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202' },
+            
+            {region: 'sapporo', zone: 'hokkaido', name: 'Vessel Inn 札幌中島公園飯店', platform: 'TRIP', basePrice: 3200, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Sapporo&cityId=641&hotelId=705328&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hotelType=normal&display=incavg&subStamp=812&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202' },
+            {region: 'sapporo', zone: 'hokkaido', name: '洲至奢華選洞爺溫莎飯店', platform: 'TRIP', basePrice: 12500, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Toyako&cityId=50390&hotelId=711304&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hotelType=normal&display=incavg&subStamp=1800&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202' }
         ];
 
-        let activeRegion = 'tokyo', checkIn = '', checkOut = '';
+        // 🗺️ 區域對照表 (新增了新宿)
+        const zonesData = {
+            kanto: {
+                name: '關東',
+                regions: [
+                    { id: 'tokyo', name: '東京', icon: 'fa-tower-observation' },
+                    { id: 'shinjuku', name: '新宿', icon: 'fa-building' } // 🌟 這裡新增了新宿區！
+                ]
+            },
+            kansai: {
+                name: '關西',
+                regions: [{ id: 'osaka', name: '大阪', icon: 'fa-chess-castle' }]
+            },
+            kyushu: {
+                name: '九州',
+                regions: [{ id: 'fukuoka', name: '福岡', icon: 'fa-bowl-food' }]
+            },
+            hokkaido: {
+                name: '北海道',
+                regions: [{ id: 'sapporo', name: '札幌', icon: 'fa-snowflake' }]
+            }
+        };
+
+        let activeZone = 'kanto';
+        let activeHotelRegion = 'tokyo';
+        let hotelMaxPrice = 15000;
+        let checkInDate = '';
+        let checkOutDate = '';
+        let tempCheckIn = '';
+        let tempCheckOut = '';
+
         function initDates() {
-            const d1 = new Date(); d1.setDate(d1.getDate()+1); const d2 = new Date(); d2.setDate(d2.getDate()+2);
-            checkIn = d1.toISOString().split('T')[0]; checkOut = d2.toISOString().split('T')[0];
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const dayAfter = new Date();
+            dayAfter.setDate(dayAfter.getDate() + 2);
+            
+            checkInDate = tomorrow.toISOString().split('T')[0];
+            checkOutDate = dayAfter.toISOString().split('T')[0];
+            tempCheckIn = checkInDate;
+            tempCheckOut = checkOutDate;
         }
-        initDates();
+
+        // ==========================================
+        // 🔄 UI 與邏輯處理
+        // ==========================================
+        function updateNoticeBanner() {
+            const banner = document.getElementById('notice-banner');
+            const text = document.getElementById('notice-text');
+            if (currentTab === 'hotel') {
+                banner.className = "w-full text-xs py-1.5 px-2.5 rounded-md font-bold flex items-center shadow-inner bg-blue-100 text-blue-800";
+                text.innerText = "📅 請選擇住宿日期，調整完成後點擊「套用」！";
+                return;
+            }
+            
+            const date = new Date().getDate();
+            if (date === 1) {
+                banner.className = "w-full text-xs py-1.5 px-2.5 rounded-md font-bold flex items-center shadow-inner bg-red-100 text-red-600 animate-pulse-slow";
+                text.innerText = "🚨 搶好康決戰日！今天就是1號，記得去登入優惠！";
+            } else {
+                banner.className = "w-full text-xs py-1.5 px-2.5 rounded-md font-medium flex items-center shadow-inner bg-blue-500 text-white";
+                text.innerText = "💡 隨手點擊加入行事曆，優惠不漏接！";
+            }
+        }
 
         function renderHotelUI() {
             const container = document.getElementById('dynamic-content');
+            
+            // 產生四大分區按鈕
+            let zoneTabs = Object.keys(zonesData).map(zKey => `
+                <button onclick="switchZone('${zKey}')" class="pb-2 px-1 border-b-2 font-bold transition-all ${activeZone === zKey ? 'border-orange-500 text-orange-600' : 'border-gray-200 text-gray-400'}">
+                    ${zonesData[zKey].name}
+                </button>
+            `).join('');
+
+            // 產生該分區的次區域按鈕 (如東京、新宿)
+            let regionBtns = zonesData[activeZone].regions.map(r => `
+                <button onclick="setHotelRegion('${r.id}')" class="flex flex-col items-center justify-center py-3 rounded-xl border-2 transition-all active:scale-95 ${activeHotelRegion === r.id ? 'border-orange-500 bg-orange-50 text-orange-600 shadow-sm' : 'border-gray-100 bg-white text-gray-400'}">
+                    <i class="fas ${r.icon} text-2xl mb-1.5"></i>
+                    <span class="text-[11px] font-bold tracking-wide">${r.name}區</span>
+                </button>
+            `).join('');
+
             container.innerHTML = `
-                <div class="bg-white p-3 rounded-xl shadow-sm border mb-4 flex items-center justify-between">
-                    <div class="flex-1 grid grid-cols-2 gap-2 text-xs">
-                        <input type="date" id="in" value="${checkIn}" class="p-2 border rounded">
-                        <input type="date" id="out" value="${checkOut}" class="p-2 border rounded">
-                    </div>
-                    <button onclick="doSearch()" class="ml-2 bg-orange-500 text-white p-3 rounded-lg"><i class="fas fa-search"></i></button>
+                <div class="flex justify-between items-end border-b border-gray-100 mb-3 space-x-4">
+                    ${zoneTabs}
                 </div>
+                
                 <div class="grid grid-cols-4 gap-2 mb-4">
-                    ${['tokyo','osaka','fukuoka','sapporo'].map(r => `<button onclick="activeRegion='${r}';renderHotelUI()" class="p-2 text-[10px] font-bold border rounded ${activeRegion==r?'bg-orange-100 border-orange-500':'border-gray-200'}">${r.toUpperCase()}</button>`).join('')}
+                    ${regionBtns}
                 </div>
-                <div id="list" class="space-y-3"></div>
+
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-4">
+                    <div class="flex items-center justify-between mb-3 space-x-2">
+                        <div class="flex-1 grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-[10px] font-black text-gray-400 mb-0.5">入住日期</label>
+                                <input type="date" id="checkInInput" value="${tempCheckIn}" onchange="handleTempDateChange('in', this.value)" class="w-full text-[11px] font-bold bg-gray-50 border border-gray-200 rounded-lg p-1.5 text-gray-700 focus:outline-none focus:border-blue-400">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-black text-gray-400 mb-0.5">退房日期</label>
+                                <input type="date" id="checkOutInput" value="${tempCheckOut}" onchange="handleTempDateChange('out', this.value)" class="w-full text-[11px] font-bold bg-gray-50 border border-gray-200 rounded-lg p-1.5 text-gray-700 focus:outline-none focus:border-blue-400">
+                            </div>
+                        </div>
+                        <button onclick="executeHotelSearch()" class="bg-orange-500 hover:bg-orange-600 text-white font-black text-xs px-4 py-2.5 rounded-lg shadow-md transition-colors h-[42px] mt-[18px]">
+                            套用
+                        </button>
+                    </div>
+
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="font-bold text-gray-700 text-sm">篩選飯店等級 <span class="text-xs text-gray-400 font-normal">(平日起價)</span></span>
+                        <span class="font-black text-blue-600 text-lg">NT$ <span id="priceDisplay">${hotelMaxPrice.toLocaleString()}</span> 內</span>
+                    </div>
+                    <input type="range" min="1500" max="15000" step="500" value="${hotelMaxPrice}" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600" oninput="updateHotelPrice(this.value)">
+                </div>
+
+                <div id="hotelListContainer" class="space-y-3 pb-8"></div>
             `;
-            doSearch();
+            renderHotelList();
         }
 
-        function doSearch() {
-            checkIn = document.getElementById('in').value;
-            checkOut = document.getElementById('out').value;
-            const list = document.getElementById('list');
-            list.innerHTML = baseHotelsData.filter(h => h.region == activeRegion).map(item => {
-                let url = new URL(item.url);
-                url.searchParams.set('checkIn', checkIn);
-                url.searchParams.set('checkOut', checkOut);
+        function switchZone(zoneKey) {
+            activeZone = zoneKey;
+            activeHotelRegion = zonesData[zoneKey].regions[0].id;
+            renderHotelUI();
+        }
+
+        function setHotelRegion(regionId) {
+            activeHotelRegion = regionId;
+            renderHotelUI();
+        }
+
+        function updateHotelPrice(val) {
+            hotelMaxPrice = parseInt(val);
+            document.getElementById('priceDisplay').innerText = hotelMaxPrice.toLocaleString();
+            renderHotelList();
+        }
+
+        function handleTempDateChange(type, value) {
+            if (type === 'in') {
+                tempCheckIn = value;
+                let d = new Date(value);
+                d.setDate(d.getDate() + 1);
+                tempCheckOut = d.toISOString().split('T')[0];
+                document.getElementById('checkOutInput').value = tempCheckOut;
+            } else {
+                tempCheckOut = value;
+            }
+        }
+
+        function executeHotelSearch() {
+            checkInDate = tempCheckIn;
+            checkOutDate = tempCheckOut;
+            renderHotelList();
+        }
+
+        function renderHotelList() {
+            const listContainer = document.getElementById('hotelListContainer');
+            let filteredHotels = baseHotelsData.filter(h => h.region === activeHotelRegion && h.basePrice <= hotelMaxPrice);
+            filteredHotels.sort((a, b) => a.basePrice - b.basePrice);
+
+            if (filteredHotels.length === 0) {
+                listContainer.innerHTML = `<div class="text-center py-10 bg-white rounded-xl border border-dashed border-gray-300 text-gray-400"><p class="text-sm">此預算內暫無飯店</p></div>`;
+                return;
+            }
+
+            listContainer.innerHTML = filteredHotels.map(item => {
+                // 巧妙處理 Trip.com 長網址，動態更換入住/退房日期
+                let finalUrl = item.url;
+                try {
+                    let urlObj = new URL(item.url);
+                    const keysToDelete = [];
+                    for (const key of urlObj.searchParams.keys()) {
+                        if (key.toLowerCase() === 'checkin' || key.toLowerCase() === 'checkout') {
+                            keysToDelete.push(key);
+                        }
+                    }
+                    keysToDelete.forEach(k => urlObj.searchParams.delete(k));
+                    urlObj.searchParams.set('checkIn', checkInDate);
+                    urlObj.searchParams.set('checkOut', checkOutDate);
+                    finalUrl = urlObj.toString();
+                } catch(e) {
+                    finalUrl = item.url + (item.url.includes('?') ? '&' : '?') + `checkIn=${checkInDate}&checkOut=${checkOutDate}`;
+                }
+
+                const safeName = item.name.replace(/['"]/g, '');
                 return `
-                    <div class="bg-white p-4 rounded-xl border shadow-sm">
-                        <div class="font-bold mb-2">${item.name}</div>
-                        <a href="${url.toString()}" target="_blank" class="block w-full text-center bg-blue-600 text-white py-2 rounded-lg text-sm">前往查價</a>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="bg-blue-800 text-white text-[11px] font-black tracking-wider px-2 py-0.5 rounded">${item.platform}</span>
+                            <span class="text-xs font-bold text-gray-600 bg-gray-100 px-2 py-1 rounded-md">平日參考起價 <span class="text-blue-600 ml-1 font-black">NT$ ${item.basePrice.toLocaleString()}</span></span>
+                        </div>
+                        <h3 class="font-bold text-gray-900 text-base mb-4"><i class="fas fa-map-marker-alt text-orange-500 mr-1.5"></i>${item.name}</h3>
+                        <a href="${finalUrl}" target="_blank" onclick="trackAffiliateClick('${item.platform}', '${safeName}')" class="w-full inline-flex justify-center items-center bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-sm py-2.5 rounded-xl border border-blue-200 transition-colors">
+                            查詢即時房價與空房
+                        </a>
                     </div>
-                `;
+                </div>`;
             }).join('');
         }
-        function switchTab(t) { t=='hotel'?renderHotelUI():location.reload(); }
-        renderHotelUI();
+
+        // ==========================================
+        // 📡 通用功能與行事曆
+        // ==========================================
+        function addToCalendar(title, timeStr, url) {
+            let hour = 10, minute = 30;
+            if (timeStr.includes("09:00")) { hour = 9; minute = 0; }
+            
+            const now = new Date();
+            let nextMonth = now.getMonth() + 1;
+            let year = now.getFullYear();
+            if (now.getDate() > 1 || (now.getDate() === 1 && now.getHours() >= hour)) {
+                nextMonth += 1;
+                if (nextMonth > 12) { nextMonth = 1; year += 1; }
+            }
+            const monthStr = String(nextMonth).padStart(2, '0');
+            const startStr = `${year}${monthStr}01T${String(hour).padStart(2, '0')}${String(minute).padStart(2, '0')}00`;
+            const endStr = `${year}${monthStr}01T${String(hour + 1).padStart(2, '0')}${String(minute).padStart(2, '0')}00`;
+            
+            const safeTitle = title.replace(/<[^>]*>/g, '').replace(/['"]/g, '');
+            const icsContent = [
+                "BEGIN:VCALENDAR", "VERSION:2.0", "BEGIN:VEVENT",
+                `DTSTART;TZID=Asia/Taipei:${startStr}`, `DTEND;TZID=Asia/Taipei:${endStr}`,
+                `SUMMARY:${safeTitle}`, `DESCRIPTION:優惠連結：${url}`,
+                "BEGIN:VALARM", "TRIGGER:-PT10M", "ACTION:DISPLAY", "DESCRIPTION:提醒", "END:VALARM",
+                "END:VEVENT", "END:VCALENDAR"
+            ].join("\n");
+            
+            gtag('event', 'add_to_calendar', { 'event_category': 'Engagement', 'event_label': safeTitle });
+            
+            const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = `${safeTitle.split('】').pop().split('（')[0]}_優惠提醒.ics`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function trackAffiliateClick(brand, title) {
+            const safeTitle = title.replace(/<[^>]*>/g, '').replace(/['"]/g, '');
+            gtag('event', 'click_affiliate', { 'brand': brand, 'discount_title': safeTitle });
+        }
+
+        function trackMonthChange() { renderActiveTab(); }
+
+        // ==========================================
+        // 🌐 其他優惠資料撈取
+        // ==========================================
+        async function fetchGitHubData() {
+            try {
+                const response = await fetch(`${GITHUB_RAW_URL}?t=${new Date().getTime()}`);
+                globalData = await response.json();
+                renderActiveTab();
+            } catch (error) {
+                document.getElementById('dynamic-content').innerHTML = `<div class="text-center py-10 text-red-500"><p>連結遺失，請重新整理</p></div>`;
+            }
+        }
+
+        function renderActiveTab() {
+            if (currentTab === 'hotel') return;
+            if (!globalData) return;
+            
+            const selectedMonth = document.getElementById('monthSelect').value;
+            const container = document.getElementById('dynamic-content');
+            
+            if (!globalData[selectedMonth] || !globalData[selectedMonth][currentTab] || globalData[selectedMonth][currentTab].length === 0) {
+                container.innerHTML = `<div class="text-center py-10 text-gray-400"><p class="text-sm">${selectedMonth} 月份暫無活動</p></div>`;
+                return;
+            }
+            
+            const items = [...globalData[selectedMonth][currentTab]];
+            container.innerHTML = items.map((item) => {
+                let badgeColor = item.brand.toUpperCase() === 'JCB' ? 'bg-red-500' : 
+                                 item.brand.toUpperCase() === 'VISA' ? 'bg-blue-800' : 
+                                 item.brand.toUpperCase() === 'MASTERCARD' ? 'bg-orange-500' : 'bg-gray-600';
+                const cleanTitle = item.title.replace(/<[^>]*>/g, '').replace(/['"]/g, '');
+                return `
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-3">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-2.5">
+                            <span class="${badgeColor} text-white text-[11px] font-black tracking-wider px-2 py-0.5 rounded">${item.brand}</span>
+                            <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">${item.time}</span>
+                        </div>
+                        <h3 class="font-bold text-gray-900 text-base mb-1">${item.title}</h3>
+                        <p class="text-gray-500 text-xs mb-4">${item.desc}</p>
+                        <div class="flex space-x-2 w-full">
+                            <a href="${item.url}" target="_blank" onclick="trackAffiliateClick('${item.brand}', '${cleanTitle}')" class="flex-1 inline-flex justify-center items-center bg-blue-50 text-blue-600 font-bold text-xs py-2.5 rounded-xl border border-blue-200">前往官方網頁</a>
+                            <button onclick="addToCalendar('${cleanTitle}', '${item.time}', '${item.url}')" class="bg-gray-50 text-orange-600 font-bold text-xs px-3.5 rounded-xl border border-gray-200"><i class="fa-solid fa-calendar-plus text-sm"></i></button>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function switchTab(tabName) {
+            currentTab = tabName;
+            
+            // 重置所有按鈕樣式
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('text-blue-600', 'font-semibold');
+                btn.classList.add('text-gray-400');
+            });
+            
+            const hotelBtn = document.getElementById('tab-hotel');
+            if (tabName === 'hotel') {
+                hotelBtn.classList.remove('bg-blue-600');
+                hotelBtn.classList.add('bg-orange-500');
+            } else {
+                hotelBtn.classList.remove('bg-orange-500');
+                hotelBtn.classList.add('bg-blue-600');
+                const activeBtn = document.getElementById(`tab-${tabName}`);
+                if(activeBtn) {
+                    activeBtn.classList.remove('text-gray-400');
+                    activeBtn.classList.add('text-blue-600', 'font-semibold');
+                }
+            }
+            
+            const monthSelector = document.getElementById('monthSelectorContainer');
+            if(tabName === 'hotel') {
+                monthSelector.style.display = 'none';
+                updateNoticeBanner();
+                renderHotelUI();
+            } else {
+                monthSelector.style.display = 'block';
+                updateNoticeBanner();
+                renderActiveTab();
+            }
+        }
+
+        // 初始化
+        initDates();
+        switchTab('hotel');
+        fetchGitHubData();
+
     </script>
 </body>
 </html>
