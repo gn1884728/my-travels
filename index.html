@@ -50,7 +50,7 @@
             </div>
         </div>
         
-        <!-- 方案 A：智慧動態提醒橫幅 -->
+        <!-- 動態提醒橫幅 -->
         <div id="notice-banner" class="w-full text-xs py-1.5 px-2.5 rounded-md font-medium flex items-center shadow-inner">
             <i class="fas fa-info-circle mr-1.5"></i>
             <span id="notice-text">正在計算本月優惠時程...</span>
@@ -92,7 +92,6 @@
         let globalData = null;
         let currentTab = 'food';
 
-        // 智慧型動態時間提醒邏輯
         function updateNoticeBanner() {
             const today = new Date();
             const date = today.getDate();
@@ -100,21 +99,17 @@
             const text = document.getElementById('notice-text');
             
             if (date === 1) {
-                // 1號當天警示
                 banner.className = "w-full text-xs py-1.5 px-2.5 rounded-md font-bold flex items-center shadow-inner bg-amber-500 text-white animate-pulse-slow";
                 text.innerText = "🚨 搶好康決戰日！今天就是 1 號，記得去登錄優惠！";
             } else if (date >= 25) {
-                // 月底預告
                 banner.className = "w-full text-xs py-1.5 px-2.5 rounded-md font-medium flex items-center shadow-inner bg-blue-700 text-blue-100";
                 text.innerText = "📅 優惠預告：倒數幾天進入下個月 1 號，大戰即將開始！";
             } else {
-                // 平常日子
                 banner.className = "w-full text-xs py-1.5 px-2.5 rounded-md font-medium flex items-center shadow-inner bg-blue-500/50 text-blue-100";
                 text.innerText = "💡 貼心提醒：每月 1 號固定大搶購，可點擊卡片加入手機日曆。";
             }
         }
 
-        // 方案 B：產生通用行事曆檔案並直接觸發手機內建日曆
         function addToCalendar(title, timeStr, url) {
             let hour = 10, minute = 30;
             if (timeStr.includes("09:00")) { hour = 9; minute = 0; }
@@ -123,7 +118,6 @@
             let nextMonth = now.getMonth() + 1; 
             let year = now.getFullYear();
             
-            // 如果今天是 1 號且時間過了，或是已經月底，行事曆自動排到下個月 1 號
             if (now.getDate() > 1 || (now.getDate() === 1 && now.getHours() >= hour)) {
                 nextMonth += 1;
                 if (nextMonth > 12) { nextMonth = 1; year += 1; }
@@ -133,7 +127,6 @@
             const startStr = `${year}${monthStr}01T${String(hour).padStart(2, '0')}${String(minute).padStart(2, '0')}00`;
             const endStr = `${year}${monthStr}01T${String(hour + 1).padStart(2, '0')}${String(minute).padStart(2, '0')}00`;
 
-            // 標準 .ics 格式內容（含提前 10 分鐘響鈴鬧鐘設定）
             const icsContent = [
                 "BEGIN:VCALENDAR",
                 "VERSION:2.0",
@@ -144,7 +137,7 @@
                 `DESCRIPTION:活動網址: ${url}`,
                 `URL:${url}`,
                 "BEGIN:VALARM",
-                "TRIGGER:-PT10M", // 提早 10 分鐘提醒
+                "TRIGGER:-PT10M",
                 "ACTION:DISPLAY",
                 "DESCRIPTION:Reminder",
                 "END:VALARM",
@@ -159,6 +152,18 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+        }
+
+        // 🧠 核心炫技點：自動解析時間字串並排序的函數
+        function parseTimeScore(timeStr) {
+            // 從時間字串（例如 "每月 1 號 09:00"）中用正規表達式把數字時分挖出來
+            const match = timeStr.match(/(\d{2}):(\d{2})/);
+            if (match) {
+                const hours = parseInt(match[1], 10);
+                const minutes = parseInt(match[2], 10);
+                return hours * 60 + minutes; // 轉換成分鐘總數，數字越小代表越早
+            }
+            return 9999; // 如果沒寫時間，排到最後面
         }
 
         async function fetchGitHubData() {
@@ -185,10 +190,15 @@
                 return;
             }
 
-            const items = globalData[selectedMonth][currentTab];
+            // 複製一份陣列資料，避免去污染或更動到原始 GitHub 的 globalData
+            const items = [...globalData[selectedMonth][currentTab]];
+            
+            // 🚀 執行自動時間升序排序（時間早的在前面）
+            items.sort((a, b) => parseTimeScore(a.time) - parseTimeScore(b.time));
+
             let htmlContent = '';
 
-            items.forEach((item, index) => {
+            items.forEach((item) => {
                 let badgeColor = 'bg-gray-600';
                 if (item.brand.toUpperCase() === 'JCB') badgeColor = 'bg-red-500';
                 if (item.brand.toUpperCase() === 'VISA') badgeColor = 'bg-blue-800';
@@ -203,7 +213,6 @@
                             <h3 class="font-bold text-gray-900 text-base mb-1">${item.title}</h3>
                             <p class="text-gray-500 text-xs mb-4 leading-relaxed">${item.desc}</p>
                             
-                            <!-- 按鈕雙併：前往活動頁 + 設行事曆 -->
                             <div class="flex space-x-2 w-full">
                                 <a href="${item.url}" target="_blank" class="flex-1 inline-flex justify-center items-center bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold text-xs py-2.5 rounded-xl border border-blue-200 transition-colors">
                                     前往官方網頁 <i class="fas fa-external-link-alt ml-1.5 text-[10px]"></i>
