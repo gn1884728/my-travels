@@ -12,6 +12,7 @@
     
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3081/3081648.png">
     
+    <!-- 📊 GA4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-JYDYNWGYMF"></script>
     <script>
         const GA4_ID = 'G-JYDYNWGYMF'; 
@@ -34,6 +35,7 @@
 </head>
 <body class="bg-gray-50 font-sans h-screen flex flex-col max-w-md mx-auto shadow-2xl relative pb-safe">
 
+    <!-- 頂部導覽列 -->
     <header class="bg-blue-600 text-white px-4 py-3 flex flex-col sticky top-0 z-50 shadow-md pt-6">
         <div class="flex justify-between items-center w-full mb-2">
             <h1 class="text-xl font-bold tracking-wider">我的優惠</h1>
@@ -56,6 +58,7 @@
         </div>
     </header>
 
+    <!-- 主內容區 -->
     <main class="flex-1 overflow-y-auto p-4 pb-28 no-scrollbar" id="main-content">
         <div id="dynamic-content" class="space-y-4">
             <div class="text-center py-12 text-gray-400">
@@ -65,6 +68,7 @@
         </div>
     </main>
 
+    <!-- 下方導覽選單 -->
     <nav class="bg-white border-t border-gray-200 fixed bottom-0 left-0 right-0 max-w-md mx-auto flex justify-between items-end pb-3 pt-2 shadow-[0_-5px_15px_-5px_rgba(0,0,0,0.1)] z-50 px-4 h-[72px]">
         <button onclick="switchTab('food')" id="tab-food" class="tab-btn flex flex-col items-center space-y-1 w-12 text-blue-600 font-semibold transition-colors">
             <i class="fas fa-utensils text-lg mb-0.5"></i><span class="text-[10px]">美食</span>
@@ -73,6 +77,7 @@
             <i class="fas fa-shopping-bag text-lg mb-0.5"></i><span class="text-[10px]">生活</span>
         </button>
 
+        <!-- 🌟 黃金 C 位 -->
         <div class="relative w-16 flex justify-center">
             <button onclick="switchTab('hotel')" id="tab-hotel" class="absolute -bottom-2 flex flex-col items-center justify-center w-16 h-16 bg-orange-500 rounded-full c-btn-shadow border-4 border-gray-50 text-white transition-transform active:scale-95 z-50">
                 <i class="fas fa-bed text-xl mb-0.5"></i>
@@ -93,7 +98,7 @@
         let globalData = null;
         let currentTab = 'food';
 
-        // 🏨 飯店基礎資料庫 (只有第一間是完整的長網址，其他是短網址，短網址點出去絕對會失效！)
+        // 🏨 飯店資料庫 (保留長網址以確保參數注入成功)
         const baseHotelsData = [
             { region: 'tokyo', name: '東橫INN - 上野田原町站', platform: 'TRIP', basePrice: 2500, url: 'https://tw.trip.com/hotels/detail/?cityEnName=Tokyo&cityId=228&hotelId=688581&adult=2&children=0&crn=1&ages=&curr=TWD&barcurr=TWD&hotelType=normal&display=incavg&subStamp=756&isCT=true&isFlexible=F&locale=zh-TW&Allianceid=7364995&SID=277926202' },
             { region: 'tokyo', name: '東京上野喜來登福朋飯店', platform: 'TRIP', basePrice: 5800, url: 'https://www.trip.com/t/ZZvb04WTFV2' },
@@ -126,8 +131,8 @@
             const banner = document.getElementById('notice-banner');
             const text = document.getElementById('notice-text');
             if (currentTab === 'hotel') {
-                banner.className = "w-full text-xs py-1.5 px-2.5 rounded-md font-bold flex items-center shadow-inner bg-orange-100 text-orange-800";
-                text.innerText = "🔍 調整日期與預算後，按下「搜尋」即時重算最新浮動參考價！";
+                banner.className = "w-full text-xs py-1.5 px-2.5 rounded-md font-bold flex items-center shadow-inner bg-blue-100 text-blue-800";
+                text.innerText = "📅 請選擇住宿日期，我們將為您鎖定專屬優惠！";
                 return;
             }
             const date = new Date().getDate();
@@ -169,7 +174,7 @@
                         </div>
                     </div>
                     <button onclick="executeHotelSearch()" class="bg-orange-500 hover:bg-orange-600 text-white font-black text-xs h-[48px] px-3 rounded-xl shadow-md transition-all active:scale-95 flex flex-col items-center justify-center flex-shrink-0 mt-3">
-                        <i class="fas fa-search text-base mb-0.5"></i><span class="text-[9px]">搜尋</span>
+                        <i class="fas fa-search text-base mb-0.5"></i><span class="text-[9px]">套用</span>
                     </button>
                 </div>
 
@@ -179,7 +184,7 @@
 
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-4">
                     <div class="flex justify-between items-center mb-3">
-                        <span class="font-bold text-gray-700 text-sm">每晚預算上限</span>
+                        <span class="font-bold text-gray-700 text-sm">篩選飯店等級 (平日預算)</span>
                         <span class="font-black text-blue-600 text-lg">NT$ <span id="priceDisplay">${hotelMaxPrice}</span></span>
                     </div>
                     <input type="range" min="1500" max="15000" step="500" value="${hotelMaxPrice}" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600" oninput="updateHotelPrice(this.value)">
@@ -204,7 +209,6 @@
         function executeHotelSearch() {
             checkInDate = tempCheckIn;
             checkOutDate = tempCheckOut;
-            updateNoticeBanner();
             renderHotelList();
         }
 
@@ -219,20 +223,12 @@
             renderHotelList();
         }
 
-        function calculateDynamicPrice(basePrice) {
-            if (!checkInDate) return basePrice;
-            let currentPrice = basePrice;
-            const dateObj = new Date(checkInDate);
-            if (dateObj.getDay() === 5 || dateObj.getDay() === 6) currentPrice = currentPrice * 1.3;
-            if (dateObj.getMonth() === 6 || dateObj.getMonth() === 7) currentPrice = currentPrice * 1.15;
-            return Math.round(currentPrice);
-        }
-
         function renderHotelList() {
             const listContainer = document.getElementById('hotelListContainer');
-            let activeHotels = baseHotelsData.map(h => { return { ...h, currentPrice: calculateDynamicPrice(h.basePrice) }; });
-            let filteredHotels = activeHotels.filter(h => h.region === activeHotelRegion && h.currentPrice <= hotelMaxPrice);
-            filteredHotels.sort((a, b) => a.currentPrice - b.currentPrice);
+            
+            // 使用穩健的基準參考價進行過濾
+            let filteredHotels = baseHotelsData.filter(h => h.region === activeHotelRegion && h.basePrice <= hotelMaxPrice);
+            filteredHotels.sort((a, b) => a.basePrice - b.basePrice);
 
             if (filteredHotels.length === 0) {
                 listContainer.innerHTML = `<div class="text-center py-10 bg-white rounded-xl border border-dashed border-gray-300 text-gray-400"><p class="text-sm">此預算內暫無飯店</p></div>`;
@@ -240,12 +236,10 @@
             }
 
             listContainer.innerHTML = filteredHotels.map(item => {
-                // 🧠 終極黑科技：無情清洗舊日期參數，強制植入新日期
+                // 無情清洗舊日期參數，強制植入新日期
                 let finalUrl = item.url;
                 try {
                     let urlObj = new URL(item.url);
-                    
-                    // 1. 揪出所有大小寫變形的舊日期參數並刪除
                     const keysToDelete = [];
                     for (const key of urlObj.searchParams.keys()) {
                         if (key.toLowerCase() === 'checkin' || key.toLowerCase() === 'checkout') {
@@ -253,8 +247,6 @@
                         }
                     }
                     keysToDelete.forEach(k => urlObj.searchParams.delete(k));
-                    
-                    // 2. 強制寫入乾淨標準的新日期
                     urlObj.searchParams.set('checkIn', checkInDate);
                     urlObj.searchParams.set('checkOut', checkOutDate);
                     finalUrl = urlObj.toString();
@@ -267,7 +259,7 @@
                         <div class="p-4">
                             <div class="flex justify-between items-start mb-3">
                                 <span class="bg-blue-800 text-white text-[11px] font-black tracking-wider px-2 py-0.5 rounded">${item.platform}</span>
-                                <span class="text-xs font-bold text-gray-600 bg-gray-100 px-2 py-1 rounded-md">最新動態價 <span class="text-blue-600 ml-1 font-black">$${item.currentPrice.toLocaleString()}</span></span>
+                                <span class="text-xs font-bold text-gray-600 bg-gray-100 px-2 py-1 rounded-md">平日參考起價 <span class="text-blue-600 ml-1 font-black">$${item.basePrice.toLocaleString()}</span></span>
                             </div>
                             <h3 class="font-bold text-gray-900 text-base mb-4"><i class="fas fa-map-marker-alt text-orange-500 mr-1.5"></i>${item.name}</h3>
                             <a href="${finalUrl}" target="_blank" onclick="trackAffiliateClick('${item.platform}', '${item.name}')" class="w-full inline-flex justify-center items-center bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-sm py-2.5 rounded-xl border border-blue-200 transition-colors">前往查價 / 訂房</a>
