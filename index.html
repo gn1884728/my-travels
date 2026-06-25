@@ -29,19 +29,15 @@
     </header>
 
     <main class="flex-1 overflow-y-auto p-4 pb-24 no-scrollbar" id="main-content">
-        <div id="dynamic-content" class="space-y-4">
-            <div class="text-center py-12 text-gray-400">
-                <i class="fas fa-spinner fa-spin text-3xl mb-2"></i>
-                <p>資料載入中...</p>
-            </div>
-        </div>
+        <div id="dynamic-content" class="space-y-4"></div>
     </main>
 
-    <nav class="bg-white border-t border-gray-200 fixed bottom-0 left-0 right-0 max-w-md mx-auto flex justify-around py-3 shadow-lg z-50 px-2">
+    <nav class="bg-white border-t border-gray-200 fixed bottom-0 left-0 right-0 max-w-md mx-auto flex justify-around py-3 shadow-lg z-50 px-2 text-gray-400">
         <button onclick="switchTab('food')" id="tab-food" class="tab-btn flex flex-col items-center text-blue-600"><i class="fas fa-utensils"></i><span class="text-[10px]">美食</span></button>
-        <button onclick="switchTab('life')" id="tab-life" class="tab-btn flex flex-col items-center text-gray-400"><i class="fas fa-shopping-bag"></i><span class="text-[10px]">生活</span></button>
-        <button onclick="switchTab('travel')" id="tab-travel" class="tab-btn flex flex-col items-center text-gray-400"><i class="fas fa-plane"></i><span class="text-[10px]">旅遊</span></button>
-        <button onclick="switchTab('news')" id="tab-news" class="tab-btn flex flex-col items-center text-gray-400"><i class="fas fa-newspaper"></i><span class="text-[10px]">新聞</span></button>
+        <button onclick="switchTab('life')" id="tab-life" class="tab-btn flex flex-col items-center"><i class="fas fa-shopping-bag"></i><span class="text-[10px]">生活</span></button>
+        <button onclick="switchTab('travel')" id="tab-travel" class="tab-btn flex flex-col items-center"><i class="fas fa-plane"></i><span class="text-[10px]">旅遊</span></button>
+        <button onclick="switchTab('credit')" id="tab-credit" class="tab-btn flex flex-col items-center"><i class="fas fa-credit-card"></i><span class="text-[10px]">信用卡</span></button>
+        <button onclick="switchTab('news')" id="tab-news" class="tab-btn flex flex-col items-center"><i class="fas fa-newspaper"></i><span class="text-[10px]">新聞</span></button>
     </nav>
 
     <script>
@@ -63,11 +59,19 @@
             currentTab = tab;
             document.querySelectorAll('.tab-btn').forEach(b => {
                 b.classList.remove('text-blue-600');
-                b.classList.add('text-gray-400');
             });
             document.getElementById(`tab-${tab}`).classList.add('text-blue-600');
-            document.getElementById(`tab-${tab}`).classList.remove('text-gray-400');
             renderActiveTab();
+        }
+
+        function getBrandColor(brand) {
+            const b = brand.toUpperCase();
+            if (b === 'SHOPEE') return 'bg-[#EE4D2D]';
+            if (b === 'KKDAY') return 'bg-[#00B2B2]';
+            if (b === 'KLOOK') return 'bg-[#FF5B41]';
+            if (b === 'JCB') return 'bg-red-500';
+            if (b === 'VISA') return 'bg-blue-800';
+            return 'bg-gray-600';
         }
 
         function renderActiveTab() {
@@ -75,41 +79,30 @@
             const month = document.getElementById('monthSelect').value;
             const container = document.getElementById('dynamic-content');
             
-            // 新聞頁面邏輯
             if (currentTab === 'news') {
                 const newsItems = globalData[month]?.['news'] || [];
-                if (newsItems.length === 0) {
-                    container.innerHTML = `<p class="text-center py-10 text-gray-400">暫無今日新聞</p>`;
-                    return;
-                }
-                container.innerHTML = newsItems.map(item => `
+                container.innerHTML = newsItems.length ? newsItems.map(item => `
                     <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                        <span class="text-[10px] text-blue-600 font-bold bg-blue-50 px-2 py-0.5 rounded">${item.brand}</span>
+                        <span class="bg-blue-800 text-white text-[10px] px-2 py-0.5 rounded">${item.brand}</span>
                         <h3 class="font-bold text-sm text-gray-800 my-2">${item.title}</h3>
                         <a href="${item.url}" target="_blank" class="text-blue-500 text-xs font-semibold">閱讀完整報導 →</a>
                     </div>
-                `).join('');
+                `).join('') : '<p class="text-center py-10 text-gray-400">暫無今日新聞</p>';
                 return;
             }
 
-            // 優惠資訊邏輯
             const items = globalData[month]?.[currentTab] || [];
-            if (items.length === 0) {
-                container.innerHTML = `<p class="text-center py-10 text-gray-400">暫無優惠</p>`;
-                return;
-            }
-            
-            container.innerHTML = items.map(item => `
+            container.innerHTML = items.length ? items.map(item => `
                 <div class="bg-white p-4 rounded-xl shadow-sm border">
                     <div class="flex justify-between mb-2">
-                        <span class="bg-gray-600 text-white text-[10px] px-2 py-0.5 rounded">${item.brand}</span>
+                        <span class="${getBrandColor(item.brand)} text-white text-[10px] px-2 py-0.5 rounded">${item.brand}</span>
                         <span class="text-xs text-blue-600 font-bold">${item.time}</span>
                     </div>
                     <h3 class="font-bold text-gray-900 text-sm">${item.title}</h3>
                     <p class="text-gray-500 text-xs mb-3 leading-relaxed">${item.desc}</p>
                     <a href="${item.url}" target="_blank" class="block bg-blue-50 text-blue-600 text-center py-2 rounded-lg font-bold text-xs">前往優惠</a>
                 </div>
-            `).join('');
+            `).join('') : '<p class="text-center py-10 text-gray-400">暫無資料</p>';
         }
 
         fetchGitHubData();
