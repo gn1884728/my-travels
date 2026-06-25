@@ -5,6 +5,67 @@
         "travel": [],
         "credit": []
     },
-    "news": [],
-    "last_updated": "2026-06-25 09:23:45"
+    "news": [
+        {
+            "brand": "遠見",
+            "title": "ESG遠見共好圈》以生死為衡量標準！6家醫療永續獎醫院揭AI、減碳與留才競爭力 - ESG遠見",
+            "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE04Unh4bU5kMUN0UWtudVVnV01xNTBfTkg0OVVmWGNVNVFGVVd2cVRTeVg0Q3BrRmRFN2xHVmZKeFl6LVY3aGtzQ201MV9Rdw?oc=5",
+            "time": "09:29"
+        },
+        {
+            "brand": "遠見",
+            "title": "成功人士這樣做「金錢決策」：真正的財富升級，從「放棄」開始 - 遠見雜誌",
+            "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE9ZVTNLdzNrTWhhNktCUXdrMS1GUXJUX0pkTThlaGN2WlFQWmVwQUkzR1JwSmZmcTNWOTNPN0xrbXl2bTlDc20tQlQzWTI0Zw?oc=5",
+            "time": "09:29"
+        },
+        {
+            "brand": "遠見",
+            "title": "S3 EP355／【遠見大人物】翻轉血汗醫療，奇美醫院如何落實「員工好，病人好」的永續幸福職場？ ft. 奇美醫院副院長陳綉琴、護理部部長馬淑清| 遠見ON AIR - 遠見雜誌",
+            "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE01eV9CemxhMVhuNndORnd4aW9ib05SRmk4QnRDaDFQMzh0dE5PVUhHV2RBUy03NWFIeVdOd1dFczJhYko4dVQtdFpWUzE3N0Y3OFJxakp4OA?oc=5",
+            "time": "09:29"
+        },
+        {
+            "brand": "遠見",
+            "title": "腦裡的大象？研究：父母社經地位會影響兒童大腦發育 - 遠見雜誌",
+            "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE9HRVEyWUdNY1lPRjh4S291MURjeWI2QjRpeXFNWlZlX3B5REZOaG55U2pFNXVZdEdMTFhkeVFoWGI4TjlHV3BzVUNjdVE0QQ?oc=5",
+            "time": "09:29"
+        },
+        {
+            "brand": "遠見",
+            "title": "2026高雄啤酒音樂節7/3登場！周子瑜、Rain完整卡司、票價、活動時間一次看 - 遠見雜誌",
+            "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1CclJLd0pVX05qMlhtSmJpVmhZaUF2NFJ0V0E3a2VoMjFuQ0tpY0djMDRQbGVzZ2l0UUJrRUxLZG0yWllySmJzQVJuaDl3dw?oc=5",
+            "time": "09:29"
+        },
+        {
+            "brand": "商周",
+            "title": "實戰更勝EMBA課程，培養頂尖領導人才 - 商周CEO學院",
+            "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1JZWwyak9vX211OW8wRm5MWTZTUHFzbGJQcnBUQUs1eExfMFlHQTFhbW1VS3F0LUdvYV9ELU42eXNqbmgtWFJ4d1k1QVJUNC1vWWFRaHhkV1ptSGQtZElpRFJEVWJtZG9GZUZ0R3pDTGhFR3dxMHo1OEQ0MHVqWTA?oc=5",
+            "time": "09:29"
+        },
+        {
+            "brand": "商周",
+            "title": "商周領袖會企業參訪｜省下來的電，就是最好的能源！商周領袖會走進東元，看見傳產大廠的下一個成長引擎 - 商周",
+            "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE9fWXlfZnEzUUVhMmFxeEF1eG5kR3B2d05MZFRKdEtOV29kWW1mY3dCTk1vdzBuT0ktZmtELVppV0MtUlpsQ3FZcjBRVU5oZmRDdl9wTUtCdVBDTnVfNmRQMi13VmZoUQ?oc=5",
+            "time": "09:29"
+        },
+        {
+            "brand": "商周",
+            "title": "《臺北市全齡友善企業高峰會》當高年級生重返職場，企業迎來第二條成長曲線 - 商周",
+            "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9fTDZwcWJpNDlNMzI1c0s4LWJUUm83MTUwNTRDYm5XXzJMTFBRT2pUZzJCRWtGd0dOenBkcHFnaWxYMi1PX2lzUEx1S0pEc0p4c2g2bk9WUko5U2JuLW9xUENQYw?oc=5",
+            "time": "09:29"
+        },
+        {
+            "brand": "商周",
+            "title": "115(2026年)勞保投保薪資級距表&勞保、健保、勞退保費對照表 - 商周",
+            "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFAyRXNzWVI3MVlVUlFOSXhNWVR5ektBT3lLTS0tT0gxVkk3WmtVMTZmZ2VlQ1RnVU1BTkMtV2tKZVNkRnpUSVJNMFNRWThZci1RVEhXRjR5eFRXSjJOTVlDaVhR?oc=5",
+            "time": "09:29"
+        },
+        {
+            "brand": "商周",
+            "title": "SpaceX砸1.9兆收購AI新創Cursor！創始工程師竟來自台灣－數位時代 - 商周",
+            "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE9oLUJVc0doeFFKQ1NJaHJfelpmYnJoXzRaUlgwM2dNcmpfTXhLSUxUZDNWc3h4RTlVcmN4bVhQZ2I2WEZwRWZ1b3RPVjRWT3Q2Z29vaDBnNmRfRmRub1E0U2ZZQk9vdw?oc=5",
+            "time": "09:29"
+        }
+    ],
+    "last_updated": "2026-06-25 09:29:58"
 }
