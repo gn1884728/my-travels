@@ -1,281 +1,58 @@
+// 在 script 區塊內替換以下函式
+function switchTab(tabName) {
+    currentTab = tabName;
+    gtag('event', 'switch_tab', { 'event_category': 'Navigation', 'selected_tab': tabName });
 
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>我的優惠</title>
-    
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="我的優惠">
-    <meta name="mobile-web-app-capable" content="yes">
-    
-    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3081/3081648.png">
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIuaIkeeahOYSquWgqyIsCiAgInNob3J0X25hbWUiIjogIuaIkeeahOYSquWgqyIsCiAgInStartX3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMjU2M0NFIiwKICAidGhlbWVfY29sb3IiOiAiIzI1NjNDRSIsCiAgIm9yaWVudGF0aW9uIjogInBvcnRyYWl0IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9jZG4taWNvbnMtcG5nLmZsYXRpY29uLmNvbS81MTIvMzA4MS8zMDgxNj_wNC5wbmciLAogICAgICAic2l6ZXMiOiAiaG1yeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICJwdXJwb3NlIjogImFueSBtYXJrYWJsZSIKICAgIH0KICBdCn0=">
+    // 更新 Tab 樣式
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('text-blue-600', 'font-semibold');
+        btn.classList.add('text-gray-400');
+    });
+    const activeBtn = document.getElementById(`tab-${tabName}`);
+    if (activeBtn) {
+        activeBtn.classList.add('text-blue-600', 'font-semibold');
+        activeBtn.classList.remove('text-gray-400');
+    }
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JYDYNWGYMF"></script>
-    <script>
-        const GA4_ID = 'G-JYDYNWGYMF'; 
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', GA4_ID);
-    </script>
+    // --- 關鍵：加入住房比價模組 ---
+    if (tabName === 'travel') { // 假設你用 travel 頁籤顯示飯店比價
+        renderHotelUI();
+    } else {
+        renderActiveTab();
+    }
+}
 
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        body { -webkit-tap-highlight-color: transparent; }
-        @keyframes pulse-slow { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-        .animate-pulse-slow { animation: pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-    </style>
-</head>
-<body class="bg-gray-100 font-sans h-screen flex flex-col max-w-md mx-auto shadow-2xl relative bg-white pb-safe">
-
-    <header class="bg-blue-600 text-white px-4 py-3 flex flex-col sticky top-0 z-50 shadow-md pt-6">
-        <div class="flex justify-between items-center w-full mb-2">
-            <h1 class="text-xl font-bold tracking-wider">我的優惠</h1>
-            <div class="relative">
-                <select id="monthSelect" onchange="trackMonthChange()" class="bg-white text-gray-800 text-sm font-semibold rounded-lg px-3 py-1.5 pr-8 appearance-none cursor-pointer border border-gray-200 focus:outline-none shadow-sm">
-                    <option value="1">1 月</option>
-                    <option value="2">2 月</option>
-                    <option value="3">3 月</option>
-                    <option value="4">4 月</option>
-                    <option value="5">5 月</option>
-                    <option value="6" selected>6 月</option>
-                    <option value="7">7 月</option>
-                    <option value="8">8 月</option>
-                    <option value="9">9 月</option>
-                    <option value="10">10 月</option>
-                    <option value="11">11 月</option>
-                    <option value="12">12 月</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-600">
-                    <i class="fas fa-chevron-down text-xs"></i>
-                </div>
+// 加入飯店比價模組邏輯
+function renderHotelUI() {
+    const container = document.getElementById('dynamic-content');
+    container.innerHTML = `
+        <div class="bg-white p-4 rounded-xl shadow-sm border mb-4">
+            <div class="grid grid-cols-2 gap-3 mb-4">
+                <input type="date" id="checkInInput" class="border p-2 rounded-lg" onchange="renderHotelList()">
+                <input type="date" id="checkOutInput" class="border p-2 rounded-lg" onchange="renderHotelList()">
+            </div>
+            <div class="flex gap-2 overflow-x-auto pb-2">
+                ${Object.keys(hotelsData).map(r => `
+                    <button onclick="activeHotelRegion='${r}'; renderHotelList()" class="px-4 py-2 rounded-lg border ${activeHotelRegion===r?'bg-blue-600 text-white':'bg-white'}">${r.toUpperCase()}</button>
+                `).join('')}
             </div>
         </div>
-        
-        <div id="notice-banner" class="w-full text-xs py-1.5 px-2.5 rounded-md font-medium flex items-center shadow-inner">
-            <i class="fas fa-info-circle mr-1.5"></i>
-            <span id="notice-text">正在計算本月優惠時程...</span>
+        <div id="hotelListContainer" class="space-y-3"></div>
+    `;
+    renderHotelList();
+}
+
+function renderHotelList() {
+    const list = document.getElementById('hotelListContainer');
+    const cin = document.getElementById('checkInInput').value;
+    const cout = document.getElementById('checkOutInput').value;
+    const hotels = hotelsData[activeHotelRegion] || [];
+    
+    list.innerHTML = hotels.map(h => `
+        <div class="bg-white p-4 rounded-xl shadow border flex justify-between items-center">
+            <h3 class="font-bold">${h.name}</h3>
+            <a href="https://tw.trip.com/hotels/detail/?hotelId=${h.id}&checkIn=${cin}&checkOut=${cout}&Allianceid=7364995&SID=277926202" 
+               target="_blank" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm">前往查價</a>
         </div>
-    </header>
-
-    <main class="flex-1 overflow-y-auto p-4 pb-24 no-scrollbar">
-        <div id="dynamic-content" class="space-y-4">
-            <div class="text-center py-12 text-gray-400">
-                <i class="fas fa-spinner fa-spin text-3xl mb-2"></i>
-                <p>優惠資訊即時載入中...</p>
-            </div>
-        </div>
-    </main>
-
-    <nav class="bg-white border-t border-gray-200 fixed bottom-0 left-0 right-0 max-w-md mx-auto flex justify-around py-3 shadow-lg z-50 px-2">
-        <button onclick="switchTab('food')" id="tab-food" class="tab-btn flex flex-col items-center space-y-1 text-blue-600 font-semibold flex-1">
-            <i class="fas fa-utensils text-lg"></i>
-            <span class="text-xs">美食</span>
-        </button>
-        <button onclick="switchTab('life')" id="tab-life" class="tab-btn flex flex-col items-center space-y-1 text-gray-400 hover:text-gray-600 flex-1">
-            <i class="fas fa-shopping-bag text-lg"></i>
-            <span class="text-xs">生活</span>
-        </button>
-        <button onclick="switchTab('travel')" id="tab-travel" class="tab-btn flex flex-col items-center space-y-1 text-gray-400 hover:text-gray-600 flex-1">
-            <i class="fas fa-plane text-lg"></i>
-            <span class="text-xs">航空旅遊</span>
-        </button>
-        <button onclick="switchTab('credit')" id="tab-credit" class="tab-btn flex flex-col items-center space-y-1 text-gray-400 hover:text-gray-600 flex-1">
-            <i class="fas fa-credit-card text-lg"></i>
-            <span class="text-xs">信用卡</span>
-        </button>
-    </nav>
-
-    <script>
-        const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/gn1884728/my-travels/refs/heads/main/data.json';
-        let globalData = null;
-        let currentTab = 'food';
-
-        function updateNoticeBanner() {
-            const today = new Date();
-            const date = today.getDate();
-            const banner = document.getElementById('notice-banner');
-            const text = document.getElementById('notice-text');
-            
-            if (date === 1) {
-                banner.className = "w-full text-xs py-1.5 px-2.5 rounded-md font-bold flex items-center shadow-inner bg-amber-500 text-white animate-pulse-slow";
-                text.innerText = "🚨 搶好康決戰日！今天就是 1 號，記得去登錄優惠！";
-            } else if (date >= 25) {
-                banner.className = "w-full text-xs py-1.5 px-2.5 rounded-md font-medium flex items-center shadow-inner bg-blue-700 text-blue-100";
-                text.innerText = "📅 優惠預告：倒數幾天進入下個月 1 號，大戰即將開始！";
-            } else {
-                banner.className = "w-full text-xs py-1.5 px-2.5 rounded-md font-medium flex items-center shadow-inner bg-blue-500/50 text-blue-100";
-                text.innerText = "💡 貼心提醒：每月 1 號固定大搶購，可點擊卡片加入手機日曆。";
-            }
-        }
-
-        function addToCalendar(title, timeStr, url) {
-            let hour = 10, minute = 30;
-            if (timeStr.includes("09:00")) { hour = 9; minute = 0; }
-            
-            const now = new Date();
-            let nextMonth = now.getMonth() + 1; 
-            let year = now.getFullYear();
-            
-            if (now.getDate() > 1 || (now.getDate() === 1 && now.getHours() >= hour)) {
-                nextMonth += 1;
-                if (nextMonth > 12) { nextMonth = 1; year += 1; }
-            }
-
-            const monthStr = String(nextMonth).padStart(2, '0');
-            const startStr = `${year}${monthStr}01T${String(hour).padStart(2, '0')}${String(minute).padStart(2, '0')}00`;
-            const endStr = `${year}${monthStr}01T${String(hour + 1).padStart(2, '0')}${String(minute).padStart(2, '0')}00`;
-
-            const icsContent = [
-                "BEGIN:VCALENDAR",
-                "VERSION:2.0",
-                "BEGIN:VEVENT",
-                `DTSTART;TZID=Asia/Taipei:${startStr}`,
-                `DTEND;TZID=Asia/Taipei:${endStr}`,
-                `SUMMARY:${title.replace(/<[^>]*>/g, '')}`,
-                `DESCRIPTION:活動網址: ${url}`,
-                `URL:${url}`,
-                "BEGIN:VALARM",
-                "TRIGGER:-PT10M",
-                "ACTION:DISPLAY",
-                "DESCRIPTION:Reminder",
-                "END:VALARM",
-                "END:VEVENT",
-                "END:VCALENDAR"
-            ].join("\n");
-
-            gtag('event', 'add_to_calendar', {
-                'event_category': 'Engagement',
-                'event_label': title.replace(/<[^>]*>/g, '')
-            });
-
-            const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-            const link = document.createElement('a');
-            link.href = window.URL.createObjectURL(blob);
-            link.download = `${title.replace(/<[^>]*>/g, '').split('】').pop().split('（')[0]}_優惠提醒.ics`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-
-        function trackAffiliateClick(brand, title) {
-            gtag('event', 'click_affiliate_link', {
-                'event_category': 'Outbound Link',
-                'brand_name': brand,
-                'discount_title': title.replace(/<[^>]*>/g, '')
-            });
-        }
-
-        function trackMonthChange() {
-            const selectedMonth = document.getElementById('monthSelect').value;
-            gtag('event', 'switch_month', {
-                'event_category': 'Navigation',
-                'selected_month': selectedMonth + '月'
-            });
-            renderActiveTab();
-        }
-
-        function parseTimeScore(timeStr) {
-            if (timeStr.includes("每個月常態") || timeStr.includes("即日起")) return 0;
-            const match = timeStr.match(/(\d{2}):(\d{2})/);
-            if (match) {
-                const hours = parseInt(match[1], 10);
-                const minutes = parseInt(match[2], 10);
-                return hours * 60 + minutes;
-            }
-            return 9999;
-        }
-
-        async function fetchGitHubData() {
-            try {
-                const response = await fetch(`${GITHUB_RAW_URL}?t=${new Date().getTime()}`);
-                globalData = await response.json();
-                renderActiveTab();
-                updateNoticeBanner();
-            } catch (error) {
-                console.error("資料加載失敗:", error);
-                document.getElementById('dynamic-content').innerHTML = `
-                    <div class="text-center py-12 text-red-500"><i class="fas fa-exclamation-triangle text-3xl mb-2"></i><p>連線失敗</p></div>`;
-            }
-        }
-
-        function renderActiveTab() {
-            if (!globalData) return;
-            const selectedMonth = document.getElementById('monthSelect').value;
-            const container = document.getElementById('dynamic-content');
-            
-            if (!globalData[selectedMonth] || !globalData[selectedMonth][currentTab] || globalData[selectedMonth][currentTab].length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-16 text-gray-400"><i class="far fa-folder-open text-4xl mb-3"></i><p class="text-sm">${selectedMonth} 月份暫無優惠</p></div>`;
-                return;
-            }
-
-            const items = [...globalData[selectedMonth][currentTab]];
-            items.sort((a, b) => parseTimeScore(a.time) - parseTimeScore(b.time));
-
-            let htmlContent = '';
-
-            items.forEach((item) => {
-                let badgeColor = 'bg-gray-600';
-                if (item.brand.toUpperCase() === 'JCB') badgeColor = 'bg-red-500';
-                if (item.brand.toUpperCase() === 'VISA') badgeColor = 'bg-blue-800';
-                if (item.brand.toUpperCase() === 'IHG') badgeColor = 'bg-orange-950 border border-orange-500/30';
-                if (item.brand.toUpperCase() === 'SHOPEE') badgeColor = 'bg-orange-500'; 
-                if (item.brand.toUpperCase() === 'KLOOK') badgeColor = 'bg-orange-600'; 
-                if (item.brand.toUpperCase() === 'KKDAY') badgeColor = 'bg-cyan-500'; 
-
-                htmlContent += `
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden active:scale-[0.99] transition-transform duration-100">
-                        <div class="p-4">
-                            <div class="flex justify-between items-start mb-2.5">
-                                <span class="${badgeColor} text-white text-[11px] font-black tracking-wider px-2 py-0.5 rounded">${item.brand}</span>
-                                <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full"><i class="far fa-clock mr-1"></i>${item.time}</span>
-                            </div>
-                            <h3 class="font-bold text-gray-900 text-base mb-1">${item.title}</h3>
-                            <p class="text-gray-500 text-xs mb-4 leading-relaxed">${item.desc}</p>
-                            
-                            <div class="flex space-x-2 w-full">
-                                <a href="${item.url}" target="_blank" onclick="trackAffiliateClick('${item.brand}', '${item.title}')" class="flex-1 inline-flex justify-center items-center bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold text-xs py-2.5 rounded-xl border border-blue-200 transition-colors">
-                                    前往官方網頁 <i class="fas fa-external-link-alt ml-1.5 text-[10px]"></i>
-                                </a>
-                                <button onclick="addToCalendar('${item.title}', '${item.time}', '${item.url}')" class="bg-gray-50 hover:bg-orange-50 text-orange-600 hover:text-orange-700 font-bold text-xs px-3.5 rounded-xl border border-gray-200 hover:border-orange-200 transition-colors flex items-center justify-center shadow-sm" title="加入手機行事曆鬧鐘">
-                                    <i class="p-0.5 fa-solid fa-calendar-plus text-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>`;
-            });
-
-            container.innerHTML = htmlContent;
-        }
-
-        function switchTab(tabName) {
-            currentTab = tabName;
-            
-            gtag('event', 'switch_tab', {
-                'event_category': 'Navigation',
-                'selected_tab': tabName
-            });
-
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('text-blue-600', 'font-semibold');
-                btn.classList.add('text-gray-400');
-            });
-            const activeBtn = document.getElementById(`tab-${tabName}`);
-            activeBtn.classList.add('text-blue-600', 'font-semibold');
-            activeBtn.classList.remove('text-gray-400');
-            renderActiveTab();
-        }
-
-        fetchGitHubData();
-    </script>
-</body>
-</html>
-
+    `).join('');
+}
