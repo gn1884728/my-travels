@@ -1,118 +1,44 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>我的優惠</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    </style>
-</head>
-<body class="bg-gray-50 font-sans h-screen flex flex-col max-w-md mx-auto shadow-2xl pb-safe">
+import json
+import requests
+from bs4 import BeautifulSoup
+from datetime import datetime
+import os
 
-    <header class="bg-blue-600 text-white px-4 py-3 sticky top-0 z-50 shadow-md pt-6">
-        <div class="flex justify-between items-center w-full">
-            <h1 class="text-xl font-bold tracking-wider">我的優惠</h1>
-            <select id="monthSelect" onchange="renderActiveTab()" class="bg-white text-gray-800 text-sm font-semibold rounded-lg px-3 py-1.5 border">
-                <option value="6" selected>6 月</option>
-                <option value="7">7 月</option>
-                <option value="8">8 月</option>
-                <option value="9">9 月</option>
-                <option value="10">10 月</option>
-                <option value="11">11 月</option>
-                <option value="12">12 月</option>
-            </select>
-        </div>
-    </header>
+headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"}
 
-    <main class="flex-1 overflow-y-auto p-4 pb-24 no-scrollbar" id="main-content">
-        <div id="dynamic-content" class="space-y-4">
-            <div class="text-center py-12 text-gray-400"><i class="fas fa-spinner fa-spin"></i> 載入中...</div>
-        </div>
-    </main>
+# 專注於遠見與商周，並鎖定「最新文章列表」頁面
+targets = [
+    {"brand": "遠見", "url": "https://www.gvm.com.tw/newest", "base_url": "https://www.gvm.com.tw"},
+    {"brand": "商周", "url": "https://www.businessweekly.com.tw/latest", "base_url": "https://www.businessweekly.com.tw"}
+]
 
-    <nav class="bg-white border-t border-gray-200 fixed bottom-0 left-0 right-0 max-w-md mx-auto flex justify-around py-3 shadow-lg z-50 px-2 text-gray-400">
-        <button onclick="switchTab('food')" id="tab-food" class="tab-btn flex flex-col items-center text-blue-600"><i class="fas fa-utensils"></i><span class="text-[10px]">美食</span></button>
-        <button onclick="switchTab('life')" id="tab-life" class="tab-btn flex flex-col items-center"><i class="fas fa-shopping-bag"></i><span class="text-[10px]">生活</span></button>
-        <button onclick="switchTab('travel')" id="tab-travel" class="tab-btn flex flex-col items-center"><i class="fas fa-plane"></i><span class="text-[10px]">旅遊</span></button>
-        <button onclick="switchTab('credit')" id="tab-credit" class="tab-btn flex flex-col items-center"><i class="fas fa-credit-card"></i><span class="text-[10px]">信用卡</span></button>
-        <button onclick="switchTab('news')" id="tab-news" class="tab-btn flex flex-col items-center"><i class="fas fa-newspaper"></i><span class="text-[10px]">新聞</span></button>
-    </nav>
-
-    <script>
-        const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/gn1884728/my-travels/refs/heads/main/data.json';
-        let globalData = null;
-        let currentTab = 'food';
-
-        async function fetchGitHubData() {
-            try {
-                const res = await fetch(`${GITHUB_RAW_URL}?t=${new Date().getTime()}`);
-                globalData = await res.json();
-                renderActiveTab();
-            } catch (e) {
-                document.getElementById('dynamic-content').innerHTML = `<p class="text-center text-red-500 py-10">資料載入失敗</p>`;
-            }
-        }
-
-        function switchTab(tab) {
-            currentTab = tab;
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('text-blue-600'));
-            document.getElementById(`tab-${tab}`).classList.add('text-blue-600');
-            renderActiveTab();
-        }
-
-        function getBrandColor(brand) {
-            const b = brand.toString();
-            if (b.includes('遠見')) return 'bg-purple-600';
-            if (b.includes('天下')) return 'bg-yellow-600';
-            if (b.includes('商周')) return 'bg-red-700';
-            if (b === 'SHOPEE') return 'bg-[#EE4D2D]';
-            if (b === 'KKDAY') return 'bg-[#00B2B2]';
-            if (b === 'JCB') return 'bg-red-500';
-            if (b === 'VISA') return 'bg-blue-800';
-            return 'bg-gray-600';
-        }
-
-        function renderActiveTab() {
-            if (!globalData) return;
-            const container = document.getElementById('dynamic-content');
-            const monthSelect = document.getElementById('monthSelect');
+def fetch_news():
+    news_items = []
+    for t in targets:
+        try:
+            res = requests.get(t['url'], headers=headers, timeout=15)
+            soup = BeautifulSoup(res.text, 'html.parser')
             
-            // 新聞模式：隱藏月份
-            if (currentTab === 'news') {
-                monthSelect.style.display = 'none';
-                const newsItems = globalData['news'] || [];
-                container.innerHTML = newsItems.length ? newsItems.map(item => `
-                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                        <span class="${getBrandColor(item.brand)} text-white text-[10px] px-2 py-0.5 rounded">${item.brand}</span>
-                        <h3 class="font-bold text-sm text-gray-800 my-2">${item.title}</h3>
-                        <a href="${item.url}" target="_blank" class="block text-blue-600 text-xs font-bold underline mt-2">閱讀完整報導 →</a>
-                    </div>
-                `).join('') : '<p class="text-center py-10 text-gray-400">暫無今日新聞</p>';
-                return;
-            }
+            # 尋找所有帶連結的標題標籤
+            # 這裡我們鎖定文章連結的特徵
+            links = soup.find_all('a', href=True)
+            for link in links:
+                title = link.get_text(strip=True)
+                href = link['href']
+                
+                # 篩選：標題要夠長、必須有連結、且連結要包含文章路徑
+                if 12 < len(title) < 50 and ('article' in href or 'blog' in href or 'content' in href):
+                    full_url = href if href.startswith('http') else t['base_url'] + href
+                    
+                    # 避免抓到重複標題
+                    if not any(n['title'] == title for n in news_items):
+                        news_items.append({"brand": t['brand'], "title": title, "url": full_url, "time": datetime.now().strftime("%H:%M")})
+                
+                if len([n for n in news_items if n['brand'] == t['brand']]) >= 3: break
+        except Exception as e: print(f"Error: {t['brand']} - {e}")
+    return news_items
 
-            // 優惠模式：顯示月份
-            monthSelect.style.display = 'block';
-            const month = monthSelect.value;
-            const items = globalData[month]?.[currentTab] || [];
-            container.innerHTML = items.length ? items.map(item => `
-                <div class="bg-white p-4 rounded-xl shadow-sm border">
-                    <div class="flex justify-between mb-2">
-                        <span class="${getBrandColor(item.brand)} text-white text-[10px] px-2 py-0.5 rounded">${item.brand}</span>
-                        <span class="text-xs text-blue-600 font-bold">${item.time}</span>
-                    </div>
-                    <h3 class="font-bold text-gray-900 text-sm">${item.title}</h3>
-                    <p class="text-gray-500 text-xs mb-3 leading-relaxed">${item.desc}</p>
-                    <a href="${item.url}" target="_blank" class="block bg-blue-50 text-blue-600 text-center py-2 rounded-lg font-bold text-xs">前往優惠</a>
-                </div>
-            `).join('') : '<p class="text-center py-10 text-gray-400">暫無資料</p>';
-        }
-
-        fetchGitHubData();
-    </script>
-</body>
-</html>
+# 寫入檔案
+data = json.load(open('data.json', 'r', encoding='utf-8')) if os.path.exists('data.json') else {}
+data['news'] = fetch_news()
+with open('data.json', 'w', encoding='utf-8') as f: json.dump(data, f, ensure_ascii=False, indent=4)
