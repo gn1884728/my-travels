@@ -86,45 +86,40 @@
   </main>
 
   <!-- ══ 底部導覽列 ══ -->
-  <nav style="overflow: visible;" class="bg-white border-t border-gray-200 fixed bottom-0 left-0 right-0 max-w-md mx-auto
-              flex justify-between items-center pb-3 pt-2
-              shadow-[0_-5px_15px_-5px_rgba(0,0,0,0.1)] z-40 px-4 h-[64px]">
+  <nav style="overflow:visible;" class="bg-white border-t border-gray-200 fixed bottom-0 left-0 right-0 max-w-md mx-auto flex justify-between items-center pb-3 pt-2 shadow-[0_-5px_15px_-5px_rgba(0,0,0,0.1)] z-40 px-3 h-[64px]">
 
-    <button onclick="switchTab('food')" id="tab-food"
-      class="tab-btn flex flex-col items-center space-y-1 w-10 text-blue-600 font-semibold transition-colors">
-      <i class="fas fa-utensils text-lg mb-0.5"></i><span class="text-[10px]">美食</span>
+    <button onclick="switchTab('food')" id="tab-food" class="tab-btn flex flex-col items-center gap-0.5 w-10 transition-colors" style="color:#2563eb;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>
+      <span style="font-size:10px;font-weight:600;">美食</span>
     </button>
 
-    <button onclick="switchTab('life')" id="tab-life"
-      class="tab-btn flex flex-col items-center space-y-1 w-10 text-gray-400 transition-colors">
-      <i class="fas fa-shopping-bag text-lg mb-0.5"></i><span class="text-[10px]">生活</span>
+    <button onclick="switchTab('life')" id="tab-life" class="tab-btn flex flex-col items-center gap-0.5 w-10 transition-colors" style="color:#9ca3af;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6h-2c0-1.66-1.34-3-3-3h-4C8.34 3 7 4.34 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-8 12l-4-4 1.41-1.41L11 15.17l6.59-6.59L19 10l-8 8zm1-12H9c0-.55.45-1 1-1h4c.55 0 1 .45 1 1h-3z"/></svg>
+      <span style="font-size:10px;">生活</span>
     </button>
 
     <!-- 住房比價中央浮動按鈕 -->
-    <div class="relative w-16 flex justify-center" style="overflow: visible;">
+    <div style="position:relative;width:64px;display:flex;justify-content:center;overflow:visible;">
       <button onclick="switchTab('hotel')" id="tab-hotel"
-        style="position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);"
-        class="flex flex-col items-center justify-center w-16 h-16
-               bg-orange-500 rounded-full c-btn-shadow border-4 border-white
-               text-white active:scale-95 z-50">
-        <i class="fas fa-bed text-xl mb-0.5"></i>
-        <span class="text-[10px] font-bold">住房比價</span>
+        style="position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:64px;height:64px;background:#f97316;border-radius:50%;border:4px solid white;color:white;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;box-shadow:0 -4px 10px rgba(0,0,0,0.1),0 4px 6px rgba(0,0,0,0.1);z-index:50;cursor:pointer;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>
+        <span style="font-size:9px;font-weight:700;">住房比價</span>
       </button>
     </div>
 
-    <button onclick="switchTab('travel')" id="tab-travel"
-      class="tab-btn flex flex-col items-center space-y-1 w-10 text-gray-400 transition-colors">
-      <i class="fas fa-plane text-lg mb-0.5"></i><span class="text-[10px]">旅遊</span>
+    <button onclick="switchTab('travel')" id="tab-travel" class="tab-btn flex flex-col items-center gap-0.5 w-10 transition-colors" style="color:#9ca3af;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+      <span style="font-size:10px;">旅遊</span>
     </button>
 
-    <button onclick="switchTab('credit')" id="tab-credit"
-      class="tab-btn flex flex-col items-center space-y-1 w-10 text-gray-400 transition-colors">
-      <i class="fas fa-credit-card text-lg mb-0.5"></i><span class="text-[10px]">信用卡</span>
+    <button onclick="switchTab('credit')" id="tab-credit" class="tab-btn flex flex-col items-center gap-0.5 w-10 transition-colors" style="color:#9ca3af;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+      <span style="font-size:10px;">信用卡</span>
     </button>
 
-    <button onclick="switchTab('news')" id="tab-news"
-      class="tab-btn flex flex-col items-center space-y-1 w-10 text-gray-400 transition-colors">
-      <i class="fas fa-newspaper text-lg mb-0.5"></i><span class="text-[10px]">新聞</span>
+    <button onclick="switchTab('news')" id="tab-news" class="tab-btn flex flex-col items-center gap-0.5 w-10 transition-colors" style="color:#9ca3af;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>
+      <span style="font-size:10px;">新聞</span>
     </button>
   </nav>
 
@@ -653,38 +648,32 @@
     function switchTab(tabName) {
       currentTab = tabName;
 
-      /* 重設所有底部按鈕樣式 */
+      /* 重設所有底部按鈕顏色 */
       document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('text-blue-600', 'font-semibold');
-        btn.classList.add('text-gray-400');
+        btn.style.color = '#9ca3af';
+        btn.style.fontWeight = 'normal';
       });
 
       const hotelBtn = document.getElementById('tab-hotel');
 
       if (tabName === 'hotel') {
-        hotelBtn.classList.add('bg-blue-600');
-        hotelBtn.classList.remove('bg-orange-500');
+        hotelBtn.style.background = '#2563eb';
         document.getElementById('monthSelectorContainer').style.display = 'none';
         updateNoticeBanner();
         renderHotelUI();
       } else if (tabName === 'news') {
-        hotelBtn.classList.remove('bg-blue-600');
-        hotelBtn.classList.add('bg-orange-500');
-        const activeBtn = document.getElementById('tab-news');
-        if (activeBtn) {
-          activeBtn.classList.add('text-blue-600', 'font-semibold');
-          activeBtn.classList.remove('text-gray-400');
-        }
+        hotelBtn.style.background = '#f97316';
+        document.getElementById('tab-news').style.color = '#2563eb';
+        document.getElementById('tab-news').style.fontWeight = '600';
         document.getElementById('monthSelectorContainer').style.display = 'none';
         updateNoticeBanner();
         renderNewsTab();
       } else {
-        hotelBtn.classList.remove('bg-blue-600');
-        hotelBtn.classList.add('bg-orange-500');
+        hotelBtn.style.background = '#f97316';
         const activeBtn = document.getElementById(`tab-${tabName}`);
         if (activeBtn) {
-          activeBtn.classList.add('text-blue-600', 'font-semibold');
-          activeBtn.classList.remove('text-gray-400');
+          activeBtn.style.color = '#2563eb';
+          activeBtn.style.fontWeight = '600';
         }
         document.getElementById('monthSelectorContainer').style.display = 'block';
         updateNoticeBanner();
