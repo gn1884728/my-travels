@@ -1,6 +1,6 @@
 import json
 import requests
-from bs4 import BeautifulSoup
+import xml.etree.ElementTree as ET
 from datetime import datetime
 import os
 
@@ -8,20 +8,17 @@ headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 }
 
-# 各來源設定
-# article_keyword：網址必須包含此字串，才算是文章直連網址
+# ✅ 改用 Google News RSS，不會被反爬蟲擋，文章連結是直連
 targets = [
     {
         "brand": "遠見",
-        "url": "https://www.gvm.com.tw/newest",
-        "base_url": "https://www.gvm.com.tw",
-        "article_keyword": "/article/"   # 遠見文章格式：/article/數字
+        "rss_url": "https://news.google.com/rss/search?q=site:gvm.com.tw&hl=zh-TW&gl=TW&ceid=TW:zh-Hant",
+        "limit": 5
     },
     {
         "brand": "商周",
-        "url": "https://www.businessweekly.com.tw/latest",
-        "base_url": "https://www.businessweekly.com.tw",
-        "article_keyword": "/article/"   # 商周文章格式：含 /article/
+        "rss_url": "https://news.google.com/rss/search?q=site:businessweekly.com.tw&hl=zh-TW&gl=TW&ceid=TW:zh-Hant",
+        "limit": 5
     }
 ]
 
@@ -30,44 +27,41 @@ def fetch_news():
 
     for t in targets:
         try:
-            res = requests.get(t["url"], headers=headers, timeout=20)
+            res = requests.get(t["rss_url"], headers=headers, timeout=20)
             if res.status_code != 200:
                 print(f"[{t['brand']}] HTTP {res.status_code}，跳過")
                 continue
 
-            soup = BeautifulSoup(res.text, "html.parser")
+            # 解析 XML
+            root = ET.fromstring(res.content)
+            channel = root.find("channel")
+            if channel is None:
+                print(f"[{t['brand']}] 找不到 channel")
+                continue
 
-            for link in soup.find_all("a", href=True):
-                title = link.get_text(strip=True)
-                href  = link.get("href", "")
+            count = 0
+            for item in channel.findall("item"):
+                title = item.findtext("title", "").strip()
+                url   = item.findtext("link", "").strip()
 
-                # 組完整網址
-                if href.startswith("http"):
-                    full_url = href
-                elif href.startswith("/"):
-                    full_url = t["base_url"] + href
-                else:
-                    continue  # 相對路徑不明確，略過
-
-                # ✅ 核心篩選：
-                # 1. 標題長度合理（10~80字）
-                # 2. 網址必須含文章關鍵字（確保是文章直連，不是首頁/分類頁）
-                # 3. 排除重複標題
+                # 篩選：標題長度合理 + 不重複
                 if (
-                    10 < len(title) < 80
-                    and t["article_keyword"] in full_url
+                    10 < len(title) < 100
+                    and url
                     and not any(n["title"] == title for n in news_items)
                 ):
                     news_items.append({
                         "brand": t["brand"],
                         "title": title,
-                        "url": full_url,
+                        "url": url,
                         "time": datetime.now().strftime("%H:%M")
                     })
+                    count += 1
 
-                # 每個來源最多抓 5 篇
-                if len([n for n in news_items if n["brand"] == t["brand"]]) >= 5:
+                if count >= t["limit"]:
                     break
+
+            print(f"[{t['brand']}] 抓到 {count} 篇")
 
         except Exception as e:
             print(f"[{t['brand']}] 錯誤：{e}")
