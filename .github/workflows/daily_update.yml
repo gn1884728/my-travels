@@ -4,9 +4,8 @@ on:
     - cron: '0 20 * * *'
   workflow_dispatch: 
 
-# 【關鍵修改】：明確賦予寫入權限
 permissions:
-  contents: write
+  contents: write  # 賦予寫入權限
 
 jobs:
   update:
@@ -14,19 +13,23 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }} # 確保使用這個 token
+          token: ${{ secrets.GITHUB_TOKEN }} # 明確使用這個 Token
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
+
       - name: Install dependencies
         run: pip install requests beautifulsoup4
+
       - name: Run crawler
         run: python update_news.py
-      - name: Commit files
+
+      - name: Commit and Push
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add data.json
           git commit -m "自動更新今日財經新聞"
           git push
