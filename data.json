@@ -1,4 +1,10 @@
 {
-    "6": { "food": [], "life": [], "travel": [], "credit": [] },
-    "news": []
+    "6": {
+        "food": [],
+        "life": [],
+        "travel": [],
+        "credit": []
+    },
+    "news": [],
+    "last_updated": "2026-06-25 09:19:12"
 }
