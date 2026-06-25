@@ -722,20 +722,5 @@
         ],
         "credit": []
     },
-    "news": [
-        {
-            "brand": "商周",
-            "title": "台商離台30年再回頭！40兆台灣錢返鄉，為何不只是有錢人的事？",
-            "url": "https://www.businessweekly.com.tw/",
-            "time": "07:51",
-            "desc": "最新報導"
-        },
-        {
-            "brand": "商周",
-            "title": "國旅變了！皮克敏、買菜團熱賣　旅行社怎靠「同好經濟」衝回頭率",
-            "url": "https://www.businessweekly.com.tw/",
-            "time": "07:51",
-            "desc": "最新報導"
-        }
-    ]
+    "news": []
 }
