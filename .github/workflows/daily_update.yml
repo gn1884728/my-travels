@@ -1,0 +1,23 @@
+name: Daily News Update
+on:
+  schedule:
+    - cron: '0 20 * * *' # UTC時間，等於台灣時間凌晨 4 點
+  workflow_dispatch: # 讓你隨時可以手動按按鈕測試
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with: {python-version: '3.9'}
+      - run: pip install requests beautifulsoup4
+      - run: python update_news.py
+      - name: Commit files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add data.json
+          git commit -m "自動更新今日財經新聞"
+          git push
