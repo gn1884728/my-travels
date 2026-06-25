@@ -722,48 +722,5 @@
         ],
         "credit": []
     },
-    "news": [
-        {
-            "brand": "遠見",
-            "title": "消失的老師！台灣教育崩壞中？",
-            "url": "https://www.gvm.com.tw/newest",
-            "time": "08:22",
-            "desc": "最新財經趨勢"
-        },
-        {
-            "brand": "遠見",
-            "title": "2026遠見校園領袖徵選開跑",
-            "url": "https://www.gvm.com.tw/newest",
-            "time": "08:22",
-            "desc": "最新財經趨勢"
-        },
-        {
-            "brand": "遠見",
-            "title": "收藏《高希均回憶錄》贈《遠見》 特價 2,080 元",
-            "url": "https://www.gvm.com.tw/newest",
-            "time": "08:22",
-            "desc": "最新財經趨勢"
-        },
-        {
-            "brand": "商周",
-            "title": "Podcast《商周Bar》",
-            "url": "https://www.businessweekly.com.tw/latest",
-            "time": "08:22",
-            "desc": "最新財經趨勢"
-        },
-        {
-            "brand": "商周",
-            "title": "別人裁員，他養千人練兵！雄獅獲利超車同業五倍、EPS 17.4 登頂旅遊之王",
-            "url": "https://www.businessweekly.com.tw/latest",
-            "time": "08:22",
-            "desc": "最新財經趨勢"
-        },
-        {
-            "brand": "商周",
-            "title": "心理學家：習慣說「沒辦法」的人，欠缺的是什麼？",
-            "url": "https://www.businessweekly.com.tw/latest",
-            "time": "08:22",
-            "desc": "最新財經趨勢"
-        }
-    ]
+    "news": []
 }
