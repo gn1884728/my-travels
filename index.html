@@ -2,60 +2,96 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>我的優惠</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="我的優惠">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3081/3081648.png">
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JYDYNWGYMF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-JYDYNWGYMF');
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="data.js"></script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
 </head>
-<body class="bg-gray-50 h-screen flex flex-col max-w-md mx-auto shadow-2xl">
-    <header class="bg-blue-600 text-white p-4 sticky top-0 z-50">
-        <h1 class="text-xl font-bold">我的優惠</h1>
+<body class="bg-gray-50 font-sans h-screen flex flex-col max-w-md mx-auto shadow-2xl">
+
+    <header class="bg-blue-600 text-white px-4 py-3 sticky top-0 z-50 shadow-md pt-6">
+        <div class="flex justify-between items-center w-full">
+            <h1 class="text-xl font-bold tracking-wider">我的優惠</h1>
+            <select id="monthSelect" onchange="renderActiveTab()" class="bg-white text-gray-800 text-sm font-semibold rounded-lg px-3 py-1.5 border">
+                <option value="6" selected>6 月</option>
+                </select>
+        </div>
     </header>
 
-    <main class="flex-1 overflow-y-auto p-4" id="main-content">
-        <div id="dynamic-content" class="space-y-4"></div>
+    <main class="flex-1 overflow-y-auto p-4 pb-24 no-scrollbar" id="main-content">
+        <div id="dynamic-content" class="space-y-4">
+            <div class="text-center py-12 text-gray-400">
+                <i class="fas fa-spinner fa-spin text-3xl mb-2"></i>
+                <p>資料載入中...</p>
+            </div>
+        </div>
     </main>
 
-    <nav class="bg-white border-t flex justify-around p-4 shadow-lg z-50">
-        <button onclick="renderActiveTab()" class="text-gray-500"><i class="fas fa-list"></i><br><span class="text-xs">優惠</span></button>
-        <button onclick="renderHotelUI()" class="text-orange-600 font-bold"><i class="fas fa-bed"></i><br><span class="text-xs">比價</span></button>
+    <nav class="bg-white border-t border-gray-200 fixed bottom-0 left-0 right-0 max-w-md mx-auto flex justify-around py-3 shadow-lg z-50">
+        <button onclick="switchTab('food')" class="tab-btn flex flex-col items-center text-blue-600"><i class="fas fa-utensils"></i><span class="text-xs">美食</span></button>
+        <button onclick="switchTab('life')" class="tab-btn flex flex-col items-center text-gray-400"><i class="fas fa-shopping-bag"></i><span class="text-xs">生活</span></button>
+        <button onclick="switchTab('travel')" class="tab-btn flex flex-col items-center text-gray-400"><i class="fas fa-plane"></i><span class="text-xs">旅遊</span></button>
+        <button onclick="switchTab('credit')" class="tab-btn flex flex-col items-center text-gray-400"><i class="fas fa-credit-card"></i><span class="text-xs">信用卡</span></button>
     </nav>
 
     <script>
-        let activeHotelRegion = 'tokyo';
+        const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/gn1884728/my-travels/refs/heads/main/data.json';
+        let globalData = null;
+        let currentTab = 'food';
 
-        function renderHotelUI() {
-            const container = document.getElementById('dynamic-content');
-            container.innerHTML = `
-                <div class="grid grid-cols-2 gap-2 mb-4">
-                    <input type="date" id="checkInInput" class="border p-2 rounded">
-                    <input type="date" id="checkOutInput" class="border p-2 rounded">
-                </div>
-                <div class="flex gap-2 overflow-x-auto pb-2 mb-4">
-                    ${Object.keys(hotelsData).map(r => `
-                        <button onclick="activeHotelRegion='${r}'; renderHotelList()" class="px-4 py-2 rounded-lg border ${activeHotelRegion===r?'bg-blue-600 text-white':'bg-white'}">${r.toUpperCase()}</button>
-                    `).join('')}
-                </div>
-                <div id="hotelListContainer" class="space-y-3"></div>
-            `;
-            renderHotelList();
+        async function fetchGitHubData() {
+            try {
+                const res = await fetch(`${GITHUB_RAW_URL}?t=${new Date().getTime()}`);
+                globalData = await res.json();
+                renderActiveTab();
+            } catch (e) {
+                document.getElementById('dynamic-content').innerHTML = `<p class="text-center text-red-500">載入失敗</p>`;
+            }
         }
 
-        function renderHotelList() {
-            const list = document.getElementById('hotelListContainer');
-            const cin = document.getElementById('checkInInput').value;
-            const cout = document.getElementById('checkOutInput').value;
-            const hotels = hotelsData[activeHotelRegion] || [];
+        function switchTab(tab) {
+            currentTab = tab;
+            renderActiveTab();
+        }
+
+        function renderActiveTab() {
+            if (!globalData) return;
+            const month = document.getElementById('monthSelect').value;
+            const container = document.getElementById('dynamic-content');
+            const items = globalData[month]?.[currentTab] || [];
             
-            list.innerHTML = hotels.map(h => `
-                <div class="bg-white p-4 rounded-xl shadow border">
-                    <h3 class="font-bold mb-2">${h.name}</h3>
-                    <a href="https://tw.trip.com/hotels/detail/?hotelId=${h.id}&checkIn=${cin}&checkOut=${cout}&Allianceid=7364995&SID=277926202" 
-                       target="_blank" class="block w-full text-center bg-blue-600 text-white py-2 rounded-lg text-sm">前往查價</a>
+            if (items.length === 0) {
+                container.innerHTML = `<p class="text-center py-10 text-gray-400">暫無資料</p>`;
+                return;
+            }
+            
+            container.innerHTML = items.map(item => `
+                <div class="bg-white p-4 rounded-xl shadow-sm border">
+                    <h3 class="font-bold text-gray-900">${item.title}</h3>
+                    <p class="text-gray-500 text-xs mb-3">${item.desc}</p>
+                    <a href="${item.url}" target="_blank" class="block bg-blue-50 text-blue-600 text-center py-2 rounded-lg font-bold">前往優惠</a>
                 </div>
             `).join('');
         }
+
+        fetchGitHubData();
     </script>
 </body>
 </html>
