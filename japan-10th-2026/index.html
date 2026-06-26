@@ -52,6 +52,7 @@
         .btn-klook { background: #FF5B00; color: white; }
         .btn-kkday { background: #26CFC9; color: white; }
         .btn-trip { background: #1A9EE8; color: white; }
+        .btn-trip-rate { background: #1E3A8A; color: white; padding: 4px 8px; border-radius: 6px; font-size: 11px; text-decoration: none;}
         .btn-asoview { background: #f43f5e; color: white; }
         .ticket-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
         .status-badge { font-size: 12px; padding: 4px 10px; border-radius: 20px; font-weight: bold; white-space: nowrap; height: fit-content; transition: all 0.3s; flex-shrink: 0; margin-left: 8px;}
@@ -80,10 +81,12 @@
 
         /* 帳本與匯率 */
         .currency-card { background: #e0f2fe; border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; border-left: 4px solid #0284c7; box-shadow: 0 2px 4px rgba(0,0,0,0.05);}
-        .currency-title { font-size: 13px; font-weight: bold; color: #0369a1; margin-bottom: 8px; display: flex; justify-content: space-between;}
-        .currency-inputs { display: flex; gap: 8px; align-items: center; }
+        .currency-title { font-size: 13px; font-weight: bold; color: #0369a1; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;}
+        .currency-inputs { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
         .currency-inputs input { flex: 1; padding: 8px 10px; border: 1px solid #bae6fd; border-radius: 8px; font-size: 15px; width: 100%; box-sizing: border-box; text-align: right;}
-        
+        .rate-setting-row { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.6); padding: 6px 10px; border-radius: 8px; font-size: 12px; color: #334155; }
+        .rate-setting-row input { width: 70px; padding: 4px 6px; border: 1px solid #cbd5e1; border-radius: 4px; text-align: center; font-weight: bold; color: #0284c7; }
+
         .expense-input-card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .expense-input-card .input-row { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
         .expense-input-card input, .expense-input-card select { flex: 1; min-width: 120px; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; }
@@ -233,7 +236,7 @@
             </div></div>
             <div class="card highlight"><span class="time">傍晚</span><div class="event-group">
                 <div class="event">前往弘前市區巡禮</div>
-                <div class="desc">離開奧入瀨前往弘前。晚上去逛弘前公園看美麗的「紅葉夜間點燈」，去居酒屋街體驗在地美食與三味線。</div>
+                <div class="desc">離開奧入瀨前往弘前. 晚上去逛弘前公園看美麗的「紅葉夜間點燈」，去居酒屋街體驗在地美食與三味線。</div>
                 <div class="drive-info">🚗 距奧入瀨：約 60 km / 1.5 小時</div>
                 <a href="https://maps.app.goo.gl/x2kLMqRvPys9MLZ59" class="btn-map" style="background:#10b981;" target="_blank">📍 導航至東橫INN 弘前站前</a>
                 <br><div class="hotel-tag">🏨 宿：東橫INN 弘前站前 (¥11,695)</div>
@@ -310,7 +313,7 @@
                 <div class="desc">鶴岡八幡宮 ➔ 鎌倉大佛 ➔ 鎌倉高校前平交道日落 ➔ 18:00 返回橫濱洲際。</div>
                 <div class="drive-info">🚗 橫濱來回鎌倉：單趟約 25 km / 45 分鐘</div>
                 <a href="https://maps.app.goo.gl/qjyh7tUAHu1c7xK3A" class="btn-map" target="_blank">📍 導航至鶴岡八幡宮附設停車場</a>
-                <a href="https://maps.app.goo.gl/fsXmU6tL5GWUhrWC7" class="btn-map" target="_blank">📍 導航至鎌倉大佛周邊停車場</a>
+                <a href="https://maps.app.goo.gl/fsXmU6tL5GWUhrWC7" class="btn-map" target="_blank">📍 導航至開單大佛周邊停車場</a>
                 <a href="https://maps.app.goo.gl/1HRqVLW7aP2vR72u9" class="btn-map" target="_blank">📍 導航至七里濱海岸停車場</a>
                 <br><div class="hotel-tag">🏨 宿：橫濱洲際酒店 (房費 NT$3500 * 2間)</div>
             </div></div>
@@ -560,16 +563,22 @@
     <div class="container">
         <div class="date-header">💰 雲端總帳本 ＆ 即時記帳</div>
 
-        <!-- 🌟 新增：零佔用空間的即時匯率換算器 -->
+        <!-- 🌟 升級：動態台銀匯率控制卡片 -->
         <div class="currency-card">
             <div class="currency-title">
-                <span>💱 即時匯率換算</span>
-                <span style="font-size: 11px; color: #64748b; font-weight: normal;">預設匯率: 0.215</span>
+                <span>💱 匯率即時換算與設定</span>
+                <a href="https://rate.bot.com.tw/xrt?Lang=zh-TW" target="_blank" class="btn-trip-rate">📈 點我查台銀即期價</a>
             </div>
             <div class="currency-inputs">
                 <input type="number" id="calc-jpy" placeholder="¥ 輸入日圓" oninput="calcCurrency('jpy')">
                 <span style="color: #0284c7; font-weight: bold; font-size: 18px;">=</span>
                 <input type="number" id="calc-twd" placeholder="NT$ 輸入台幣" oninput="calcCurrency('twd')">
+            </div>
+            <div class="rate-setting-row">
+                <span>🛠️ 自訂記帳匯率設定（全App聯動）：</span>
+                <div>
+                    <input type="number" id="global-rate" value="0.215" step="0.0001" oninput="updateGlobalRate(this.value)">
+                </div>
             </div>
         </div>
 
@@ -586,7 +595,7 @@
             <div class="event">🏨 SOLASIA Residence 北上野 601</div>
             <div class="desc">
                 住客：大舅子一家<br>
-                入住日期：10/27 - 10/28
+                日期：10/27 - 10/28
             </div>
         </div>
 
@@ -636,7 +645,7 @@
                     <tr><td>⛽ 車輛油資</td><td>¥5,000</td><td>約 470 公里</td></tr>
                     <tr><td>🏨 弘前住宿</td><td>¥11,695</td><td>10/27 已預訂</td></tr>
                     <tr><td>🚄 回程新幹線</td><td>¥35,800</td><td>新青森 ➔ 上野</td></tr>
-                    <tr class="total-row"><td>💰 花費總計</td><td>¥89,245</td><td>約 NT$ 19,180</td></tr>
+                    <tr class="total-row"><td>💰 花費總計</td><td id="budget-jpy-total">¥89,245</td><td id="budget-twd-total">約 NT$ 19,188</td></tr>
                 </tbody>
             </table>
         </div>
@@ -741,8 +750,23 @@
 // ⚠️ GAS 金鑰網址
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbz-Ut5BZXa4daIX_BylaaaC8LlWWlj-EQKUgq9mIoyMddZwFAz-nlSTlYqiw37376Iw/exec';
 
-// 🌟 新增：匯率計算器邏輯
-const EXCHANGE_RATE = 0.215; // 您可以隨時在這裡修改預設匯率
+// 🌟 全局聯動匯率變數 (預設為 0.215)
+let globalExchangeRate = 0.215;
+
+function updateGlobalRate(val) {
+    const rate = parseFloat(val);
+    if (!isNaN(rate) && rate > 0) {
+        globalExchangeRate = rate;
+        localStorage.setItem('user_global_rate', rate);
+        // 即時重新計算當前輸入框的值
+        calcCurrency('jpy');
+        // 重新讀取雲端帳本，用新匯率換算
+        loadExpenses();
+        // 重新更新固定預算表的台幣預估
+        updateBudgetTable();
+    }
+}
+
 function calcCurrency(type) {
     const jpyInput = document.getElementById('calc-jpy');
     const twdInput = document.getElementById('calc-twd');
@@ -750,17 +774,25 @@ function calcCurrency(type) {
     if(type === 'jpy') {
         const jpyVal = parseFloat(jpyInput.value);
         if(!isNaN(jpyVal)) {
-            twdInput.value = Math.round(jpyVal * EXCHANGE_RATE);
+            twdInput.value = Math.round(jpyVal * globalExchangeRate);
         } else {
             twdInput.value = '';
         }
     } else if(type === 'twd') {
         const twdVal = parseFloat(twdInput.value);
         if(!isNaN(twdVal)) {
-            jpyInput.value = Math.round(twdVal / EXCHANGE_RATE);
+            jpyInput.value = Math.round(twdVal / globalExchangeRate);
         } else {
             jpyInput.value = '';
         }
+    }
+}
+
+function updateBudgetTable() {
+    const budgetJpy = 89245;
+    const twdTarget = document.getElementById('budget-twd-total');
+    if (twdTarget) {
+        twdTarget.textContent = `約 NT$ ${Math.round(budgetJpy * globalExchangeRate).toLocaleString()}`;
     }
 }
 
@@ -799,7 +831,7 @@ function showDay(id, btn) {
     btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 }
 
-// ===== 票券功能（含 LocalStorage 持久化） =====
+// ===== 票券功能 =====
 function markAsBought(btn, idx) {
     const card = btn.closest('.ticket-card');
     const platform = prompt('請輸入購買平台（例：Klook, KKday, 官網）：', 'Klook');
@@ -930,11 +962,16 @@ async function loadExpenses() {
             `;
         }).join('');
 
+        // 升級：除了顯示原始日幣加台幣，還利用動態匯率加總一個「預估台幣總花費」
         let totalStr = '';
         if (jpy > 0) totalStr += `¥${jpy.toLocaleString()}`;
         if (jpy > 0 && ntd > 0) totalStr += ' ＋ ';
         if (ntd > 0) totalStr += `NT$${ntd.toLocaleString()}`;
-        total.textContent = '💰 累計支出：' + totalStr;
+        
+        let combinedTwd = Math.round(ntd + (jpy * globalExchangeRate));
+        totalStr += `<br><small style="font-size:12px; opacity:0.8;">📈 依自訂匯率全折合台幣約：NT$ ${combinedTwd.toLocaleString()}</small>`;
+
+        total.innerHTML = '💰 累計支出：' + totalStr;
         total.style.display = 'block';
 
     } catch(e) {
@@ -1038,6 +1075,14 @@ function renderLiveBanner(list) {
 
 // ===== 頁面載入初始化 =====
 document.addEventListener('DOMContentLoaded', () => {
+    // 優先讀取暫存的自訂匯率
+    const savedRate = localStorage.getItem('user_global_rate');
+    if (savedRate) {
+        globalExchangeRate = parseFloat(savedRate);
+        document.getElementById('global-rate').value = savedRate;
+    }
+    updateBudgetTable();
+
     // 初始化清單
     document.querySelectorAll('.check-item input[type="checkbox"]').forEach(box => {
         if (localStorage.getItem(box.id) === 'true') box.checked = true;
