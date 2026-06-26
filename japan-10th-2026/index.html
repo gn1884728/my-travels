@@ -7,6 +7,7 @@
     
     <meta name="theme-color" content="#1E3A8A">
     
+    <!-- iOS 專用隱藏網址列與圖示 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="日本秋遊">
@@ -16,6 +17,7 @@
     <meta name="application-name" content="日本秋遊">
     <link rel="icon" type="image/png" sizes="72x72" href="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f341.png">
     
+    <!-- 讓安卓乖乖聽話的完美 manifest -->
     <link rel="manifest" href='data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%222026%E7%A7%8B%E5%AD%A3%E6%97%A5%E6%9C%AC%E9%81%8A%22%2C%22short_name%22%3A%22%E6%97%A5%E6%9C%AC%E9%81%8A%22%2C%22display%22%3A%22standalone%22%2C%22start_url%22%3A%22.%2F%22%2C%22background_color%22%3A%22%23f4f6f8%22%2C%22theme_color%22%3A%22%231E3A8A%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fcdnjs.cloudflare.com%2Fajax%2Flibs%2Ftwemoji%2F14.0.2%2Fsvg%2F1f341.svg%22%2C%22sizes%22%3A%22any%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%2C%7B%22src%22%3A%22https%3A%2F%2Fcdnjs.cloudflare.com%2Fajax%2Flibs%2Ftwemoji%2F14.0.2%2F72x72%2F1f341.png%22%2C%22sizes%22%3A%2272x72%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D'>
 
     <style>
@@ -260,11 +262,17 @@
                 <div class="desc" style="color: #1e3a8a;">串聯東京 ➔ Costco ➔ 橫濱 ➔ 鎌倉 ➔ 高尾山 ➔ 御殿場 ➔ 河口湖 ➔ 返回東京。</div>
                 <a href="https://www.google.com/maps/dir/トヨタレンタカー東日本橋/コストコホールセール川崎倉庫店/ヨコハマグランドインターコンチネンタルホテル/鶴岡八幡宮/鎌倉高校前駅/高尾山ケーブルカー清滝駅/御殿場プレミアム・アウトレット/東横INN富士河口湖大橋/新倉富士浅間神社/トヨタレンタカー東日本橋/" class="btn-link" style="background: #2563eb; color: white; margin-top: 8px;" target="_blank">📍 點我開啟 Google Map 總路線</a>
             </div>
+            
+            <!-- 🌟 更新了日文官網連結的取車卡片 -->
             <div class="card"><span class="time">09:30</span><div class="event-group">
                 <div class="event">取車出發 🚗</div>
                 <div class="desc">前往 TOYOTA Rent a Car 上野站前店取車，確認 6 人與大行李空間。</div>
-                <a href="https://maps.app.goo.gl/B9Z2KqE" class="btn-map" target="_blank">📍 導航至 Toyota 上野站前店</a>
+                <div class="btn-row links-row">
+                    <a href="https://rent.toyota.co.jp/" class="btn-sm" style="background:#e11d2a; color:white;" target="_blank">🚗 TOYOTA 租車日文官網</a>
+                    <a href="https://maps.app.goo.gl/B9Z2KqE" class="btn-sm btn-map" style="margin-top:0;" target="_blank">📍 導航至上野站前店</a>
+                </div>
             </div></div>
+
             <div class="card"><span class="time">10:40</span><div class="event-group">
                 <div class="event">Costco 戰略補給 🛒</div>
                 <div class="desc">川崎店免稅採買零食。※ 結帳限用 Mastercard，需備護照。</div>
@@ -520,6 +528,7 @@
     <div class="container">
         <div class="date-header">💰 雲端總帳本 ＆ 即時記帳</div>
 
+        <!-- 住宿資訊卡片區 -->
         <div class="card" style="border-left: 4px solid #1E3A8A;">
             <div class="event">🏨 東京上野喜來登福朋飯店</div>
             <div class="desc">
