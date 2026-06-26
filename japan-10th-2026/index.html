@@ -4,35 +4,522 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>2026 秋季家族自駕遊</title>
+    
+    <meta name="theme-color" content="#1E3A8A">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="日本秋遊">
+    <link rel="apple-touch-icon" href="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f341.png">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="日本秋遊">
+    <link rel="icon" type="image/png" sizes="72x72" href="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f341.png">
+    
+    <link rel="manifest" href='data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%222026%E7%A7%8B%E5%AD%A3%E6%97%A5%E6%9C%AC%E9%81%8A%22%2C%22short_name%22%3A%22%E6%97%A5%E6%9C%AC%E9%81%8A%22%2C%22display%22%3A%22standalone%22%2C%22start_url%22%3A%22.%2F%22%2C%22background_color%22%3A%22%23f4f6f8%22%2C%22theme_color%22%3A%22%231E3A8A%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fcdnjs.cloudflare.com%2Fajax%2Flibs%2Ftwemoji%2F14.0.2%2Fsvg%2F1f341.svg%22%2C%22sizes%22%3A%22any%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%2C%7B%22src%22%3A%22https%3A%2F%2Fcdnjs.cloudflare.com%2Fajax%2Flibs%2Ftwemoji%2F14.0.2%2F72x72%2F1f341.png%22%2C%22sizes%22%3A%2272x72%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D'>
+
     <style>
-        /* 保持您原有的完整 CSS 樣式，確保介面風格一致 */
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f6f8; margin: 0; padding-bottom: 80px; }
+        .header { background-color: #1E3A8A; color: white; padding: 16px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .header h1 { margin: 0; font-size: 18px; }
+        .main-view { display: none; } .main-view.active { display: block; }
+        .container { padding: 16px; }
+        .tab-scroll-container { background-color: #1E3A8A; position: sticky; top: 53px; z-index: 99; overflow-x: auto; white-space: nowrap; padding: 0 10px 10px; }
+        .tab-scroll-container::-webkit-scrollbar { display: none; }
+        .tab-btn { background: rgba(255,255,255,0.2); color: #cbd5e1; border: none; padding: 8px 16px; border-radius: 20px; font-size: 14px; margin-right: 8px; cursor: pointer; transition: all 0.2s;}
+        .tab-btn.active { background: white; color: #1E3A8A; font-weight: bold; }
+        .card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); border-left: 4px solid #94a3b8;}
+        .card.highlight { border-left: 4px solid #d97706; }
+        .date-header { font-size: 18px; font-weight: bold; margin-bottom: 16px; border-left: 4px solid #1E3A8A; padding-left: 8px; color: #0f172a;}
+        .time { color: #1E3A8A; font-weight: 800; display: inline-block; width: 65px; vertical-align: top;}
+        .event-group { display: inline-block; width: calc(100% - 70px); }
+        .event { font-size: 16px; font-weight: 700; margin-bottom: 4px; color: #1e293b;}
+        .desc { font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 8px;}
+        .hotel-tag { font-size: 13px; color: #0369a1; background: #e0f2fe; padding: 6px 10px; border-radius: 6px; display: inline-block; font-weight: 600; margin-bottom: 8px;}
+        .drive-info { background: #f0fdf4; color: #166534; padding: 6px 10px; border-radius: 6px; font-size: 13px; font-weight: bold; margin-top: 8px; border-left: 3px solid #10b981; display: inline-block;}
+        .budget-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+        .budget-table th, .budget-table td { border: 1px solid #e2e8f0; padding: 10px; text-align: left; }
+        .budget-table th { background: #f8fafc; color: #1E3A8A; font-weight: bold; }
+        .budget-table tr:nth-child(even) { background: #fdfdfd; }
+        .total-row { font-weight: bold; background: #fee2e2 !important; color: #991b1b; }
+        .btn-link, .btn-map { display: block; text-align: center; padding: 10px 12px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: bold; margin-top: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: opacity 0.2s;}
+        .btn-map { background: #4285F4; color: white; }
+        .btn-row { display: flex; gap: 8px; margin-top: 12px; }
+        .btn-sm { flex: 1; text-align: center; padding: 10px 0; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: opacity 0.2s; white-space: nowrap; }
+        .btn-klook { background: #FF5B00; color: white; }
+        .btn-kkday { background: #26CFC9; color: white; }
+        .btn-trip { background: #1A9EE8; color: white; }
+        .btn-asoview { background: #f43f5e; color: white; }
+        .ticket-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+        .status-badge { font-size: 12px; padding: 4px 10px; border-radius: 20px; font-weight: bold; white-space: nowrap; height: fit-content; transition: all 0.3s; flex-shrink: 0; margin-left: 8px;}
+        .status-badge.bought { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .status-badge.pending { background: #fef08a; color: #854d0e; border: 1px solid #fde047; }
+        .ticket-details { background: #f8fafc; border-radius: 8px; padding: 12px; margin-top: 12px; font-size: 13px; color: #334155; border-left: 3px solid #1E3A8A; line-height: 1.8; display: none;}
+        .ticket-details strong { color: #0f172a; }
+        .btn-mark { display: block; background: #10b981; color: white; border: none; text-align: center; padding: 10px; border-radius: 8px; font-size: 14px; font-weight: bold; margin-top: 12px; cursor: pointer; width: 100%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: background 0.2s; box-sizing: border-box;}
+        .btn-mark:active { background: #059669; }
+        .btn-unmark { display: block; background: #94a3b8; color: white; border: none; text-align: center; padding: 8px; border-radius: 8px; font-size: 13px; cursor: pointer; width: 100%; margin-top: 8px; box-sizing: border-box;}
+
+        /* 清單 */
+        .checklist-group { margin-bottom: 20px; }
+        .checklist-group-title { font-size: 15px; font-weight: bold; color: #1E3A8A; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 12px; }
+        .check-item { display: flex; align-items: flex-start; margin-bottom: 12px; cursor: pointer; }
+        .check-item input[type="checkbox"] { margin-top: 4px; margin-right: 12px; width: 18px; height: 18px; accent-color: #10b981; cursor: pointer; flex-shrink: 0;}
+        .check-text { font-size: 15px; color: #334155; transition: all 0.2s; line-height: 1.4;}
+        .check-subtext { font-size: 12px; color: #64748b; margin-top: 2px; }
+        .check-item input[type="checkbox"]:checked + .check-text-box .check-text { color: #94a3b8; text-decoration: line-through; }
+
+        /* 美食清單 */
+        .food-visited-btn { display: inline-block; margin-top: 8px; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; cursor: pointer; border: 2px solid #10b981; color: #10b981; background: white; transition: all 0.2s; }
+        .food-visited-btn.visited { background: #10b981; color: white; }
+        .food-visited-stamp { display: none; font-size: 13px; color: #10b981; font-weight: bold; margin-top: 4px; }
+        .food-visited-stamp.show { display: block; }
+
+        /* 帳本 */
+        .expense-input-card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .expense-input-card .input-row { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+        .expense-input-card input, .expense-input-card select { flex: 1; min-width: 120px; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; }
+        .expense-input-card .btn-add { background: #1E3A8A; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; white-space: nowrap; }
+        .expense-list { margin-top: 16px; }
+        .expense-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+        .expense-item:last-child { border-bottom: none; }
+        .expense-item .e-name { color: #334155; flex: 1; }
+        .expense-item .e-cat { color: #64748b; font-size: 12px; background: #f1f5f9; padding: 2px 8px; border-radius: 10px; margin: 0 8px; }
+        .expense-item .e-amt { font-weight: bold; color: #1E3A8A; white-space: nowrap; }
+        .expense-total { background: #1E3A8A; color: white; border-radius: 10px; padding: 14px 16px; text-align: center; margin-top: 16px; font-size: 16px; font-weight: bold; }
+
+        /* 打卡 */
+        .checkin-card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-left: 4px solid #8b5cf6; }
+        .checkin-card select, .checkin-card textarea, .checkin-card input { width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; margin-bottom: 10px; box-sizing: border-box; font-family: inherit; }
+        .checkin-card textarea { resize: none; height: 80px; }
+        .btn-checkin { background: #8b5cf6; color: white; border: none; padding: 12px; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; width: 100%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .btn-checkin:active { background: #7c3aed; }
+        .checkin-log { margin-top: 16px; }
+        .checkin-log-title { font-size: 15px; font-weight: bold; color: #1E3A8A; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 12px; }
+        .checkin-item { background: #faf5ff; border-radius: 10px; padding: 12px; margin-bottom: 8px; border-left: 3px solid #8b5cf6; }
+        .checkin-item .ci-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+        .checkin-item .ci-name { font-weight: bold; color: #5b21b6; font-size: 14px; }
+        .checkin-item .ci-time { font-size: 12px; color: #94a3b8; }
+        .checkin-item .ci-place { font-size: 13px; color: #334155; margin-bottom: 4px; }
+        .checkin-item .ci-msg { font-size: 13px; color: #475569; font-style: italic; }
+        .checkin-empty { text-align: center; color: #94a3b8; font-size: 14px; padding: 24px 0; }
+        .checkin-status { font-size: 13px; color: #64748b; margin-top: 8px; text-align: center; }
+        .checkin-status.success { color: #10b981; font-weight: bold; }
+        .checkin-status.error { color: #ef4444; }
+
+        /* 行程內打卡顯示區 */
+        .live-checkin-banner { background: linear-gradient(135deg, #5b21b6, #8b5cf6); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; color: white; }
+        .live-checkin-banner .lcb-title { font-size: 13px; font-weight: bold; opacity: 0.8; margin-bottom: 8px; }
+        .live-checkin-item { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 13px; }
+        .live-checkin-item:last-child { margin-bottom: 0; }
+        .live-avatar { width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; flex-shrink: 0; }
+        .live-info { flex: 1; }
+        .live-place { font-weight: bold; }
+        .live-msg { opacity: 0.8; font-size: 12px; }
+        .live-time { font-size: 11px; opacity: 0.6; white-space: nowrap; }
+
+        /* 底部導覽 */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding: 12px 0; z-index: 100; padding-bottom: calc(12px + env(safe-area-inset-bottom));}
+        .nav-item { cursor: pointer; color: #94a3b8; font-size: 11px; font-weight: 600; text-align: center; flex: 1; transition: color 0.2s;}
+        .nav-item.active { color: #1E3A8A; }
+        .nav-icon { font-size: 20px; display: block; margin-bottom: 4px; }
     </style>
 </head>
 <body>
 
+<div class="header"><h1>🍁 2026 秋季家族自駕遊</h1></div>
+
 <div id="view-itinerary" class="main-view active">
+    <div class="tab-scroll-container">
+        <button class="tab-btn" onclick="showDay('d1', this)">10/25 (日)</button>
+        <button class="tab-btn" onclick="showDay('d2', this)">10/26 (一)</button>
+        <button class="tab-btn" onclick="showDay('d3', this)">10/27 (二)</button>
+        <button class="tab-btn active" onclick="showDay('d4', this)">10/28 (三)</button>
+        <button class="tab-btn" onclick="showDay('d5', this)">10/29 (四)</button>
+        <button class="tab-btn" onclick="showDay('d6', this)">10/30 (五)</button>
+        <button class="tab-btn" onclick="showDay('d7', this)">10/31 (六)</button>
+        <button class="tab-btn" onclick="showDay('d8', this)">11/01 (日)</button>
+        <button class="tab-btn" onclick="showDay('d9', this)">11/02 (一)</button>
+    </div>
+
     <div class="container">
+        <div id="live-checkin-area" class="live-checkin-banner" style="display:none;">
+            <div class="lcb-title">📍 團員即時動態</div>
+            <div id="live-checkin-list"></div>
+        </div>
+
+        <div id="d1" class="day-content" style="display:none;">
+            <div class="date-header">10/25 (日) | 專車接送與星宇啟航</div>
+            <div class="card"><span class="time">08:00</span><div class="event-group">
+                <div class="event">專車機場接送 🚗</div>
+                <div class="desc">搭乘預約之機場接送專車，前往桃園機場第一航廈。</div>
+            </div></div>
+            <div class="card"><span class="time">09:30</span><div class="event-group">
+                <div class="event">星宇貴賓室 ✨</div>
+                <div class="desc">夫妻憑商務艙機票，使用一航廈星宇貴賓室 (Galactic Lounge) 享用精緻早餐與休息。</div>
+            </div></div>
+            <div class="card highlight"><span class="time">11:50</span><div class="event-group">
+                <div class="event">星宇 JX862 (商務艙) ✈️</div>
+                <div class="desc">11:50 桃園起飛，16:00 降落仙台機場。搭乘仙台機場線 17 分鐘 (每人 ¥660)，從東口出來至飯店 Check-in。</div>
+                <a href="https://maps.app.goo.gl/m244wD5GV5tPJ4qp6" class="btn-map" target="_blank">📍 導航至仙台全日空假日酒店</a>
+            </div></div>
+            <div class="card"><span class="time">晚間</span><div class="event-group">
+                <div class="event">仙台市區</div>
+                <div class="desc">享用仙台厚切牛舌、欣賞仙台市區夜景。</div>
+                <div class="hotel-tag">🏨 宿：仙台全日空假日酒店</div>
+            </div></div>
+        </div>
+
+        <div id="d2" class="day-content" style="display:none;">
+            <div class="date-header">10/26 (一) | 仙台取車 ➔ 松島海岸 ➔ 安比高原</div>
+            <div class="card" style="background: #e0f2fe; border-left: 4px solid #0284c7;">
+                <div class="event" style="color: #0369a1;">🗺️ 東北 48H 自駕總路線圖</div>
+                <div class="desc" style="color: #0c4a6e;">包含仙台 ➔ 松島 ➔ 安比 ➔ 奧入瀨 ➔ 弘前 ➔ 新青森的完整動線導航。</div>
+                <a href="https://www.google.com/maps/dir/仙台車站/松島海岸/安比高原全日空皇冠假日度假酒店/奧入瀨溪流+石戶休憩所/東横INN弘前駅前/新青森車站/" class="btn-link" style="background: #0284c7; color: white; margin-top: 8px;" target="_blank">📍 點我開啟 Google Map 總路線</a>
+            </div>
+            <div class="card"><span class="time">11:30</span><div class="event-group">
+                <div class="event">仙台市區取車 🚗</div>
+                <div class="desc">悠閒吃完早餐後，前往 Toyota 仙台站西口店取車，正式啟動 48 小時黃金自駕。</div>
+                <a href="https://maps.app.goo.gl/m244wD5GV5tPJ4qp6" class="btn-map" target="_blank">📍 導航至 Toyota 仙台站西口店</a>
+            </div></div>
+            <div class="card"><span class="time">12:10</span><div class="event-group">
+                <div class="event">松島海岸吃鮮蚵 🦪</div>
+                <div class="desc">驅車前往日本三景「松島」，品嚐秋季剛解禁的現烤肥美鮮蚵、帆立貝海鮮大餐。</div>
+                <div class="drive-info">🚗 距取車點：約 26 km / 40 分鐘</div>
+                <a href="https://maps.app.goo.gl/o1H432xSStjQ4F128" class="btn-map" target="_blank">📍 導航至松島公園第1駐車場</a>
+            </div></div>
+            <div class="card highlight"><span class="time">14:00</span><div class="event-group">
+                <div class="event">奔向安比高原 🍁</div>
+                <div class="desc">松島直接開上高速公路一路向北。抵達後辦理入住，晚間享用露天溫泉與會席料理/自助餐。</div>
+                <div class="drive-info">🚗 距松島：約 210 km / 2.5 小時</div>
+                <a href="https://maps.app.goo.gl/eohJHsWErSw6etNf7" class="btn-map" target="_blank">📍 導航至安比高原全日空皇冠假日度假酒店</a>
+                <br><div class="hotel-tag">🏨 宿：安比高原全日空皇冠假日</div>
+            </div></div>
+        </div>
+
         <div id="d3" class="day-content" style="display:none;">
             <div class="date-header">10/27 (二) | 纜車日出 & 直攻奧入瀨</div>
-            <div class="card highlight">
-                <div class="event">宿：大舅子一家入駐 SOLASIA Residence 北上野 601</div>
-            </div>
-            </div>
+            <div class="card highlight"><span class="time">06:00</span><div class="event-group">
+                <div class="event">安比高原纜車 (日出班次) 🌅</div>
+                <div class="desc">搭乘纜車(需購票)至山頂看日出約 15 分鐘。下山後利用 IHG 鑽卡會籍享用免費豐盛早餐！</div>
+            </div></div>
+            <div class="card"><span class="time">08:30</span><div class="event-group">
+                <div class="event">直攻奧入瀨紅葉絕景 🍁</div>
+                <div class="desc">飯店退房出發，直攻奧入瀨溪流。沿著最經典的紅葉溪谷漫步健行、拍照。</div>
+                <div class="drive-info">🚗 距安比高原：約 80 km / 1.5 小時</div>
+                <a href="https://maps.app.goo.gl/1duLjjMLDgiTjLwD7" class="btn-map" target="_blank">📍 導航精準定位：奧入瀨溪流 石戶休憩所</a>
+            </div></div>
+            <div class="card"><span class="time">12:30</span><div class="event-group">
+                <div class="event">大舅子抵達東京</div>
+                <div class="desc">大舅子降落成田 ➔ 搭乘 Skyliner 前往上野。</div>
+                <div class="hotel-tag">🏨 大舅子宿：SOLASIA Residence 北上野 601</div>
+            </div></div>
+            <div class="card highlight"><span class="time">傍晚</span><div class="event-group">
+                <div class="event">前往弘前市區巡禮</div>
+                <div class="desc">離開奧入瀨前往弘前。晚上去逛弘前公園看美麗的「紅葉夜間點燈」，去居酒屋街體驗在地美食與三味線。</div>
+                <div class="drive-info">🚗 距奧入瀨：約 60 km / 1.5 小時</div>
+                <a href="https://maps.app.goo.gl/x2kLMqRvPys9MLZ59" class="btn-map" style="background:#10b981;" target="_blank">📍 導航至東橫INN 弘前站前</a>
+                <br><div class="hotel-tag">🏨 宿：東橫INN 弘前站前 (¥11,695)</div>
+            </div></div>
+        </div>
 
         <div id="d4" class="day-content" style="display:block;">
             <div class="date-header">10/28 (三) | 新青森悠閒午返 ➔ 上野大合體</div>
-            <div class="card highlight">
-                <div class="event">入駐：東京上野喜來登福朋飯店</div>
-                <div class="desc">本日抵達後入駐福朋飯店，大舅子一家續住 SOLASIA 601。</div>
+            <div class="card"><span class="time">08:30</span><div class="event-group">
+                <div class="event">弘前公園晨間賞楓</div>
+                <div class="desc">吳哥夫妻在早晨最棒的光線下，愜意遊覽弘前公園與弘前城。</div>
+                <a href="https://maps.app.goo.gl/x2kLMqRvPys9MLZ59" class="btn-map" target="_blank">📍 導航至弘前市役所停車場</a>
+            </div></div>
+            <div class="card"><span class="time">11:30</span><div class="event-group">
+                <div class="event">新青森車站還車 🚗</div>
+                <div class="desc">完美壓線 48 小時租期還車！結束東北自駕，臨櫃結清 ETC 費用。</div>
+                <div class="drive-info">🚗 距弘前市區：約 40 km / 45 分鐘</div>
+                <a href="https://maps.app.goo.gl/1duLjjMLDgiTjLwD7" class="btn-map" target="_blank">📍 導航至 Toyota 新青森站前店</a>
+            </div></div>
+            <div class="card highlight"><span class="time">中午</span><div class="event-group">
+                <div class="event">新青森逛街與用餐 🛍️</div>
+                <div class="desc">還車後在車站內（如：旬味館）悠哉享用青森蘋果甜點、採買特色伴手禮與午餐。</div>
+            </div></div>
+            <div class="card highlight"><span class="time">下午</span><div class="event-group">
+                <div class="event">新幹線直達東京上野 🚄</div>
+                <div class="desc">逛完後從容上車補眠。建議搭乘 14:00 - 16:00 區間車次。</div>
+                <div class="desc" style="color: #d97706; font-weight: bold;">💡 推薦車次：Hayabusa 26 號 (約 14:38 發) 或 Hayabusa 28 號 (15:06 發)</div>
+            </div></div>
+            <div class="card highlight"><span class="time">晚間</span><div class="event-group">
+                <div class="event">6 人大合體 🍻</div>
+                <div class="desc">於上野正式大會合，舉辦家族聚餐！</div>
+                <div class="hotel-tag">🏨 吳哥宿：東京上野喜來登福朋飯店</div><br>
+                <div class="hotel-tag">🏨 大舅子宿：SOLASIA Residence 北上野 601</div>
+            </div></div>
+        </div>
+
+        <div id="d5" class="day-content" style="display:none;">
+            <div class="date-header">10/29 (四) | 自駕 D1：好市多 ➔ 鎌倉</div>
+            <div class="card" style="background: #eff6ff; border-left: 4px solid #2563eb;">
+                <div class="event" style="color: #1d4ed8;">🗺️ 關東富士 3 日自駕大環線</div>
+                <div class="desc" style="color: #1e3a8a;">串聯東京 ➔ Costco ➔ 橫濱 ➔ 鎌倉 ➔ 高尾山 ➔ 御殿場 ➔ 河口湖 ➔ 返回東京。</div>
+                <a href="https://www.google.com/maps/dir/トヨタレンタカー東日本橋/コストコホールセール川崎倉庫店/ヨコハマグランドインターコンチネンタルホテル/鶴岡八幡宮/鎌倉高校前駅/高尾山ケーブルカー清滝駅/御殿場プレミアム・アウトレット/東横INN富士河口湖大橋/新倉富士浅間神社/トヨタレンタカー東日本橋/" class="btn-link" style="background: #2563eb; color: white; margin-top: 8px;" target="_blank">📍 點我開啟 Google Map 總路線</a>
             </div>
+            <div class="card"><span class="time">09:30</span><div class="event-group">
+                <div class="event">取車出發 🚗</div>
+                <div class="desc">前往 TOYOTA Rent a Car 上野站前店取車，確認 6 人與大行李空間。</div>
+                <a href="https://maps.app.goo.gl/B9Z2KqE" class="btn-map" target="_blank">📍 導航至 Toyota 上野站前店</a>
+            </div></div>
+            <div class="card"><span class="time">10:40</span><div class="event-group">
+                <div class="event">Costco 戰略補給 🛒</div>
+                <div class="desc">川崎店免稅採買零食。※ 結帳限用 Mastercard，需備護照。</div>
+                <div class="drive-info">🚗 距取車點：約 25 km / 40 分鐘</div>
+                <a href="https://maps.app.goo.gl/49eHFatWLpmrsMCdA" class="btn-map" target="_blank">📍 導航至東京川崎店 Costco</a>
+            </div></div>
+            <div class="card"><span class="time">13:45</span><div class="event-group">
+                <div class="event">橫濱洲際卸載重物</div>
+                <div class="desc">辦理提早入住，卸載大行李。</div>
+                <div class="drive-info">🚗 距 Costco：約 15 km / 30 分鐘</div>
+                <a href="https://www.google.com/travel/hotels/s/g2i9DcuFeUbQMmQq7" class="btn-map" target="_blank">📍 導航至橫濱洲際酒店</a>
+            </div></div>
+            <div class="card highlight"><span class="time">14:30</span><div class="event-group">
+                <div class="event">鎌倉精華大滿貫 ⛩️</div>
+                <div class="desc">鶴岡八幡宮 ➔ 鎌倉大佛 ➔ 鎌倉高校前平交道日落 ➔ 18:00 返回橫濱洲際。</div>
+                <div class="drive-info">🚗 橫濱來回鎌倉：單趟約 25 km / 45 分鐘</div>
+                <a href="https://maps.app.goo.gl/qjyh7tUAHu1c7xK3A" class="btn-map" target="_blank">📍 導航至鶴岡八幡宮附設停車場</a>
+                <a href="https://maps.app.goo.gl/fsXmU6tL5GWUhrWC7" class="btn-map" target="_blank">📍 導航至鎌倉大佛周邊停車場</a>
+                <a href="https://maps.app.goo.gl/1HRqVLW7aP2vR72u9" class="btn-map" target="_blank">📍 導航至七里濱海岸停車場</a>
+                <br><div class="hotel-tag">🏨 宿：橫濱洲際酒店 (房費 NT$3500 * 2間)</div>
+            </div></div>
+        </div>
+
+        <div id="d6" class="day-content" style="display:none;">
+            <div class="date-header">10/30 (五) | 自駕 D2：高尾山 ➔ 富士山</div>
+            <div class="card"><span class="time">08:30</span><div class="event-group">
+                <div class="event">橫濱出發</div>
+                <div class="desc">飯店退房出發，一路向西。</div>
+            </div></div>
+            <div class="card"><span class="time">09:30</span><div class="event-group">
+                <div class="event">高尾山賞楓 🍁</div>
+                <div class="desc">搭乘纜車或吊椅上山，節省體力並欣賞關東紅葉。12:00 簡單午餐後離開。</div>
+                <div class="drive-info">🚗 距橫濱：約 60 km / 1 小時 15 分鐘</div>
+                <a href="https://maps.app.goo.gl/LAvkn8RfbpPP6NKBA" class="btn-map" target="_blank">📍 導航至高尾山纜車停車場</a>
+            </div></div>
+            <div class="card highlight"><span class="time">13:30</span><div class="event-group">
+                <div class="event">御殿場 Outlet 爆買 🛍️</div>
+                <div class="desc">趁 11/1 退稅新制上路前，全家集中火力大爆買 3 小時。16:30 離開。</div>
+                <div class="drive-info">🚗 距高尾山：約 75 km / 1 小時 30 分鐘</div>
+                <a href="https://maps.app.goo.gl/PqJrYLgem2oqhWwF8" class="btn-map" target="_blank">📍 導航至御殿場 PREMIUM OUTLETS</a>
+            </div></div>
+            <div class="card"><span class="time">17:30</span><div class="event-group">
+                <div class="event">河口湖周邊 🗻</div>
+                <div class="desc">抵達河口湖車站拍照。隨後前往飯店 Check-in。</div>
+                <div class="drive-info">🚗 距御殿場：約 30 km / 40 分鐘</div>
+                <a href="https://share.google/qtMmS94zOyEEsQKn1" class="btn-map" target="_blank">📍 導航至河口湖站</a>
+                <a href="https://maps.app.goo.gl/DAY5AJoj7PcRCQpY8" class="btn-map" style="background:#10b981;" target="_blank">📍 導航至河口湖東橫 INN</a>
+                <br><div class="hotel-tag">🏨 宿：河口湖東橫 INN (3間共 ¥41,300)</div>
+            </div></div>
+        </div>
+
+        <div id="d7" class="day-content" style="display:none;">
+            <div class="date-header">10/31 (六) | 自駕 D3：富士絕景 ➔ 東京</div>
+            <div class="card highlight"><span class="time">09:00</span><div class="event-group">
+                <div class="event">天上山公園</div>
+                <div class="desc">現場購買纜車及遊船套票，每人 ¥1,700。</div>
+                <a href="https://maps.app.goo.gl/Dgs43ocicHhMS9xQ9" class="btn-map" target="_blank">📍 導航至河口湖纜車</a>
+            </div></div>
+            <div class="card"><span class="time">11:00</span><div class="event-group">
+                <div class="event">新倉山淺間神社</div>
+                <div class="desc">富士山經典絕景拍攝。</div>
+                <div class="drive-info">🚗 距天上山：約 5 km / 15 分鐘</div>
+                <a href="https://maps.app.goo.gl/UtuaacWW1zFDWYnt5" class="btn-map" target="_blank">📍 導航至新倉山淺間神社第2駐車場</a>
+            </div></div>
+            <div class="card"><span class="time">19:00</span><div class="event-group">
+                <div class="event">東京還車</div>
+                <div class="desc">返回東京還車 (還車地點待與上野站前店確認跨區還車方案)。</div>
+                <div class="drive-info">🚗 距富士山：約 110 km / 2 小時 (⚠️ 週末傍晚易塞車，建議提早出發)</div>
+                <a href="https://maps.app.goo.gl/B9Z2KqE" class="btn-map" target="_blank">📍 導航至 Toyota 上野站前店 (還車)</a>
+                <br><div class="hotel-tag">🏨 宿：東京上野(待訂)，阿美橫町採買</div>
+            </div></div>
+        </div>
+
+        <div id="d8" class="day-content" style="display:none;">
+            <div class="date-header">11/01 (日) | 吳哥返台 ➔ 大舅子移防</div>
+            <div class="card"><span class="time">11:00</span><div class="event-group">
+                <div class="event">搭乘 Skyliner 前往機場 🚄</div>
+                <div class="desc">搭乘 Skyliner 33 班次，11:41 抵達成田第二航廈。</div>
+            </div></div>
+            <div class="card highlight"><span class="time">12:00</span><div class="event-group">
+                <div class="event">機場貴賓室與返台 ✈️</div>
+                <div class="desc">成田機場二航廈 PP 或龍騰使用虛空貴賓室，華航金卡使用自營貴賓室。(華航 CI0101 14:35 起飛)。</div>
+            </div></div>
+            <div class="card"><span class="time">下午</span><div class="event-group">
+                <div class="event">大舅子移防</div>
+                <div class="desc">帶著行李移動至成田機場周邊飯店。晚間可於 1F LAWSON 採買，或搭乘接駁車前往成田 AEON MALL 做最後逛街衝刺。</div>
+                <div class="hotel-tag">🏨 宿：成田日航酒店 (NT$4500/晚)</div>
+            </div></div>
+        </div>
+
+        <div id="d9" class="day-content" style="display:none;">
+            <div class="date-header">11/02 (一) | 大舅子一家賦歸</div>
+            <div class="card"><span class="time">10:30</span><div class="event-group">
+                <div class="event">搭乘接駁車 🚌</div>
+                <div class="desc">於飯店門口搭乘「免費機場接駁巴士」前往成田機場第二航廈。</div>
+            </div></div>
+            <div class="card highlight"><span class="time">13:30</span><div class="event-group">
+                <div class="event">搭機返家 ✈️</div>
+                <div class="desc">大舅子一家搭乘亞航 (AirAsia) FD235 班機返回高雄小港機場。旅途圓滿結束！</div>
+            </div></div>
+        </div>
+    </div>
+</div>
+
+<div id="view-food" class="main-view">
+    <div class="container">
+        <div class="date-header">🍔 專屬美食與口袋名單</div>
+        <div class="desc" style="margin-bottom: 16px;">隨機應變的自駕最強後盾，不被時間軸綁架的吃貨指南！</div>
+
+        <div class="date-header" style="font-size: 16px; margin-top: 20px; border-left: 4px solid #d97706;">📍 仙台區</div>
+        <div class="card" id="food-1">
+            <div class="event">仙台車站 善治郎牛舌</div>
+            <div class="desc">仙台必吃超厚切牛舌，建議避開尖峰時段或提早候位。</div>
+            <span class="hotel-tag" style="background:#fef08a; color:#854d0e;">🌙 晚餐推薦</span>
+            <a href="https://www.google.com/maps/search/?api=1&query=牛たん通り+善治郎" class="btn-map" target="_blank">📍 導航至餐廳</a>
+            <br>
+            <button class="food-visited-btn" onclick="toggleFoodVisited('food-1', this)">✔ 標記已去過</button>
+            <div class="food-visited-stamp">✅ 已去過！</div>
+        </div>
+
+        <div class="date-header" style="font-size: 16px; margin-top: 20px; border-left: 4px solid #d97706;">📍 松島區</div>
+        <div class="card" id="food-2">
+            <div class="event">烤牡蠣屋 (松島焼がきハウス)</div>
+            <div class="desc">位於松島魚市場旁，新鮮肥美的現烤鮮蚵吃到飽或單點。</div>
+            <span class="hotel-tag" style="background:#fef08a; color:#854d0e;">🦪 產地直送</span>
+            <a href="https://www.google.com/maps/search/?api=1&query=松島焼がきハウス" class="btn-map" target="_blank">📍 導航至餐廳</a>
+            <br>
+            <button class="food-visited-btn" onclick="toggleFoodVisited('food-2', this)">✔ 標記已去過</button>
+            <div class="food-visited-stamp">✅ 已去過！</div>
+        </div>
+
+        <div class="date-header" style="font-size: 16px; margin-top: 20px; border-left: 4px solid #d97706;">📍 弘前區</div>
+        <div class="card" id="food-3">
+            <div class="event">中味噌拉麵 (中みそ)</div>
+            <div class="desc">弘前當地人的靈魂美食，位於百貨地下街的濃郁生薑蒜味味噌拉麵。</div>
+            <span class="hotel-tag" style="background:#fef08a; color:#854d0e;">🍜 在地小吃</span>
+            <a href="https://www.google.com/maps/search/?api=1&query=中みそ+弘前" class="btn-map" target="_blank">📍 導航至餐廳</a>
+            <br>
+            <button class="food-visited-btn" onclick="toggleFoodVisited('food-3', this)">✔ 標記已去過</button>
+            <div class="food-visited-stamp">✅ 已去過！</div>
+        </div>
+        <div class="card" id="food-4">
+            <div class="event">café KITAMON</div>
+            <div class="desc">弘前市區的高質感咖啡廳，賞楓走累了享用下午茶與甜點的完美去處。</div>
+            <span class="hotel-tag" style="background:#e2e8f0; color:#475569;">🍰 甜點下午茶</span>
+            <a href="https://www.google.com/maps/search/?api=1&query=cafe+KITAMON+弘前" class="btn-map" target="_blank">📍 導航至餐廳</a>
+            <br>
+            <button class="food-visited-btn" onclick="toggleFoodVisited('food-4', this)">✔ 標記已去過</button>
+            <div class="food-visited-stamp">✅ 已去過！</div>
+        </div>
+    </div>
+</div>
+
+<div id="view-tickets" class="main-view">
+    <div class="container">
+        <div class="date-header">🎟️ 票券與採購控管中心</div>
+        <div class="desc" style="margin-bottom: 16px;">精準追蹤採買進度，隨時登記刷卡卡別，以利核對貴賓室與機場接送門檻。</div>
+
+        <div class="card ticket-card" id="ticket-0">
+            <div class="ticket-header">
+                <div class="event">安比高原纜車票 (成人 ¥2200)</div>
+                <span class="status-badge pending">⏳ 待採買</span>
             </div>
+            <div class="desc">10/27 清晨搭乘使用，看滿山紅葉日出。</div>
+            <div class="btn-row links-row">
+                <a href="https://www.asoview.com/channel/ticket/aTuLFo4794/ticket0000052333" class="btn-sm btn-asoview" target="_blank">Asoview</a>
+            </div>
+            <div class="ticket-details"></div>
+            <button class="btn-mark" onclick="markAsBought(this, 0)">✔️ 標記為已購買並記錄</button>
+        </div>
+
+        <div class="card ticket-card" id="ticket-1">
+            <div class="ticket-header">
+                <div class="event">成田機場 ➔ 上野 Skyliner 車票</div>
+                <span class="status-badge pending">⏳ 待採買</span>
+            </div>
+            <div class="desc">大舅子抵達與吳哥回程皆需搭乘。</div>
+            <div class="btn-row links-row">
+                <a href="https://www.trip.com/t/JbfpixUPCV2" class="btn-sm btn-trip" target="_blank">Trip.com</a>
+                <a href="https://affiliate.klook.com/sl/yzHEGNJ" class="btn-sm btn-klook" target="_blank">Klook</a>
+                <a href="https://www.kkday.com/zh-tw/product/7913-keisei-skyliner-narita-airport-express-ticket?qs=skyliner&groupOid=4&cid=23311" class="btn-sm btn-kkday" target="_blank">KKday</a>
+            </div>
+            <div class="ticket-details"></div>
+            <button class="btn-mark" onclick="markAsBought(this, 1)">✔️ 標記為已購買並記錄</button>
+        </div>
+
+        <div class="card ticket-card" id="ticket-2">
+            <div class="ticket-header">
+                <div class="event">東京晴空塔觀景台門票</div>
+                <span class="status-badge pending">⏳ 待採買</span>
+            </div>
+            <div class="desc">建議提前購買避免現場排隊。</div>
+            <div class="btn-row links-row">
+                <a href="https://www.trip.com/t/645wzIqPCV2" class="btn-sm btn-trip" target="_blank">Trip.com</a>
+                <a href="https://affiliate.klook.com/sl/2t3vITT" class="btn-sm btn-klook" target="_blank">Klook</a>
+                <a href="https://www.kkday.com/zh-tw/product/10759-tokyo-skytree-observatory-advance-ticket-japan?cid=23311" class="btn-sm btn-kkday" target="_blank">KKday</a>
+            </div>
+            <div class="ticket-details"></div>
+            <button class="btn-mark" onclick="markAsBought(this, 2)">✔️ 標記為已購買並記錄</button>
+        </div>
+
+        <div class="card ticket-card" id="ticket-3">
+            <div class="ticket-header">
+                <div class="event">新幹線 (新青森 ➔ 上野)</div>
+                <span class="status-badge pending">⏳ 待採買</span>
+            </div>
+            <div class="desc">10/28 還車後返回東京合體搭乘。</div>
+            <div class="btn-row links-row">
+                <a href="https://www.trip.com/t/p7NkzXezCV2" class="btn-sm btn-trip" target="_blank">Trip.com</a>
+                <a href="https://affiliate.klook.com/sl/115FWbd" class="btn-sm btn-klook" target="_blank">Klook</a>
+                <a href="https://www.kkday.com/zh-tw/transportation/list_page/japan-rail/jp-shin-aomori-rail-to-jp-ueno-rail?dep_code=JP-2-00057&arr_code=JP-2-00036&dep_date=20261018&cid=23311" class="btn-sm btn-kkday" target="_blank">KKday</a>
+            </div>
+            <div class="ticket-details"></div>
+            <button class="btn-mark" onclick="markAsBought(this, 3)">✔️ 標記為已購買並記錄</button>
+        </div>
+    </div>
+</div>
+
+<div id="view-checklist" class="main-view">
+    <div class="container">
+        <div class="date-header">📝 行前裝備與證件清單</div>
+        <div class="desc" style="margin-bottom: 20px;">資料會自動記憶在手機裡，打勾後不會消失。出發前務必全數確認！</div>
+        <div class="card">
+            <div class="checklist-group">
+                <div class="checklist-group-title">🛂 必備證件與過海關</div>
+                <label class="check-item"><input type="checkbox" id="chk-1"><div class="check-text-box"><div class="check-text">護照正本</div><div class="check-subtext">確認效期必須超過 6 個月</div></div></label>
+                <label class="check-item"><input type="checkbox" id="chk-2"><div class="check-text-box"><div class="check-text">Visit Japan Web (VJW) QR Code</div><div class="check-subtext">入境審查與海關申報，建議截圖存手機</div></div></label>
+                <label class="check-item"><input type="checkbox" id="chk-3"><div class="check-text-box"><div class="check-text">實體信用卡與日幣現金</div><div class="check-subtext">多帶幾張不同銀行的卡備用</div></div></label>
+            </div>
+            <div class="checklist-group">
+                <div class="checklist-group-title">🚗 自駕絕對不能忘</div>
+                <label class="check-item"><input type="checkbox" id="chk-4"><div class="check-text-box"><div class="check-text">台灣駕照正本 (極度重要！)</div><div class="check-subtext">沒帶正本，就算有譯本也絕對無法租車</div></div></label>
+                <label class="check-item"><input type="checkbox" id="chk-5"><div class="check-text-box"><div class="check-text">駕照日文譯本正本</div><div class="check-subtext">請提前至台灣監理所申請</div></div></label>
+                <label class="check-item"><input type="checkbox" id="chk-6"><div class="check-text-box"><div class="check-text">Toyota 租車預約確認信</div><div class="check-subtext">印出紙本或截圖，方便核對預約編號</div></div></label>
+            </div>
+            <div class="checklist-group">
+                <div class="checklist-group-title">🧥 秋季衣物 (洋蔥式穿搭)</div>
+                <label class="check-item"><input type="checkbox" id="chk-7"><div class="check-text-box"><div class="check-text">防風防潑水外套</div><div class="check-subtext">天上山公園與奧入瀨溪流冷風較強</div></div></label>
+                <label class="check-item"><input type="checkbox" id="chk-8"><div class="check-text-box"><div class="check-text">輕薄發熱衣或保暖底層</div><div class="check-subtext">安比高原清晨看日出氣溫極低</div></div></label>
+                <label class="check-item"><input type="checkbox" id="chk-9"><div class="check-text-box"><div class="check-text">好穿耐走的休閒/運動鞋</div><div class="check-subtext">應付高尾山、鎌倉的大量步行動線</div></div></label>
+            </div>
+            <div class="checklist-group">
+                <div class="checklist-group-title">🔋 電子產品與雜物</div>
+                <label class="check-item"><input type="checkbox" id="chk-10"><div class="check-text-box"><div class="check-text">eSIM 或實體上網卡</div><div class="check-subtext">自駕導航依賴網路，建議準備雙備援</div></div></label>
+                <label class="check-item"><input type="checkbox" id="chk-11"><div class="check-text-box"><div class="check-text">行動電源與充電線</div><div class="check-subtext">拍照跟看地圖耗電極快</div></div></label>
+                <label class="check-item"><input type="checkbox" id="chk-12"><div class="check-text-box"><div class="check-text">大容量環保購物袋</div><div class="check-subtext">日本 Costco 與御殿場 Outlet 爆買必備</div></div></label>
+            </div>
+        </div>
     </div>
 </div>
 
 <div id="view-expenses" class="main-view">
     <div class="container">
-        <div class="date-header">💰 帳本與預算</div>
-        
+        <div class="date-header">💰 雲端總帳本 ＆ 即時記帳</div>
+
         <div class="card" style="border-left: 4px solid #1E3A8A;">
             <div class="event">🏨 東京上野喜來登福朋飯店</div>
             <div class="desc">
@@ -41,17 +528,473 @@
                 金額：<strong>NT$ 3,065</strong>
             </div>
         </div>
-
         <div class="card" style="border-left: 4px solid #8b5cf6;">
             <div class="event">🏨 SOLASIA Residence 北上野 601</div>
             <div class="desc">
                 住客：大舅子一家<br>
-                日期：10/27 - 10/28
+                入住日期：10/27 - 10/28
             </div>
         </div>
-        
+
+        <div class="expense-input-card">
+            <div class="event" style="margin-bottom: 12px;">➕ 快速記帳</div>
+            <div class="input-row">
+                <input type="text" id="exp-name" placeholder="支出項目（例：午餐）" />
+                <select id="exp-cat">
+                    <option value="🍜 餐飲">🍜 餐飲</option>
+                    <option value="🎟️ 票券">🎟️ 票券</option>
+                    <option value="🚗 交通">🚗 交通</option>
+                    <option value="🛍️ 購物">🛍️ 購物</option>
+                    <option value="🏨 住宿">🏨 住宿</option>
+                    <option value="⛽ 油資">⛽ 油資</option>
+                    <option value="🎌 其他">🎌 其他</option>
+                </select>
+            </div>
+            <div class="input-row">
+                <input type="number" id="exp-amt" placeholder="金額" />
+                <select id="exp-curr">
+                    <option value="¥">¥ 日圓</option>
+                    <option value="NT$">NT$ 台幣</option>
+                </select>
+                <button class="btn-add" onclick="addExpense(this)">記帳</button>
+            </div>
         </div>
+
+        <div class="card">
+            <div class="event" style="margin-bottom: 12px; display:flex; justify-content:space-between; align-items:center;">
+                📋 支出明細 <button class="btn-unmark" style="width:auto; margin:0; padding:4px 8px; font-size:12px;" onclick="loadExpenses()">🔄 更新</button>
+            </div>
+            <div class="expense-list" id="expense-list">
+                <div class="checkin-empty" id="expense-empty">讀取雲端帳本中... ☁️</div>
+            </div>
+            <div class="expense-total" id="expense-total" style="display:none;"></div>
+        </div>
+
+        <div class="card" style="border-left: 4px solid #10b981;">
+            <div class="event" style="color: #166534;">📊 東北雙人自駕預算估算</div>
+            <div class="desc" style="margin-bottom: 12px; font-weight: bold; color: #475569;">仙台取車 ➔ 新青森還車 ＋ 新幹線回東京</div>
+            <table class="budget-table">
+                <thead><tr><th>預算項目</th><th>預估金額</th><th>備註</th></tr></thead>
+                <tbody>
+                    <tr><td>🚗 Toyota 租車費</td><td>¥14,000</td><td>2 天 (48 小時) 輕型小車</td></tr>
+                    <tr><td>🔄 異地還車費</td><td>¥16,500</td><td>宮城 ➔ 青森</td></tr>
+                    <tr><td>🛣️ 高速過路費</td><td>¥6,250</td><td>ETC 實支實付</td></tr>
+                    <tr><td>⛽ 車輛油資</td><td>¥5,000</td><td>約 470 公里</td></tr>
+                    <tr><td>🏨 弘前住宿</td><td>¥11,695</td><td>10/27 已預訂</td></tr>
+                    <tr><td>🚄 回程新幹線</td><td>¥35,800</td><td>新青森 ➔ 上野</td></tr>
+                    <tr class="total-row"><td>💰 花費總計</td><td>¥89,245</td><td>約 NT$ 19,180</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card">
+            <div class="event">家族公積金 Google 試算表</div>
+            <a href="https://docs.google.com/spreadsheets/d/1CxCyMKK4iY20Fgmr6g-xpsa0l1zmdcvknOJSB1eTelw/edit" class="btn-link" style="background:#1E3A8A; color: white;" target="_blank">📊 開啟共同線上試算表</a>
+        </div>
+    </div>
 </div>
 
+<div id="view-checkin" class="main-view">
+    <div class="container">
+        <div class="date-header">📍 團員打卡回報</div>
+        <div class="desc" style="margin-bottom: 16px;">到達景點後打卡，讓其他人知道你在哪裡！</div>
+
+        <div class="checkin-card">
+            <div class="event" style="margin-bottom: 12px;">📌 我要打卡</div>
+            <select id="ci-member">
+                <option value="">-- 選擇團員 --</option>
+                <option value="吳哥">吳哥</option>
+                <option value="吳嫂">吳嫂</option>
+                <option value="大舅子">大舅子</option>
+                <option value="大舅嫂">大舅嫂</option>
+                <option value="語">語</option>
+                <option value="呈">呈</option>
+            </select>
+            <select id="ci-place">
+                <option value="">-- 選擇景點 --</option>
+                <optgroup label="📅 10/25 仙台">
+                    <option>桃園機場出發</option>
+                    <option>仙台機場抵達</option>
+                    <option>仙台全日空假日酒店</option>
+                    <option>仙台市區晚餐</option>
+                </optgroup>
+                <optgroup label="📅 10/26 松島・安比">
+                    <option>Toyota 仙台站西口取車</option>
+                    <option>松島公園</option>
+                    <option>安比高原全日空皇冠假日</option>
+                </optgroup>
+                <optgroup label="📅 10/27 奧入瀨・弘前">
+                    <option>安比高原纜車山頂</option>
+                    <option>奧入瀨溪流</option>
+                    <option>弘前公園夜間點燈</option>
+                    <option>東橫INN 弘前站前</option>
+                </optgroup>
+                <optgroup label="📅 10/28 新青森・上野">
+                    <option>弘前公園晨間賞楓</option>
+                    <option>Toyota 新青森還車</option>
+                    <option>新青森車站</option>
+                    <option>東京上野大合體</option>
+                </optgroup>
+                <optgroup label="📅 10/29 鎌倉">
+                    <option>Toyota 上野站前店取車</option>
+                    <option>Costco 川崎店</option>
+                    <option>橫濱洲際酒店</option>
+                    <option>鶴岡八幡宮</option>
+                    <option>鎌倉大佛</option>
+                    <option>鎌倉高校前平交道</option>
+                </optgroup>
+                <optgroup label="📅 10/30 富士山">
+                    <option>高尾山</option>
+                    <option>御殿場 Outlet</option>
+                    <option>河口湖東橫INN</option>
+                </optgroup>
+                <optgroup label="📅 10/31 東京">
+                    <option>天上山公園</option>
+                    <option>新倉山淺間神社</option>
+                    <option>Toyota 上野站前店還車</option>
+                    <option>東京上野</option>
+                </optgroup>
+                <optgroup label="📅 11/01-02 返程">
+                    <option>成田機場</option>
+                    <option>成田日航酒店</option>
+                    <option>高雄小港機場</option>
+                    <option>桃園機場抵台</option>
+                </optgroup>
+            </select>
+            <textarea id="ci-msg" placeholder="留言（例：好美！鮮蚵超肥 🦪）"></textarea>
+            <button class="btn-checkin" onclick="submitCheckin()">📍 送出打卡！</button>
+            <div class="checkin-status" id="ci-status"></div>
+        </div>
+
+        <div class="checkin-log">
+            <div class="checkin-log-title">📋 最新打卡動態</div>
+            <div id="checkin-log-list">
+                <div class="checkin-empty">還沒有人打卡，快來第一個！</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bottom-nav">
+    <div class="nav-item active" onclick="switchView('view-itinerary', this)"><span class="nav-icon">📅</span>行程</div>
+    <div class="nav-item" onclick="switchView('view-food', this)"><span class="nav-icon">🍔</span>美食</div>
+    <div class="nav-item" onclick="switchView('view-tickets', this)"><span class="nav-icon">🎟️</span>票券</div>
+    <div class="nav-item" onclick="switchView('view-checklist', this)"><span class="nav-icon">📝</span>清單</div>
+    <div class="nav-item" onclick="switchView('view-expenses', this)"><span class="nav-icon">💰</span>帳本</div>
+    <div class="nav-item" onclick="switchView('view-checkin', this)"><span class="nav-icon">📍</span>打卡</div>
+</div>
+
+<script>
+// ⚠️ GAS 金鑰網址
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbz-Ut5BZXa4daIX_BylaaaC8LlWWlj-EQKUgq9mIoyMddZwFAz-nlSTlYqiw37376Iw/exec';
+
+// ===== 🕒 時間時區自動轉換神器 =====
+function formatLocalTime(timeStr) {
+    if (!timeStr) return '';
+    const d = new Date(timeStr);
+    if (isNaN(d.getTime())) return timeStr;
+    return d.toLocaleString('zh-TW', { 
+        month: '2-digit', 
+        day: '2-digit', 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour12: false
+    });
+}
+
+// ===== 分頁切換 =====
+function switchView(id, btn) {
+    document.querySelectorAll('.main-view').forEach(el => el.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    btn.classList.add('active');
+    window.scrollTo(0, 0);
+    
+    if (id === 'view-checkin') loadCheckinLog();
+    if (id === 'view-expenses') loadExpenses();
+}
+
+// ===== 日期切換 =====
+function showDay(id, btn) {
+    document.querySelectorAll('.day-content').forEach(el => el.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    btn.classList.add('active');
+    btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+}
+
+// ===== 票券功能（含 LocalStorage 持久化） =====
+function markAsBought(btn, idx) {
+    const card = btn.closest('.ticket-card');
+    const platform = prompt('請輸入購買平台（例：Klook, KKday, 官網）：', 'Klook');
+    if (platform === null) return;
+    const price = prompt('請輸入購買價格總額：', 'NT$ ');
+    if (price === null) return;
+    const cardUsed = prompt('請輸入刷卡卡別：', '中華航空鑽石無限卡');
+    if (cardUsed === null) return;
+
+    const data = { platform, price, cardUsed };
+    localStorage.setItem('ticket_' + idx, JSON.stringify(data));
+    applyTicketBought(card, data);
+}
+
+function applyTicketBought(card, data) {
+    const badge = card.querySelector('.status-badge');
+    badge.className = 'status-badge bought';
+    badge.innerText = '✅ 已完成採購';
+    const detailsDiv = card.querySelector('.ticket-details');
+    detailsDiv.innerHTML = `<div>🛒 <strong>購買平台：</strong>${data.platform}</div><div>💰 <strong>購買價格：</strong>${data.price}</div><div>💳 <strong>使用信用卡：</strong>${data.cardUsed}</div>`;
+    detailsDiv.style.display = 'block';
+    const linksRow = card.querySelector('.links-row');
+    if (linksRow) linksRow.style.display = 'none';
+    const markBtn = card.querySelector('.btn-mark');
+    if (markBtn) markBtn.style.display = 'none';
+    
+    let unmarkBtn = card.querySelector('.btn-unmark');
+    if (!unmarkBtn) {
+        unmarkBtn = document.createElement('button');
+        unmarkBtn.className = 'btn-unmark';
+        unmarkBtn.textContent = '↩ 取消標記';
+        const idx = card.id.replace('ticket-', '');
+        unmarkBtn.onclick = () => unmarkTicket(card, parseInt(idx));
+        card.appendChild(unmarkBtn);
+    }
+    unmarkBtn.style.display = 'block';
+}
+
+function unmarkTicket(card, idx) {
+    localStorage.removeItem('ticket_' + idx);
+    const badge = card.querySelector('.status-badge');
+    badge.className = 'status-badge pending';
+    badge.innerText = '⏳ 待採買';
+    card.querySelector('.ticket-details').style.display = 'none';
+    card.querySelector('.ticket-details').innerHTML = '';
+    const linksRow = card.querySelector('.links-row');
+    if (linksRow) linksRow.style.display = 'flex';
+    const markBtn = card.querySelector('.btn-mark');
+    if (markBtn) markBtn.style.display = 'block';
+    const unmarkBtn = card.querySelector('.btn-unmark');
+    if (unmarkBtn) unmarkBtn.style.display = 'none';
+}
+
+// ===== 美食「已去過」功能 =====
+function toggleFoodVisited(cardId, btn) {
+    const card = document.getElementById(cardId);
+    const stamp = card.querySelector('.food-visited-stamp');
+    const isVisited = btn.classList.contains('visited');
+    if (isVisited) {
+        btn.classList.remove('visited');
+        btn.textContent = '✔ 標記已去過';
+        stamp.classList.remove('show');
+        localStorage.removeItem('food_' + cardId);
+        card.style.opacity = '1';
+    } else {
+        btn.classList.add('visited');
+        btn.textContent = '✅ 已去過';
+        stamp.classList.add('show');
+        localStorage.setItem('food_' + cardId, '1');
+        card.style.opacity = '0.7';
+    }
+}
+
+// ===== 💰 雲端帳本功能 =====
+async function addExpense(btn) {
+    const name = document.getElementById('exp-name').value.trim();
+    const cat = document.getElementById('exp-cat').value;
+    const amt = document.getElementById('exp-amt').value;
+    const curr = document.getElementById('exp-curr').value;
+    const who = localStorage.getItem('travel_identity') || '未知';
+
+    if (!name || !amt || amt <= 0) { alert('請填寫項目名稱和正確的金額！'); return; }
+
+    btn.innerText = "寫入中...";
+    btn.disabled = true;
+
+    const params = new URLSearchParams({ action: 'addExpense', name, cat, amt, curr, who });
+
+    try {
+        await fetch(GAS_URL + '?' + params.toString());
+        document.getElementById('exp-name').value = '';
+        document.getElementById('exp-amt').value = '';
+        btn.innerText = "記帳";
+        btn.disabled = false;
+        loadExpenses();
+    } catch(e) {
+        alert('連線失敗，請檢查網路。');
+        btn.innerText = "記帳";
+        btn.disabled = false;
+    }
+}
+
+async function loadExpenses() {
+    const list = document.getElementById('expense-list');
+    const total = document.getElementById('expense-total');
+    list.innerHTML = '<div class="checkin-empty">讀取雲端帳本中... ☁️</div>';
+
+    try {
+        const res = await fetch(GAS_URL + '?action=getExpenses');
+        const data = await res.json();
+
+        if (!data || data.length === 0) {
+            list.innerHTML = '<div class="checkin-empty">還沒有記帳資料，快去花錢吧！🛍️</div>';
+            total.style.display = 'none';
+            return;
+        }
+
+        let jpy = 0, ntd = 0;
+        list.innerHTML = data.map(e => {
+            if (e.curr === '¥') jpy += parseFloat(e.amt); else ntd += parseFloat(e.amt);
+            const localTime = formatLocalTime(e.time);
+            return `
+            <div class="expense-item">
+                <span class="e-name">${e.name} <br><small style="color:#94a3b8;">${e.who} · ${localTime}</small></span>
+                <span class="e-cat">${e.cat}</span>
+                <span class="e-amt">${e.curr}${Number(e.amt).toLocaleString()}</span>
+            </div>
+            `;
+        }).join('');
+
+        let totalStr = '';
+        if (jpy > 0) totalStr += `¥${jpy.toLocaleString()}`;
+        if (jpy > 0 && ntd > 0) totalStr += ' ＋ ';
+        if (ntd > 0) totalStr += `NT$${ntd.toLocaleString()}`;
+        total.textContent = '💰 累計支出：' + totalStr;
+        total.style.display = 'block';
+
+    } catch(e) {
+        list.innerHTML = '<div class="checkin-empty">❌ 無法讀取帳本，請確認網路連線。</div>';
+    }
+}
+
+// ===== 📍 雲端打卡功能 =====
+async function submitCheckin() {
+    const member = document.getElementById('ci-member').value;
+    const place = document.getElementById('ci-place').value;
+    const msg = document.getElementById('ci-msg').value.trim();
+    const status = document.getElementById('ci-status');
+
+    if (!member || !place) { status.className = 'checkin-status error'; status.textContent = '⚠️ 請選擇團員和景點！'; return; }
+
+    status.className = 'checkin-status';
+    status.textContent = '📡 傳送中...';
+
+    const params = new URLSearchParams({ action: 'checkin', member, place, msg });
+
+    try {
+        await fetch(GAS_URL + '?' + params.toString());
+        status.className = 'checkin-status success';
+        status.textContent = `✅ ${member} 打卡成功！`;
+        document.getElementById('ci-msg').value = '';
+
+        loadCheckinLog();
+    } catch(e) {
+        status.className = 'checkin-status error';
+        status.textContent = '❌ 傳送失敗，請稍後再試';
+    }
+}
+
+async function loadCheckinLog() {
+    try {
+        const res = await fetch(GAS_URL + '?action=getCheckins');
+        const data = await res.json();
+        
+        if (data && data.length > 0) {
+            localStorage.setItem('checkins', JSON.stringify(data));
+            renderCheckinLog(data);
+            renderLiveBanner(data);
+        } else {
+            renderCheckinLog([]);
+            renderLiveBanner([]);
+        }
+    } catch(e) {
+        const local = JSON.parse(localStorage.getItem('checkins') || '[]');
+        renderCheckinLog(local);
+        renderLiveBanner(local);
+    }
+}
+
+function renderCheckinLog(list) {
+    const container = document.getElementById('checkin-log-list');
+    if (!list || list.length === 0) {
+        container.innerHTML = '<div class="checkin-empty">還沒有人打卡，快來第一個！</div>';
+        return;
+    }
+    const avatarColors = { '吳哥':'#1E3A8A', '吳嫂':'#d97706', '大舅子':'#10b981', '大舅嫂':'#8b5cf6', '語':'#ef4444', '呈':'#f97316' };
+    container.innerHTML = list.slice(0, 15).map(c => {
+        const localTime = formatLocalTime(c.time);
+        return `
+        <div class="checkin-item">
+            <div class="ci-header">
+                <span class="ci-name" style="color:${avatarColors[c.member] || '#5b21b6'}">👤 ${c.member}</span>
+                <span class="ci-time">${localTime}</span>
+            </div>
+            <div class="ci-place">📍 ${c.place}</div>
+            ${c.msg ? `<div class="ci-msg">「${c.msg}」</div>` : ''}
+        </div>
+        `;
+    }).join('');
+}
+
+function renderLiveBanner(list) {
+    const area = document.getElementById('live-checkin-area');
+    const listEl = document.getElementById('live-checkin-list');
+    if (!list || list.length === 0) { area.style.display = 'none'; return; }
+    const avatarColors = { '吳哥':'#A5B4FC', '吳嫂':'#FCD34D', '大舅子':'#6EE7B7', '大舅嫂':'#C4B5FD', '語':'#FCA5A5', '呈':'#FDBA74' };
+    
+    const latest = {};
+    list.forEach(c => { if (!latest[c.member]) latest[c.member] = c; });
+    
+    listEl.innerHTML = Object.values(latest).map(c => {
+        const localTime = formatLocalTime(c.time);
+        return `
+        <div class="live-checkin-item">
+            <div class="live-avatar" style="background:${avatarColors[c.member] || 'rgba(255,255,255,0.2)'}; color:#1e1e1e;">${c.member[0]}</div>
+            <div class="live-info">
+                <span class="live-place">${c.member} 在 ${c.place}</span>
+                ${c.msg ? `<div class="live-msg">${c.msg}</div>` : ''}
+            </div>
+            <span class="live-time">${localTime}</span>
+        </div>
+        `;
+    }).join('');
+    area.style.display = 'block';
+}
+
+// ===== 頁面載入初始化 =====
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.check-item input[type="checkbox"]').forEach(box => {
+        if (localStorage.getItem(box.id) === 'true') box.checked = true;
+        box.addEventListener('change', function() { localStorage.setItem(this.id, this.checked); });
+    });
+
+    document.querySelectorAll('.ticket-card').forEach((card, idx) => {
+        const saved = localStorage.getItem('ticket_' + idx);
+        if (saved) applyTicketBought(card, JSON.parse(saved));
+    });
+
+    ['food-1','food-2','food-3','food-4'].forEach(id => {
+        if (localStorage.getItem('food_' + id)) {
+            const card = document.getElementById(id);
+            if (card) {
+                const btn = card.querySelector('.food-visited-btn');
+                const stamp = card.querySelector('.food-visited-stamp');
+                btn.classList.add('visited');
+                btn.textContent = '✅ 已去過';
+                stamp.classList.add('show');
+                card.style.opacity = '0.7';
+            }
+        }
+    });
+
+    const memberSelect = document.getElementById('ci-member');
+    if (memberSelect) {
+        const savedId = localStorage.getItem('travel_identity');
+        if (savedId) memberSelect.value = savedId;
+        memberSelect.addEventListener('change', function() { localStorage.setItem('travel_identity', this.value); });
+    }
+
+    loadCheckinLog();
+    loadExpenses();
+});
+</script>
 </body>
 </html>
