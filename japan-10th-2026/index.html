@@ -32,7 +32,8 @@
         .tab-btn.active { background: white; color: #1E3A8A; font-weight: bold; }
         .card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); border-left: 4px solid #94a3b8;}
         .card.highlight { border-left: 4px solid #d97706; }
-        .date-header { font-size: 18px; font-weight: bold; margin-bottom: 16px; border-left: 4px solid #1E3A8A; padding-left: 8px; color: #0f172a;}
+        .date-header { font-size: 18px; font-weight: bold; margin-bottom: 16px; border-left: 4px solid #1E3A8A; padding-left: 8px; color: #0f172a; display: flex; justify-content: space-between; align-items: center;}
+        .weather-btn { background: #0284c7; color: white; padding: 4px 10px; border-radius: 12px; font-size: 12px; text-decoration: none; font-weight: normal; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);}
         .time { color: #1E3A8A; font-weight: 800; display: inline-block; width: 65px; vertical-align: top;}
         .event-group { display: inline-block; width: calc(100% - 70px); }
         .event { font-size: 16px; font-weight: 700; margin-bottom: 4px; color: #1e293b;}
@@ -77,7 +78,12 @@
         .food-visited-stamp { display: none; font-size: 13px; color: #10b981; font-weight: bold; margin-top: 4px; }
         .food-visited-stamp.show { display: block; }
 
-        /* 帳本 */
+        /* 帳本與匯率 */
+        .currency-card { background: #e0f2fe; border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; border-left: 4px solid #0284c7; box-shadow: 0 2px 4px rgba(0,0,0,0.05);}
+        .currency-title { font-size: 13px; font-weight: bold; color: #0369a1; margin-bottom: 8px; display: flex; justify-content: space-between;}
+        .currency-inputs { display: flex; gap: 8px; align-items: center; }
+        .currency-inputs input { flex: 1; padding: 8px 10px; border: 1px solid #bae6fd; border-radius: 8px; font-size: 15px; width: 100%; box-sizing: border-box; text-align: right;}
+        
         .expense-input-card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .expense-input-card .input-row { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
         .expense-input-card input, .expense-input-card select { flex: 1; min-width: 120px; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; }
@@ -151,7 +157,10 @@
         </div>
 
         <div id="d1" class="day-content" style="display:none;">
-            <div class="date-header">10/25 (日) | 專車接送與星宇啟航</div>
+            <div class="date-header">
+                <span>10/25 (日) | 星宇啟航</span>
+                <a href="https://tenki.jp/forecast/2/7/3410/4100/" target="_blank" class="weather-btn">⛅ 仙台天氣</a>
+            </div>
             <div class="card"><span class="time">08:00</span><div class="event-group">
                 <div class="event">專車機場接送 🚗</div>
                 <div class="desc">搭乘預約之機場接送專車，前往桃園機場第一航廈。</div>
@@ -173,7 +182,10 @@
         </div>
 
         <div id="d2" class="day-content" style="display:none;">
-            <div class="date-header">10/26 (一) | 仙台取車 ➔ 松島海岸 ➔ 安比高原</div>
+            <div class="date-header">
+                <span>10/26 (一) | 仙台 ➔ 安比</span>
+                <a href="https://tenki.jp/forecast/2/7/3410/4100/" target="_blank" class="weather-btn">⛅ 松島天氣</a>
+            </div>
             <div class="card" style="background: #e0f2fe; border-left: 4px solid #0284c7;">
                 <div class="event" style="color: #0369a1;">🗺️ 東北 48H 自駕總路線圖</div>
                 <div class="desc" style="color: #0c4a6e;">包含仙台 ➔ 松島 ➔ 安比 ➔ 奧入瀨 ➔ 弘前 ➔ 新青森的完整動線導航。</div>
@@ -200,7 +212,10 @@
         </div>
 
         <div id="d3" class="day-content" style="display:none;">
-            <div class="date-header">10/27 (二) | 纜車日出 & 直攻奧入瀨</div>
+            <div class="date-header">
+                <span>10/27 (二) | 直攻奧入瀨</span>
+                <a href="https://tenki.jp/forecast/2/8/3120/2202/" target="_blank" class="weather-btn">⛅ 弘前天氣</a>
+            </div>
             <div class="card highlight"><span class="time">06:00</span><div class="event-group">
                 <div class="event">安比高原纜車 (日出班次) 🌅</div>
                 <div class="desc">搭乘纜車(需購票)至山頂看日出約 15 分鐘。下山後利用 IHG 鑽卡會籍享用免費豐盛早餐！</div>
@@ -226,7 +241,10 @@
         </div>
 
         <div id="d4" class="day-content" style="display:block;">
-            <div class="date-header">10/28 (三) | 新青森悠閒午返 ➔ 上野大合體</div>
+            <div class="date-header">
+                <span>10/28 (三) | 上野大合體</span>
+                <a href="https://tenki.jp/forecast/3/16/4410/13101/" target="_blank" class="weather-btn">⛅ 東京天氣</a>
+            </div>
             <div class="card"><span class="time">08:30</span><div class="event-group">
                 <div class="event">弘前公園晨間賞楓</div>
                 <div class="desc">吳哥夫妻在早晨最棒的光線下，愜意遊覽弘前公園與弘前城。</div>
@@ -256,20 +274,22 @@
         </div>
 
         <div id="d5" class="day-content" style="display:none;">
-            <div class="date-header">10/29 (四) | 自駕 D1：好市多 ➔ 鎌倉</div>
+            <div class="date-header">
+                <span>10/29 (四) | 自駕 D1 鎌倉</span>
+                <a href="https://tenki.jp/forecast/3/17/4610/14204/" target="_blank" class="weather-btn">⛅ 鎌倉天氣</a>
+            </div>
             <div class="card" style="background: #eff6ff; border-left: 4px solid #2563eb;">
                 <div class="event" style="color: #1d4ed8;">🗺️ 關東富士 3 日自駕大環線</div>
                 <div class="desc" style="color: #1e3a8a;">串聯東京 ➔ Costco ➔ 橫濱 ➔ 鎌倉 ➔ 高尾山 ➔ 御殿場 ➔ 河口湖 ➔ 返回東京。</div>
                 <a href="https://www.google.com/maps/dir/トヨタレンタカー東日本橋/コストコホールセール川崎倉庫店/ヨコハマグランドインターコンチネンタルホテル/鶴岡八幡宮/鎌倉高校前駅/高尾山ケーブルカー清滝駅/御殿場プレミアム・アウトレット/東横INN富士河口湖大橋/新倉富士浅間神社/トヨタレンタカー東日本橋/" class="btn-link" style="background: #2563eb; color: white; margin-top: 8px;" target="_blank">📍 點我開啟 Google Map 總路線</a>
             </div>
             
-            <!-- 🌟 更新了日文官網連結的取車卡片 -->
             <div class="card"><span class="time">09:30</span><div class="event-group">
                 <div class="event">取車出發 🚗</div>
                 <div class="desc">前往 TOYOTA Rent a Car 上野站前店取車，確認 6 人與大行李空間。</div>
                 <div class="btn-row links-row">
-                    <a href="https://rent.toyota.co.jp/" class="btn-sm" style="background:#e11d2a; color:white;" target="_blank">🚗 TOYOTA 租車日文官網</a>
-                    <a href="https://maps.app.goo.gl/B9Z2KqE" class="btn-sm btn-map" style="margin-top:0;" target="_blank">📍 導航至上野站前店</a>
+                    <a href="https://rent.toyota.co.jp/" class="btn-sm" style="background:#e11d2a; color:white;" target="_blank">🚗 TOYOTA 租車官網</a>
+                    <a href="https://maps.app.goo.gl/B9Z2KqE" class="btn-sm btn-map" style="margin-top:0;" target="_blank">📍 導航上野站前店</a>
                 </div>
             </div></div>
 
@@ -297,7 +317,10 @@
         </div>
 
         <div id="d6" class="day-content" style="display:none;">
-            <div class="date-header">10/30 (五) | 自駕 D2：高尾山 ➔ 富士山</div>
+            <div class="date-header">
+                <span>10/30 (五) | 自駕 D2 富士山</span>
+                <a href="https://tenki.jp/forecast/3/22/4920/19430/" target="_blank" class="weather-btn">⛅ 河口湖天氣</a>
+            </div>
             <div class="card"><span class="time">08:30</span><div class="event-group">
                 <div class="event">橫濱出發</div>
                 <div class="desc">飯店退房出發，一路向西。</div>
@@ -325,7 +348,10 @@
         </div>
 
         <div id="d7" class="day-content" style="display:none;">
-            <div class="date-header">10/31 (六) | 自駕 D3：富士絕景 ➔ 東京</div>
+            <div class="date-header">
+                <span>10/31 (六) | 自駕 D3 絕景</span>
+                <a href="https://tenki.jp/forecast/3/16/4410/13101/" target="_blank" class="weather-btn">⛅ 東京天氣</a>
+            </div>
             <div class="card highlight"><span class="time">09:00</span><div class="event-group">
                 <div class="event">天上山公園</div>
                 <div class="desc">現場購買纜車及遊船套票，每人 ¥1,700。</div>
@@ -347,7 +373,10 @@
         </div>
 
         <div id="d8" class="day-content" style="display:none;">
-            <div class="date-header">11/01 (日) | 吳哥返台 ➔ 大舅子移防</div>
+            <div class="date-header">
+                <span>11/01 (日) | 返台與移防</span>
+                <a href="https://tenki.jp/forecast/3/15/4510/12211/" target="_blank" class="weather-btn">⛅ 成田天氣</a>
+            </div>
             <div class="card"><span class="time">11:00</span><div class="event-group">
                 <div class="event">搭乘 Skyliner 前往機場 🚄</div>
                 <div class="desc">搭乘 Skyliner 33 班次，11:41 抵達成田第二航廈。</div>
@@ -364,7 +393,10 @@
         </div>
 
         <div id="d9" class="day-content" style="display:none;">
-            <div class="date-header">11/02 (一) | 大舅子一家賦歸</div>
+            <div class="date-header">
+                <span>11/02 (一) | 大舅子賦歸</span>
+                <a href="https://tenki.jp/forecast/3/15/4510/12211/" target="_blank" class="weather-btn">⛅ 成田天氣</a>
+            </div>
             <div class="card"><span class="time">10:30</span><div class="event-group">
                 <div class="event">搭乘接駁車 🚌</div>
                 <div class="desc">於飯店門口搭乘「免費機場接駁巴士」前往成田機場第二航廈。</div>
@@ -527,6 +559,19 @@
 <div id="view-expenses" class="main-view">
     <div class="container">
         <div class="date-header">💰 雲端總帳本 ＆ 即時記帳</div>
+
+        <!-- 🌟 新增：零佔用空間的即時匯率換算器 -->
+        <div class="currency-card">
+            <div class="currency-title">
+                <span>💱 即時匯率換算</span>
+                <span style="font-size: 11px; color: #64748b; font-weight: normal;">預設匯率: 0.215</span>
+            </div>
+            <div class="currency-inputs">
+                <input type="number" id="calc-jpy" placeholder="¥ 輸入日圓" oninput="calcCurrency('jpy')">
+                <span style="color: #0284c7; font-weight: bold; font-size: 18px;">=</span>
+                <input type="number" id="calc-twd" placeholder="NT$ 輸入台幣" oninput="calcCurrency('twd')">
+            </div>
+        </div>
 
         <!-- 住宿資訊卡片區 -->
         <div class="card" style="border-left: 4px solid #1E3A8A;">
@@ -695,6 +740,29 @@
 <script>
 // ⚠️ GAS 金鑰網址
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbz-Ut5BZXa4daIX_BylaaaC8LlWWlj-EQKUgq9mIoyMddZwFAz-nlSTlYqiw37376Iw/exec';
+
+// 🌟 新增：匯率計算器邏輯
+const EXCHANGE_RATE = 0.215; // 您可以隨時在這裡修改預設匯率
+function calcCurrency(type) {
+    const jpyInput = document.getElementById('calc-jpy');
+    const twdInput = document.getElementById('calc-twd');
+    
+    if(type === 'jpy') {
+        const jpyVal = parseFloat(jpyInput.value);
+        if(!isNaN(jpyVal)) {
+            twdInput.value = Math.round(jpyVal * EXCHANGE_RATE);
+        } else {
+            twdInput.value = '';
+        }
+    } else if(type === 'twd') {
+        const twdVal = parseFloat(twdInput.value);
+        if(!isNaN(twdVal)) {
+            jpyInput.value = Math.round(twdVal / EXCHANGE_RATE);
+        } else {
+            jpyInput.value = '';
+        }
+    }
+}
 
 // ===== 🕒 時間時區自動轉換神器 =====
 function formatLocalTime(timeStr) {
@@ -970,16 +1038,19 @@ function renderLiveBanner(list) {
 
 // ===== 頁面載入初始化 =====
 document.addEventListener('DOMContentLoaded', () => {
+    // 初始化清單
     document.querySelectorAll('.check-item input[type="checkbox"]').forEach(box => {
         if (localStorage.getItem(box.id) === 'true') box.checked = true;
         box.addEventListener('change', function() { localStorage.setItem(this.id, this.checked); });
     });
 
+    // 初始化票券
     document.querySelectorAll('.ticket-card').forEach((card, idx) => {
         const saved = localStorage.getItem('ticket_' + idx);
         if (saved) applyTicketBought(card, JSON.parse(saved));
     });
 
+    // 初始化美食
     ['food-1','food-2','food-3','food-4'].forEach(id => {
         if (localStorage.getItem('food_' + id)) {
             const card = document.getElementById(id);
@@ -994,6 +1065,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // 初始化打卡身份
     const memberSelect = document.getElementById('ci-member');
     if (memberSelect) {
         const savedId = localStorage.getItem('travel_identity');
