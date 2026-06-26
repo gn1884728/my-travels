@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>我的優惠</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="我的優惠">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj4KICA8cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgcng9IjQwIiBmaWxsPSIjMWQ0ZWQ4Ii8+CiAgPGxpbmUgeDE9IjEwMCIgeTE9IjMwIiB4Mj0iMTAwIiB5Mj0iNTUiIHN0cm9rZT0iI2ZjZDM0ZCIgc3Ryb2tlLXdpZHRoPSI1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cmVjdCB4PSI0OCIgeT0iNDgiIHdpZHRoPSIxMDQiIGhlaWdodD0iMTA4IiByeD0iMTIiIGZpbGw9IiNmNTllMGIiLz4KICA8cG9seWdvbiBwb2ludHM9IjgyLDE1NiAxMDAsMTgyIDExOCwxNTYiIGZpbGw9IiNmNTllMGIiLz4KICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSI1OCIgcj0iMTAiIGZpbGw9IiMxZDRlZDgiLz4KICA8bGluZSB4MT0iNjIiIHkxPSI4OCIgeDI9IjEzOCIgeTI9Ijg4IiBzdHJva2U9IiM5MjQwMGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIG9wYWNpdHk9IjAuNCIvPgogIDx0ZXh0IHg9IjEwMCIgeT0iMTIyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIzMCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFhMWExYSI+55Sf5rS7PC90ZXh0PgogIDx0ZXh0IHg9IjEwMCIgeT0iMTUyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIzMCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFhMWExYSI+5YSq5oOgPC90ZXh0Pgo8L3N2Zz4K">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj4KICA8cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgcng9IjQwIiBmaWxsPSIjMWQ0ZWQ4Ii8+CiAgPGxpbmUgeDE9IjEwMCIgeTE9IjMwIiB4Mj0iMTAwIiB5Mj0iNTUiIHN0cm9rZT0iI2ZjZDM0ZCIgc3Ryb2tlLXdpZHRoPSI1IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cmVjdCB4PSI0OCIgeT0iNDgiIHdpZHRoPSIxMDQiIGhlaWdodD0iMTA4IiByeD0iMTIiIGZpbGw9IiNmNTllMGIiLz4KICA8cG9seWdvbiBwb2ludHM9IjgyLDE1NiAxMDAsMTgyIDExOCwxNTYiIGZpbGw9IiNmNTllMGIiLz4KICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSI1OCIgcj0iMTAiIGZpbGw9IiMxZDRlZDgiLz4KICA8bGluZSB4MT0iNjIiIHkxPSI4OCIgeDI9IjEzOCIgeTI9Ijg4IiBzdHJva2U9IiM5MjQwMGUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIG9wYWNpdHk9IjAuNCIvPgogIDx0ZXh0IHg9IjEwMCIgeT0iMTIyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIzMCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFhMWExYSI+55Sf5rS7PC90ZXh0PgogIDx0ZXh0IHg9IjEwMCIgeT0iMTUyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIzMCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFhMWExYSI+5YSq5oOgPC90ZXh0Pgo8L3N2Zz4K">
+
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JYDYNWGYMF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-JYDYNWGYMF');
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* ── 捲軸隱藏 ── */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* ── 點擊高亮取消 ── */
+    body { -webkit-tap-highlight-color: transparent; }
+
+    /* ── 通知閃爍動畫 ── */
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.4; }
+    }
+    .animate-pulse-slow { animation: pulse-slow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+    /* ── 底部導覽陰影 ── */
+    .c-btn-shadow { box-shadow: 0 -4px 10px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.1); }
+
+    /* ── 飯店地區大分頁橫滑 ── */
+    .region-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; }
+    .region-scroll::-webkit-scrollbar { display: none; }
+  </style>
+</head>
+
+<body class="bg-gray-50 font-sans h-screen flex flex-col max-w-md mx-auto shadow-2xl relative pb-safe">
+
+  <!-- ══ 頂部標題列 ══ -->
+  <header class="bg-blue-600 text-white px-4 py-3 flex flex-col sticky top-0 z-50 shadow-md pt-6">
+    <div class="flex justify-between items-center w-full mb-2">
+      <h1 class="text-xl font-bold tracking-wider">我的優惠</h1>
+
+      <!-- 月份選擇（住房分頁時隱藏） -->
+      <div class="relative" id="monthSelectorContainer">
+        <select id="monthSelect" onchange="renderActiveTab()"
+          class="bg-white text-gray-800 text-sm font-semibold rounded-lg px-3 py-1.5 pr-8 appearance-none cursor-pointer border border-gray-200 focus:outline-none shadow-sm">
+          <option value="1">1 月</option><option value="2">2 月</option><option value="3">3 月</option>
+          <option value="4">4 月</option><option value="5">5 月</option><option value="6" selected>6 月</option>
+          <option value="7">7 月</option><option value="8">8 月</option><option value="9">9 月</option>
+          <option value="10">10 月</option><option value="11">11 月</option><option value="12">12 月</option>
+        </select>
+        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-600">
+          <i class="fas fa-chevron-down text-xs"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- 通知橫幅 -->
+    <div id="notice-banner" class="w-full text-xs py-1.5 px-2.5 rounded-md font-medium flex items-center shadow-inner">
+      <i class="fas fa-info-circle mr-1.5"></i>
+      <span id="notice-text">正在載入優惠資料...</span>
+    </div>
+  </header>
+
+  <!-- ══ 主內容區 ══ -->
+  <main class="flex-1 overflow-y-auto p-4 pb-28 no-scrollbar" id="main-content">
+    <div id="dynamic-content" class="space-y-4">
+      <div class="text-center py-12 text-gray-400">
+        <i class="fas fa-spinner fa-spin text-3xl mb-2"></i>
+        <p>資料即時載入中...</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ══ 底部導覽列 ══ -->
+  <nav style="overflow:visible;" class="bg-white border-t border-gray-200 fixed bottom-0 left-0 right-0 max-w-md mx-auto flex justify-between items-center pb-3 pt-2 shadow-[0_-5px_15px_-5px_rgba(0,0,0,0.1)] z-40 px-3 h-[64px]">
+
+    <button onclick="switchTab('food')" id="tab-food" class="tab-btn flex flex-col items-center gap-0.5 w-10 transition-colors" style="color:#2563eb;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>
+      <span style="font-size:10px;font-weight:600;">美食</span>
+    </button>
+
+    <button onclick="switchTab('life')" id="tab-life" class="tab-btn flex flex-col items-center gap-0.5 w-10 transition-colors" style="color:#9ca3af;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6h-2c0-1.66-1.34-3-3-3h-4C8.34 3 7 4.34 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-8 12l-4-4 1.41-1.41L11 15.17l6.59-6.59L19 10l-8 8zm1-12H9c0-.55.45-1 1-1h4c.55 0 1 .45 1 1h-3z"/></svg>
+      <span style="font-size:10px;">生活</span>
+    </button>
+
+    <!-- 住房比價中央浮動按鈕 -->
+    <div style="position:relative;width:64px;display:flex;justify-content:center;overflow:visible;">
+      <button onclick="switchTab('hotel')" id="tab-hotel"
+        style="position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:64px;height:64px;background:#f97316;border-radius:50%;border:4px solid white;color:white;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;box-shadow:0 -4px 10px rgba(0,0,0,0.1),0 4px 6px rgba(0,0,0,0.1);z-index:50;cursor:pointer;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>
+        <span style="font-size:9px;font-weight:700;">住房比價</span>
+      </button>
+    </div>
+
+    <button onclick="switchTab('travel')" id="tab-travel" class="tab-btn flex flex-col items-center gap-0.5 w-10 transition-colors" style="color:#9ca3af;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+      <span style="font-size:10px;">旅遊</span>
+    </button>
+
+    <button onclick="switchTab('credit')" id="tab-credit" class="tab-btn flex flex-col items-center gap-0.5 w-10 transition-colors" style="color:#9ca3af;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+      <span style="font-size:10px;">信用卡</span>
+    </button>
+
+    <button onclick="switchTab('news')" id="tab-news" class="tab-btn flex flex-col items-center gap-0.5 w-10 transition-colors" style="color:#9ca3af;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/></svg>
+      <span style="font-size:10px;">新聞</span>
+    </button>
+  </nav>
+
+  <!-- ══════════════════════════════════════════
+       JavaScript
+  ══════════════════════════════════════════ -->
+  <script>
+
+    /* ────────────────────────────────────────
+       常數 & 全域狀態
+    ──────────────────────────────────────── */
+    const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/gn1884728/my-travels/refs/heads/main/data.json';
+    const TRIP_ALLIANCE  = 'Allianceid=7364995&SID=277926202&trip_sub1=&trip_sub3=D18234351';
+
+    let globalData   = null;
+    let currentTab   = 'food';
+
+    /* ────────────────────────────────────────
+       住房比價：地區資料
+    ──────────────────────────────────────── */
+    const hotelRegions = [
+      {
+        id: 'kanto', name: '關東',
+        subs: [
+          { id: 'tokyo',    name: '東京' },
+          { id: 'shinjuku', name: '新宿' }
+        ]
+      },
+      {
+        id: 'kansai', name: '關西',
+        subs: [
+          { id: 'osaka', name: '大阪' }
+        ]
+      },
+      {
+        id: 'kyushu', name: '九州',
+        subs: [
+          { id: 'fukuoka',   name: '福岡' },
+          { id: 'kumamoto',  name: '熊本' }
+        ]
+      },
+      {
+        id: 'hokkaido', name: '北海道',
+        subs: [
+          { id: 'sapporo', name: '札幌'  },
+          { id: 'toyako',  name: '洞爺湖' }
+        ]
+      }
+    ];
+
+    /* ────────────────────────────────────────
+       住房比價：飯店資料
+       新增飯店只需在此陣列加一筆，
+       sub 對應上方 subs[].id 即可。
+    ──────────────────────────────────────── */
+    const hotelsData = [
+      {
+        sub: 'tokyo',
+        name: '東橫INN — 上野田原町站',
+        platform: 'TRIP',
+        basePrice: 2500,
+        cityEnName: 'Tokyo', cityId: 228, hotelId: 688581
+      },
+      {
+        sub: 'shinjuku',
+        name: '相鐵FRESA INN — 東新宿站前',
+        platform: 'TRIP',
+        basePrice: 3200,
+        cityEnName: 'Tokyo', cityId: 228, hotelId: 688315
+      },
+      {
+        sub: 'tokyo',
+        name: '東京上野喜來登福朋飯店',
+        platform: 'TRIP',
+        basePrice: 5800,
+        cityEnName: 'Tokyo', cityId: 228, hotelId: 1458598
+      },
+      {
+        sub: 'osaka',
+        name: '大阪都喜來登飯店',
+        platform: 'TRIP',
+        basePrice: 5200,
+        cityEnName: 'Osaka', cityId: 219, hotelId: 993284
+      },
+      {
+        sub: 'osaka',
+        name: '東橫INN — 大阪難波',
+        platform: 'TRIP',
+        basePrice: 2100,
+        cityEnName: 'Osaka', cityId: 219, hotelId: 124671917
+      },
+      {
+        sub: 'fukuoka',
+        name: 'lyf 天神福岡飯店',
+        platform: 'TRIP',
+        basePrice: 2200,
+        cityEnName: 'Fukuoka', cityId: 248, hotelId: 72229900
+      },
+      {
+        sub: 'fukuoka',
+        name: '福岡日航飯店',
+        platform: 'TRIP',
+        basePrice: 4500,
+        cityEnName: 'Fukuoka', cityId: 248, hotelId: 993535
+      },
+      {
+        sub: 'sapporo',
+        name: 'Vessel Inn 札幌中島公園飯店',
+        platform: 'TRIP',
+        basePrice: 3200,
+        cityEnName: 'Sapporo', cityId: 641, hotelId: 705328
+      },
+      {
+        sub: 'toyako',
+        name: '洲至奢選洞爺溫莎飯店',
+        platform: 'TRIP',
+        basePrice: 12500,
+        cityEnName: 'Toyako', cityId: 50390, hotelId: 711304
+      }
+    ];
+
+    /* ────────────────────────────────────────
+       住房比價：UI 狀態
+    ──────────────────────────────────────── */
+    let activeRegion = 'kanto';
+    let activeSub    = 'tokyo';
+    let hotelMaxPrice = 8000;
+    let checkInDate  = '';
+    let checkOutDate = '';
+    let tempCheckIn  = '';
+    let tempCheckOut = '';
+
+    function initDates() {
+      const t1 = new Date(); t1.setDate(t1.getDate() + 1);
+      const t2 = new Date(); t2.setDate(t2.getDate() + 2);
+      checkInDate  = t1.toISOString().split('T')[0];
+      checkOutDate = t2.toISOString().split('T')[0];
+      tempCheckIn  = checkInDate;
+      tempCheckOut = checkOutDate;
+    }
+    initDates();
+
+    /* ────────────────────────────────────────
+       住房比價：TRIP 長網址組裝（日期動態帶入）
+    ──────────────────────────────────────── */
+    function buildTripUrl(hotel) {
+      return `https://tw.trip.com/hotels/detail/?cityEnName=${hotel.cityEnName}&cityId=${hotel.cityId}&hotelId=${hotel.hotelId}&${TRIP_ALLIANCE}&checkIn=${checkInDate}&checkOut=${checkOutDate}`;
+    }
+
+    /* ────────────────────────────────────────
+       住房比價：主渲染（整個飯店分頁）
+    ──────────────────────────────────────── */
+    function renderHotelUI() {
+      const container = document.getElementById('dynamic-content');
+
+      /* 大區按鈕 */
+      const regionBtns = hotelRegions.map(r => `
+        <button
+          onclick="setHotelRegion('${r.id}')"
+          class="flex-shrink-0 px-4 py-2 rounded-xl border-2 text-sm font-bold transition-all active:scale-95
+            ${activeRegion === r.id
+              ? 'border-orange-500 bg-orange-50 text-orange-600 shadow-sm'
+              : 'border-gray-200 bg-white text-gray-400'}">
+          ${r.name}
+        </button>
+      `).join('');
+
+      /* 子區按鈕 */
+      const activeRegionData = hotelRegions.find(r => r.id === activeRegion);
+      const subBtns = activeRegionData.subs.map(s => `
+        <button
+          onclick="setHotelSub('${s.id}')"
+          class="px-3 py-1.5 rounded-full border text-xs font-semibold transition-all active:scale-95
+            ${activeSub === s.id
+              ? 'border-blue-500 bg-blue-50 text-blue-700'
+              : 'border-gray-200 bg-white text-gray-500'}">
+          ${s.name}
+        </button>
+      `).join('');
+
+      container.innerHTML = `
+        <!-- 日期選擇 + 搜尋按鈕 -->
+        <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 mb-4 flex items-end gap-3">
+          <div class="flex-1 grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[10px] font-black text-gray-400 mb-1">入住</label>
+              <input type="date" id="checkInInput" value="${tempCheckIn}"
+                onchange="handleTempDate('in', this.value)"
+                class="w-full text-[11px] font-bold bg-gray-50 border border-gray-200 rounded-lg p-1.5 text-gray-700 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-[10px] font-black text-gray-400 mb-1">退房</label>
+              <input type="date" id="checkOutInput" value="${tempCheckOut}"
+                onchange="handleTempDate('out', this.value)"
+                class="w-full text-[11px] font-bold bg-gray-50 border border-gray-200 rounded-lg p-1.5 text-gray-700 focus:outline-none">
+            </div>
+          </div>
+          <button onclick="executeHotelSearch()"
+            class="bg-orange-500 text-white font-black text-[10px] h-[52px] px-3 rounded-xl
+                   shadow-md transition-all active:scale-95 flex flex-col items-center justify-center gap-0.5 flex-shrink-0">
+            <i class="fas fa-search text-base"></i>
+            <span>搜尋</span>
+          </button>
+        </div>
+
+        <!-- 大區分頁 -->
+        <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 mb-4">
+          <div class="region-scroll mb-3">${regionBtns}</div>
+          <div class="flex flex-wrap gap-2">${subBtns}</div>
+        </div>
+
+        <!-- 預算滑桿 -->
+        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-4">
+          <div class="flex justify-between items-center mb-3">
+            <span class="font-bold text-gray-700 text-sm">每晚預算上限</span>
+            <span class="font-black text-blue-600 text-lg">NT$&nbsp;<span id="priceDisplay">${hotelMaxPrice.toLocaleString()}</span></span>
+          </div>
+          <input type="range" min="1500" max="20000" step="500" value="${hotelMaxPrice}"
+            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+            oninput="updateHotelPrice(this.value)">
+        </div>
+
+        <!-- 飯店清單 -->
+        <div id="hotelListContainer" class="space-y-3"></div>
+      `;
+
+      renderHotelList();
+    }
+
+    /* ────────────────────────────────────────
+       住房比價：飯店清單渲染
+    ──────────────────────────────────────── */
+    function renderHotelList() {
+      const listEl = document.getElementById('hotelListContainer');
+      if (!listEl) return;
+
+      const filtered = hotelsData
+        .filter(h => h.sub === activeSub && h.basePrice <= hotelMaxPrice)
+        .sort((a, b) => a.basePrice - b.basePrice);
+
+      if (filtered.length === 0) {
+        listEl.innerHTML = `
+          <div class="text-center py-10 bg-white rounded-xl border border-dashed border-gray-300 text-gray-400">
+            <i class="fas fa-hotel text-2xl mb-2"></i>
+            <p class="text-sm">此預算內暫無飯店</p>
+            <p class="text-xs mt-1">試試調高預算或更換地區</p>
+          </div>`;
+        return;
+      }
+
+      listEl.innerHTML = filtered.map(h => `
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+          <div class="p-4">
+            <span class="bg-blue-800 text-white text-[11px] font-black tracking-wider px-2 py-0.5 rounded inline-block mb-3">
+              ${h.platform}
+            </span>
+            <h3 class="font-bold text-gray-900 text-base mb-4">
+              <i class="fas fa-map-marker-alt text-orange-500 mr-1.5"></i>${h.name}
+            </h3>
+            <a href="${buildTripUrl(h)}"
+               target="_blank"
+               onclick="trackAffiliateClick('${h.platform}', '${h.name}')"
+               class="w-full inline-flex justify-center items-center gap-2
+                      bg-blue-50 text-blue-700 font-bold text-sm py-2.5 rounded-xl border border-blue-200">
+              前往查價 / 訂房
+              <i class="fas fa-external-link-alt text-[11px]"></i>
+            </a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /* ────────────────────────────────────────
+       住房比價：事件處理
+    ──────────────────────────────────────── */
+    function handleTempDate(type, value) {
+      if (type === 'in') {
+        tempCheckIn = value;
+        const d = new Date(value); d.setDate(d.getDate() + 1);
+        tempCheckOut = d.toISOString().split('T')[0];
+        const outEl = document.getElementById('checkOutInput');
+        if (outEl) outEl.value = tempCheckOut;
+      } else {
+        tempCheckOut = value;
+      }
+    }
+
+    function executeHotelSearch() {
+      checkInDate  = tempCheckIn;
+      checkOutDate = tempCheckOut;
+      gtag('event', 'hotel_search_click', {
+        event_category: 'Engagement',
+        check_in: checkInDate,
+        check_out: checkOutDate
+      });
+      renderHotelList();
+    }
+
+    function setHotelRegion(regionId) {
+      activeRegion = regionId;
+      activeSub = hotelRegions.find(r => r.id === regionId).subs[0].id;
+      renderHotelUI();
+    }
+
+    function setHotelSub(subId) {
+      activeSub = subId;
+      renderHotelUI();
+    }
+
+    function updateHotelPrice(val) {
+      hotelMaxPrice = parseInt(val);
+      const el = document.getElementById('priceDisplay');
+      if (el) el.innerText = hotelMaxPrice.toLocaleString();
+      renderHotelList();
+    }
+
+    /* ────────────────────────────────────────
+       優惠分頁：通知橫幅
+    ──────────────────────────────────────── */
+    function updateNoticeBanner() {
+      const banner = document.getElementById('notice-banner');
+      const text   = document.getElementById('notice-text');
+
+      if (currentTab === 'hotel') {
+        banner.className = 'w-full text-xs py-1.5 px-2.5 rounded-md font-bold flex items-center shadow-inner bg-orange-100 text-orange-800';
+        text.innerText   = '🔍 調整日期與預算後，按下「搜尋」即可篩選飯店！';
+        return;
+      }
+
+      if (currentTab === 'news') {
+        banner.className = 'w-full text-xs py-1.5 px-2.5 rounded-md font-medium flex items-center shadow-inner bg-blue-500/50 text-blue-100';
+        text.innerText   = '📰 每天早上 8 點自動更新最新財經新聞';
+        return;
+      }
+
+      const day = new Date().getDate();
+      if (day === 1) {
+        banner.className = 'w-full text-xs py-1.5 px-2.5 rounded-md font-bold flex items-center shadow-inner bg-amber-500 text-white animate-pulse-slow';
+        text.innerText   = '🚨 搶好康決戰日！今天就是 1 號，記得去登錄優惠！';
+      } else {
+        banner.className = 'w-full text-xs py-1.5 px-2.5 rounded-md font-medium flex items-center shadow-inner bg-blue-500/50 text-blue-100';
+        text.innerText   = '💡 貼心提醒：每月 1 號固定大搶購，可加入手機日曆。';
+      }
+    }
+
+    /* ────────────────────────────────────────
+       新聞分頁：渲染
+    ──────────────────────────────────────── */
+    function renderNewsTab() {
+      const container = document.getElementById('dynamic-content');
+      if (!globalData || !globalData.news || globalData.news.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-16 text-gray-400">
+            <i class="fas fa-newspaper text-3xl mb-3"></i>
+            <p class="text-sm">新聞載入中，請稍後...</p>
+          </div>`;
+        return;
+      }
+
+      const brandColor = { '遠見': 'bg-purple-600', '商周': 'bg-red-600' };
+
+      container.innerHTML = globalData.news.map(item => `
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+          <div class="p-4">
+            <div class="flex justify-between items-start mb-2.5">
+              <span class="${brandColor[item.brand] || 'bg-gray-600'} text-white text-[11px] font-black tracking-wider px-2 py-0.5 rounded">
+                ${item.brand}
+              </span>
+              <span class="text-xs text-gray-400">${item.time}</span>
+            </div>
+            <h3 class="font-bold text-gray-900 text-sm mb-3 leading-snug">${item.title}</h3>
+            <a href="${item.url}" target="_blank"
+               class="w-full inline-flex justify-center items-center gap-1.5
+                      bg-blue-50 text-blue-700 font-bold text-xs py-2.5 rounded-xl border border-blue-200">
+              閱讀完整報導
+              <i class="fas fa-external-link-alt text-[10px]"></i>
+            </a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /* ────────────────────────────────────────
+       優惠分頁：加入日曆
+    ──────────────────────────────────────── */
+    function addToCalendar(title, timeStr, url) {
+      let hour = 10, minute = 30;
+      if (timeStr.includes('09:00')) { hour = 9; minute = 0; }
+
+      const now = new Date();
+      let nextMonth = now.getMonth() + 1;
+      let year = now.getFullYear();
+      if (now.getDate() > 1 || (now.getDate() === 1 && now.getHours() >= hour)) {
+        nextMonth += 1;
+        if (nextMonth > 12) { nextMonth = 1; year += 1; }
+      }
+
+      const mm    = String(nextMonth).padStart(2, '0');
+      const hh    = String(hour).padStart(2, '0');
+      const mm2   = String(minute).padStart(2, '0');
+      const hEnd  = String(hour + 1).padStart(2, '0');
+      const start = `${year}${mm}01T${hh}${mm2}00`;
+      const end   = `${year}${mm}01T${hEnd}${mm2}00`;
+      const cleanTitle = title.replace(/<[^>]*>/g, '');
+
+      const ics = [
+        'BEGIN:VCALENDAR', 'VERSION:2.0', 'BEGIN:VEVENT',
+        `DTSTART;TZID=Asia/Taipei:${start}`,
+        `DTEND;TZID=Asia/Taipei:${end}`,
+        `SUMMARY:${cleanTitle}`,
+        `DESCRIPTION:活動網址: ${url}`, `URL:${url}`,
+        'BEGIN:VALARM', 'TRIGGER:-PT10M', 'ACTION:DISPLAY', 'DESCRIPTION:Reminder', 'END:VALARM',
+        'END:VEVENT', 'END:VCALENDAR'
+      ].join('\n');
+
+      gtag('event', 'add_to_calendar', {
+        event_category: 'Engagement',
+        event_label: cleanTitle
+      });
+
+      const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href     = URL.createObjectURL(blob);
+      link.download = `${cleanTitle.split('】').pop().split('（')[0]}_優惠提醒.ics`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    /* ────────────────────────────────────────
+       優惠分頁：GA 點擊追蹤
+    ──────────────────────────────────────── */
+    function trackAffiliateClick(brand, title) {
+      gtag('event', 'click_affiliate_link', {
+        event_category: 'Outbound Link',
+        brand_name: brand,
+        discount_title: String(title).replace(/<[^>]*>/g, '')
+      });
+    }
+
+    /* ────────────────────────────────────────
+       優惠分頁：時間排序權重
+    ──────────────────────────────────────── */
+    function parseTimeScore(timeStr) {
+      if (!timeStr || timeStr.includes('每個月常態') || timeStr.includes('即日起')) return 0;
+      const m = timeStr.match(/(\d{2}):(\d{2})/);
+      return m ? parseInt(m[1]) * 60 + parseInt(m[2]) : 9999;
+    }
+
+    /* ────────────────────────────────────────
+       優惠分頁：品牌徽章顏色
+    ──────────────────────────────────────── */
+    function brandBadgeColor(brand) {
+      const map = {
+        JCB:    'bg-red-600',
+        VISA:   'bg-blue-800',
+        IHG:    'bg-blue-900',
+        SHOPEE: 'bg-orange-500',
+        KLOOK:  'bg-red-500',
+        KKDAY:  'bg-blue-500',
+        TRIP:   'bg-blue-600',
+        AGODA:  'bg-red-700',
+        BOOKING:'bg-blue-700'
+      };
+      return map[brand.toUpperCase()] || 'bg-gray-600';
+    }
+
+    /* ────────────────────────────────────────
+       優惠分頁：渲染卡片列表
+    ──────────────────────────────────────── */
+    function renderActiveTab() {
+      if (currentTab === 'hotel' || currentTab === 'news') return;
+      if (!globalData) return;
+
+      const month     = document.getElementById('monthSelect').value;
+      const container = document.getElementById('dynamic-content');
+      const items     = globalData[month]?.[currentTab];
+
+      if (!items || items.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-16 text-gray-400">
+            <i class="fas fa-calendar-times text-3xl mb-3"></i>
+            <p class="text-sm">${month} 月份暫無活動</p>
+          </div>`;
+        return;
+      }
+
+      const sorted = [...items].sort((a, b) => parseTimeScore(a.time) - parseTimeScore(b.time));
+
+      container.innerHTML = sorted.map(item => `
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+          <div class="p-4">
+            <div class="flex justify-between items-start mb-2.5">
+              <span class="${brandBadgeColor(item.brand)} text-white text-[11px] font-black tracking-wider px-2 py-0.5 rounded">
+                ${item.brand}
+              </span>
+              <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">
+                ${item.time}
+              </span>
+            </div>
+            <h3 class="font-bold text-gray-900 text-base mb-1">${item.title}</h3>
+            <p class="text-gray-500 text-xs mb-4">${item.desc}</p>
+            <div class="flex gap-2 w-full">
+              <a href="${item.url}" target="_blank"
+                 onclick="trackAffiliateClick('${item.brand}', '${item.title}')"
+                 class="flex-1 inline-flex justify-center items-center gap-1.5
+                        bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold text-xs py-2.5 rounded-xl
+                        border border-blue-200 transition-colors">
+                前往官方網頁
+                <i class="fas fa-external-link-alt text-[10px]"></i>
+              </a>
+              <button
+                onclick="addToCalendar('${item.title}', '${item.time}', '${item.url}')"
+                title="加入手機行事曆"
+                class="bg-gray-50 hover:bg-orange-50 text-orange-600 hover:text-orange-700 font-bold text-xs
+                       px-3.5 rounded-xl border border-gray-200 hover:border-orange-200 transition-colors
+                       flex items-center justify-center shadow-sm">
+                <i class="fa-solid fa-calendar-plus text-sm"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /* ────────────────────────────────────────
+       分頁切換
+    ──────────────────────────────────────── */
+    function switchTab(tabName) {
+      currentTab = tabName;
+
+      /* 重設所有底部按鈕顏色 */
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.style.color = '#9ca3af';
+        btn.style.fontWeight = 'normal';
+      });
+
+      const hotelBtn = document.getElementById('tab-hotel');
+
+      if (tabName === 'hotel') {
+        hotelBtn.style.background = '#2563eb';
+        document.getElementById('monthSelectorContainer').style.display = 'none';
+        updateNoticeBanner();
+        renderHotelUI();
+      } else if (tabName === 'news') {
+        hotelBtn.style.background = '#f97316';
+        document.getElementById('tab-news').style.color = '#2563eb';
+        document.getElementById('tab-news').style.fontWeight = '600';
+        document.getElementById('monthSelectorContainer').style.display = 'none';
+        updateNoticeBanner();
+        renderNewsTab();
+      } else {
+        hotelBtn.style.background = '#f97316';
+        const activeBtn = document.getElementById(`tab-${tabName}`);
+        if (activeBtn) {
+          activeBtn.style.color = '#2563eb';
+          activeBtn.style.fontWeight = '600';
+        }
+        document.getElementById('monthSelectorContainer').style.display = 'block';
+        updateNoticeBanner();
+        renderActiveTab();
+      }
+    }
+
+    /* ────────────────────────────────────────
+       資料載入
+    ──────────────────────────────────────── */
+    async function fetchGitHubData() {
+      try {
+        const res  = await fetch(`${GITHUB_RAW_URL}?t=${Date.now()}`);
+        globalData = await res.json();
+        renderActiveTab();
+        updateNoticeBanner();
+      } catch (err) {
+        document.getElementById('dynamic-content').innerHTML = `
+          <div class="text-center py-12 text-red-500">
+            <i class="fas fa-wifi text-3xl mb-2"></i>
+            <p class="text-sm">連線失敗，請重新整理頁面</p>
+          </div>`;
+      }
+    }
+
+    /* ────────────────────────────────────────
+       初始化
+    ──────────────────────────────────────── */
+    fetchGitHubData();
+
+  </script>
+</body>
+</html>
