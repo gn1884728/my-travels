@@ -1,59 +1,99 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的生活整合中心</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>我的優惠</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .region-scroll { display: flex; gap: 8px; overflow-x: auto; }
+  </style>
 </head>
-<body class="bg-gray-100 h-screen flex flex-col">
-    <header class="bg-blue-600 text-white p-4 font-bold text-center">我的整合中心</header>
-    
-    <main id="content" class="flex-1 p-4 overflow-y-auto">載入中...</main>
+<body class="bg-gray-50 font-sans h-screen flex flex-col max-w-md mx-auto shadow-2xl relative">
 
-    <footer class="bg-white border-t flex justify-around p-4">
-        <button onclick="view('6')" class="font-bold">優惠</button>
-        <button onclick="viewNews()" class="font-bold">新聞</button>
-        <button onclick="viewLounge()" class="font-bold">貴賓室</button>
-    </footer>
+  <header class="bg-blue-600 text-white px-4 py-3 sticky top-0 z-50 shadow-md pt-6">
+    <div class="flex justify-between items-center w-full mb-2">
+      <h1 class="text-xl font-bold tracking-wider" id="header-title">我的優惠</h1>
+      <div class="relative" id="monthSelectorContainer">
+        <select id="monthSelect" onchange="renderActiveTab()" class="bg-white text-gray-800 text-sm font-semibold rounded-lg px-3 py-1.5 appearance-none cursor-pointer border border-gray-200">
+            <option value="1">1 月</option><option value="2">2 月</option><option value="3">3 月</option>
+            <option value="4">4 月</option><option value="5">5 月</option><option value="6" selected>6 月</option>
+            <option value="7">7 月</option><option value="8">8 月</option><option value="9">9 月</option>
+            <option value="10">10 月</option><option value="11">11 月</option><option value="12">12 月</option>
+        </select>
+      </div>
+    </div>
+    <div id="notice-banner" class="w-full text-xs py-1.5 px-2.5 rounded-md font-medium flex items-center bg-blue-500/50 text-blue-100">
+      <i class="fas fa-info-circle mr-1.5"></i><span id="notice-text">載入中...</span>
+    </div>
+  </header>
 
-    <script>
-        let data = {};
-        // 載入資料並增加快取控制
-        fetch('data.json?t=' + Date.now())
-            .then(r => r.json())
-            .then(d => { data = d; view('6'); })
-            .catch(() => document.getElementById('content').innerHTML = "資料讀取失敗，請檢查格式");
+  <main class="flex-1 overflow-y-auto p-4 pb-28 no-scrollbar" id="main-content">
+    <div id="dynamic-content" class="space-y-4"></div>
+  </main>
 
-        function view(month) {
-            const list = data[month]?.food || [];
-            document.getElementById('content').innerHTML = list.map(i => `<div class="bg-white p-3 mb-2 rounded shadow">${i.title}</div>`).join('');
-        }
+  <nav class="bg-white border-t fixed bottom-0 left-0 right-0 max-w-md mx-auto flex justify-between items-center px-3 h-[64px] z-50 shadow-lg">
+    <button onclick="switchTab('food')" id="tab-food" class="tab-btn flex flex-col items-center gap-0.5 w-10"><i class="fas fa-utensils"></i><span class="text-[10px]">美食</span></button>
+    <button onclick="switchTab('life')" id="tab-life" class="tab-btn flex flex-col items-center gap-0.5 w-10"><i class="fas fa-home"></i><span class="text-[10px]">生活</span></button>
+    <div style="position:relative;width:64px;"><button onclick="switchTab('hotel')" id="tab-hotel" class="absolute -top-8 left-0 w-16 h-16 bg-orange-500 rounded-full border-4 border-white text-white flex flex-col items-center justify-center"><i class="fas fa-hotel"></i><span class="text-[9px] font-bold">住房</span></button></div>
+    <button onclick="switchTab('lounge')" id="tab-lounge" class="tab-btn flex flex-col items-center gap-0.5 w-10"><i class="fas fa-couch"></i><span class="text-[10px]">貴賓室</span></button>
+    <button onclick="switchTab('news')" id="tab-news" class="tab-btn flex flex-col items-center gap-0.5 w-10"><i class="fas fa-newspaper"></i><span class="text-[10px]">新聞</span></button>
+  </nav>
 
-        function viewNews() {
-            document.getElementById('content').innerHTML = (data.news || []).map(i => `<div class="bg-white p-3 mb-2 rounded shadow">${i.title}</div>`).join('');
-        }
+  <script>
+    const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/gn1884728/my-travels/refs/heads/main/data.json';
+    let globalData = null;
+    let currentTab = 'food';
 
-        function viewLounge() {
-            const l = data.lounge || {};
-            document.getElementById('content').innerHTML = `
-                <select id="c" onchange="upA()" class="w-full p-2 border rounded"><option value="">選國家</option>${Object.keys(l).map(c => `<option value="${c}">${c}</option>`).join('')}</select>
-                <select id="a" onchange="showI()" class="w-full p-2 border rounded mt-2"><option value="">選機場</option></select>
-                <div id="imgZone" class="mt-4"></div>
-            `;
-        }
+    async function fetchGitHubData() {
+        const res = await fetch(`${GITHUB_RAW_URL}?t=${Date.now()}`);
+        globalData = await res.json();
+        switchTab('food');
+    }
 
-        function upA() {
-            const c = document.getElementById('c').value;
-            const a = document.getElementById('a');
-            a.innerHTML = Object.keys(data.lounge[c] || {}).map(i => `<option value="${i}">${i}</option>`).join('');
-        }
+    function switchTab(tab) {
+        currentTab = tab;
+        document.getElementById('monthSelectorContainer').style.display = (tab === 'food' || tab === 'life' || tab === 'travel' || tab === 'credit') ? 'block' : 'none';
+        renderActiveTab();
+    }
 
-        function showI() {
-            const c = document.getElementById('c').value;
-            const a = document.getElementById('a').value;
-            document.getElementById('imgZone').innerHTML = `<img src="${data.lounge[c][a]}" class="w-full rounded">`;
-        }
-    </script>
+    function renderActiveTab() {
+        const container = document.getElementById('dynamic-content');
+        if (currentTab === 'lounge') return renderLounge();
+        if (currentTab === 'news') return renderNewsTab();
+        if (currentTab === 'hotel') return renderHotelUI(); // 呼叫您原本的渲染函式
+        
+        const month = document.getElementById('monthSelect').value;
+        const items = globalData[month]?.[currentTab] || [];
+        container.innerHTML = items.map(i => `<div class="bg-white p-4 rounded-xl shadow">${i.title}</div>`).join('');
+    }
+
+    // 貴賓室渲染邏輯
+    function renderLounge() {
+        const container = document.getElementById('dynamic-content');
+        const lounge = globalData.lounge || {};
+        container.innerHTML = `
+            <select id="c" onchange="updateA()" class="w-full p-3 border rounded-lg"><option>請選擇國家</option>${Object.keys(lounge).map(c => `<option value="${c}">${c}</option>`).join('')}</select>
+            <select id="a" onchange="showI()" class="w-full p-3 border rounded-lg mt-2"><option>請選擇機場</option></select>
+            <div id="imgZone" class="mt-4"></div>
+        `;
+    }
+
+    function updateA() {
+        const c = document.getElementById('c').value;
+        const a = document.getElementById('a');
+        a.innerHTML = Object.keys(globalData.lounge[c] || {}).map(i => `<option value="${i}">${i}</option>`).join('');
+    }
+
+    function showI() {
+        const c = document.getElementById('c').value;
+        const a = document.getElementById('a').value;
+        document.getElementById('imgZone').innerHTML = `<img src="${globalData.lounge[c][a]}" class="w-full rounded-xl shadow-lg">`;
+    }
+
+    fetchGitHubData();
+  </script>
 </body>
 </html>
