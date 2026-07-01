@@ -2,104 +2,63 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>我的優惠與資訊</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>我的生活整合中心</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-50 font-sans h-screen flex flex-col max-w-md mx-auto shadow-2xl">
-
-    <header class="bg-blue-600 text-white px-4 py-3 sticky top-0 z-50 shadow-md">
-        <div class="flex justify-between items-center w-full">
-            <h1 class="text-xl font-bold tracking-wider" id="page-title">我的優惠</h1>
-            <select id="monthSelect" onchange="renderActiveTab()" class="bg-white text-gray-800 text-sm font-semibold rounded-lg px-3 py-1.5 border">
-                <option value="6">6 月</option><option value="7">7 月</option><option value="8">8 月</option>
-                <option value="9">9 月</option><option value="10">10 月</option><option value="11">11 月</option><option value="12">12 月</option>
-            </select>
-        </div>
+<body class="bg-gray-50 h-screen flex flex-col max-w-md mx-auto">
+    <header class="bg-blue-600 text-white p-4 pt-8 shadow-md">
+        <h1 class="text-xl font-bold">我的整合中心</h1>
     </header>
 
-    <main class="flex-1 overflow-y-auto p-4 pb-24" id="main-content">
-        <div id="dynamic-content" class="space-y-4"></div>
-    </main>
+    <main class="flex-1 overflow-y-auto p-4 pb-24" id="dynamic-content">
+        </main>
 
-    <nav class="bg-white border-t fixed bottom-0 w-full max-w-md flex justify-around py-3 shadow-lg z-50 text-gray-400">
-        <button onclick="switchTab('food')" id="tab-food" class="tab-btn flex flex-col items-center"><i class="fas fa-utensils"></i><span class="text-[10px]">美食</span></button>
-        <button onclick="switchTab('credit')" id="tab-credit" class="tab-btn flex flex-col items-center"><i class="fas fa-credit-card"></i><span class="text-[10px]">信用卡</span></button>
-        <button onclick="switchTab('lounge')" id="tab-lounge" class="tab-btn flex flex-col items-center"><i class="fas fa-couch"></i><span class="text-[10px]">貴賓室</span></button>
-        <button onclick="switchTab('news')" id="tab-news" class="tab-btn flex flex-col items-center"><i class="fas fa-newspaper"></i><span class="text-[10px]">新聞</span></button>
+    <nav class="bg-white border-t fixed bottom-0 w-full max-w-md flex justify-around py-3 shadow-lg z-50">
+        <button onclick="renderSection('6')" class="text-xs font-bold text-gray-500">優惠</button>
+        <button onclick="renderNews()" class="text-xs font-bold text-gray-500">新聞</button>
+        <button onclick="renderLounge()" class="text-xs font-bold text-gray-500">貴賓室</button>
     </nav>
 
     <script>
-        const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/gn1884728/my-travels/refs/heads/main/data.json';
-        let globalData = null;
-        let currentTab = 'food';
+        let globalData = {};
+        fetch('data.json?t=' + Date.now()).then(r => r.json()).then(d => { globalData = d; renderSection('6'); });
 
-        async function fetchGitHubData() {
-            const res = await fetch(`${GITHUB_RAW_URL}?t=${new Date().getTime()}`);
-            globalData = await res.json();
-            renderActiveTab();
-        }
-
-        function switchTab(tab) {
-            currentTab = tab;
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('text-blue-600'));
-            document.getElementById(`tab-${tab}`).classList.add('text-blue-600');
-            renderActiveTab();
-        }
-
-        function renderActiveTab() {
+        function renderSection(month) {
             const container = document.getElementById('dynamic-content');
-            const monthSelect = document.getElementById('monthSelect');
-            
-            // 貴賓室特殊渲染
-            if (currentTab === 'lounge') {
-                monthSelect.style.display = 'none';
-                container.innerHTML = `
-                    <select id="countrySelect" onchange="updateAirportSelect()" class="w-full p-3 border rounded-lg"><option value="">選擇國家</option>${Object.keys(globalData.lounge).map(c => `<option value="${c}">${c}</option>`).join('')}</select>
-                    <select id="airportSelect" onchange="showImage()" class="w-full p-3 border rounded-lg mt-2"><option value="">選擇機場</option></select>
-                    <div id="imageDisplay" class="mt-4"></div>
-                `;
-                return;
-            }
-
-            // 新聞/優惠渲染
-            monthSelect.style.display = (currentTab === 'news') ? 'none' : 'block';
-            if (currentTab === 'news') {
-                container.innerHTML = globalData.news.map(item => `
-                    <div class="bg-white p-4 rounded-xl border">
-                        <span class="bg-blue-500 text-white text-[10px] px-2 py-0.5 rounded">${item.brand}</span>
-                        <h3 class="font-bold text-sm my-2">${item.title}</h3>
-                        <a href="${item.url}" target="_blank" class="text-blue-600 text-xs underline">閱讀完整報導 →</a>
-                    </div>`).join('');
-            } else {
-                const month = monthSelect.value;
-                const items = globalData[month]?.[currentTab] || [];
-                container.innerHTML = items.map(item => `
-                    <div class="bg-white p-4 rounded-xl border">
-                        <h3 class="font-bold text-sm">${item.title}</h3>
-                        <p class="text-xs text-gray-500">${item.desc}</p>
-                    </div>`).join('');
-            }
+            const items = globalData[month]?.food || [];
+            container.innerHTML = items.map(i => `<div class="bg-white p-4 rounded shadow mb-2">${i.title}</div>`).join('');
         }
 
-        function updateAirportSelect() {
-            const country = document.getElementById('countrySelect').value;
-            const airportSelect = document.getElementById('airportSelect');
-            airportSelect.innerHTML = '<option value="">選擇機場</option>';
-            Object.keys(globalData.lounge[country] || {}).forEach(a => {
-                airportSelect.innerHTML += `<option value="${a}">${a}</option>`;
-            });
+        function renderNews() {
+            const container = document.getElementById('dynamic-content');
+            container.innerHTML = (globalData.news || []).map(i => 
+                `<div class="bg-white p-4 rounded shadow mb-2 text-sm font-bold">${i.title}<br><a href="${i.url}" class="text-blue-500 text-xs">閱讀原文</a></div>`
+            ).join('');
         }
 
-        function showImage() {
-            const country = document.getElementById('countrySelect').value;
-            const airport = document.getElementById('airportSelect').value;
-            document.getElementById('imageDisplay').innerHTML = `<img src="${globalData.lounge[country][airport]}" class="w-full rounded-xl shadow-lg">`;
+        function renderLounge() {
+            const container = document.getElementById('dynamic-content');
+            const lounge = globalData.lounge || {};
+            container.innerHTML = `
+                <select id="c" onchange="updateA()" class="w-full p-2 border rounded"><option>選國家</option>${Object.keys(lounge).map(c => `<option value="${c}">${c}</option>`).join('')}</select>
+                <select id="a" onchange="showI()" class="w-full p-2 border rounded mt-2"><option>選機場</option></select>
+                <div id="imgZone" class="mt-4"></div>
+            `;
         }
 
-        fetchGitHubData();
+        function updateA() {
+            const c = document.getElementById('c').value;
+            const a = document.getElementById('a');
+            a.innerHTML = Object.keys(globalData.lounge[c] || {}).map(i => `<option value="${i}">${i}</option>`).join('');
+        }
+
+        function showI() {
+            const c = document.getElementById('c').value;
+            const a = document.getElementById('a').value;
+            document.getElementById('imgZone').innerHTML = `<img src="${globalData.lounge[c][a]}" class="w-full rounded">`;
+        }
     </script>
 </body>
 </html>
-
