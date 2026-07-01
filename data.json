@@ -3,15 +3,11 @@
         "food": [{"brand": "JCB", "title": "星巴克買一送一", "time": "每月1號", "desc": "登錄制", "url": "https://www.taodining.com.tw"}],
         "life": [], "travel": [], "credit": []
     },
-    "news": [],
+    "news": [{"brand": "測試", "title": "系統載入正常", "url": "#", "time": "12:00"}],
     "lounge": {
         "日本": {
-            "成田國際機場": "https://i.imgur.com/v8tT4tT.jpeg",
+            "成田機場": "https://i.imgur.com/v8tT4tT.jpeg",
             "羽田機場": "https://i.imgur.com/uR4P4zL.jpeg"
-        },
-        "泰國": {
-            "蘇凡納布機場": "https://i.imgur.com/G5y7f6g.jpeg"
         }
-    },
-    "last_updated": "2026-07-01 17:00:00"
+    }
 }
