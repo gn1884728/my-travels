@@ -1,13 +1,20 @@
 {
-    "6": {
-        "food": [{"brand": "JCB", "title": "星巴克買一送一", "time": "每月1號", "desc": "登錄制", "url": "https://www.taodining.com.tw"}],
-        "life": [], "travel": [], "credit": []
-    },
-    "news": [{"brand": "測試", "title": "系統載入正常", "url": "#", "time": "12:00"}],
-    "lounge": {
-        "日本": {
-            "成田機場": "https://i.imgur.com/v8tT4tT.jpeg",
-            "羽田機場": "https://i.imgur.com/uR4P4zL.jpeg"
-        }
+  "food": [
+    { "id": "visa", "brand": "VISA", "title": "無限卡頂級饗宴", "time": "每月1號 09:00", "desc": "精選餐廳買一送一", "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx" },
+    { "id": "jcb", "brand": "JCB", "title": "星巴克半價", "time": "每月1號 10:30", "desc": "每月登錄制優惠", "url": "https://www.taodining.com.tw/2026cafe/" }
+  ],
+  "travel": [
+    { "title": "ICN 首爾行程", "url": "https://gn1884728.github.io/my-travels/icn-7th-2026.html" },
+    { "title": "日本第十次行程", "url": "https://gn1884728.github.io/my-travels/japan-10th-2026/" }
+  ],
+  "lounge": {
+    "日本": {
+      "成田機場": {
+        "一航廈": { "龍騰": [{ "name": "川豐鰻魚飯", "img": "https://i.imgur.com/你的照片ID.jpg", "desc": "一航廈4樓，出示QRcode即可" }] }
+      },
+      "關西機場": {
+        "一航廈": { "龍騰": [{ "name": "MENSHO 拉麵", "img": "https://i.imgur.com/你的照片ID.jpg", "desc": "過安檢後2樓，兌換雞白湯拉麵" }] }
+      }
     }
+  }
 }
