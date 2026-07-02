@@ -2,71 +2,41 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>我的優惠</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>整合中心</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-50 font-sans h-screen flex flex-col max-w-md mx-auto shadow-2xl">
-
-    <header class="bg-blue-600 text-white p-4 pt-6 shadow-md z-50">
-        <h1 class="text-xl font-bold tracking-wider" id="page-title">我的優惠</h1>
-    </header>
-
-    <main class="flex-1 overflow-y-auto p-4 pb-28" id="dynamic-content">
-        <div class="text-center py-10">資料載入中...</div>
-    </main>
-
-    <nav class="bg-white border-t fixed bottom-0 w-full max-w-md flex justify-between px-6 py-3 shadow-lg z-50">
-        <button onclick="switchTab('food')" class="flex flex-col items-center text-blue-600"><i class="fas fa-utensils"></i><span class="text-[10px]">美食</span></button>
-        <button onclick="switchTab('hotel')" class="flex flex-col items-center text-gray-400"><i class="fas fa-hotel"></i><span class="text-[10px]">住房</span></button>
-        <button onclick="switchTab('lounge')" class="flex flex-col items-center text-gray-400"><i class="fas fa-couch"></i><span class="text-[10px]">貴賓室</span></button>
-        <button onclick="switchTab('news')" class="flex flex-col items-center text-gray-400"><i class="fas fa-newspaper"></i><span class="text-[10px]">新聞</span></button>
+<body class="bg-gray-100 flex flex-col h-screen max-w-md mx-auto">
+    <header class="bg-blue-600 text-white p-4 font-bold text-center">我的生活整合中心</header>
+    <main id="app" class="flex-1 p-4 overflow-y-auto"></main>
+    <nav class="bg-white border-t flex justify-around p-4 shadow-lg">
+        <button onclick="view('food')"><i class="fas fa-utensils block"></i>美食</button>
+        <button onclick="view('travel')"><i class="fas fa-plane block"></i>旅遊</button>
+        <button onclick="view('lounge')"><i class="fas fa-couch block"></i>貴賓室</button>
     </nav>
 
     <script>
-        const DATA_URL = 'data.json?t=' + Date.now();
-        let globalData = {};
+        let d = {};
+        fetch('data.json?t='+Date.now()).then(r=>r.json()).then(res=>{ d=res; view('food'); });
 
-        async function init() {
-            try {
-                const res = await fetch(DATA_URL);
-                globalData = await res.json();
-                switchTab('food');
-            } catch(e) { document.getElementById('dynamic-content').innerHTML = "載入失敗"; }
-        }
-
-        function switchTab(tab) {
-            const container = document.getElementById('dynamic-content');
-            if (tab === 'lounge') {
-                const countries = Object.keys(globalData.lounge || {});
-                container.innerHTML = `
-                    <select id="c" onchange="updateAirport()" class="w-full p-3 border rounded-xl"><option value="">選擇國家</option>${countries.map(c => `<option value="${c}">${c}</option>`).join('')}</select>
-                    <select id="a" onchange="showLounge()" class="w-full p-3 border rounded-xl mt-3"><option value="">選擇機場</option></select>
-                    <div id="result" class="mt-4"></div>
-                `;
-            } else if (tab === 'food') {
-                container.innerHTML = (globalData['6']?.food || []).map(i => `<div class="bg-white p-4 rounded-xl shadow">${i.title}</div>`).join('');
+        function view(tab) {
+            const app = document.getElementById('app');
+            if(tab === 'food') {
+                app.innerHTML = d.food.map(i => `<div class="bg-white p-4 rounded-xl shadow mb-3"><div class="font-bold">${i.title}</div><div class="text-xs text-gray-500">${i.time}</div><div class="flex gap-2 mt-2"><a href="${i.url}" class="bg-blue-500 text-white p-2 rounded w-full text-center">跳轉</a><button onclick="alert('ICS檔案下載功能')" class="bg-gray-200 p-2 rounded px-4">+曆</button></div></div>`).join('');
+            } else if(tab === 'travel') {
+                app.innerHTML = d.travel.map(i => `<a href="${i.url}" class="block bg-white p-4 rounded-xl shadow mb-3">${i.title}</a>`).join('');
             } else {
-                container.innerHTML = "其他分頁建置中...";
+                app.innerHTML = `<select id="c" onchange="uA()" class="w-full p-2 border rounded-lg"><option value="">選國家</option>${Object.keys(d.lounge).map(c=>`<option value="${c}">${c}</option>`).join('')}</select><select id="a" onchange="uM()" class="w-full p-2 border rounded-lg mt-2"><option value="">選機場</option></select><select id="m" onchange="showS()" class="w-full p-2 border rounded-lg mt-2"><option value="">選會籍</option></select><div id="sZ" class="mt-4"></div>`;
             }
         }
-
-        function updateAirport() {
-            const country = document.getElementById('c').value;
-            const select = document.getElementById('a');
-            const airports = Object.keys(globalData.lounge[country] || {});
-            select.innerHTML = '<option value="">選擇機場</option>' + airports.map(a => `<option value="${a}">${a}</option>`).join('');
+        function uA() { const c=document.getElementById('c').value; document.getElementById('a').innerHTML = '<option value="">選機場</option>'+Object.keys(d.lounge[c]).map(a=>`<option value="${a}">${a}</option>`).join(''); }
+        function uM() { const c=document.getElementById('c').value, a=document.getElementById('a').value; document.getElementById('m').innerHTML = '<option value="">選會籍</option>'+Object.keys(d.lounge[c][a]).map(m=>`<option value="${m}">${m}</option>`).join(''); }
+        function showS() {
+            const c=document.getElementById('c').value, a=document.getElementById('a').value, m=document.getElementById('m').value;
+            const shop = d.lounge[c][a][m][0];
+            document.getElementById('sZ').innerHTML = `<div class="bg-white p-4 rounded-xl shadow"><h3 class="font-bold">${shop.name}</h3><p class="text-xs my-2">${shop.desc}</p><img src="${shop.img}" class="w-full rounded"></div>`;
         }
-
-        function showLounge() {
-            const c = document.getElementById('c').value;
-            const a = document.getElementById('a').value;
-            const imgUrl = globalData.lounge[c][a];
-            document.getElementById('result').innerHTML = `<img src="${imgUrl}" class="w-full rounded-xl shadow-lg">`;
-        }
-
-        init();
     </script>
 </body>
 </html>
