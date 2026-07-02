@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-<head>
+<head><script>
+  window.onload = function() {
+    var password = "102026";
+    var input = prompt("此行程為私人資料，請輸入查看密碼：");
+    if (input !== password) {
+      document.body.innerHTML = "<div style='text-align:center; padding-top:50px; font-family:sans-serif;'><h1>存取被拒</h1><p>密碼錯誤，將於 3 秒後自動返回。</p></div>";
+      setTimeout(function() { window.location.href = "https://gn1884728.github.io/my-travels/"; }, 3000);
+    }
+  };
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>2026 秋季家族自駕遊</title>
