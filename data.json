@@ -3,21 +3,22 @@
     { "brand": "VISA", "color": "bg-blue-800", "title": "餐廳買一送一", "time": "每月1號 09:00", "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx" },
     { "brand": "JCB", "color": "bg-red-600", "title": "星巴克半價登錄", "time": "每月1號 10:30", "url": "https://www.taodining.com.tw/2026cafe/" }
   ],
-  "travel": [
-    { "title": "韓國首爾行程", "url": "https://gn1884728.github.io/my-travels/icn-7th-2026.html" },
-    { "title": "日本深度行程", "url": "https://gn1884728.github.io/my-travels/japan-10th-2026/" }
-  ],
   "lounge": {
     "日本": {
       "東京": {
         "NRT成田機場第一航廈": {
-          "龍騰": [{ "name": "川豐鰻魚飯", "desc": "4樓美食區，出示QRcode即可。", "img": "https://raw.githubusercontent.com/gn1884728/my-travels/main/messageImage_1782902175117.jpg" }]
-        }
+          "龍騰": [{ "name": "川豐鰻魚飯", "desc": "第一航廈4樓（安檢前）美食區。出示龍騰卡QRcode（不用登機證）。", "img": "https://raw.githubusercontent.com/gn1884728/my-travels/main/messageImage_1782902175117.jpg" }]
+        },
+        "NRT成田機場第二航廈": { "PP": [] },
+        "HND羽田機場第一航廈(國內線)": {},
+        "HND羽田機場第二航廈": {},
+        "HND羽田機場第三航廈": {}
       },
       "大阪": {
         "KIX關西機場第一航廈": {
-          "龍騰": [{ "name": "MENSHO", "desc": "國際線出境區 2樓，拉麵套餐兌換。", "img": "https://raw.githubusercontent.com/gn1884728/my-travels/main/messageImage_1782902175117.jpg" }]
-        }
+          "龍騰": [{ "name": "MENSHO 關西機場店", "desc": "國際線出境區 2樓（過安檢後，近20號登機口）。出示龍騰卡及登機證兌換松露雞白湯拉麵套餐一份。", "img": "https://raw.githubusercontent.com/gn1884728/my-travels/main/messageImage_1782902175117.jpg" }]
+        },
+        "KIX關西機場第二航廈": {}
       }
     }
   }
