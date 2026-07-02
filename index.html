@@ -19,6 +19,7 @@
     <script>
         let d = {};
         fetch('data.json?t='+Date.now()).then(r=>r.json()).then(res=>{ d=res; render('food'); });
+        
         function render(tab, month = new Date().getMonth() + 1) {
             const app = document.getElementById('app');
             if(tab === 'food') {
@@ -43,7 +44,13 @@
         function show() {
             const c=document.getElementById('c').value, ci=document.getElementById('ci').value, a=document.getElementById('a').value, m=document.getElementById('m').value;
             const s = d.lounge[c][ci][a][m];
-            document.getElementById('r').innerHTML = (s && s.length > 0) ? `<div class="bg-white p-5 rounded-2xl shadow"><h3 class="font-bold text-lg">${s[0].name}</h3><p class="text-sm my-3 text-gray-600">${s[0].desc}</p><img src="${s[0].img}" class="w-full rounded-xl"></div>` : `<div class="p-4 text-center text-gray-400">目前無貴賓室資料</div>`;
+            if (s && s.length > 0) {
+                const item = s[0];
+                const imgs = item.img.map(url => `<img src="${url}" class="w-full sm:w-1/2 rounded-xl">`).join('');
+                document.getElementById('r').innerHTML = `<div class="bg-white p-5 rounded-2xl shadow"><h3 class="font-bold text-lg">${item.name}</h3><p class="text-sm my-3 text-gray-600">${item.desc}</p><div class="flex flex-wrap gap-2">${imgs}</div></div>`;
+            } else {
+                document.getElementById('r').innerHTML = `<div class="p-4 text-center text-gray-400">目前無貴賓室資料</div>`;
+            }
         }
     </script>
 </body>
