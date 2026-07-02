@@ -1,33 +1,55 @@
-// 修改後的選單生成函式
-function uM() {
-    const c = document.getElementById('c').value;
-    const ci = document.getElementById('ci').value;
-    const a = document.getElementById('a').value;
-    
-    // 強制設定三個選項，直接讀取 JSON 內的資料
-    const memberships = ['龍騰', '匯豐旅人', 'PP'];
-    document.getElementById('m').innerHTML = '<option value="">請選擇會籍</option>' + 
-        memberships.map(m => `<option value="${m}">${m}</option>`).join('');
-}
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>生活優惠中心</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 h-screen flex flex-col font-sans max-w-md mx-auto">
+    <header class="bg-blue-600 text-white p-5 text-xl font-bold text-center shadow-md">生活優惠中心</header>
+    <main id="app" class="flex-1 p-4 overflow-y-auto pb-32"></main>
+    <nav class="bg-white border-t flex justify-around p-4 shadow-2xl fixed bottom-0 w-full max-w-md">
+        <button onclick="render('food')" class="flex flex-col items-center"><i class="fas fa-gift text-lg mb-1"></i>優惠</button>
+        <button onclick="render('travel')" class="flex flex-col items-center"><i class="fas fa-plane-departure text-lg mb-1"></i>行程</button>
+        <button onclick="render('lounge')" class="flex flex-col items-center"><i class="fas fa-couch text-lg mb-1"></i>貴賓室</button>
+    </nav>
 
-// 修改後的顯示邏輯
-function show() {
-    const c = document.getElementById('c').value;
-    const ci = document.getElementById('ci').value;
-    const a = document.getElementById('a').value;
-    const m = document.getElementById('m').value;
-    
-    const targetData = d.lounge['日本'][c][ci][a][m];
-    const r = document.getElementById('r');
-    
-    if (targetData && targetData.length > 0) {
-        const s = targetData[0];
-        r.innerHTML = `<div class="bg-white p-5 rounded-2xl shadow">
-            <h3 class="font-bold text-lg">${s.name}</h3>
-            <p class="text-sm my-3 text-gray-600">${s.desc}</p>
-            <img src="${s.img}" class="w-full rounded-xl" onerror="this.style.display='none'">
-        </div>`;
-    } else {
-        r.innerHTML = `<div class="p-4 text-center text-gray-400">目前該會籍無貴賓室資料</div>`;
-    }
-}
+    <script>
+        let d = {};
+        fetch('data.json?t='+Date.now()).then(r=>r.json()).then(res=>{ d=res; render('food'); });
+
+        function render(tab) {
+            const app = document.getElementById('app');
+            if(tab === 'food') {
+                app.innerHTML = d.food.map(i => `
+                    <div class="bg-white p-5 rounded-2xl shadow mb-4">
+                        <span class="${i.color} text-white px-3 py-1 rounded-full text-xs font-bold">${i.brand}</span>
+                        <h3 class="font-bold text-lg my-2">${i.title}</h3>
+                        <p class="text-gray-500 text-sm mb-4">${i.time}</p>
+                        <div class="flex gap-3">
+                            <a href="${i.url}" class="bg-blue-600 text-white p-3 rounded-xl flex-1 text-center font-bold text-sm">前往優惠</a>
+                            <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=${i.title}" class="bg-gray-200 p-3 rounded-xl px-5 text-sm font-bold text-gray-700">+日曆</a>
+                        </div>
+                    </div>`).join('');
+            } else if(tab === 'travel') {
+                app.innerHTML = d.travel.map(i => `<a href="${i.url}" class="block bg-white p-5 rounded-2xl shadow mb-4 font-bold text-lg text-blue-700"><i class="fas fa-plane mr-2"></i>${i.title}</a>`).join('');
+            } else if(tab === 'lounge') {
+                app.innerHTML = `
+                    <select id="c" onchange="u('ci', Object.keys(d.lounge['日本'][this.value]))" class="w-full p-4 border rounded-xl mb-3"><option>請選擇國家</option>${Object.keys(d.lounge).map(c=>`<option value="${c}">${c}</option>`).join('')}</select>
+                    <select id="ci" onchange="u('a', Object.keys(d.lounge['日本'][document.getElementById('c').value][this.value]))" class="w-full p-4 border rounded-xl mb-3"><option>請選擇城市</option></select>
+                    <select id="a" onchange="u('m', Object.keys(d.lounge['日本'][document.getElementById('c').value][document.getElementById('ci').value][this.value]))" class="w-full p-4 border rounded-xl mb-3"><option>請選擇機場</option></select>
+                    <select id="m" onchange="show()" class="w-full p-4 border rounded-xl mb-3"><option>請選擇會籍</option></select>
+                    <div id="r"></div>`;
+            }
+        }
+        function u(id, keys) { document.getElementById(id).innerHTML = `<option>請選擇</option>` + keys.map(k=>`<option value="${k}">${k}</option>`).join(''); }
+        function show() {
+            const c=document.getElementById('c').value, ci=document.getElementById('ci').value, a=document.getElementById('a').value, m=document.getElementById('m').value;
+            const s = d.lounge['日本'][c][ci][a][m];
+            document.getElementById('r').innerHTML = (s && s.length > 0) ? `<div class="bg-white p-5 rounded-2xl shadow"><h3 class="font-bold text-lg">${s[0].name}</h3><p class="text-sm my-3 text-gray-600">${s[0].desc}</p><img src="${s[0].img}" class="w-full rounded-xl"></div>` : `<div class="p-4 text-center text-gray-400">無貴賓室資料</div>`;
+        }
+    </script>
+</body>
+</html>
