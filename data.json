@@ -1,119 +1,24 @@
 {
-    "food": [
-        {
-            "id": "visa",
-            "brand": "VISA",
-            "title": "無限卡頂級饗宴",
-            "time": "每月1號 09:00",
-            "desc": "精選餐廳買一送一",
-            "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx"
-        },
-        {
-            "id": "jcb",
-            "brand": "JCB",
-            "title": "星巴克半價",
-            "time": "每月1號 10:30",
-            "desc": "每月登錄制優惠",
-            "url": "https://www.taodining.com.tw/2026cafe/"
-        }
-    ],
-    "travel": [
-        {
-            "title": "ICN 首爾行程",
-            "url": "https://gn1884728.github.io/my-travels/icn-7th-2026.html"
-        },
-        {
-            "title": "日本第十次行程",
-            "url": "https://gn1884728.github.io/my-travels/japan-10th-2026/"
-        }
-    ],
-    "lounge": {
-        "日本": {
-            "成田機場": {
-                "一航廈": {
-                    "龍騰": [
-                        {
-                            "name": "川豐鰻魚飯",
-                            "img": "https://i.imgur.com/你的照片ID.jpg",
-                            "desc": "一航廈4樓，出示QRcode即可"
-                        }
-                    ]
-                }
-            },
-            "關西機場": {
-                "一航廈": {
-                    "龍騰": [
-                        {
-                            "name": "MENSHO 拉麵",
-                            "img": "https://i.imgur.com/你的照片ID.jpg",
-                            "desc": "過安檢後2樓，兌換雞白湯拉麵"
-                        }
-                    ]
-                }
-            }
-        }
-    },
-    "news": [
-        {
-            "brand": "遠見",
-            "title": "AI熱潮推升台股大時代！下半年五萬點有望？基金經理人這樣看 - 遠見雜誌",
-            "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFB5MmV1cTdQaVNERmQ1ODhqTXRUTV9Ga0x2Y1RJODRhNkIycDdVMnN6cGNkSWdPOVJ3UzFaVS1BWkxpLUlfQkRKc0F3WVdMZw?oc=5",
-            "time": "21:40"
-        },
-        {
-            "brand": "遠見",
-            "title": "2026國泰永續金融暨氣候變遷高峰論壇 - event.gvm.com.tw",
-            "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE5BeFZSbWpxWHFad2F1RXVlaXdZMXRsdzhFRGt0LWNuaS0zSHFVd3d2UkFUWENOSWQtQkVrM1ZuZ2lucDFMaVhmRHVKdGZBWWc?oc=5",
-            "time": "21:40"
-        },
-        {
-            "brand": "遠見",
-            "title": "在學就在產業裡！高科大以AI算力共享翻轉技職教育 - 遠見雜誌",
-            "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1ac0NtSF91SjEwZ09TdXRUNGIwT3Z2UkkxVmpHZE1kMG00OVRkOUlmV1hoYm5pUWJQdFZSVGZHRVBXY1h2ZDJvRFdGaWlnQQ?oc=5",
-            "time": "21:40"
-        },
-        {
-            "brand": "遠見",
-            "title": "從百年大旱到豪雨成災！5531億元治水大計將啟動，誰能吃到商機大餅？ - 遠見雜誌",
-            "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE9aR1N5Sk13RG5iT3hkNzItUVJCZUdkX1VNVWJXVmRidmdWcTlBVTMydVJ2bzdYRFVuWm9DUVRoYV9GcGJFSTF3bHc0WFViZw?oc=5",
-            "time": "21:40"
-        },
-        {
-            "brand": "遠見",
-            "title": "從仕紳文化到日常穿搭，台灣紳士風格百年轉身 - 遠見雜誌",
-            "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1vdnNSWEZjeWlTR0pnV2JsOVRpUERva0kwME1GNGtDSHN4NjFWQjJFOUdaZkFxYjRRYnkzSTF6ZmhsMmptZ2FBVnFJRTFDQQ?oc=5",
-            "time": "21:40"
-        },
-        {
-            "brand": "商周",
-            "title": "科技業吃肉、傳產喝湯！台積電3.8兆營收稱霸全台，為何中後段傳產卻在縮編缺人？－科技新報TechNews - 商周",
-            "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE03ckRwZEswTkZjNUlSQVk1NGNtRHNBa2k3OThOMHloQVlBSGdZSXlUdkFxSmN0NXRxV1pOd3Q2TndaTEJRVG9CcnlKUWVEby1INWtWZE42SGU2bjl5NHl4SThxMGFBZw?oc=5",
-            "time": "21:40"
-        },
-        {
-            "brand": "商周",
-            "title": "獨家》微風、新光三越經營權戰延燒！專櫃接撤場通知，北車恐陷2個月黑暗期－商周頭條｜商周 - 商周",
-            "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFBReVltZWlFUmlOVU9NUE1vTXZUSS0yWEM0WTAwZkE2YlRqWG1GbmdkQkFkOUV5b1ZibkxpOU9iLURGMTlodzZBN3o4OGg0VjR5OFQ2LVVCQnBqUDhBVXVoLWt2Ull6UQ?oc=5",
-            "time": "21:40"
-        },
-        {
-            "brand": "商周",
-            "title": "【免費分享會】7/30雷浩斯2026下半年投資布局公開課（直播場） - 股票／期權 - 直播課程- Smart 自學網| 課程好學 - Smart自學網",
-            "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPMFVfQUI4QVFFZEF3X3pMYUtnQjlHa2JzVDBreTBWOXV2M0xkX09oN1NxVHNQSkxJR3AxMnItQlFxNDg4VE9kVFFJaEtlbTZDSHRuLVUwTTQ3RWdPOENxYjRKbk5WYWI2cVZtaEpEQnFpM2RZZXlNbTFHbHA1QUdfczJuWno1eHE4VHZz?oc=5",
-            "time": "21:40"
-        },
-        {
-            "brand": "商周",
-            "title": "重新定義AI 世代的雙語力：全臺分校最多的Live互動美語，公開讓AI 幫孩子「長出自信」的成功方程式 - 商周",
-            "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE85RnRnSTVVd3g2dXRyZmF4MVYzUVZFb0ZlTHUya0RnZUxfZlJMSHhGRXFuSE1BT3lJTVl5Rl9CRmtVcWlXdXhJaFh1RXQ0eS1EanJjanBJSEFNUXV6c0F0QXpLZw?oc=5",
-            "time": "21:40"
-        },
-        {
-            "brand": "商周",
-            "title": "心理學研究：3個看似內耗的習慣，其實是高情商表現－商周頭條｜商周 - 商周",
-            "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFA4RW1iNUljVGxxZldVM05wMVNWTThEM2p1dElsYnBSdi1CU0V6WTh3VWpKbnpSeUhHWFcyUk1xUi1aYWdMVmdKX1hZMTJvTEZ4ZFRCLWkwQmtjb09qZnMydmVQREs?oc=5",
-            "time": "21:40"
-        }
-    ],
-    "last_updated": "2026-07-01 21:40:45"
+  "lounge": {
+    "日本": {
+      "NRT成田機場第一航廈": {
+        "龍騰": [
+          {
+            "name": "川豐鰻魚飯",
+            "desc": "第一航廈4樓（安檢前）美食區。出示龍騰卡QRcode（不用登機證）。",
+            "img": "https://gn1884728.github.io/my-travels/image_45a4cc.png"
+          }
+        ]
+      },
+      "KIX關西機場第一航廈": {
+        "龍騰": [
+          {
+            "name": "MENSHO 關西機場店",
+            "desc": "國際線出境區 2樓（過安檢後，近20號登機口）。出示龍騰卡及登機證兌換松露雞白湯拉麵套餐一份。",
+            "img": "https://gn1884728.github.io/my-travels/image_c7d49a.png"
+          }
+        ]
+      }
+    }
+  }
 }
