@@ -19,7 +19,6 @@
     <script>
         let d = {};
         fetch('data.json?t='+Date.now()).then(r=>r.json()).then(res=>{ d=res; render('food'); });
-        
         function render(tab, month = new Date().getMonth() + 1) {
             const app = document.getElementById('app');
             if(tab === 'food') {
@@ -43,7 +42,7 @@
         function up_mem() { const c=document.getElementById('c').value, ci=document.getElementById('ci').value, a=document.getElementById('a').value; document.getElementById('m').innerHTML='<option value="">選擇會籍</option>'+Object.keys(d.lounge[c][ci][a]||{}).map(m=>`<option value="${m}">${m}</option>`).join(''); }
         function show() {
             const c=document.getElementById('c').value, ci=document.getElementById('ci').value, a=document.getElementById('a').value, m=document.getElementById('m').value;
-            const s = d.lounge[c][ci][a][m];
+            const s = d.lounge[c]?.[ci]?.[a]?.[m];
             if (s && s.length > 0) {
                 const item = s[0];
                 const imgs = item.img.map(url => `<img src="${url}" class="w-full sm:w-1/2 rounded-xl">`).join('');
