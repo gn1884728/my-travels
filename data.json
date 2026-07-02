@@ -1,40 +1,363 @@
 {
-  "food": {
-    "1": [{ "brand": "VISA", "color": "bg-blue-800", "title": "餐廳買一送一", "time": "每月1號 09:00", "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx" }, { "brand": "JCB", "color": "bg-red-600", "title": "星巴克半價登錄", "time": "每月1號 10:30", "url": "https://www.taodining.com.tw/2026cafe/" }],
-    "2": [{ "brand": "VISA", "color": "bg-blue-800", "title": "餐廳買一送一", "time": "每月1號 09:00", "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx" }, { "brand": "JCB", "color": "bg-red-600", "title": "星巴克半價登錄", "time": "每月1號 10:30", "url": "https://www.taodining.com.tw/2026cafe/" }],
-    "3": [{ "brand": "VISA", "color": "bg-blue-800", "title": "餐廳買一送一", "time": "每月1號 09:00", "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx" }, { "brand": "JCB", "color": "bg-red-600", "title": "星巴克半價登錄", "time": "每月1號 10:30", "url": "https://www.taodining.com.tw/2026cafe/" }],
-    "4": [{ "brand": "VISA", "color": "bg-blue-800", "title": "餐廳買一送一", "time": "每月1號 09:00", "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx" }, { "brand": "JCB", "color": "bg-red-600", "title": "星巴克半價登錄", "time": "每月1號 10:30", "url": "https://www.taodining.com.tw/2026cafe/" }],
-    "5": [{ "brand": "VISA", "color": "bg-blue-800", "title": "餐廳買一送一", "time": "每月1號 09:00", "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx" }, { "brand": "JCB", "color": "bg-red-600", "title": "星巴克半價登錄", "time": "每月1號 10:30", "url": "https://www.taodining.com.tw/2026cafe/" }],
-    "6": [{ "brand": "VISA", "color": "bg-blue-800", "title": "餐廳買一送一", "time": "每月1號 09:00", "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx" }, { "brand": "JCB", "color": "bg-red-600", "title": "星巴克半價登錄", "time": "每月1號 10:30", "url": "https://www.taodining.com.tw/2026cafe/" }],
-    "7": [{ "brand": "VISA", "color": "bg-blue-800", "title": "餐廳買一送一", "time": "每月1號 09:00", "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx" }, { "brand": "JCB", "color": "bg-red-600", "title": "星巴克半價登錄", "time": "每月1號 10:30", "url": "https://www.taodining.com.tw/2026cafe/" }],
-    "8": [{ "brand": "VISA", "color": "bg-blue-800", "title": "餐廳買一送一", "time": "每月1號 09:00", "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx" }, { "brand": "JCB", "color": "bg-red-600", "title": "星巴克半價登錄", "time": "每月1號 10:30", "url": "https://www.taodining.com.tw/2026cafe/" }],
-    "9": [{ "brand": "VISA", "color": "bg-blue-800", "title": "餐廳買一送一", "time": "每月1號 09:00", "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx" }, { "brand": "JCB", "color": "bg-red-600", "title": "星巴克半價登錄", "time": "每月1號 10:30", "url": "https://www.taodining.com.tw/2026cafe/" }],
-    "10": [{ "brand": "VISA", "color": "bg-blue-800", "title": "餐廳買一送一", "time": "每月1號 09:00", "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx" }, { "brand": "JCB", "color": "bg-red-600", "title": "星巴克半價登錄", "time": "每月1號 10:30", "url": "https://www.taodining.com.tw/2026cafe/" }],
-    "11": [{ "brand": "VISA", "color": "bg-blue-800", "title": "餐廳買一送一", "time": "每月1號 09:00", "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx" }, { "brand": "JCB", "color": "bg-red-600", "title": "星巴克半價登錄", "time": "每月1號 10:30", "url": "https://www.taodining.com.tw/2026cafe/" }],
-    "12": [{ "brand": "VISA", "color": "bg-blue-800", "title": "餐廳買一送一", "time": "每月1號 09:00", "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx" }, { "brand": "JCB", "color": "bg-red-600", "title": "星巴克半價登錄", "time": "每月1號 10:30", "url": "https://www.taodining.com.tw/2026cafe/" }]
-  },
-  "travel": [
-    { "title": "2026.07 韓國首爾行程", "url": "https://gn1884728.github.io/my-travels/icn-7th-2026.html" },
-    { "title": "2026.10 日本深度行程", "url": "https://gn1884728.github.io/my-travels/japan-10th-2026/" }
-  ],
-  "lounge": {
-    "台灣": {
-      "桃園": {
-        "TPE 桃園機場第一航廈": { "龍騰": [{ "name": "Bistro:D畢卓樂地餐廳", "desc": "安檢後B5登機門，可選擇牛排套餐。", "img": ["https://raw.githubusercontent.com/gn1884728/my-travels/main/images/lounge/TPE-BistroD.jpg"] }], "匯豐旅人": [], "PP": [] }
-      }
+    "food": {
+        "1": [
+            {
+                "brand": "VISA",
+                "color": "bg-blue-800",
+                "title": "餐廳買一送一",
+                "time": "每月1號 09:00",
+                "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx"
+            },
+            {
+                "brand": "JCB",
+                "color": "bg-red-600",
+                "title": "星巴克半價登錄",
+                "time": "每月1號 10:30",
+                "url": "https://www.taodining.com.tw/2026cafe/"
+            }
+        ],
+        "2": [
+            {
+                "brand": "VISA",
+                "color": "bg-blue-800",
+                "title": "餐廳買一送一",
+                "time": "每月1號 09:00",
+                "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx"
+            },
+            {
+                "brand": "JCB",
+                "color": "bg-red-600",
+                "title": "星巴克半價登錄",
+                "time": "每月1號 10:30",
+                "url": "https://www.taodining.com.tw/2026cafe/"
+            }
+        ],
+        "3": [
+            {
+                "brand": "VISA",
+                "color": "bg-blue-800",
+                "title": "餐廳買一送一",
+                "time": "每月1號 09:00",
+                "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx"
+            },
+            {
+                "brand": "JCB",
+                "color": "bg-red-600",
+                "title": "星巴克半價登錄",
+                "time": "每月1號 10:30",
+                "url": "https://www.taodining.com.tw/2026cafe/"
+            }
+        ],
+        "4": [
+            {
+                "brand": "VISA",
+                "color": "bg-blue-800",
+                "title": "餐廳買一送一",
+                "time": "每月1號 09:00",
+                "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx"
+            },
+            {
+                "brand": "JCB",
+                "color": "bg-red-600",
+                "title": "星巴克半價登錄",
+                "time": "每月1號 10:30",
+                "url": "https://www.taodining.com.tw/2026cafe/"
+            }
+        ],
+        "5": [
+            {
+                "brand": "VISA",
+                "color": "bg-blue-800",
+                "title": "餐廳買一送一",
+                "time": "每月1號 09:00",
+                "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx"
+            },
+            {
+                "brand": "JCB",
+                "color": "bg-red-600",
+                "title": "星巴克半價登錄",
+                "time": "每月1號 10:30",
+                "url": "https://www.taodining.com.tw/2026cafe/"
+            }
+        ],
+        "6": [
+            {
+                "brand": "VISA",
+                "color": "bg-blue-800",
+                "title": "餐廳買一送一",
+                "time": "每月1號 09:00",
+                "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx"
+            },
+            {
+                "brand": "JCB",
+                "color": "bg-red-600",
+                "title": "星巴克半價登錄",
+                "time": "每月1號 10:30",
+                "url": "https://www.taodining.com.tw/2026cafe/"
+            }
+        ],
+        "7": [
+            {
+                "brand": "VISA",
+                "color": "bg-blue-800",
+                "title": "餐廳買一送一",
+                "time": "每月1號 09:00",
+                "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx"
+            },
+            {
+                "brand": "JCB",
+                "color": "bg-red-600",
+                "title": "星巴克半價登錄",
+                "time": "每月1號 10:30",
+                "url": "https://www.taodining.com.tw/2026cafe/"
+            }
+        ],
+        "8": [
+            {
+                "brand": "VISA",
+                "color": "bg-blue-800",
+                "title": "餐廳買一送一",
+                "time": "每月1號 09:00",
+                "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx"
+            },
+            {
+                "brand": "JCB",
+                "color": "bg-red-600",
+                "title": "星巴克半價登錄",
+                "time": "每月1號 10:30",
+                "url": "https://www.taodining.com.tw/2026cafe/"
+            }
+        ],
+        "9": [
+            {
+                "brand": "VISA",
+                "color": "bg-blue-800",
+                "title": "餐廳買一送一",
+                "time": "每月1號 09:00",
+                "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx"
+            },
+            {
+                "brand": "JCB",
+                "color": "bg-red-600",
+                "title": "星巴克半價登錄",
+                "time": "每月1號 10:30",
+                "url": "https://www.taodining.com.tw/2026cafe/"
+            }
+        ],
+        "10": [
+            {
+                "brand": "VISA",
+                "color": "bg-blue-800",
+                "title": "餐廳買一送一",
+                "time": "每月1號 09:00",
+                "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx"
+            },
+            {
+                "brand": "JCB",
+                "color": "bg-red-600",
+                "title": "星巴克半價登錄",
+                "time": "每月1號 10:30",
+                "url": "https://www.taodining.com.tw/2026cafe/"
+            }
+        ],
+        "11": [
+            {
+                "brand": "VISA",
+                "color": "bg-blue-800",
+                "title": "餐廳買一送一",
+                "time": "每月1號 09:00",
+                "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx"
+            },
+            {
+                "brand": "JCB",
+                "color": "bg-red-600",
+                "title": "星巴克半價登錄",
+                "time": "每月1號 10:30",
+                "url": "https://www.taodining.com.tw/2026cafe/"
+            }
+        ],
+        "12": [
+            {
+                "brand": "VISA",
+                "color": "bg-blue-800",
+                "title": "餐廳買一送一",
+                "time": "每月1號 09:00",
+                "url": "https://www.freeliving.com.tw/visa/vi/food_list.aspx"
+            },
+            {
+                "brand": "JCB",
+                "color": "bg-red-600",
+                "title": "星巴克半價登錄",
+                "time": "每月1號 10:30",
+                "url": "https://www.taodining.com.tw/2026cafe/"
+            }
+        ]
     },
-    "日本": {
-      "東京": {
-        "NRT 成田機場第一航廈": { "龍騰": [{ "name": "川豐鰻魚飯", "desc": "4樓美食區，出示QRcode即可。", "img": ["https://raw.githubusercontent.com/gn1884728/my-travels/main/images/lounge/nrt-t1.jpg"] }], "匯豐旅人": [], "PP": [] },
-        "HND 羽田機場第一航廈": { "龍騰": [{ "name": "黄金色の豚", "desc": "安檢前位於4樓。", "img": ["https://raw.githubusercontent.com/gn1884728/my-travels/main/images/lounge/HND-T1-COLD1.jpg", "https://raw.githubusercontent.com/gn1884728/my-travels/main/images/lounge/HND-T1-COLD.jpg"] }], "匯豐旅人": [], "PP": [] }
-      },
-      "大阪": {
-        "KIX 關西機場第一航廈": { "龍騰": [{ "name": "MENSHO 關西機場店", "desc": "國際線出境區 2樓（過安檢後，近20號登機口）。出示龍騰卡及機票兌換松露雞白湯拉麵套餐一份。", "img": ["https://raw.githubusercontent.com/gn1884728/my-travels/main/images/lounge/KIX-MENSHO.jpg"] }], "匯豐旅人": [], "PP": [] },
-        "大阪站": { "龍騰": [{ "name": "圓堂", "desc": "阪急百貨梅田總店12樓餐廳區，出示QRcode即可兌換贅沢天丼套餐，價值3400元日幣。", "img": ["https://raw.githubusercontent.com/gn1884728/my-travels/main/images/lounge/kix-ENDO.jpg"] }], "匯豐旅人": [], "PP": [] }
-      },
-      "新千歲": {
-        "CTS 新千歲國際機場": { "龍騰": [{ "name": "Royal Host (10:00-19:30)", "desc": "國內線大樓3樓，不須機票僅出示QR就可以換一份和牛排堡套餐。", "img": ["https://raw.githubusercontent.com/gn1884728/my-travels/main/images/lounge/cts-royalhost1.jpg", "https://raw.githubusercontent.com/gn1884728/my-travels/main/images/lounge/cts-royalhost2.jpg"] }], "匯豐旅人": [], "PP": [] }
-      }
-    }
-  }
+    "travel": [
+        {
+            "title": "2026.07 韓國首爾行程",
+            "url": "https://gn1884728.github.io/my-travels/icn-7th-2026.html"
+        },
+        {
+            "title": "2026.10 日本深度行程",
+            "url": "https://gn1884728.github.io/my-travels/japan-10th-2026/"
+        }
+    ],
+    "lounge": {
+        "台灣": {
+            "桃園": {
+                "TPE 桃園機場第一航廈": {
+                    "龍騰": [
+                        {
+                            "name": "Bistro:D畢卓樂地餐廳",
+                            "desc": "安檢後B5登機門，可選擇牛排套餐。",
+                            "img": [
+                                "https://raw.githubusercontent.com/gn1884728/my-travels/main/images/lounge/TPE-BistroD.jpg"
+                            ]
+                        }
+                    ],
+                    "匯豐旅人": [],
+                    "PP": []
+                }
+            }
+        },
+        "日本": {
+            "東京": {
+                "NRT 成田機場第一航廈": {
+                    "龍騰": [
+                        {
+                            "name": "川豐鰻魚飯",
+                            "desc": "4樓美食區，出示QRcode即可。",
+                            "img": [
+                                "https://raw.githubusercontent.com/gn1884728/my-travels/main/images/lounge/nrt-t1.jpg"
+                            ]
+                        }
+                    ],
+                    "匯豐旅人": [],
+                    "PP": []
+                },
+                "HND 羽田機場第一航廈": {
+                    "龍騰": [
+                        {
+                            "name": "黄金色の豚",
+                            "desc": "安檢前位於4樓。",
+                            "img": [
+                                "https://raw.githubusercontent.com/gn1884728/my-travels/main/images/lounge/HND-T1-COLD1.jpg",
+                                "https://raw.githubusercontent.com/gn1884728/my-travels/main/images/lounge/HND-T1-COLD.jpg"
+                            ]
+                        }
+                    ],
+                    "匯豐旅人": [],
+                    "PP": []
+                }
+            },
+            "大阪": {
+                "KIX 關西機場第一航廈": {
+                    "龍騰": [
+                        {
+                            "name": "MENSHO 關西機場店",
+                            "desc": "國際線出境區 2樓（過安檢後，近20號登機口）。出示龍騰卡及機票兌換松露雞白湯拉麵套餐一份。",
+                            "img": [
+                                "https://raw.githubusercontent.com/gn1884728/my-travels/main/images/lounge/KIX-MENSHO.jpg"
+                            ]
+                        }
+                    ],
+                    "匯豐旅人": [],
+                    "PP": []
+                },
+                "大阪站": {
+                    "龍騰": [
+                        {
+                            "name": "圓堂",
+                            "desc": "阪急百貨梅田總店12樓餐廳區，出示QRcode即可兌換贅沢天丼套餐，價值3400元日幣。",
+                            "img": [
+                                "https://raw.githubusercontent.com/gn1884728/my-travels/main/images/lounge/kix-ENDO.jpg"
+                            ]
+                        }
+                    ],
+                    "匯豐旅人": [],
+                    "PP": []
+                }
+            },
+            "新千歲": {
+                "CTS 新千歲國際機場": {
+                    "龍騰": [
+                        {
+                            "name": "Royal Host (10:00-19:30)",
+                            "desc": "國內線大樓3樓，不須機票僅出示QR就可以換一份和牛排堡套餐。",
+                            "img": [
+                                "https://raw.githubusercontent.com/gn1884728/my-travels/main/images/lounge/cts-royalhost1.jpg",
+                                "https://raw.githubusercontent.com/gn1884728/my-travels/main/images/lounge/cts-royalhost2.jpg"
+                            ]
+                        }
+                    ],
+                    "匯豐旅人": [],
+                    "PP": []
+                }
+            }
+        }
+    },
+    "news": [
+        {
+            "brand": "遠見",
+            "title": "AI熱潮推升台股大時代！下半年五萬點有望？基金經理人這樣看 - 遠見雜誌",
+            "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFB5MmV1cTdQaVNERmQ1ODhqTXRUTV9Ga0x2Y1RJODRhNkIycDdVMnN6cGNkSWdPOVJ3UzFaVS1BWkxpLUlfQkRKc0F3WVdMZw?oc=5",
+            "time": "10:46"
+        },
+        {
+            "brand": "遠見",
+            "title": "2026國泰永續金融暨氣候變遷高峰論壇 - event.gvm.com.tw",
+            "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE5BeFZSbWpxWHFad2F1RXVlaXdZMXRsdzhFRGt0LWNuaS0zSHFVd3d2UkFUWENOSWQtQkVrM1ZuZ2lucDFMaVhmRHVKdGZBWWc?oc=5",
+            "time": "10:46"
+        },
+        {
+            "brand": "遠見",
+            "title": "在學就在產業裡！高科大以AI算力共享翻轉技職教育 - 遠見雜誌",
+            "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1ac0NtSF91SjEwZ09TdXRUNGIwT3Z2UkkxVmpHZE1kMG00OVRkOUlmV1hoYm5pUWJQdFZSVGZHRVBXY1h2ZDJvRFdGaWlnQQ?oc=5",
+            "time": "10:46"
+        },
+        {
+            "brand": "遠見",
+            "title": "2026《遠見》最佳大學排行榜：頂大六強難撼動、私校「大健康」領域突出 - 遠見雜誌",
+            "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE8tX1hFMEw1R2t2UmhoYWVFRmdtTVh6a0lWa1gyeGZORzR6U0RVc1JRT3JuUUZVd0NzZ0c2QmJjWHhQMkk4NHZkR2dTSjZRZw?oc=5",
+            "time": "10:46"
+        },
+        {
+            "brand": "遠見",
+            "title": "從仕紳文化到日常穿搭，台灣紳士風格百年轉身 - 遠見雜誌",
+            "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1vdnNSWEZjeWlTR0pnV2JsOVRpUERva0kwME1GNGtDSHN4NjFWQjJFOUdaZkFxYjRRYnkzSTF6ZmhsMmptZ2FBVnFJRTFDQQ?oc=5",
+            "time": "10:46"
+        },
+        {
+            "brand": "商周",
+            "title": "科技業吃肉、傳產喝湯！台積電3.8兆營收稱霸全台，為何中後段傳產卻在縮編缺人？－科技新報TechNews - 商周",
+            "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE03ckRwZEswTkZjNUlSQVk1NGNtRHNBa2k3OThOMHloQVlBSGdZSXlUdkFxSmN0NXRxV1pOd3Q2TndaTEJRVG9CcnlKUWVEby1INWtWZE42SGU2bjl5NHl4SThxMGFBZw?oc=5",
+            "time": "10:46"
+        },
+        {
+            "brand": "商周",
+            "title": "獨家》微風、新光三越經營權戰延燒！專櫃接撤場通知，北車恐陷2個月黑暗期 - 商周",
+            "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFBReVltZWlFUmlOVU9NUE1vTXZUSS0yWEM0WTAwZkE2YlRqWG1GbmdkQkFkOUV5b1ZibkxpOU9iLURGMTlodzZBN3o4OGg0VjR5OFQ2LVVCQnBqUDhBVXVoLWt2Ull6UQ?oc=5",
+            "time": "10:46"
+        },
+        {
+            "brand": "商周",
+            "title": "【免費分享會】7/30雷浩斯2026下半年投資布局公開課（直播場） - 股票／期權 - 直播課程- Smart 自學網| 課程好學 - Smart自學網",
+            "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPMFVfQUI4QVFFZEF3X3pMYUtnQjlHa2JzVDBreTBWOXV2M0xkX09oN1NxVHNQSkxJR3AxMnItQlFxNDg4VE9kVFFJaEtlbTZDSHRuLVUwTTQ3RWdPOENxYjRKbk5WYWI2cVZtaEpEQnFpM2RZZXlNbTFHbHA1QUdfczJuWno1eHE4VHZz?oc=5",
+            "time": "10:46"
+        },
+        {
+            "brand": "商周",
+            "title": "重新定義AI 世代的雙語力：全臺分校最多的Live互動美語，公開讓AI 幫孩子「長出自信」的成功方程式 - 商周",
+            "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE85RnRnSTVVd3g2dXRyZmF4MVYzUVZFb0ZlTHUya0RnZUxfZlJMSHhGRXFuSE1BT3lJTVl5Rl9CRmtVcWlXdXhJaFh1RXQ0eS1EanJjanBJSEFNUXV6c0F0QXpLZw?oc=5",
+            "time": "10:46"
+        },
+        {
+            "brand": "商周",
+            "title": "四月的「CEO50失敗學」課堂談模仿障礙，不是要模仿中國企業的做法，而是想清楚自己的競爭策略。 - course.businessweekly.com.tw",
+            "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE52VGprUU9memt3dGtGS29ZVjMzYlU0b3dNVEVycG1NbkJ6VXNaUGRLNzl1LUtuZndmZklrNDNHUTNUc2FKeklueS1ydWg1RDJVOVdpMC16WmxIbjQwVDdHZURZSFZWY1VCZGdfRQ?oc=5",
+            "time": "10:46"
+        }
+    ],
+    "last_updated": "2026-07-02 10:46:26"
 }
