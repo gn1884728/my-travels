@@ -37,17 +37,36 @@
                 app.innerHTML = d.travel.map(i => `<a href="${i.url}" class="block bg-white p-5 rounded-2xl shadow mb-4 font-bold text-lg text-blue-700"><i class="fas fa-plane mr-2"></i>${i.title}</a>`).join('');
             } else if(tab === 'lounge') {
                 app.innerHTML = `
-                    <select id="c" onchange="u('ci', Object.keys(d.lounge['日本'][this.value]))" class="w-full p-4 border rounded-xl mb-3"><option>請選擇國家</option>${Object.keys(d.lounge).map(c=>`<option value="${c}">${c}</option>`).join('')}</select>
-                    <select id="ci" onchange="u('a', Object.keys(d.lounge['日本'][document.getElementById('c').value][this.value]))" class="w-full p-4 border rounded-xl mb-3"><option>請選擇城市</option></select>
-                    <select id="a" onchange="u('m', Object.keys(d.lounge['日本'][document.getElementById('c').value][document.getElementById('ci').value][this.value]))" class="w-full p-4 border rounded-xl mb-3"><option>請選擇機場</option></select>
-                    <select id="m" onchange="show()" class="w-full p-4 border rounded-xl mb-3"><option>請選擇會籍</option></select>
+                    <select id="c" onchange="u_ci()" class="w-full p-4 border rounded-xl mb-3"><option value="">選擇國家</option>${Object.keys(d.lounge).map(c=>`<option value="${c}">${c}</option>`).join('')}</select>
+                    <select id="ci" onchange="u_a()" class="w-full p-4 border rounded-xl mb-3"><option value="">選擇城市</option></select>
+                    <select id="a" onchange="u_m()" class="w-full p-4 border rounded-xl mb-3"><option value="">選擇機場</option></select>
+                    <select id="m" onchange="show()" class="w-full p-4 border rounded-xl mb-3"><option value="">選擇會籍</option></select>
                     <div id="r"></div>`;
             }
         }
-        function u(id, keys) { document.getElementById(id).innerHTML = `<option>請選擇</option>` + keys.map(k=>`<option value="${k}">${k}</option>`).join(''); }
+
+        // 選單聯動邏輯：國家 -> 城市
+        function u_ci() {
+            const c = document.getElementById('c').value;
+            const cities = Object.keys(d.lounge[c] || {});
+            document.getElementById('ci').innerHTML = '<option value="">選擇城市</option>' + cities.map(ci=>`<option value="${ci}">${ci}</option>`).join('');
+        }
+        // 城市 -> 機場
+        function u_a() {
+            const c = document.getElementById('c').value, ci = document.getElementById('ci').value;
+            const airports = Object.keys(d.lounge[c][ci] || {});
+            document.getElementById('a').innerHTML = '<option value="">選擇機場</option>' + airports.map(a=>`<option value="${a}">${a}</option>`).join('');
+        }
+        // 機場 -> 會籍
+        function u_m() {
+            const c = document.getElementById('c').value, ci = document.getElementById('ci').value, a = document.getElementById('a').value;
+            const memberships = Object.keys(d.lounge[c][ci][a] || {});
+            document.getElementById('m').innerHTML = '<option value="">選擇會籍</option>' + memberships.map(m=>`<option value="${m}">${m}</option>`).join('');
+        }
+
         function show() {
             const c=document.getElementById('c').value, ci=document.getElementById('ci').value, a=document.getElementById('a').value, m=document.getElementById('m').value;
-            const s = d.lounge['日本'][c][ci][a][m];
+            const s = d.lounge[c][ci][a][m];
             document.getElementById('r').innerHTML = (s && s.length > 0) ? `<div class="bg-white p-5 rounded-2xl shadow"><h3 class="font-bold text-lg">${s[0].name}</h3><p class="text-sm my-3 text-gray-600">${s[0].desc}</p><img src="${s[0].img}" class="w-full rounded-xl"></div>` : `<div class="p-4 text-center text-gray-400">無貴賓室資料</div>`;
         }
     </script>
