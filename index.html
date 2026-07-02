@@ -2,18 +2,16 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>生活整合中心</title>
+    <title>優惠</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-100 h-screen flex flex-col max-w-md mx-auto">
-    <header class="bg-blue-600 text-white p-4 font-bold text-center">整合中心</header>
-    <main id="app" class="flex-1 p-4 overflow-y-auto pb-32"></main>
-    <nav class="bg-white border-t flex justify-around p-4 shadow-xl fixed bottom-0 w-full max-w-md">
-        <button onclick="render('food')"><i class="fas fa-utensils block"></i>美食</button>
-        <button onclick="render('travel')"><i class="fas fa-plane block"></i>旅遊</button>
-        <button onclick="render('lounge')"><i class="fas fa-couch block"></i>貴賓室</button>
+<body class="bg-gray-100 max-w-md mx-auto h-screen flex flex-col">
+    <header class="bg-blue-600 text-white p-4 font-bold text-center shadow">優惠</header>
+    <main id="app" class="flex-1 p-4 overflow-y-auto pb-24"></main>
+    <nav class="bg-white border-t flex justify-around p-4 shadow-lg fixed bottom-0 w-full max-w-md">
+        <button onclick="render('food')">美食</button>
+        <button onclick="render('travel')">旅遊</button>
+        <button onclick="render('lounge')">貴賓室</button>
     </nav>
 
     <script>
@@ -24,24 +22,22 @@
             const app = document.getElementById('app');
             if(tab === 'food') {
                 app.innerHTML = d.food.map(i => `<div class="bg-white p-4 rounded-lg shadow mb-3">
-                    <p class="font-bold">${i.title}</p><p class="text-xs text-gray-500 my-1">${i.time}</p>
-                    <div class="flex gap-2"><a href="${i.url}" class="bg-blue-500 text-white p-2 rounded flex-1 text-center">跳轉</a><button class="bg-gray-200 p-2 rounded px-4">+曆</button></div>
+                    <p class="font-bold mb-1">${i.title}</p><p class="text-xs text-gray-500 mb-2">${i.time}</p>
+                    <a href="${i.url}" class="block bg-blue-500 text-white p-2 rounded text-center font-bold">前往優惠</a>
                 </div>`).join('');
-            } else if(tab === 'travel') {
-                app.innerHTML = d.travel.map(i => `<a href="${i.url}" class="block bg-white p-4 rounded-lg shadow mb-3">${i.title}</a>`).join('');
-            } else {
+            } else if(tab === 'lounge') {
                 app.innerHTML = `<select id="ct" onchange="uC()" class="w-full p-2 border rounded"><option value="">選國家</option>${Object.keys(d.lounge).map(c=>`<option value="${c}">${c}</option>`).join('')}</select>
                 <select id="ci" onchange="uA()" class="w-full p-2 border rounded mt-2"><option value="">選城市</option></select>
                 <select id="a" onchange="uM()" class="w-full p-2 border rounded mt-2"><option value="">選機場</option></select>
-                <select id="m" onchange="show()" class="w-full p-2 border rounded mt-2"><option value="">選會籍</option></select><div id="r" class="mt-4"></div>`;
+                <select id="m" onchange="show()" class="w-full p-2 border rounded mt-2"><option value="">選會籍</option></select>
+                <div id="r" class="mt-4"></div>`;
             }
         }
-        function uC() { const c=document.getElementById('ct').value; document.getElementById('ci').innerHTML='<option value="">選城市</option>'+Object.keys(d.lounge[c]).map(ci=>`<option value="${ci}">${ci}</option>`).join(''); }
-        function uA() { const c=document.getElementById('ct').value, ci=document.getElementById('ci').value; document.getElementById('a').innerHTML='<option value="">選機場</option>'+Object.keys(d.lounge[c][ci]).map(a=>`<option value="${a}">${a}</option>`).join(''); }
-        function uM() { const c=document.getElementById('ct').value, ci=document.getElementById('ci').value, a=document.getElementById('a').value; document.getElementById('m').innerHTML='<option value="">選會籍</option>'+Object.keys(d.lounge[c][ci][a]).map(m=>`<option value="${m}">${m}</option>`).join(''); }
+        function uC() { document.getElementById('ci').innerHTML='<option value="">選城市</option>'+Object.keys(d.lounge[document.getElementById('ct').value]).map(ci=>`<option value="${ci}">${ci}</option>`).join(''); }
+        function uA() { document.getElementById('a').innerHTML='<option value="">選機場</option>'+Object.keys(d.lounge[document.getElementById('ct').value][document.getElementById('ci').value]).map(a=>`<option value="${a}">${a}</option>`).join(''); }
+        function uM() { document.getElementById('m').innerHTML='<option value="">選會籍</option>'+Object.keys(d.lounge[document.getElementById('ct').value][document.getElementById('ci').value][document.getElementById('a').value]).map(m=>`<option value="${m}">${m}</option>`).join(''); }
         function show() {
-            const c=document.getElementById('ct').value, ci=document.getElementById('ci').value, a=document.getElementById('a').value, m=document.getElementById('m').value;
-            const s = d.lounge[c][ci][a][m][0];
+            const s = d.lounge[document.getElementById('ct').value][document.getElementById('ci').value][document.getElementById('a').value][document.getElementById('m').value][0];
             document.getElementById('r').innerHTML = `<div class="bg-white p-4 rounded shadow"><h3 class="font-bold">${s.name}</h3><p class="text-sm my-2">${s.desc}</p><img src="${s.img}" class="w-full rounded"></div>`;
         }
     </script>
