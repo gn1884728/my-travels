@@ -176,11 +176,9 @@
             </div>
             
             <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 border-l-4 border-blue-600">
-                <!-- 需求簡化標題與內文 -->
                 <h2 class="font-bold text-blue-800 text-sm">🚗 抵達後至飯店接送</h2>
                 <p class="text-xs text-green-600 font-bold mt-1">預約豪華商務車，下機直接出發飯店！</p>
                 
-                <!-- 顯目化上車指南區塊 -->
                 <div class="bg-yellow-100 p-3 rounded-xl border border-yellow-300 mt-3 text-xs text-gray-900 font-medium">
                     <p class="text-red-600 font-extrabold text-sm mb-1">🚨 仁川 T2 上車指南（請務必看這）</p>
                     <p class="leading-relaxed">行李出關後，請全家搭乘電梯上至 <span class="underline font-bold text-red-600">3 樓（出境大廳層）</span>，並於指定的航廈大門外車道上車！私家接送車在 3 樓出境層臨停上車最順暢，千萬別在 1 樓繁雜巴士層空等！</p>
@@ -191,10 +189,10 @@
             </div>
         </div>
         
-        <!-- 8/15(六) 內容 (新增：明洞地圖置頂、Olive Young、MLB) -->
+        <!-- 8/15(六) 內容 (移除樂天酒店、新增南大門棉被、所有景點大按鈕化) -->
         <div id="day-15" class="day-content hidden space-y-4">
             
-            <!-- 明洞地圖置頂方便點開放大 -->
+            <!-- 明洞地圖置頂 -->
             <div class="bg-white p-3 rounded-xl shadow border border-gray-100">
                 <p class="text-xs font-bold text-gray-500 mb-1.5">🗺️ 明洞大掃貨黃金地圖參考 (點擊開啟大圖)</p>
                 <a href="https://gn1884728.github.io/my-travels/images/lounge/明洞地圖.jpg" target="_blank" class="block rounded-lg overflow-hidden border">
@@ -202,15 +200,55 @@
                 </a>
             </div>
 
-            <div class="bg-white p-4 rounded-xl shadow border-l-4 border-orange-500">
-                <h2 class="font-bold text-gray-800 text-sm">🛍️ 今日行程焦點：明洞商圈全日大爆購</h2>
-                <div class="text-xs text-gray-600 mt-2 space-y-1.5">
-                    <p>• <span class="font-bold text-gray-800">Olive Young 明洞旗艦店</span>：全韓國美妝保養最頂旗艦店，現場直接高效率辦理退稅！</p>
-                    <p>• <span class="font-bold text-gray-800">MLB 明洞中央店</span>：潮流服飾、帽子必朝聖旗艦門市，4人掃貨聖地。</p>
-                    <p>• <span class="font-bold text-gray-800">明洞大創 (DAISO, 站號 424)</span>：超高層旗艦店，文具雜貨掃貨天堂。</p>
-                    <p>• <span class="font-bold text-gray-800">Music Korea (站號 424)</span>：K-POP 唱片專賣，位於 Nature Republic 樓上。</p>
-                    <p>• <span class="font-bold text-gray-800">首爾樂天酒店 / 樂天百貨免稅店</span>：離 SL 飯店僅約 1.2 公里，逛精品極方便。</p>
+            <!-- 全日行程與大按鈕導航元件群 -->
+            <div class="bg-white p-4 rounded-xl shadow border-l-4 border-orange-500 space-y-4">
+                <h2 class="font-bold text-gray-800 text-sm border-b pb-2">🛍️ 今日行程焦點：明洞與南大門雙商圈爆購</h2>
+                
+                <!-- 景點 1：Olive Young -->
+                <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
+                    <p class="text-xs font-bold text-gray-800 mb-2">✨ Olive Young 明洞旗艦店</p>
+                    <p class="text-[11px] text-gray-500 mb-2.5">全韓國美妝保養最頂旗艦店，現場直接高效率退稅！</p>
+                    <a href="https://map.naver.com/p/search/올리브영%20명동%20플래그シップ" target="_blank" class="block text-center bg-emerald-600 text-white py-2 rounded-lg text-xs font-bold shadow-sm transition hover:bg-emerald-700">
+                        🗺️ 開啟 Naver Map 導航
+                    </a>
                 </div>
+
+                <!-- 景點 2：MLB -->
+                <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
+                    <p class="text-xs font-bold text-gray-800 mb-2">🧢 MLB 明洞中央店</p>
+                    <p class="text-[11px] text-gray-500 mb-2.5">潮流服飾、經典帽子必朝聖旗艦門市，全家掃貨天堂。</p>
+                    <a href="https://map.naver.com/p/search/MLB%20명동중앙점" target="_blank" class="block text-center bg-emerald-600 text-white py-2 rounded-lg text-xs font-bold shadow-sm transition hover:bg-emerald-700">
+                        🗺️ 開啟 Naver Map 導航
+                    </a>
+                </div>
+
+                <!-- 景點 3：南大門市場 -->
+                <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
+                    <p class="text-xs font-bold text-gray-800 mb-2">🛏️ 南大門市場 (棉被採買)</p>
+                    <p class="text-[11px] text-gray-500 mb-2.5">韓國超高 C/P 值極細纖維棉被採買聖地，輕柔好蓋，店家皆可高效率壓縮打包！</p>
+                    <a href="https://map.naver.com/p/search/남대문시장" target="_blank" class="block text-center bg-emerald-600 text-white py-2 rounded-lg text-xs font-bold shadow-sm transition hover:bg-emerald-700">
+                        🗺️ 開啟 Naver Map 導航
+                    </a>
+                </div>
+
+                <!-- 景點 4：明洞大創 -->
+                <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
+                    <p class="text-xs font-bold text-gray-800 mb-2">🏢 明洞大創 (DAISO, 站號 424)</p>
+                    <p class="text-[11px] text-gray-500 mb-2.5">超高層旗艦店，全棟文具生活雜貨掃貨天堂。</p>
+                    <a href="https://map.naver.com/p/search/명동%20다이소" target="_blank" class="block text-center bg-emerald-600 text-white py-2 rounded-lg text-xs font-bold shadow-sm transition hover:bg-emerald-700">
+                        🗺️ 開啟 Naver Map 導航
+                    </a>
+                </div>
+
+                <!-- 景點 5：Music Korea -->
+                <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
+                    <p class="text-xs font-bold text-gray-800 mb-2">💿 Music Korea (站號 424)</p>
+                    <p class="text-[11px] text-gray-500 mb-2.5">K-POP 唱片專賣首選，位於 Nature Republic 大樓樓上。</p>
+                    <a href="https://map.naver.com/p/search/뮤직코리아%20명동" target="_blank" class="block text-center bg-emerald-600 text-white py-2 rounded-lg text-xs font-bold shadow-sm transition hover:bg-emerald-700">
+                        🗺️ 開啟 Naver Map 導航
+                    </a>
+                </div>
+
             </div>
         </div>
 
@@ -268,7 +306,6 @@
                     <div class="bg-white/80 p-2.5 rounded border border-yellow-200 mt-2 font-medium text-red-600">
                         🚨 退稅提示：二航 (T2) 實體退稅機台位於出境大廳 <strong>C 櫃檯與 D 櫃檯正中間</strong>。
                     </div>
-                    <!-- 新增項目 3：CU 254號登機口備註 -->
                     <div class="bg-blue-50 p-2.5 rounded border border-blue-200 mt-2 text-[11px] text-blue-800 leading-relaxed font-medium">
                         🍼 登機前秘密流線：<br>
                         通過安檢後，請前往 <span class="underline font-bold">254號登機口旁的 CU 超商</span> 購買香蕉牛奶上機！（記得拿出自備的保冰袋裝好，完美護送回台！）
@@ -278,12 +315,11 @@
         </div>
     </div>
 
-    <!-- ==================== 2. 美食分頁區塊 (新增官方營業時間、大導航鈕) ==================== -->
+    <!-- ==================== 2. 美食分頁區塊 ==================== -->
     <div id="section-food" class="main-section hidden space-y-4">
         <div class="bg-white p-4 rounded-xl shadow">
             <h2 class="font-bold border-b pb-2 mb-3 text-gray-800 text-base">🍴 明洞4人同行美食攻略</h2>
             
-            <!-- 明洞餃子總店 (已補上 10:30 - 21:00 營業時間) -->
             <div class="mb-5 bg-gray-50/50 p-3 rounded-xl border border-gray-100">
                 <div class="flex justify-between items-center">
                     <p class="text-sm font-bold text-gray-800">明洞餃子 (總店, 站號 424)</p>
@@ -295,7 +331,6 @@
                 </a>
             </div>
             
-            <!-- 荒謬的生肉 (已補上 11:00 - 23:00 營業時間) -->
             <div class="pt-2 bg-gray-50/50 p-3 rounded-xl border border-gray-100">
                 <div class="flex justify-between items-center">
                     <p class="text-sm font-bold text-gray-800">荒謬的生肉 (明洞店, 站號 424)</p>
@@ -333,16 +368,14 @@
         <div class="bg-white p-4 rounded-xl shadow">
             <h2 class="font-bold border-b pb-2 mb-3 text-gray-800 text-base">📝 8月首爾行李與準備清單</h2>
             
-            <!-- APP安裝清單 -->
             <div class="mb-4 bg-blue-50/40 p-3 rounded-xl border border-blue-100">
                 <h3 class="text-xs font-bold text-blue-700 mb-1.5">📲 出發前必裝手機 APP</h3>
                 <ul class="text-xs text-gray-600 space-y-1 list-disc pl-4">
                     <li><span class="font-semibold text-gray-800">Naver Map</span>：韓國在地絕對精準導航，找店必備。</li>
-                    <li><span class="font-semibold text-gray-800">Uber</span>：在韓國可無縫叫到在地計程車 (計程車流線防呆)。</li>
+                    <li><span class="font-semibold text-gray-800">Uber</span>：在韓國可無縫叫到在地計程車。</li>
                 </ul>
             </div>
 
-            <!-- 勾選框互動檢查表 -->
             <div class="mb-4">
                 <h3 class="text-xs font-bold text-gray-500 mb-2">🎒 隨身必帶檢查表 (請點擊方框勾選)</h3>
                 <div class="space-y-2 text-xs text-gray-700">
@@ -356,12 +389,11 @@
                     </label>
                     <label class="flex items-center space-x-2.5 p-2 bg-gray-50 rounded-lg border cursor-pointer">
                         <input type="checkbox" class="w-4 h-4 rounded text-blue-600">
-                        <span>海外高回饋信用卡 (本次自由行以<span class="font-bold text-blue-600">刷卡為主</span>)</span>
+                        <span>海外高回饋信用卡 (本次自由行以刷卡為主)</span>
                     </label>
                     <label class="flex items-center space-x-2.5 p-2 bg-gray-50 rounded-lg border cursor-pointer">
                         <input type="checkbox" class="w-4 h-4 rounded text-blue-600">
-                        <!-- 新增項目 4：現鈔備註 -->
-                        <span>換少許韓幣現鈔 (預算約 <span class="font-bold text-red-600">NT$ 2,000 元</span> 的等值韓元現鈔備用，其餘消費刷卡為主)</span>
+                        <span>換少許韓幣現鈔 (預算約 NT$ 2,000 元 的等值韓元現鈔備用，其餘消費刷卡為主)</span>
                     </label>
                     <label class="flex items-center space-x-2.5 p-2 bg-gray-50 rounded-lg border cursor-pointer">
                         <input type="checkbox" class="w-4 h-4 rounded text-blue-600">
