@@ -44,7 +44,21 @@
                 document.getElementById('weather-info').innerHTML = `🌤️ 夏末首爾氣候舒適，適合逛街採購。`;
             }
         }
-        window.onload = fetchSeoulWeather;
+
+        // 匯率計算機邏輯（設定 2026 常態匯率 1 TWD ≈ 42 KRW 作為基準）
+        function calculateTwd() {
+            const krw = document.getElementById('krw-input').value;
+            if (krw && krw > 0) {
+                const twd = (krw / 42).toFixed(0);
+                document.getElementById('twd-result').innerText = `≈ NT$ ${Number(twd).toLocaleString()}`;
+            } else {
+                document.getElementById('twd-result').innerText = `≈ NT$ 0`;
+            }
+        }
+
+        window.onload = function() {
+            fetchSeoulWeather();
+        };
     </script>
 </head>
 <body class="bg-gray-50 p-4 max-w-md mx-auto min-h-screen pb-24">
@@ -76,12 +90,9 @@
             <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 border-l-4 border-blue-600">
                 <h2 class="font-bold text-blue-800 text-sm">🚗 抵達後專車接送流線 (KKday 豪華商務版)</h2>
                 <p class="text-xs text-green-600 font-bold mt-1">已預約 7 人座豪華商務車，下機直接出發飯店，避開深夜巴士空窗！</p>
-                
                 <div class="text-xs text-gray-700 mt-2 space-y-2.5">
                     <p><strong>🚨 仁川 T2 上車指南：</strong><br>行李出關後，請搭乘電梯上至 <strong>3 樓（出境大廳層）</strong>，並於指定的航廈大門外車道上車，私家接送車在此臨停最流暢、最省時！</p>
-                    <p><strong>⏱️ 車程時間：</strong><br>深夜一路順暢，約 55 ~ 60 分鐘直達明洞 SL 飯店大門口。</p>
                 </div>
-                
                 <a href="https://map.naver.com/p/search/SL호텔명동" target="_blank" class="block text-center bg-blue-600 text-white py-2 rounded-lg text-xs font-bold shadow-sm mt-3">
                     🗺️ 開啟 Naver Map 導航至 SL 飯店
                 </a>
@@ -95,37 +106,62 @@
                 <p class="text-xs text-gray-600 mt-1">• <strong>明洞大創 (DAISO, 站號 424)</strong>：超高層旗艦店，掃貨天堂。</p>
                 <p class="text-xs text-gray-600 mt-1">• <strong>Music Korea (站號 424)</strong>：買 K-POP 唱片首選，位於 Nature Republic 樓上。</p>
                 <p class="text-xs text-gray-600 mt-1">• <strong>首爾樂天酒店 / 樂天百貨免稅店 (乙支路入口站 202)</strong>：離 SL 飯店僅約 1.2 公里，穿過商圈即可高效率開逛。</p>
-                <p class="text-xs text-blue-600 font-bold mt-2">💡 備註：今日美食攻略已整合至下方「美食」選單！</p>
             </div>
         </div>
 
         <!-- 8/16(日) 內容 -->
         <div id="day-16" class="day-content hidden space-y-4">
             <div class="bg-white p-4 rounded-xl shadow border-l-4 border-purple-500">
-                <h2 class="font-bold text-gray-800 text-sm">🛍️ 退房後大創血拼、下午茶與樂天超市流線</h2>
-                <div class="text-xs text-gray-700 space-y-1.5 mt-1.5">
-                    <p>• <strong>上午行程：</strong> 飯店辦理退房並先寄存行李，4人空手步入明洞商圈或大創作最後血拼，並於明洞享用美味燒肉或餃子午餐。</p>
-                    <p>• <strong>下午流線（提行李衝首爾站）：</strong> 完食後回 SL 飯店提領行李，直接搭地鐵 4 號線前往 <strong>首爾站 (426)</strong>，無縫殺進 <strong>首爾站 樂天 Mart (LOTTE Mart)</strong> 狂掃伴手禮！</p>
+                <div class="flex items-center justify-between border-b pb-2 mb-2">
+                    <h2 class="font-bold text-gray-800 text-sm">🏨 上午：退房與明洞最終血拼</h2>
+                    <span class="text-xs bg-purple-50 text-purple-600 px-2 py-0.5 rounded font-medium">空手流暢</span>
                 </div>
-                
-                <div class="bg-gray-50 p-2 rounded-lg border border-gray-200 mt-2 text-xs text-gray-600">
-                    <span class="font-bold text-purple-600">🎒 總務大叔的零摩擦行李心法：</span> 
-                    首爾站樂天超市入口旁備有大行李免費置物櫃（可鎖 3 小時），4人也可以直接拖行李進超市，結帳後在大型打包區直接高效率封箱上鎖，一氣呵成！
+                <div class="text-xs text-gray-700 space-y-2">
+                    <p>• <strong>SL飯店退房</strong>：辦理 Check-out 並將大行李免費寄存於飯店櫃檯。</p>
+                    <p>• <strong>明洞大創百貨旗艦店</strong>：空手步入商圈狂逛，整棟超高層地標必掃！</p>
                 </div>
-                <a href="https://map.naver.com/p/search/롯데마트%20서울역점" target="_blank" class="inline-block mt-2 text-xs text-green-600 underline font-bold">
-                    🗺️ Naver Map 導航至首爾站樂天馬特
+                <a href="https://map.naver.com/p/search/명동%20다이소" target="_blank" class="inline-block mt-2 text-xs text-green-600 underline font-bold">
+                    🗺️ Naver Map 導航至明洞大創旗艦店
+                </a>
+            </div>
+
+            <div class="bg-white p-4 rounded-xl shadow border-l-4 border-orange-500">
+                <div class="flex items-center justify-between border-b pb-2 mb-2">
+                    <h2 class="font-bold text-gray-800 text-sm">🍴 中午：明洞午餐與領取行李</h2>
+                </div>
+                <p class="text-xs text-gray-700">於明洞商圈享用美味燒肉或餃子午餐，隨後回 SL 飯店提領寄放的 4 件大行李。</p>
+            </div>
+
+            <div class="bg-white p-4 rounded-xl shadow border-l-4 border-blue-500">
+                <div class="flex items-center justify-between border-b pb-2 mb-2">
+                    <h2 class="font-bold text-gray-800 text-sm">🛒 下午：首爾站樂天超市終極採購</h2>
+                </div>
+                <div class="text-xs text-gray-700 space-y-2">
+                    <p class="bg-blue-50 p-2 rounded border border-blue-100 font-medium text-blue-800">🚇 地鐵移動：從 明洞站 (424) 搭乘 4 號線 ➔ 直達 首爾站 (426)</p>
+                    <p>• <strong>樂天超市 1F 補貨</strong>：首爾伴手禮大本營，現場可直接辦理免稅！二樓也有大創可以繼續補刀。</p>
+                </div>
+                <a href="https://map.naver.com/p/search/롯데마트%20서울역점" target="_blank" class="inline-block mt-1 text-xs text-green-600 underline font-bold">
+                    🗺️ Naver Map 導航至首爾站樂天超市
                 </a>
             </div>
 
             <div class="bg-yellow-50 p-4 rounded-xl border border-yellow-200 border-l-4 border-yellow-600">
-                <h2 class="font-bold text-yellow-800 text-sm">✈️ 返程歸國流線 (中華航空 CI163 & AREX 快線)</h2>
-                <div class="text-xs text-gray-700 mt-1 space-y-1">
-                    <p>• <strong>20:05</strong> <strong>仁川機場第二航廈 (ICN T2)</strong> 起飛 ➔ <strong>21:50</strong> 抵達桃園 T1。</p>
-                    <p class="text-blue-600 font-bold mt-2">⏱️ AREX 機場快線黃金流線倒推精算：</p>
-                    <div class="bg-white/70 p-2 rounded border border-yellow-100 space-y-1.5">
-                        <p>1. 華航確定於 <span class="font-bold text-gray-800">17:35</span> 在 <strong>二航 (T2)</strong> 準時開櫃。</p>
-                        <p>2. 4人請務必於首爾站 B7 月台坐上 <span class="font-bold text-red-600">16:20 發車的 AREX 直達快線</span>（車程 51 分鐘）。</p>
-                        <p>3. 預計 17:11 直達機場 T2，上樓直接優雅達陣華航櫃檯報到，完全略過路面塞車風險！</p>
+                <div class="flex items-center justify-between border-b border-yellow-200 pb-2 mb-2">
+                    <h2 class="font-bold text-yellow-800 text-sm">🚄 AREX 機場快線車次與退稅</h2>
+                </div>
+                <div class="text-xs text-gray-700 space-y-2">
+                    <div class="grid grid-cols-2 gap-2 mt-1">
+                        <div class="bg-white p-2 rounded border border-yellow-300 text-center shadow-sm">
+                            <p class="font-bold text-blue-600">⏱️ 首選 (最優雅)</p>
+                            <p class="font-bold text-gray-800 mt-0.5">16:10 ➔ 17:01 抵達</p>
+                        </div>
+                        <div class="bg-white p-2 rounded border border-yellow-300 text-center shadow-sm">
+                            <p class="font-bold text-orange-600">⏱️ 備選 (採購充裕)</p>
+                            <p class="font-bold text-gray-800 mt-0.5">16:50 ➔ 17:41 抵達</p>
+                        </div>
+                    </div>
+                    <div class="bg-white/80 p-2.5 rounded border border-yellow-200 mt-2 font-medium text-red-600">
+                        🚨 退稅提示：二航 (T2) 實體退稅機台位於出境大廳 <span class="underline font-bold">C 櫃檯與 D 櫃檯正中間</span>。
                     </div>
                 </div>
             </div>
@@ -136,19 +172,16 @@
     <div id="section-food" class="main-section hidden space-y-4">
         <div class="bg-white p-4 rounded-xl shadow">
             <h2 class="font-bold border-b pb-2 mb-2 text-gray-800 text-base">🍴 明洞4人同行美食攻略</h2>
-            
             <div class="mb-4">
                 <p class="text-sm font-bold text-gray-800">明洞餃子 (總店, 站號 424)</p>
-                <p class="text-xs text-gray-600 mt-0.5">💡 4人點餐組合：建議點 2 碗招牌刀切麵 + 2 籠蒸餃完美分食。經典濃郁，必配強烈蒜味泡菜！</p>
+                <p class="text-xs text-gray-600 mt-0.5">💡 2 碗招牌刀切麵 + 2 籠蒸餃完美分食。經典濃郁，配強烈蒜味泡菜！</p>
                 <a href="https://map.naver.com/p/search/명동교자%20본점" target="_blank" class="inline-block mt-1 text-xs text-green-600 underline font-bold">
                     🗺️ Naver Map 導航至明洞餃子總店
                 </a>
             </div>
-
             <div class="pt-3 border-t border-gray-100">
                 <p class="text-sm font-bold text-gray-800">荒謬的生肉 (明洞店, 站號 424)</p>
-                <p class="text-xs text-gray-600 mt-0.5">💡 4人圍爐首選：厚切豬五花肉吃到飽，4人一桌烤肉氣氛最佳，大口吃肉補體力！</p>
-                <p class="text-xs font-semibold text-red-500 mt-0.5">💵 預估預算：約 18,800 KRW / 人</p>
+                <p class="text-xs text-gray-600 mt-0.5">💡 厚切豬五花肉吃到飽，4人一桌烤肉氣氛最佳！</p>
                 <a href="https://map.naver.com/p/search/엉터리생고기%20명동점" target="_blank" class="inline-block mt-1 text-xs text-green-600 underline font-bold">
                     🗺️ Naver Map 導航至荒謬的生肉
                 </a>
@@ -156,46 +189,125 @@
         </div>
     </div>
 
-    <!-- ==================== 3. 票券分頁區塊 (結合KKday與Trip標準色) ==================== -->
+    <!-- ==================== 3. 票券分頁區塊 ==================== -->
     <div id="section-tickets" class="main-section hidden space-y-4">
         <div class="bg-white p-4 rounded-xl shadow">
             <h2 class="font-bold border-b pb-2 mb-3 text-gray-800 text-base">🎟️ 預約票券與憑證傳送門</h2>
             <div class="space-y-4">
-                
-                <!-- KKday 機場接送卡片元件 -->
                 <div class="border rounded-xl p-4 shadow-sm bg-white border-l-4" style="border-left-color: #00C4CC;">
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-extrabold px-2 py-0.5 rounded text-white" style="background-color: #00C4CC;">KKday</span>
-                        <span class="text-xs font-bold text-gray-500">已核銷 💵</span>
-                    </div>
+                    <span class="text-xs font-extrabold px-2 py-0.5 rounded text-white" style="background-color: #00C4CC;">KKday</span>
                     <h3 class="font-bold text-sm text-gray-800 mt-2">機場至飯店接送預約 (約2,000元)</h3>
-                    <p class="text-xs text-gray-500 mt-1">車型：經濟型 7 人座 (Kia Carnival 或同級車)。4成人 + 4大行李完美收納，D1 深夜無痛直達飯店。</p>
-                    <a href="https://www.kkday.com/zh-tw/trans/airport_transfer/vehicle_list?type=A-PL-01&airport_oid=303&airport_terminal_oid=190&go_datetime=2026-08-14%2022%3A35%3A00&flight_schedule_oid=265126&location_oid=17849&passenger%5Badult_qty%5D=4&passenger%5Bchild_qty%5D=0&cid=23311" target="_blank" class="block text-center text-white text-xs font-bold py-2 rounded-lg mt-3 shadow-sm transition" style="background-color: #00C4CC; hover: opacity: 0.9;">
-                        🔗 點擊開啟 KKday 訂單 / 預約連結
-                    </a>
+                    <a href="https://www.kkday.com/zh-tw/trans/airport_transfer/vehicle_list?type=A-PL-01&airport_oid=303&airport_terminal_oid=190&go_datetime=2026-08-14%2022%3A35%3A00&flight_schedule_oid=265126&location_oid=17849&passenger%5Badult_qty%5D=4&passenger%5Bchild_qty%5D=0&cid=23311" target="_blank" class="block text-center text-white text-xs font-bold py-2 rounded-lg mt-3" style="background-color: #00C4CC;">🔗 開啟 KKday 預約連結</a>
                 </div>
-
-                <!-- Trip.com AREX 卡片元件 -->
                 <div class="border rounded-xl p-4 shadow-sm bg-white border-l-4" style="border-left-color: #0066FF;">
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-extrabold px-2 py-0.5 rounded text-white" style="background-color: #0066FF;">Trip.com</span>
-                        <span class="text-xs font-bold text-gray-500">線上特惠 🎫</span>
-                    </div>
+                    <span class="text-xs font-extrabold px-2 py-0.5 rounded text-white" style="background-color: #0066FF;">Trip.com</span>
                     <h3 class="font-bold text-sm text-gray-800 mt-2">AREX首爾至仁川二航機場快線 (每人250元)</h3>
-                    <p class="text-xs text-gray-500 mt-1">首爾站 ➔ 仁川機場 T2 直達對號座車票。回程瘋狂採購大裝箱後，51 分鐘準時抵達航廈，拒絕塞車遲到風險。</p>
-                    <a href="https://www.trip.com/t/jdewTphNPV2" target="_blank" class="block text-center text-white text-xs font-bold py-2 rounded-lg mt-3 shadow-sm transition" style="background-color: #0066FF; hover: opacity: 0.9;">
-                        🔗 點擊開啟 Trip.com 優惠購票連結
-                    </a>
+                    <a href="https://www.trip.com/t/jdewTphNPV2" target="_blank" class="block text-center text-white text-xs font-bold py-2 rounded-lg mt-3" style="background-color: #0066FF;">🔗 開啟 Trip.com 購票連結</a>
                 </div>
-
             </div>
         </div>
     </div>
 
-    <!-- ==================== 4~6. 其他預留分頁區塊 ==================== -->
-    <div id="section-list" class="main-section hidden p-4 bg-white rounded-xl shadow text-center text-sm text-gray-500">📝 清單功能區塊（已為阿助預留代碼）</div>
-    <div id="section-ledger" class="main-section hidden p-4 bg-white rounded-xl shadow text-center text-sm text-gray-500">💰 帳本功能區塊（4人帳務核銷預留）</div>
-    <div id="section-checkin" class="main-section hidden p-4 bg-white rounded-xl shadow text-center text-sm text-gray-500">📍 打卡功能區塊（已為阿助預留代碼）</div>
+    <!-- ==================== 4. 清單分頁區塊 (新增8月穿搭與SmartPass) ==================== -->
+    <div id="section-list" class="main-section hidden space-y-4">
+        <div class="bg-white p-4 rounded-xl shadow">
+            <h2 class="font-bold border-b pb-2 mb-2 text-gray-800 text-base">📝 8月首爾出國行李與準備清單</h2>
+            
+            <!-- 穿搭建議 -->
+            <div class="mb-4">
+                <h3 class="text-sm font-bold text-blue-600">👕 8月夏末首爾穿搭指南</h3>
+                <p class="text-xs text-gray-600 mt-1">首爾 8 月天氣炎熱且常有午後雷陣雨，體感與台灣相似。建議穿著輕便、透氣排汗的短袖與短褲。但地鐵、百貨冷氣極強，<span class="text-red-500 font-bold">務必為全家人準備一件薄襯衫或抗 UV 薄外套</span>防感冒。行走時間長，請穿最舒適的運動鞋。</p>
+            </div>
+
+            <!-- Smart Pass 提示 -->
+            <div class="mb-4 p-3 bg-green-50 border border-green-200 rounded-xl">
+                <h3 class="text-sm font-bold text-green-700">⚡ 仁川機場 SmartPass 自動通關</h3>
+                <p class="text-xs text-gray-600 mt-1">出發前請全家人先下載 **ICN SmartPass App**，綁定護照與臉部辨識。在仁川機場出境時可以走專用通道，直接刷臉通關，免排隊極速達陣！</p>
+            </div>
+
+            <!-- 隨身必帶檢查 -->
+            <div>
+                <h3 class="text-sm font-bold text-gray-800">🎒 必帶物品檢查表</h3>
+                <ul class="text-xs text-gray-600 mt-1 space-y-1 list-disc pl-4">
+                    <li>護照正本（效期 6 個月以上）</li>
+                    <li>WOWPASS 或 T-money 交通卡</li>
+                    <li>轉接頭（韓國為 4.7mm 雙圓頭插座）與隨身行動電源</li>
+                    <li>折疊雨傘（防午後暴雨或遮陽）</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== 5. 帳本分頁區塊 (韓元/台幣即時匯率計算機) ==================== -->
+    <div id="section-ledger" class="main-section hidden space-y-4">
+        <div class="bg-white p-4 rounded-xl shadow">
+            <h2 class="font-bold border-b pb-2 mb-4 text-gray-800 text-base">💰 韓元 ➔ 台幣極速換算器</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-600 mb-1">請輸入韓元金額 (KRW)</label>
+                    <input type="number" id="krw-input" oninput="calculateTwd()" placeholder="例如：18800" class="w-full border border-gray-300 rounded-xl p-3 text-lg font-bold focus:outline-none focus:border-blue-500">
+                </div>
+                <div class="p-4 bg-gray-50 rounded-xl text-center">
+                    <p class="text-xs text-gray-500">換算台幣結果</p>
+                    <p id="twd-result" class="text-2xl font-extrabold text-blue-600 mt-1">≈ NT$ 0</p>
+                </div>
+                <p class="text-[10px] text-gray-400 text-center">※ 本計算機採用 2026 匯率基準 (1 TWD ≈ 42 KRW) 進行概算，方便現場買單點餐高效率對照。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== 6. 打卡分頁區塊 (專屬人物與黃金導航點) ==================== -->
+    <div id="section-checkin" class="main-section hidden space-y-4">
+        <div class="bg-white p-4 rounded-xl shadow">
+            <h2 class="font-bold border-b pb-2 mb-3 text-gray-800 text-base">📍 家族首爾足跡打卡</h2>
+            
+            <!-- 人物選擇 -->
+            <div class="mb-4">
+                <p class="text-xs font-bold text-gray-500 mb-2">🙋‍♂️ 打卡成員：</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">👨‍💼 阿助</span>
+                    <span class="bg-pink-100 text-pink-700 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">👩‍🦰 助嫂</span>
+                    <span class="bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">👧 女兒</span>
+                    <span class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">👦 兒子</span>
+                </div>
+            </div>
+
+            <!-- 黃金打卡地標清單 -->
+            <div>
+                <p class="text-xs font-bold text-gray-500 mb-2">📸 本次行程黃金打卡點：</p>
+                <div class="space-y-2">
+                    <div class="p-2.5 bg-gray-50 rounded-lg text-xs text-gray-700 flex justify-between items-center border">
+                        <span>🛫 桃園國際機場 T1 出發</span>
+                        <span class="text-gray-400">D1 啟航</span>
+                    </div>
+                    <div class="p-2.5 bg-gray-50 rounded-lg text-xs text-gray-700 flex justify-between items-center border">
+                        <span>🛬 仁川國際機場 T2 達陣</span>
+                        <span class="text-gray-400">D1 深夜</span>
+                    </div>
+                    <div class="p-2.5 bg-gray-50 rounded-lg text-xs text-gray-700 flex justify-between items-center border">
+                        <span>🏨 明洞 SL 飯店登陸</span>
+                        <span class="text-gray-400">D1 住宿</span>
+                    </div>
+                    <div class="p-2.5 bg-gray-50 rounded-lg text-xs text-gray-700 flex justify-between items-center border">
+                        <span>🛍️ 明洞大創旗艦店大掃貨</span>
+                        <span class="text-gray-400">D2/D3 購物</span>
+                    </div>
+                    <div class="p-2.5 bg-gray-50 rounded-lg text-xs text-gray-700 flex justify-between items-center border">
+                        <span>🍜 明洞餃子總店解鎖</span>
+                        <span class="text-gray-400">D2/D3 美食</span>
+                    </div>
+                    <div class="p-2.5 bg-gray-50 rounded-lg text-xs text-gray-700 flex justify-between items-center border">
+                        <span>🛒 首爾站樂天超市終極裝箱</span>
+                        <span class="text-gray-400">D3 伴手禮</span>
+                    </div>
+                    <div class="p-2.5 bg-gray-50 rounded-lg text-xs text-gray-700 flex justify-between items-center border">
+                        <span>🚄 AREX 快線直達疾走</span>
+                        <span class="text-gray-400">D3 交通</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- ==================== 固定式底部多樣導航選單 ==================== -->
     <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50 max-w-md mx-auto">
