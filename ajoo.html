@@ -15,14 +15,14 @@
 <body class="bg-gray-50 p-4 max-w-md mx-auto">
     <h1 class="text-2xl font-bold mb-4 text-center">阿助首爾三天兩夜</h1>
 
-    <!-- 日期切換 -->
+    <!-- 日期切換按鈕 -->
     <div class="flex space-x-2 mb-4">
         <button onclick="showDay('14')" class="flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm">8/14(五)</button>
         <button onclick="showDay('15')" class="flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm">8/15(六)</button>
         <button onclick="showDay('16')" class="flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm">8/16(日)</button>
     </div>
 
-    <!-- 8/14 -->
+    <!-- 8/14(五) -->
     <div id="day-14" class="day-content space-y-4">
         <div class="bg-white p-4 rounded-xl shadow">
             <h2 class="font-bold border-b pb-2 mb-2">✈️ 航程資訊 (KE2028)</h2>
@@ -34,9 +34,17 @@
             <p class="text-sm">2. 行車時間：約 70-80 分鐘至明洞。</p>
             <a href="https://map.naver.com/p/search/SL호텔명동" class="block mt-2 text-blue-600 underline font-bold">點擊開啟 Naver Map 導航至 SL 飯店</a>
         </div>
+        <!-- 提取共用圖庫圖片 -->
+        <div class="bg-white p-4 rounded-xl shadow mt-4">
+            <h2 class="font-bold text-sm mb-2">🚌 6015 機場巴士路線圖</h2>
+            <a href="https://gn1884728.github.io/my-travels/images/lounge/6015.jpg" target="_blank">
+                <img src="https://gn1884728.github.io/my-travels/images/lounge/6015.jpg" alt="6015路線圖" class="w-full rounded-lg border">
+                <p class="text-xs text-gray-500 mt-1 text-center">點擊查看大圖</p>
+            </a>
+        </div>
     </div>
-
-    <!-- 8/15 -->
+    
+    <!-- 8/15(六) -->
     <div id="day-15" class="day-content hidden space-y-4">
         <div class="bg-white p-4 rounded-xl shadow">
             <h2 class="font-bold border-b pb-2 mb-2">🍴 美食攻略</h2>
@@ -52,7 +60,7 @@
         </div>
     </div>
 
-    <!-- 8/16 -->
+    <!-- 8/16(日) -->
     <div id="day-16" class="day-content hidden space-y-4">
         <div class="bg-white p-4 rounded-xl shadow">
             <h2 class="font-bold border-b pb-2 mb-2">🛍️ 上午：最後採買</h2>
