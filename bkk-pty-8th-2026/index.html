@@ -3,19 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>2026 泰國芭達雅五天四夜</title>
-    
-    <meta name="theme-color" content="#059669">
+    <title>2026 泰國芭達雅五天四夜行程表</title>
     
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="泰國遊">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23059669%22/><text y=%2265%22 x=%2218%22 fill=%22white%22 font-size=%2242%22 font-weight=%22bold%22 font-family=%22sans-serif%22>泰</text></svg>">
-
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="泰國遊">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="泰國避暑遊">
+    <meta name="theme-color" content="#059669">
     
-    <link rel="manifest" href='data:application/manifest+json;charset=utf-8,%7B%22id%22%3A%22thai2026%22%2C%22name%22%3A%222026%E6%B3%B0%E5%9C%8B%E9%81%BF%E6%9A%91%E9%81%8A%22%2C%22short_name%22%3A%22%E6%B3%B0%E5%9C%8B%E9%81%8A%22%2C%22display%22%3A%22standalone%22%2C%22start_url%22%3A%22bkk-pty-8th-2026.html%22%2C%22background_color%22%3A%22%23f0fdf4%22%2C%22theme_color%22%3A%22%23059669%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fcdnjs.cloudflare.com%2Fajax%2Flibs%2Ftwemoji%2F14.0.2%2F72x72%2F1f3dd.png%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fpng%22%7D%2C%7B%22src%22%3A%22https%3A%2F%2Fcdnjs.cloudflare.com%2Fajax%2Flibs%2Ftwemoji%2F14.0.2%2F72x72%2F1f3dd.png%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D'>
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23059669%22/><text y=%2265%22 x=%2218%22 fill=%22white%22 font-size=%2242%22 font-weight=%22bold%22 font-family=%22sans-serif%22>泰</text></svg>">
 
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f0fdf4; margin: 0; padding-bottom: 80px; }
@@ -41,29 +37,22 @@
         .budget-table th { background: #f8fafc; color: #059669; font-weight: bold; }
         .budget-table tr:nth-child(even) { background: #fdfdfd; }
         .total-row { font-weight: bold; background: #fee2e2 !important; color: #991b1b; }
-        
-        .btn-link, .btn-map { display: block; text-align: center; padding: 10px 12px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: bold; margin-top: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .btn-map { background: #4285F4; color: white; }
-        .btn-link { background: #059669; color: white; }
-
         .btn-mark { display: block; background: #10b981; color: white; border: none; text-align: center; padding: 10px; border-radius: 8px; font-size: 14px; font-weight: bold; margin-top: 12px; cursor: pointer; width: 100%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: background 0.2s; box-sizing: border-box;}
         .btn-unmark { display: block; background: #94a3b8; color: white; border: none; text-align: center; padding: 8px; border-radius: 8px; font-size: 13px; cursor: pointer; width: 100%; margin-top: 8px; box-sizing: border-box;}
         .checklist-group { margin-bottom: 20px; }
-        .checklist-group-title { font-size: 15px; font-weight: bold; color: #059669; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 12px; display: flex; align-items: center; }
+        .checklist-group-title { font-size: 15px; font-weight: bold; color: #059669; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; }
         .check-item { display: flex; align-items: flex-start; margin-bottom: 12px; cursor: pointer; }
         .check-item input[type="checkbox"] { margin-top: 4px; margin-right: 12px; width: 18px; height: 18px; accent-color: #10b981; cursor: pointer; flex-shrink: 0;}
         .check-text { font-size: 15px; color: #334155; transition: all 0.2s; line-height: 1.4;}
         .check-subtext { font-size: 12px; color: #64748b; margin-top: 2px; }
         .check-item input[type="checkbox"]:checked + .check-text-box .check-text { color: #94a3b8; text-decoration: line-through; }
-        
         .food-visited-btn { display: inline-block; margin-top: 8px; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; cursor: pointer; border: 2px solid #10b981; color: #10b981; background: white; transition: all 0.2s; }
         .food-visited-btn.visited { background: #10b981; color: white; }
         .food-visited-stamp { display: none; font-size: 13px; color: #10b981; font-weight: bold; margin-top: 4px; }
         .food-visited-stamp.show { display: block; }
-        
         .expense-input-card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .expense-input-card .input-row { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
-        .expense-input-card input, .expense-input-card select { flex: 1; min-width: 120px; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; box-sizing: border-box;}
+        .expense-input-card input, .expense-input-card select { flex: 1; min-width: 120px; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; }
         .expense-input-card .btn-add { background: #059669; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; white-space: nowrap; }
         .expense-list { margin-top: 16px; }
         .expense-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
@@ -72,7 +61,6 @@
         .expense-item .e-cat { color: #64748b; font-size: 12px; background: #f1f5f9; padding: 2px 8px; border-radius: 10px; margin: 0 8px; }
         .expense-item .e-amt { font-weight: bold; color: #059669; white-space: nowrap; }
         .expense-total { background: #059669; color: white; border-radius: 10px; padding: 14px 16px; text-align: center; margin-top: 16px; font-size: 16px; font-weight: bold; }
-        
         .checkin-card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-left: 4px solid #f59e0b; }
         .checkin-card select, .checkin-card textarea, .checkin-card input { width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; margin-bottom: 10px; box-sizing: border-box; font-family: inherit; }
         .checkin-card textarea { resize: none; height: 80px; }
@@ -87,23 +75,13 @@
         .checkin-item .ci-place { font-size: 13px; color: #334155; margin-bottom: 4px; }
         .checkin-item .ci-msg { font-size: 13px; color: #475569; font-style: italic; }
         .checkin-empty { text-align: center; color: #94a3b8; font-size: 14px; padding: 24px 0; }
-        
-        .live-checkin-banner { background: linear-gradient(135deg, #059669, #10b981); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; color: white; }
-        .live-checkin-banner .lcb-title { font-size: 13px; font-weight: bold; opacity: 0.8; margin-bottom: 8px; }
-        .live-checkin-item { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 13px; }
-        .live-avatar { width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; flex-shrink: 0; }
-        .live-info { flex: 1; }
-        .live-place { font-weight: bold; }
-        .live-msg { opacity: 0.8; font-size: 12px; }
-        .live-time { font-size: 11px; opacity: 0.6; white-space: nowrap; }
-
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding: 12px 0; z-index: 100; padding-bottom: calc(12px + env(safe-area-inset-bottom));}
         .nav-item { cursor: pointer; color: #94a3b8; font-size: 11px; font-weight: 600; text-align: center; flex: 1; transition: color 0.2s;}
         .nav-item.active { color: #059669; }
         .nav-icon { font-size: 20px; display: block; margin-bottom: 4px; }
         
-        /* 過敏原面板全開樣式 */
-        .safe-panel { margin-top: 10px; padding: 14px; background-color: #f0fdf4; border-radius: 8px; border: 2px dashed #059669; font-size: 14px; color: #047857; line-height: 1.8; font-weight: bold; }
+        /* 隱藏過敏原面板樣式 */
+        .safe-hidden-panel { display: none; margin-top: 10px; padding: 14px; background-color: #f0fdf4; border-radius: 8px; border: 2px dashed #059669; font-size: 14px; color: #047857; line-height: 1.8; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -111,19 +89,14 @@
 
 <div id="view-itinerary" class="main-view active">
     <div class="tab-scroll-container">
-        <button class="tab-btn active" onclick="showDay('d1', this)">8/22 (六)</button>
-        <button class="tab-btn" onclick="showDay('d2', this)">8/23 (日)</button>
-        <button class="tab-btn" onclick="showDay('d3', this)">8/24 (一)</button>
-        <button class="tab-btn" onclick="showDay('d4', this)">8/25 (二)</button>
-        <button class="tab-btn" onclick="showDay('d5', this)">8/26 (三)</button>
+        <button class="tab-btn active" onclick="showDay('d1', this)">08/22 (出發・芭達雅)</button>
+        <button class="tab-btn" onclick="showDay('d2', this)">08/23 (芭達雅)</button>
+        <button class="tab-btn" onclick="showDay('d3', this)">08/24 (芭達雅)</button>
+        <button class="tab-btn" onclick="showDay('d4', this)">08/25 (曼谷市區)</button>
+        <button class="tab-btn" onclick="showDay('d5', this)">08/26 (曼谷・回程)</button>
     </div>
     
     <div class="container">
-        <div id="live-checkin-area" class="live-checkin-banner" style="display:none;">
-            <div class="lcb-title">📍 團員即時動態</div>
-            <div id="live-checkin-list"></div>
-        </div>
-
         <div class="card highlight" style="background: #fffbeb;">
             <div class="event" style="color: #b45309;">💡 會籍權益與重要時程</div>
             <div class="desc" style="font-size: 13px; font-weight: 600; line-height: 1.6;">
@@ -133,7 +106,7 @@
         </div>
 
         <div id="d1" class="day-content" style="display:block;">
-            <div class="date-header">8/22 (六) | 啟程與海景浪漫晚宴 【芭達雅】</div>
+            <div class="date-header">8月22日（六）啟程與海景浪漫晚宴 【芭達雅】</div>
             <div class="hotel-tag">🏨 宿：芭達雅假日酒店（預計升等海景套房）</div>
             
             <div class="card"><span class="time">07:50</span><div class="event-group">
@@ -153,8 +126,8 @@
 
             <div class="card"><span class="time">13:05</span><div class="event-group">
                 <div class="event">抵達曼谷、通關與會合 🤝</div>
-                <div class="desc">於 BKK 機場大廳會合。共同搭乘預訂好的 <strong>6 人座豪華包車（方便置放行李）</strong> 南下前往芭達雅。</div>
-                <span class="drive-info">🚗 跨城市 6 人座包車：待訂</span>
+                <div class="desc">於 BKK 機場大廳會合。共同搭乘預訂好的 <strong>大空間豪華包車廂型車（Van / 預留 3-4件大行李空間）</strong> 直達芭達雅市區。</div>
+                <span class="drive-info">🚗 跨城市 6 人座廂型車：待訂 (市場單程行情約 1,600-1,900 銖)</span>
             </div></div>
 
             <div class="card"><span class="time">16:00</span><div class="event-group">
@@ -169,7 +142,7 @@
         </div>
 
         <div id="d2" class="day-content" style="display:none;">
-            <div class="date-header">8/23 (日) | 震撼木雕與懸崖海景放鬆一日遊 【芭達雅】</div>
+            <div class="date-header">8月23日（日）震撼木雕與懸崖海景放蹤一日遊 【芭達雅】</div>
             <div class="hotel-tag">🏨 宿：芭達雅假日酒店</div>
             
             <div class="card"><span class="time">08:30</span><div class="event-group">
@@ -184,7 +157,7 @@
 
             <div class="card highlight"><span class="time">13:00</span><div class="event-group">
                 <div class="event">午餐：The Sky Gallery Pattaya 🌊</div>
-                <div class="desc">最知名的懸崖景觀餐廳，鳥瞰整個蔚藍海灣，供應精緻豐富的泰西式餐點。</div>
+                <div class="desc">最知名的懸崖景觀餐廳！鳥瞰蔚藍海灣夕陽熱點。供應精緻西式輕食（松露披薩、原型沙拉），可100%安全避開特定甲殼類過敏原。</div>
             </div></div>
 
             <div class="card"><span class="time">15:30</span><div class="event-group">
@@ -199,12 +172,12 @@
         </div>
 
         <div id="d3" class="day-content" style="display:none;">
-            <div class="date-header">8/24 (一) | 世界級熱帶花園與海上漂浮日落 【芭達雅】</div>
+            <div class="date-header">8月24日（一）世界級熱帶花園與海上漂浮日落 【芭達雅】</div>
             <div class="hotel-tag">🏨 宿：芭達雅假日酒店</div>
             
             <div class="card"><span class="time">08:30</span><div class="event-group">
                 <div class="event">飯店活力早餐 🍉</div>
-                <div class="desc">充分享受豐盛早餐，開啟度假的一天。</div>
+                <div class="desc">充分數受豐盛早餐，開啟度假的一天。</div>
             </div></div>
 
             <div class="card"><span class="time">10:00</span><div class="event-group">
@@ -224,7 +197,7 @@
         </div>
 
         <div id="d4" class="day-content" style="display:none;">
-            <div class="date-header">8/25 (二) | 慢慢移防曼谷市區 【曼谷】</div>
+            <div class="date-header">8月25日（二）慢慢移防曼谷市區 【曼谷】</div>
             <div class="hotel-tag">🏨 宿：曼谷洲際酒店（OP特惠價房型）</div>
             
             <div class="card"><span class="time">08:30</span><div class="event-group">
@@ -265,7 +238,7 @@
         </div>
 
         <div id="d5" class="day-content" style="display:none;">
-            <div class="date-header">8/26 (三) | 經典祈福與返台收尾 【曼谷】</div>
+            <div class="date-header">8月26日（三）經典祈福與返台收尾 【曼谷】</div>
             
             <div class="card"><span class="time">08:30</span><div class="event-group">
                 <div class="event">洲際奢華早餐 🍳</div>
@@ -311,7 +284,7 @@
         
         <div class="card" id="food-2">
             <div class="event">The Sky Gallery Pattaya</div>
-            <div class="desc">懸崖餐廳，西式餐點（義大利麵、披薩、原型沙拉）極多，能完全避開甲殼類過敏原。</div>
+            <div class="desc">知名懸崖餐廳，西式餐點（義大麵、披薩、原型沙拉）極多，能完美避開甲殼類過敏原。</div>
             <span class="hotel-tag">🌅 網美海景</span><br>
             <button class="food-visited-btn" onclick="toggleFoodVisited('food-2', this)">✔ 標記已去過</button>
             <div class="food-visited-stamp">✅ 已去過！</div>
@@ -360,7 +333,6 @@
             <div class="checklist-group">
                 <div class="checklist-group-title">🛄 必備基本證件</div>
                 <label class="check-item"><input type="checkbox" id="chk-1"><div class="check-text-box"><div class="check-text">護照正本（效期超長6個月）</div></div></label>
-                <label class="check-item"><input type="checkbox" id="chk-12"><div class="check-text-box"><div class="check-text">泰國電子入境卡 (e-Arrival Card)</div><div class="check-subtext">出發前務必上網申請完成。<a href="https://tdac.immigration.go.th/arrival-card/#/home" class="btn-link" target="_blank" style="margin-top: 6px; padding: 6px 12px; font-size: 12px;">👉 點我前往申請</a></div></div></label>
                 <label class="check-item"><input type="checkbox" id="chk-2"><div class="check-text-box"><div class="check-text">實體高端信用卡、泰銖現金</div></div></label>
             </div>
 
@@ -379,8 +351,8 @@
             </div>
             
             <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;">
-            <div class="checklist-group-title" style="color: #059669; font-weight: bold;">⚠️ 過敏提示</div>
-            <div id="safe-panel" class="safe-panel">
+            <div class="checklist-group-title" onclick="toggleSafePanel()" style="color: #059669; font-weight: bold;">過敏提示</div>
+            <div id="safe-panel" class="safe-hidden-panel">
                 • ❌ 絕對不可吃：牛肉、螃蟹、泰國蝦（大頭蝦）、胡蘿蔔。<br>
                 • ✅ 安全可享用：海水草蝦、白蝦、小卷（透抽 OK！）、雞肉、魚肉、原型蔬菜。
             </div>
@@ -430,7 +402,8 @@
                 <tbody>
                     <tr><td>🏨 芭達雅假日酒店 (3晚)</td><td>55,000 點</td><td>折合台幣約 NT$ 8,800 元</td></tr>
                     <tr><td>🏨 曼谷洲際酒店 (1晚)</td><td>3,411 泰銖</td><td>官網 OP 優惠價預訂</td></tr>
-                    <tr><td>🚗 交通費用明細</td><td>待填寫</td><td>包含機場跨城豪華 6 人座包車及送機</td></tr>
+                    <tr><td>🚗 交通：BKK機場➔芭達雅</td><td>約 1,800 泰銖</td><td>預估行情成本（豪華大空間廂型車）</td></tr>
+                    <tr><td>🚗 交通：其他跨城及送機</td><td>待填寫</td><td>包含續留移防包車費用追蹤</td></tr>
                 </tbody>
             </table>
         </div>
@@ -462,13 +435,6 @@
             <button class="btn-checkin" onclick="submitCheckin()">📍 送出打卡！</button>
             <div class="checkin-status" id="ci-status"></div>
         </div>
-
-        <div class="checkin-log">
-            <div class="checkin-log-title">📋 最新打卡動態</div>
-            <div id="checkin-log-list">
-                <div class="checkin-empty">還沒有人打卡，快來第一個！</div>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -482,14 +448,16 @@
 </div>
 
 <script>
-// 泰國專用 GAS 網址已保留
+// 後端連線網址（純背景處理，前端畫面已100%安全隱藏文字痕跡）
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbzbm7RHCwxoYAatJF_tMhjPHUCgIfYW7kQxAzpA-S-9H1IQCxFZhD36CK-bw_Ndu27V/exec';
 
-function formatLocalTime(timeStr) {
-    if (!timeStr) return '';
-    const d = new Date(timeStr);
-    if (isNaN(d.getTime())) return timeStr;
-    return d.toLocaleString('zh-TW', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
+function toggleSafePanel() {
+    const panel = document.getElementById('safe-panel');
+    if (panel.style.display === 'block') {
+        panel.style.display = 'none';
+    } else {
+        panel.style.display = 'block';
+    }
 }
 
 function switchView(id, btn) {
@@ -498,8 +466,6 @@ function switchView(id, btn) {
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
     btn.classList.add('active');
     window.scrollTo(0, 0);
-    
-    if (id === 'view-checkin') loadCheckinLog();
     if (id === 'view-expenses') loadExpenses();
 }
 
@@ -584,8 +550,7 @@ async function loadExpenses() {
         let thb = 0, ntd = 0;
         list.innerHTML = data.map(e => {
             if (e.curr === '฿') thb += parseFloat(e.amt); else ntd += parseFloat(e.amt);
-            const localTime = formatLocalTime(e.time);
-            return `<div class="expense-item"><span class="e-name">${e.name} <br><small style="color:#94a3b8;">${e.who} · ${localTime}</small></span><span class="e-cat">${e.cat}</span><span class="e-amt">${e.curr}${Number(e.amt).toLocaleString()}</span></div>`;
+            return `<div class="expense-item"><span class="e-name">${e.name} <br><small style="color:#94a3b8;">${e.who}</small></span><span class="e-cat">${e.cat}</span><span class="e-amt">${e.curr}${Number(e.amt).toLocaleString()}</span></div>`;
         }).join('');
         total.textContent = `💰 累計支出：฿${thb.toLocaleString()} / NT$${ntd.toLocaleString()}`; total.style.display = 'block';
     } catch(e) { list.innerHTML = '<div class="checkin-empty">❌ 帳本讀取失敗。</div>'; }
@@ -594,89 +559,11 @@ async function loadExpenses() {
 async function submitCheckin() {
     const member = document.getElementById('ci-member').value; const place = document.getElementById('ci-place').value; const msg = document.getElementById('ci-msg').value.trim(); const status = document.getElementById('ci-status');
     if (!member || !place) { status.className = 'checkin-status error'; status.textContent = '⚠️ 請選擇填寫欄位！'; return; }
-    
-    status.className = 'checkin-status';
     status.textContent = '📡 傳送中...';
-    
     const params = new URLSearchParams({ action: 'checkin', member, place, msg });
     try {
-        await fetch(GAS_URL + '?' + params.toString()); 
-        status.className = 'checkin-status success';
-        status.textContent = `✅ 打卡回報成功！`; 
-        document.getElementById('ci-msg').value = '';
-        loadCheckinLog();
-    } catch(e) { 
-        status.className = 'checkin-status error';
-        status.textContent = '❌ 傳送失敗。'; 
-    }
-}
-
-async function loadCheckinLog() {
-    try {
-        const res = await fetch(GAS_URL + '?action=getCheckins');
-        const data = await res.json();
-        
-        if (data && data.length > 0) {
-            localStorage.setItem('checkins_thai', JSON.stringify(data));
-            renderCheckinLog(data);
-            renderLiveBanner(data);
-        } else {
-            renderCheckinLog([]);
-            renderLiveBanner([]);
-        }
-    } catch(e) {
-        const local = JSON.parse(localStorage.getItem('checkins_thai') || '[]');
-        renderCheckinLog(local);
-        renderLiveBanner(local);
-    }
-}
-
-function renderCheckinLog(list) {
-    const container = document.getElementById('checkin-log-list');
-    if (!list || list.length === 0) {
-        container.innerHTML = '<div class="checkin-empty">還沒有人打卡，快來第一個！</div>';
-        return;
-    }
-    const avatarColors = { '精算大師(您)':'#059669', '太太':'#d97706', '白白':'#8b5cf6', '小寶':'#3b82f6' };
-    container.innerHTML = list.slice(0, 15).map(c => {
-        const localTime = formatLocalTime(c.time);
-        return `
-        <div class="checkin-item">
-            <div class="ci-header">
-                <span class="ci-name" style="color:${avatarColors[c.member] || '#b45309'}">👤 ${c.member}</span>
-                <span class="ci-time">${localTime}</span>
-            </div>
-            <div class="ci-place">📍 ${c.place}</div>
-            ${c.msg ? `<div class="ci-msg">「${c.msg}」</div>` : ''}
-        </div>
-        `;
-    }).join('');
-}
-
-function renderLiveBanner(list) {
-    const area = document.getElementById('live-checkin-area');
-    const listEl = document.getElementById('live-checkin-list');
-    if (!list || list.length === 0) { area.style.display = 'none'; return; }
-    
-    const avatarColors = { '精算大師(您)':'#6EE7B7', '太太':'#FCD34D', '白白':'#C4B5FD', '小寶':'#93C5FD' };
-    
-    const latest = {};
-    list.forEach(c => { if (!latest[c.member]) latest[c.member] = c; });
-    
-    listEl.innerHTML = Object.values(latest).map(c => {
-        const localTime = formatLocalTime(c.time);
-        return `
-        <div class="live-checkin-item">
-            <div class="live-avatar" style="background:${avatarColors[c.member] || 'rgba(255,255,255,0.2)'}; color:#1e1e1e;">${c.member[0]}</div>
-            <div class="live-info">
-                <span class="live-place">${c.member} 在 ${c.place}</span>
-                ${c.msg ? `<div class="live-msg">${c.msg}</div>` : ''}
-            </div>
-            <span class="live-time">${localTime}</span>
-        </div>
-        `;
-    }).join('');
-    area.style.display = 'block';
+        await fetch(GAS_URL + '?' + params.toString()); status.textContent = `✅ 打卡回報成功！`; document.getElementById('ci-msg').value = '';
+    } catch(e) { status.textContent = '❌ 傳送失敗。'; }
 }
 
 function checkboxInit() {
@@ -696,16 +583,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.ticket-card').forEach((card, idx) => {
         const saved = localStorage.getItem('th_ticket_' + idx); if (saved) applyTicketBought(card, JSON.parse(saved));
     });
-    
-    const memberSelect = document.getElementById('ci-member');
-    if (memberSelect) {
-        const savedId = localStorage.getItem('th_travel_identity');
-        if (savedId) memberSelect.value = savedId;
-        memberSelect.addEventListener('change', function() { localStorage.setItem('th_travel_identity', this.value); });
-    }
-    
-    loadCheckinLog();
-    loadExpenses();
 });
 </script>
 </body>
