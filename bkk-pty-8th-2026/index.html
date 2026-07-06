@@ -26,12 +26,23 @@
         .tab-btn { background: rgba(255,255,255,0.2); color: #d1fae5; border: none; padding: 8px 16px; border-radius: 20px; font-size: 14px; margin-right: 8px; cursor: pointer; transition: all 0.2s;}
         .tab-btn.active { background: white; color: #059669; font-weight: bold; }
         
-        /* 升級版：天氣與會籍看板樣式 */
+        /* 氣候動態看板 */
         .weather-banner { background: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%); border-radius: 12px; padding: 14px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #bae6fd; display: flex; align-items: center; justify-content: space-between; }
         .weather-info { display: flex; flex-direction: column; gap: 2px; }
         .weather-title { font-size: 14px; font-weight: bold; color: #0369a1; display: flex; align-items: center; gap: 4px; }
         .weather-detail { font-size: 12px; color: #0284c7; line-height: 1.4; }
         .weather-icon { font-size: 32px; padding-right: 4px; }
+
+        /* 顯眼航班資訊看板 */
+        .flight-banner { background: linear-gradient(135deg, #059669 0%, #10b981 100%); color: white; border-radius: 12px; padding: 14px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(5,150,105,0.15); }
+        .flight-header { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: bold; opacity: 0.9; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 6px; margin-bottom: 10px; }
+        .flight-route { display: flex; justify-content: space-between; align-items: center; text-align: center; margin: 8px 0; }
+        .flight-airport { flex: 1; }
+        .flight-code { font-size: 22px; font-weight: 800; letter-spacing: 1px; }
+        .flight-name { font-size: 11px; opacity: 0.8; margin-top: 2px; }
+        .flight-arrow { font-size: 20px; opacity: 0.9; padding: 0 10px; }
+        .flight-time-row { display: flex; justify-content: space-between; align-items: center; font-size: 15px; font-weight: bold; margin-top: 6px; background: rgba(0,0,0,0.1); padding: 6px 12px; border-radius: 8px; }
+        .flight-meta { font-size: 11px; opacity: 0.85; text-align: center; font-weight: normal; }
         
         .card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); border-left: 4px solid #10b981;}
         .card.highlight { border-left: 4px solid #f59e0b; }
@@ -106,7 +117,7 @@
     </div>
     
     <div class="container">
-        <!-- 升級版：比照首爾/東京與阿助行程的高質感氣候指標看板 -->
+        <!-- 氣候動態指標看板 -->
         <div class="weather-banner">
             <div class="weather-info">
                 <div class="weather-title">⛅ 泰國 8 月氣候動態精算看板</div>
@@ -128,9 +139,34 @@
             </div>
         </div>
 
-        <!-- 08/22 -->
+        <!-- 08/22 (D1) -->
         <div id="d1" class="day-content" style="display:block;">
             <div class="date-header">8月22日（六）啟程與海景浪漫晚宴 【芭達雅】</div>
+            
+            <!-- 顯眼去程航班看板 -->
+            <div class="flight-banner">
+                <div class="flight-header">
+                    <span>長榮航空 EVA AIR • 班機號碼 BR201</span>
+                    <span>2026/08/22 (六)</span>
+                </div>
+                <div class="flight-route">
+                    <div class="flight-airport">
+                        <div class="flight-code">TPE</div>
+                        <div class="flight-name">台北 (桃園航廈 2)</div>
+                    </div>
+                    <div class="flight-arrow">✈️</div>
+                    <div class="flight-airport">
+                        <div class="flight-code">BKK</div>
+                        <div class="flight-name">曼谷 (素萬那普)</div>
+                    </div>
+                </div>
+                <div class="flight-time-row">
+                    <div>🛫 10:20</div>
+                    <div class="flight-meta">🧭 機型 B777<br>飛行 3h 45m</div>
+                    <div>🛬 13:05</div>
+                </div>
+            </div>
+
             <div class="hotel-tag">🏨 宿：芭達雅假日酒店（預計升等海景套房）</div>
             
             <div class="card"><span class="time">07:50</span><div class="event-group">
@@ -165,7 +201,7 @@
             </div></div>
         </div>
 
-        <!-- 08/23 -->
+        <!-- 08/23 (D2) -->
         <div id="d2" class="day-content" style="display:none;">
             <div class="date-header">8月23日（日）震撼木雕與懸崖海景放鬆一日遊 【芭達雅】</div>
             <div class="hotel-tag">🏨 宿：芭達雅假日酒店</div>
@@ -196,7 +232,7 @@
             </div></div>
         </div>
 
-        <!-- 08/24 -->
+        <!-- 08/24 (D3) -->
         <div id="d3" class="day-content" style="display:none;">
             <div class="date-header">8月24日（一）世界級熱帶花園與海上漂浮日落 【芭達雅】</div>
             <div class="hotel-tag">🏨 宿：芭達雅假日酒店</div>
@@ -222,7 +258,7 @@
             </div></div>
         </div>
 
-        <!-- 08/25 -->
+        <!-- 08/25 (D4) -->
         <div id="d4" class="day-content" style="display:none;">
             <div class="date-header">8月25日（二）慢慢移防曼谷市區 【曼谷】</div>
             <div class="hotel-tag">🏨 宿：曼谷洲際酒店（OP特惠價房型）</div>
@@ -232,7 +268,6 @@
                 <div class="desc">享用早餐後辦理退房。</div>
             </div></div>
 
-            <!-- 進度更新：10:30已預訂包車，白白已訂 -->
             <div class="card success-status"><span class="time">10:30</span><div class="event-group">
                 <div class="event">搭乘 6 人座專車北上 🚗</div>
                 <div class="desc">4 人共同搭乘預約好的 <strong>6 人座豪華包車</strong> 往曼谷移動。中途預計停靠網美海灘俱樂部。</div>
@@ -265,10 +300,34 @@
             </div></div>
         </div>
 
-        <!-- 08/26 -->
+        <!-- 08/26 (D5) -->
         <div id="d5" class="day-content" style="display:none;">
             <div class="date-header">8月26日（三）經典祈福與返台收尾 【曼谷】</div>
             
+            <!-- 顯眼回程航班看板 -->
+            <div class="flight-banner" style="background: linear-gradient(135deg, #047857 0%, #059669 100%);">
+                <div class="flight-header">
+                    <span>長榮航空 EVA AIR • 班機號碼 BR068</span>
+                    <span>2026/08/26 (三)</span>
+                </div>
+                <div class="flight-route">
+                    <div class="flight-airport">
+                        <div class="flight-code">BKK</div>
+                        <div class="flight-name">曼谷 (素萬那普)</div>
+                    </div>
+                    <div class="flight-arrow">✈️</div>
+                    <div class="flight-airport">
+                        <div class="flight-code">TPE</div>
+                        <div class="flight-name">台北 (桃園航廈 2)</div>
+                    </div>
+                </div>
+                <div class="flight-time-row">
+                    <div>🛫 16:45</div>
+                    <div class="flight-meta">🧭 機型 B777<br>飛行 3h 50m</div>
+                    <div>🛬 21:35</div>
+                </div>
+            </div>
+
             <div class="card"><span class="time">08:30</span><div class="event-group">
                 <div class="event">洲際奢華早餐 🍳</div>
                 <div class="desc">品嚐曼谷洲際高規格精緻早餐。</div>
@@ -307,7 +366,7 @@
         <div class="card" id="food-1">
             <div class="event">The Glass House Pattaya</div>
             <div class="desc">浪漫海景沙灘餐廳，海鮮食材選擇多，環境安全乾淨。</div>
-            <span class="hotel-tag">🌅 網美海景</span><br>
+            <span class="hotel-tag">🌅 網美海景</span>br>
             <button class="food-visited-btn" onclick="toggleFoodVisited('food-1', this)">✔ 標記已去過</button>
             <div class="food-visited-stamp">✅ 已去過！</div>
         </div>
