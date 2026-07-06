@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>2026 泰國芭達雅五天四夜行程表</title>
     
+    <!-- ==================== PWA 行動 App 隱藏網址列設定 ==================== -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="泰國避暑遊">
     <meta name="theme-color" content="#059669">
     
+    <!-- 精美手機桌面圖示 (自動生成帶有南洋度假感的高質感綠色底圖) -->
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23059669%22/><text y=%2265%22 x=%2218%22 fill=%22white%22 font-size=%2242%22 font-weight=%22bold%22 font-family=%22sans-serif%22>泰</text></svg>">
 
     <style>
@@ -24,12 +26,10 @@
         .tab-btn { background: rgba(255,255,255,0.2); color: #d1fae5; border: none; padding: 8px 16px; border-radius: 20px; font-size: 14px; margin-right: 8px; cursor: pointer; transition: all 0.2s;}
         .tab-btn.active { background: white; color: #059669; font-weight: bold; }
         
-        /* 氣候動態看板 */
-        .weather-banner { background: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%); border-radius: 12px; padding: 14px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #bae6fd; display: flex; align-items: center; justify-content: space-between; }
-        .weather-info { display: flex; flex-direction: column; gap: 2px; }
-        .weather-title { font-size: 14px; font-weight: bold; color: #0369a1; display: flex; align-items: center; gap: 4px; }
-        .weather-detail { font-size: 12px; color: #0284c7; line-height: 1.4; }
-        .weather-icon { font-size: 32px; padding-right: 4px; }
+        /* 簡潔版即時天氣看板 */
+        .weather-status-bar { background: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%); border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #bae6fd; display: flex; align-items: center; justify-content: space-between; }
+        .weather-status-text { font-size: 14px; font-weight: bold; color: #0369a1; display: flex; align-items: center; gap: 6px; }
+        .weather-status-temp { font-size: 16px; font-weight: 800; color: #0284c7; }
 
         /* 顯眼航班資訊看板 */
         .flight-banner { background: linear-gradient(135deg, #059669 0%, #10b981 100%); color: white; border-radius: 12px; padding: 14px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(5,150,105,0.15); }
@@ -104,6 +104,7 @@
 <body>
 <div class="header"><h1>🌴 2026 泰國避暑之旅</h1></div>
 
+<!-- ==================== 行程視圖 ==================== -->
 <div id="view-itinerary" class="main-view active">
     <div class="tab-scroll-container">
         <button class="tab-btn active" onclick="showDay('d1', this)">08/22 (出發・芭達雅)</button>
@@ -114,18 +115,13 @@
     </div>
     
     <div class="container">
-        <div class="weather-banner">
-            <div class="weather-info">
-                <div class="weather-title">⛅ 泰國 8 月氣候動態精算看板</div>
-                <div class="weather-detail">
-                    🌡️ <strong>均溫：</strong>26°C - 33°C (體感偏悶熱，室內冷氣強)<br>
-                    🌧️ <strong style="color: #0284c7;">降雨：</strong>雨季多陣雨/雷陣雨，好發於午後<br>
-                    💡 <strong>精算備忘：</strong>建議隨身攜帶輕便折傘，多安排商場及高空酒廊避雨。
-                </div>
-            </div>
-            <div class="weather-icon">🌦️</div>
+        <!-- 簡潔版即時天氣列 -->
+        <div class="weather-status-bar">
+            <div class="weather-status-text">⛅ 泰國 8 月即時天氣指標</div>
+            <div class="weather-status-temp">🌦️ 雨季陣雨 • 26°C - 33°C</div>
         </div>
 
+        <!-- 會籍看板 -->
         <div class="card highlight" style="background: #fffbeb;">
             <div class="event" style="color: #b45309;">💡 會籍權益與重要時程</div>
             <div class="desc" style="font-size: 13px; font-weight: 600; line-height: 1.6;">
@@ -134,9 +130,11 @@
             </div>
         </div>
 
+        <!-- 08/22 (D1) -->
         <div id="d1" class="day-content" style="display:block;">
             <div class="date-header">8月22日（六）啟程與海景浪漫晚宴 【芭達雅】</div>
             
+            <!-- 顯眼去程航班看板 -->
             <div class="flight-banner">
                 <div class="flight-header">
                     <span>長榮航空 EVA AIR • 班機號碼 BR201</span>
@@ -194,6 +192,7 @@
             </div></div>
         </div>
 
+        <!-- 08/23 (D2) -->
         <div id="d2" class="day-content" style="display:none;">
             <div class="date-header">8月23日（日）震撼木雕與懸崖海景放鬆一日遊 【芭達雅】</div>
             <div class="hotel-tag">🏨 宿：芭達雅假日酒店</div>
@@ -224,6 +223,7 @@
             </div></div>
         </div>
 
+        <!-- 08/24 (D3) -->
         <div id="d3" class="day-content" style="display:none;">
             <div class="date-header">8月24日（一）世界級熱帶花園與海上漂浮日落 【芭達雅】</div>
             <div class="hotel-tag">🏨 宿：芭達雅假日酒店</div>
@@ -249,6 +249,7 @@
             </div></div>
         </div>
 
+        <!-- 08/25 (D4) -->
         <div id="d4" class="day-content" style="display:none;">
             <div class="date-header">8月25日（二）慢慢移防曼谷市區 【曼谷】</div>
             <div class="hotel-tag">🏨 宿：曼谷洲際酒店（OP特惠價房型）</div>
@@ -290,9 +291,11 @@
             </div></div>
         </div>
 
+        <!-- 08/26 (D5) -->
         <div id="d5" class="day-content" style="display:none;">
             <div class="date-header">8月26日（三）經典祈福與返台收尾 【曼谷】</div>
             
+            <!-- 顯眼回程航班看板 -->
             <div class="flight-banner" style="background: linear-gradient(135deg, #047857 0%, #059669 100%);">
                 <div class="flight-header">
                     <span>長榮航空 EVA AIR • 班機號碼 BR068</span>
@@ -345,6 +348,7 @@
     </div>
 </div>
 
+<!-- ==================== 美食視圖 ==================== -->
 <div id="view-food" class="main-view">
     <div class="container">
         <div class="date-header">🍲 泰國美食口袋名單</div>
@@ -368,6 +372,7 @@
     </div>
 </div>
 
+<!-- ==================== 票券視圖 ==================== -->
 <div id="view-tickets" class="main-view">
     <div class="container">
         <div class="date-header">🎟️ 交通調度中心</div>
@@ -394,6 +399,7 @@
     </div>
 </div>
 
+<!-- ==================== 清單視圖 ==================== -->
 <div id="view-checklist" class="main-view">
     <div class="container">
         <div class="date-header">📝 泰國行前精算裝備清單</div>
@@ -435,6 +441,7 @@
     </div>
 </div>
 
+<!-- ==================== 帳本視圖 ==================== -->
 <div id="view-expenses" class="main-view">
     <div class="container">
         <div class="date-header">💰 雲端總帳本 ＆ 即時記帳</div>
@@ -486,6 +493,7 @@
     </div>
 </div>
 
+<!-- ==================== 打卡視圖 ==================== -->
 <div id="view-checkin" class="main-view">
     <div class="container">
         <div class="date-header">📍 團員打卡回報</div>
@@ -514,6 +522,7 @@
     </div>
 </div>
 
+<!-- ==================== 底部導覽列 ==================== -->
 <div class="bottom-nav">
     <div class="nav-item active" onclick="switchView('view-itinerary', this)"><span class="nav-icon">📅</span>行程</div>
     <div class="nav-item" onclick="switchView('view-food', this)"><span class="nav-icon">🍲</span>美食</div>
@@ -557,7 +566,7 @@ function markAsBought(btn, idx) {
     const card = btn.closest('.ticket-card');
     const platform = prompt('請輸入購買平台：', 'Klook'); if (platform === null) return;
     const price = prompt('請輸入購買價格總額：', 'NT$ '); if (price === null) return;
-    const cardUsed = prompt('請輸入刷卡卡別：', '國泰長榮極致無限卡'); if (cardUsed === null) return;
+    const cardUsed = prompt('請輸入刷卡卡別：', '國泰長榮極致無限卡'); if (platform === null) return;
     const data = { platform, price, cardUsed };
     localStorage.setItem('th_ticket_' + idx, JSON.stringify(data));
     applyTicketBought(card, data);
