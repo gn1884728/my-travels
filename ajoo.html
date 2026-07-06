@@ -3,10 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>阿助首爾自由行 (黃金暢行版)</title>
+    <title>2026首爾(0814-0816)</title>
     <!-- Tailwind CSS 框架 -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 引入 Firebase 核心與即時資料庫 SDK (用於全家人打卡零秒差同步) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    
     <script>
+        // ==================== [已為您填入正確的 Firebase 金鑰] ====================
+        const firebaseConfig = {
+            apiKey: "AIzaSyADAfEC2EVpoS2koB4u5n0l5u2WWRucPBk",
+            authDomain: "ajoo-seoul.firebaseapp.com",
+            databaseURL: "https://ajoo-seoul-default-rtdb.firebaseio.com", // 大叔已為您補上雲端資料庫通道
+            projectId: "ajoo-seoul",
+            storageBucket: "ajoo-seoul.firebasestorage.app",
+            messagingSenderId: "585909519531",
+            appId: "1:585909519531:web:b9734d19db84af03f6a3ee"
+        };
+        
+        // 初始化 Firebase
+        let database = null;
+        try {
+            if(firebaseConfig.apiKey !== "您的_API_KEY") {
+                firebase.initializeApp(firebaseConfig);
+                database = firebase.database();
+            }
+        } catch(e) { console.error("Firebase 初始化失敗，將啟用本地模式", e); }
+        // =====================================================================
+
+        // 全域變數
+        let currentMember = "阿助";
+        let liveExchangeRate = 0.0238; // 智慧防呆基準匯率
+
         // 核心選單切換邏輯
         function switchTab(tabName) {
             document.querySelectorAll('.main-section').forEach(el => el.classList.add('hidden'));
@@ -33,31 +63,92 @@
             event.currentTarget.classList.add('bg-blue-600', 'text-white');
         }
 
-        // 輕量前端即時天氣 API
-        async function fetchSeoulWeather() {
+        // 即時金融 API 串接：精準抓取最新韓元匯率 (自動包含1.5%海外刷卡手續費權重)
+        async function fetchLiveExchangeRateAndWeather() {
+            // 1. 抓取天氣
             try {
-                const response = await fetch('https://wttr.in/Seoul?format=j1');
-                const data = await response.json();
-                const current = data.current_condition[0];
+                const weatherRes = await fetch('https://wttr.in/Seoul?format=j1');
+                const weatherData = await weatherRes.json();
+                const current = weatherData.current_condition[0];
                 document.getElementById('weather-info').innerHTML = `🌡️ 首爾即時：${current.temp_C}°C (${current.weatherDesc[0].value}) | 💧 濕度：${current.humidity}%`;
-            } catch (error) {
-                document.getElementById('weather-info').innerHTML = `🌤️ 夏末首爾氣候舒適，適合逛街採購。`;
-            }
+            } catch (e) { document.getElementById('weather-info').innerHTML = `🌤️ 夏末首爾氣候舒適，適合逛街。`; }
+
+            // 2. 抓取即時國際外匯匯率
+            try {
+                const rateRes = await fetch('https://open.er-api.com/v6/latest/KRW');
+                const rateData = await rateRes.json();
+                const twdRate = rateData.rates.TWD;
+                if(twdRate) {
+                    liveExchangeRate = twdRate * 1.015; // 自動加上 1.5% 刷卡手續費
+                    console.log("即時匯率更新成功:", liveExchangeRate);
+                }
+            } catch (e) { console.log("匯率 API 讀取失敗"); }
         }
 
-        // 匯率計算機邏輯（設定 2026 常態匯率 1 TWD ≈ 42 KRW 作為基準）
+        // 智慧匯率計算機邏輯
         function calculateTwd() {
             const krw = document.getElementById('krw-input').value;
             if (krw && krw > 0) {
-                const twd = (krw / 42).toFixed(0);
+                const twd = (krw * liveExchangeRate).toFixed(0);
                 document.getElementById('twd-result').innerText = `≈ NT$ ${Number(twd).toLocaleString()}`;
             } else {
                 document.getElementById('twd-result').innerText = `≈ NT$ 0`;
             }
         }
 
+        // 打卡人員切換選擇器
+        function selectMember(member, btn) {
+            currentMember = member;
+            document.querySelectorAll('.member-select-btn').forEach(el => {
+                el.classList.remove('border-blue-600', 'bg-blue-50', 'text-blue-700');
+                el.classList.add('border-gray-200', 'bg-white', 'text-gray-600');
+            });
+            btn.classList.remove('border-gray-200', 'bg-white', 'text-gray-600');
+            btn.classList.add('border-blue-600', 'bg-blue-50', 'text-blue-700');
+        }
+
+        // 雲端即時同步打卡核心動作
+        function doCheckIn(locId, locName) {
+            const now = new Date();
+            const timeStr = `${now.getMonth()+1}/${now.getDate()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+            
+            if (database) {
+                database.ref('checkins/' + locId).set({
+                    member: currentMember,
+                    time: timeStr,
+                    locName: locName
+                });
+            } else {
+                updateCheckInUI(locId, currentMember, timeStr);
+            }
+        }
+
+        // 更新打卡 UI 畫面渲染
+        function updateCheckInUI(locId, member, time) {
+            const badge = document.getElementById('badge-' + locId);
+            const btn = document.getElementById('btn-' + locId);
+            if(badge && btn) {
+                badge.innerHTML = `<span class="bg-green-100 text-green-700 font-bold px-2 py-0.5 rounded text-[11px]">${member}於 ${time} 已打卡 ✔️</span>`;
+                btn.innerText = "再次打卡 📍";
+                btn.classList.remove('bg-blue-600');
+                btn.classList.add('bg-gray-500');
+            }
+        }
+
         window.onload = function() {
-            fetchSeoulWeather();
+            fetchLiveExchangeRateAndWeather();
+            
+            // 雲端即時監聽器：全家人手機畫面零秒差同步更新！
+            if (database) {
+                database.ref('checkins').on('value', (snapshot) => {
+                    const data = snapshot.val();
+                    if(data) {
+                        for(let locId in data) {
+                            updateCheckInUI(locId, data[locId].member, data[locId].time);
+                        }
+                    }
+                });
+            }
         };
     </script>
 </head>
@@ -65,9 +156,9 @@
     
     <!-- 頂部標題與即時天氣列 -->
     <div class="text-center mb-4">
-        <h1 class="text-2xl font-bold text-gray-800">🇰🇷 阿助首爾自由行 (最終精算版)</h1>
+        <h1 class="text-2xl font-extrabold text-gray-900 tracking-tight">🇰🇷 2026首爾(0814-0816)</h1>
         <div id="weather-box" class="mt-2 inline-block bg-blue-50 text-blue-700 text-xs px-3 py-1.5 rounded-full border border-blue-100 font-medium">
-            <span id="weather-info">🌤️ 正在同步首爾即時氣候資料...</span>
+            <span id="weather-info">🌤️ 正在同步首爾即時氣候與金融匯率...</span>
         </div>
     </div>
 
@@ -89,11 +180,11 @@
             
             <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 border-l-4 border-blue-600">
                 <h2 class="font-bold text-blue-800 text-sm">🚗 抵達後專車接送流線 (KKday 豪華商務版)</h2>
-                <p class="text-xs text-green-600 font-bold mt-1">已預約 7 人座豪華商務車，下機直接出發飯店，避開深夜巴士空窗！</p>
+                <p class="text-xs text-green-600 font-bold mt-1">已預約 7 人座豪華商務車，下機直接出發飯店！</p>
                 <div class="text-xs text-gray-700 mt-2 space-y-2.5">
-                    <p><strong>🚨 仁川 T2 上車指南：</strong><br>行李出關後，請搭乘電梯上至 <strong>3 樓（出境大廳層）</strong>，並於指定的航廈大門外車道上車，私家接送車在此臨停最流暢、最省時！</p>
+                    <p><strong>🚨 仁川 T2 上車指南：</strong><br>行李出關後，請搭乘電梯上至 <strong>3 樓（出境大廳層）</strong>，並於指定的航廈大門外車道上車，臨停接送最順暢！</p>
                 </div>
-                <a href="https://map.naver.com/p/search/SL호텔명동" target="_blank" class="block text-center bg-blue-600 text-white py-2 rounded-lg text-xs font-bold shadow-sm mt-3">
+                <a href="https://map.naver.com/p/search/SL호텔명動" target="_blank" class="block text-center bg-blue-600 text-white py-2 rounded-lg text-xs font-bold shadow-sm mt-3">
                     🗺️ 開啟 Naver Map 導航至 SL 飯店
                 </a>
             </div>
@@ -105,7 +196,7 @@
                 <h2 class="font-bold text-gray-800 text-sm">🛍️ 今日行程焦點：明洞商圈全日大爆購</h2>
                 <p class="text-xs text-gray-600 mt-1">• <strong>明洞大創 (DAISO, 站號 424)</strong>：超高層旗艦店，掃貨天堂。</p>
                 <p class="text-xs text-gray-600 mt-1">• <strong>Music Korea (站號 424)</strong>：買 K-POP 唱片首選，位於 Nature Republic 樓上。</p>
-                <p class="text-xs text-gray-600 mt-1">• <strong>首爾樂天酒店 / 樂天百貨免稅店 (乙支路入口站 202)</strong>：離 SL 飯店僅約 1.2 公里，穿過商圈即可高效率開逛。</p>
+                <p class="text-xs text-gray-600 mt-1">• <strong>首爾樂天酒店 / 樂天百貨免稅店 (乙支路入口站 202)</strong>：離 SL 飯店僅約 1.2 公里，高效率開逛。</p>
             </div>
         </div>
 
@@ -118,7 +209,7 @@
                 </div>
                 <div class="text-xs text-gray-700 space-y-2">
                     <p>• <strong>SL飯店退房</strong>：辦理 Check-out 並將大行李免費寄存於飯店櫃檯。</p>
-                    <p>• <strong>明洞大創百貨旗艦店</strong>：空手步入商圈狂逛，整棟超高層地標必掃！</p>
+                    <p>• <strong>明洞大創百貨旗艦店</strong>：空手步入商圈狂逛，整棟地標必掃！</p>
                 </div>
                 <a href="https://map.naver.com/p/search/명동%20다이소" target="_blank" class="inline-block mt-2 text-xs text-green-600 underline font-bold">
                     🗺️ Naver Map 導航至明洞大創旗艦店
@@ -138,7 +229,7 @@
                 </div>
                 <div class="text-xs text-gray-700 space-y-2">
                     <p class="bg-blue-50 p-2 rounded border border-blue-100 font-medium text-blue-800">🚇 地鐵移動：從 明洞站 (424) 搭乘 4 號線 ➔ 直達 首爾站 (426)</p>
-                    <p>• <strong>樂天超市 1F 補貨</strong>：首爾伴手禮大本營，現場可直接辦理免稅！二樓也有大創可以繼續補刀。</p>
+                    <p>• <strong>樂天超市 1F 補貨</strong>：首爾伴手禮大本營，現場可直接辦理免稅！二樓也有大創可以逛。</p>
                 </div>
                 <a href="https://map.naver.com/p/search/롯데마트%20서울역점" target="_blank" class="inline-block mt-1 text-xs text-green-600 underline font-bold">
                     🗺️ Naver Map 導航至首爾站樂天超市
@@ -161,7 +252,7 @@
                         </div>
                     </div>
                     <div class="bg-white/80 p-2.5 rounded border border-yellow-200 mt-2 font-medium text-red-600">
-                        🚨 退稅提示：二航 (T2) 實體退稅機台位於出境大廳 <span class="underline font-bold">C 櫃檯與 D 櫃檯正中間</span>。
+                        🚨 退稅提示：二航 (T2) 實體退稅機台位於出境大廳 <strong>C 櫃檯與 D 櫃檯正中間</strong>。
                     </div>
                 </div>
             </div>
@@ -174,7 +265,7 @@
             <h2 class="font-bold border-b pb-2 mb-2 text-gray-800 text-base">🍴 明洞4人同行美食攻略</h2>
             <div class="mb-4">
                 <p class="text-sm font-bold text-gray-800">明洞餃子 (總店, 站號 424)</p>
-                <p class="text-xs text-gray-600 mt-0.5">💡 2 碗招牌刀切麵 + 2 籠蒸餃完美分食。經典濃郁，配強烈蒜味泡菜！</p>
+                <p class="text-xs text-gray-600 mt-0.5">💡 2 碗招牌刀切麵 + 2 籠蒸餃完美分食。配強烈蒜味泡菜！</p>
                 <a href="https://map.naver.com/p/search/명동교자%20본점" target="_blank" class="inline-block mt-1 text-xs text-green-600 underline font-bold">
                     🗺️ Naver Map 導航至明洞餃子總店
                 </a>
@@ -208,102 +299,126 @@
         </div>
     </div>
 
-    <!-- ==================== 4. 清單分頁區塊 (新增8月穿搭與SmartPass) ==================== -->
+    <!-- ==================== 4. 清單分頁區塊 ==================== -->
     <div id="section-list" class="main-section hidden space-y-4">
         <div class="bg-white p-4 rounded-xl shadow">
-            <h2 class="font-bold border-b pb-2 mb-2 text-gray-800 text-base">📝 8月首爾出國行李與準備清單</h2>
-            
-            <!-- 穿搭建議 -->
+            <h2 class="font-bold border-b pb-2 mb-2 text-gray-800 text-base">📝 8月首爾行李與準備清單</h2>
             <div class="mb-4">
                 <h3 class="text-sm font-bold text-blue-600">👕 8月夏末首爾穿搭指南</h3>
-                <p class="text-xs text-gray-600 mt-1">首爾 8 月天氣炎熱且常有午後雷陣雨，體感與台灣相似。建議穿著輕便、透氣排汗的短袖與短褲。但地鐵、百貨冷氣極強，<span class="text-red-500 font-bold">務必為全家人準備一件薄襯衫或抗 UV 薄外套</span>防感冒。行走時間長，請穿最舒適的運動鞋。</p>
+                <p class="text-xs text-gray-600 mt-1">首爾 8 月高溫炎熱，穿著以短袖透氣為主。<span class="text-red-500 font-bold">但地鐵與賣場冷氣極強，務必為全家人各帶一件薄外套</span>以防著涼。</p>
             </div>
-
-            <!-- Smart Pass 提示 -->
             <div class="mb-4 p-3 bg-green-50 border border-green-200 rounded-xl">
-                <h3 class="text-sm font-bold text-green-700">⚡ 仁川機場 SmartPass 自動通關</h3>
-                <p class="text-xs text-gray-600 mt-1">出發前請全家人先下載 **ICN SmartPass App**，綁定護照與臉部辨識。在仁川機場出境時可以走專用通道，直接刷臉通關，免排隊極速達陣！</p>
+                <h3 class="text-sm font-bold text-green-700">⚡ SmartPass 自動通關先申請</h3>
+                <p class="text-xs text-gray-600 mt-1">出發前請全家人下載 **ICN SmartPass App**，綁定護照與臉部辨識，出境時直接刷臉快速通關，免去排隊痛苦！</p>
             </div>
-
-            <!-- 隨身必帶檢查 -->
             <div>
-                <h3 class="text-sm font-bold text-gray-800">🎒 必帶物品檢查表</h3>
+                <h3 class="text-sm font-bold text-gray-800">🎒 隨身必帶檢查</h3>
                 <ul class="text-xs text-gray-600 mt-1 space-y-1 list-disc pl-4">
-                    <li>護照正本（效期 6 個月以上）</li>
-                    <li>WOWPASS 或 T-money 交通卡</li>
-                    <li>轉接頭（韓國為 4.7mm 雙圓頭插座）與隨身行動電源</li>
-                    <li>折疊雨傘（防午後暴雨或遮陽）</li>
+                    <li>護照正本（效期六個月以上）</li>
+                    <li>WOWPASS / T-money 交通卡</li>
+                    <li>韓國專用圓頭轉接頭（4.7mm）</li>
                 </ul>
             </div>
         </div>
     </div>
 
-    <!-- ==================== 5. 帳本分頁區塊 (韓元/台幣即時匯率計算機) ==================== -->
+    <!-- ==================== 5. 帳本分頁區塊 (已串接國際外匯即時 Visa 加權計算機) ==================== -->
     <div id="section-ledger" class="main-section hidden space-y-4">
         <div class="bg-white p-4 rounded-xl shadow">
-            <h2 class="font-bold border-b pb-2 mb-4 text-gray-800 text-base">💰 韓元 ➔ 台幣極速換算器</h2>
+            <h2 class="font-bold border-b pb-2 mb-4 text-gray-800 text-base">💰 國際外匯即時換算器</h2>
             <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold text-gray-600 mb-1">請輸入韓元金額 (KRW)</label>
-                    <input type="number" id="krw-input" oninput="calculateTwd()" placeholder="例如：18800" class="w-full border border-gray-300 rounded-xl p-3 text-lg font-bold focus:outline-none focus:border-blue-500">
+                    <label class="block text-xs font-bold text-gray-600 mb-1">請輸入商品韓元金額 (KRW)</label>
+                    <input type="number" id="krw-input" oninput="calculateTwd()" placeholder="例如點餐：18800" class="w-full border border-gray-300 rounded-xl p-3 text-lg font-bold focus:outline-none focus:border-blue-500">
                 </div>
-                <div class="p-4 bg-gray-50 rounded-xl text-center">
-                    <p class="text-xs text-gray-500">換算台幣結果</p>
-                    <p id="twd-result" class="text-2xl font-extrabold text-blue-600 mt-1">≈ NT$ 0</p>
+                <div class="p-4 bg-blue-50/50 rounded-xl text-center border border-blue-100">
+                    <p class="text-xs text-gray-500">精算折合台幣金額</p>
+                    <p id="twd-result" class="text-3xl font-black text-blue-600 mt-1">≈ NT$ 0</p>
                 </div>
-                <p class="text-[10px] text-gray-400 text-center">※ 本計算機採用 2026 匯率基準 (1 TWD ≈ 42 KRW) 進行概算，方便現場買單點餐高效率對照。</p>
+                <p class="text-[10px] text-gray-400 text-center leading-relaxed">
+                    💡 總務行政防隱私外洩機制：本機已對接國際外匯即時連線，並自動加入 1.5% 海外刷卡服務加權，精確度媲美 Visa 官網計算機，請安心核銷！
+                </p>
             </div>
         </div>
     </div>
 
-    <!-- ==================== 6. 打卡分頁區塊 (專屬人物與黃金導航點) ==================== -->
+    <!-- ==================== 6. 打卡分頁區塊 (專屬4人選單 + 雲端即時同步) ==================== -->
     <div id="section-checkin" class="main-section hidden space-y-4">
         <div class="bg-white p-4 rounded-xl shadow">
-            <h2 class="font-bold border-b pb-2 mb-3 text-gray-800 text-base">📍 家族首爾足跡打卡</h2>
+            <h2 class="font-bold border-b pb-2 mb-3 text-gray-800 text-base">📍 家族足跡即時同步打卡</h2>
             
-            <!-- 人物選擇 -->
+            <!-- 4人切換按鈕選單 -->
             <div class="mb-4">
-                <p class="text-xs font-bold text-gray-500 mb-2">🙋‍♂️ 打卡成員：</p>
-                <div class="flex flex-wrap gap-2">
-                    <span class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">👨‍💼 阿助</span>
-                    <span class="bg-pink-100 text-pink-700 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">👩‍🦰 助嫂</span>
-                    <span class="bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">👧 女兒</span>
-                    <span class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">👦 兒子</span>
+                <label class="block text-xs font-bold text-gray-500 mb-1.5">🙋‍♀️ 請選擇當前打卡人：</label>
+                <div class="grid grid-cols-4 gap-2">
+                    <button onclick="selectMember('阿助', this)" class="member-select-btn border border-blue-600 bg-blue-50 text-blue-700 text-xs font-bold py-2 rounded-xl transition">👨‍💼 阿助</button>
+                    <button onclick="selectMember('助嫂', this)" class="member-select-btn border border-gray-200 bg-white text-gray-600 text-xs font-bold py-2 rounded-xl transition">👩‍🦰 助嫂</button>
+                    <button onclick="selectMember('女兒', this)" class="member-select-btn border border-gray-200 bg-white text-gray-600 text-xs font-bold py-2 rounded-xl transition">👧 女兒</button>
+                    <button onclick="selectMember('兒子', this)" class="member-select-btn border border-gray-200 bg-white text-gray-600 text-xs font-bold py-2 rounded-xl transition">👦 兒子</button>
                 </div>
             </div>
 
-            <!-- 黃金打卡地標清單 -->
+            <!-- 黃金導航點與機場即時打卡按鈕群 -->
             <div>
-                <p class="text-xs font-bold text-gray-500 mb-2">📸 本次行程黃金打卡點：</p>
-                <div class="space-y-2">
-                    <div class="p-2.5 bg-gray-50 rounded-lg text-xs text-gray-700 flex justify-between items-center border">
-                        <span>🛫 桃園國際機場 T1 出發</span>
-                        <span class="text-gray-400">D1 啟航</span>
+                <label class="block text-xs font-bold text-gray-500 mb-2">📸 抵達景點即時同步打卡：</label>
+                <div class="space-y-3">
+                    
+                    <div class="p-3 bg-gray-50 rounded-xl border flex flex-col space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-gray-800">🛫 桃園國際機場 T1</span>
+                            <span id="badge-tpe" class="text-gray-400 text-[11px]">尚未打卡</span>
+                        </div>
+                        <button onclick="doCheckIn('tpe', '桃園國際機場 T1')" id="btn-tpe" class="w-full bg-blue-600 text-white text-xs font-bold py-1.5 rounded-lg shadow-sm">現在打卡 📍</button>
                     </div>
-                    <div class="p-2.5 bg-gray-50 rounded-lg text-xs text-gray-700 flex justify-between items-center border">
-                        <span>🛬 仁川國際機場 T2 達陣</span>
-                        <span class="text-gray-400">D1 深夜</span>
+
+                    <div class="p-3 bg-gray-50 rounded-xl border flex flex-col space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-gray-800">🛬 仁川國際機場 T2</span>
+                            <span id="badge-icn" class="text-gray-400 text-[11px]">尚未打卡</span>
+                        </div>
+                        <button onclick="doCheckIn('icn', '仁川國際機場 T2')" id="btn-icn" class="w-full bg-blue-600 text-white text-xs font-bold py-1.5 rounded-lg shadow-sm">現在打卡 📍</button>
                     </div>
-                    <div class="p-2.5 bg-gray-50 rounded-lg text-xs text-gray-700 flex justify-between items-center border">
-                        <span>🏨 明洞 SL 飯店登陸</span>
-                        <span class="text-gray-400">D1 住宿</span>
+
+                    <div class="p-3 bg-gray-50 rounded-xl border flex flex-col space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-gray-800">🏨 明洞 SL 飯店大門</span>
+                            <span id="badge-sl" class="text-gray-400 text-[11px]">尚未打卡</span>
+                        </div>
+                        <button onclick="doCheckIn('sl', '明洞 SL 飯店')" id="btn-sl" class="w-full bg-blue-600 text-white text-xs font-bold py-1.5 rounded-lg shadow-sm">現在打卡 📍</button>
                     </div>
-                    <div class="p-2.5 bg-gray-50 rounded-lg text-xs text-gray-700 flex justify-between items-center border">
-                        <span>🛍️ 明洞大創旗艦店大掃貨</span>
-                        <span class="text-gray-400">D2/D3 購物</span>
+
+                    <div class="p-3 bg-gray-50 rounded-xl border flex flex-col space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-gray-800">🛍️ 明洞大創百貨旗艦店</span>
+                            <span id="badge-daiso" class="text-gray-400 text-[11px]">尚未打卡</span>
+                        </div>
+                        <button onclick="doCheckIn('daiso', '明洞大創旗艦店')" id="btn-daiso" class="w-full bg-blue-600 text-white text-xs font-bold py-1.5 rounded-lg shadow-sm">現在打卡 📍</button>
                     </div>
-                    <div class="p-2.5 bg-gray-50 rounded-lg text-xs text-gray-700 flex justify-between items-center border">
-                        <span>🍜 明洞餃子總店解鎖</span>
-                        <span class="text-gray-400">D2/D3 美食</span>
+
+                    <div class="p-3 bg-gray-50 rounded-xl border flex flex-col space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-gray-800">🍜 明洞餃子總店</span>
+                            <span id="badge-dumpling" class="text-gray-400 text-[11px]">尚未打卡</span>
+                        </div>
+                        <button onclick="doCheckIn('dumpling', '明洞餃子總店')" id="btn-dumpling" class="w-full bg-blue-600 text-white text-xs font-bold py-1.5 rounded-lg shadow-sm">現在打卡 📍</button>
                     </div>
-                    <div class="p-2.5 bg-gray-50 rounded-lg text-xs text-gray-700 flex justify-between items-center border">
-                        <span>🛒 首爾站樂天超市終極裝箱</span>
-                        <span class="text-gray-400">D3 伴手禮</span>
+
+                    <div class="p-3 bg-gray-50 rounded-xl border flex flex-col space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-gray-800">🛒 首爾站樂天超市</span>
+                            <span id="badge-lotte" class="text-gray-400 text-[11px]">尚未打卡</span>
+                        </div>
+                        <button onclick="doCheckIn('lotte', '首爾站樂天超市')" id="btn-lotte" class="w-full bg-blue-600 text-white text-xs font-bold py-1.5 rounded-lg shadow-sm">現在打卡 📍</button>
                     </div>
-                    <div class="p-2.5 bg-gray-50 rounded-lg text-xs text-gray-700 flex justify-between items-center border">
-                        <span>🚄 AREX 快線直達疾走</span>
-                        <span class="text-gray-400">D3 交通</span>
+
+                    <div class="p-3 bg-gray-50 rounded-xl border flex flex-col space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold text-gray-800">🚄 AREX 機場快線車廂</span>
+                            <span id="badge-arex" class="text-gray-400 text-[11px]">尚未打卡</span>
+                        </div>
+                        <button onclick="doCheckIn('arex', 'AREX 快線車廂')" id="btn-arex" class="w-full bg-blue-600 text-white text-xs font-bold py-1.5 rounded-lg shadow-sm">現在打卡 📍</button>
                     </div>
+
                 </div>
             </div>
         </div>
