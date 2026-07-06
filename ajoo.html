@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>阿助首爾行程</title>
+    <title>阿助首爾三天兩夜</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         function showDay(day) {
@@ -15,34 +15,54 @@
 <body class="bg-gray-50 p-4 max-w-md mx-auto">
     <h1 class="text-2xl font-bold mb-4 text-center">阿助首爾三天兩夜</h1>
 
-    <!-- 日期切換按鈕 -->
+    <!-- 日期切換 -->
     <div class="flex space-x-2 mb-4">
         <button onclick="showDay('14')" class="flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm">8/14(五)</button>
         <button onclick="showDay('15')" class="flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm">8/15(六)</button>
         <button onclick="showDay('16')" class="flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm">8/16(日)</button>
     </div>
 
-    <!-- 內容區域 -->
-    <div id="day-14" class="day-content">
-        <div class="bg-yellow-50 p-4 rounded-xl border border-yellow-200">
-            <h2 class="font-bold">✈️ 抵達首爾</h2>
-            <p class="text-sm">抵達仁川 T2，搭乘機場巴士直達明洞。</p>
-        </div>
-    </div>
-    
-    <div id="day-15" class="day-content hidden">
+    <!-- 8/14 -->
+    <div id="day-14" class="day-content space-y-4">
         <div class="bg-white p-4 rounded-xl shadow">
-            <h2 class="font-bold">🍴 美食購物日</h2>
-            <p class="text-sm mt-2">• 明洞餃子 (站號 424)</p>
-            <p class="text-sm">• 荒謬的生肉 (18,800 KRW)</p>
+            <h2 class="font-bold border-b pb-2 mb-2">✈️ 航程資訊 (KE2028)</h2>
+            <p class="text-sm">18:55 桃園 T1 起飛 → 22:35 抵達仁川 T2</p>
+        </div>
+        <div class="bg-blue-50 p-4 rounded-xl border border-blue-200">
+            <h2 class="font-bold text-blue-800">🚌 機場至飯店</h2>
+            <p class="text-sm mt-1">1. 至 T2 地下 1 樓搭乘 6015 機場巴士。</p>
+            <p class="text-sm">2. 行車時間：約 70-80 分鐘至明洞。</p>
+            <a href="https://map.naver.com/p/search/SL호텔명동" class="block mt-2 text-blue-600 underline font-bold">點擊開啟 Naver Map 導航至 SL 飯店</a>
         </div>
     </div>
 
-    <div id="day-16" class="day-content hidden">
+    <!-- 8/15 -->
+    <div id="day-15" class="day-content hidden space-y-4">
         <div class="bg-white p-4 rounded-xl shadow">
-            <h2 class="font-bold">🛍️ 採買返程</h2>
-            <p class="text-sm mt-2">• 首爾站樂天 Mart 補貨</p>
-            <p class="text-sm">• 搭巴士前往 T2，使用 Smart Pass</p>
+            <h2 class="font-bold border-b pb-2 mb-2">🍴 美食攻略</h2>
+            <p class="text-sm font-bold">明洞餃子(總店, 424)：</p>
+            <p class="text-sm text-gray-600">必點：刀切麵(Kalguksu) + 蒸餃(Mandu)。兩人建議各一，泡菜蒜味重，免費續加。</p>
+            <p class="text-sm font-bold mt-3">荒謬的生肉 (明洞店)：</p>
+            <p class="text-sm text-gray-600">厚切五花肉吃到飽，價格約 18,800 KRW/人。</p>
+        </div>
+        <div class="bg-white p-4 rounded-xl shadow">
+            <h2 class="font-bold border-b pb-2 mb-2">🛍️ 購物地圖</h2>
+            <p class="text-sm">• 明洞大創 (DAISO)：必逛！</p>
+            <p class="text-sm">• 唱片行推薦：Music Korea (明洞 Nature Republic 樓上)。</p>
+        </div>
+    </div>
+
+    <!-- 8/16 -->
+    <div id="day-16" class="day-content hidden space-y-4">
+        <div class="bg-white p-4 rounded-xl shadow">
+            <h2 class="font-bold border-b pb-2 mb-2">🛍️ 上午：最後採買</h2>
+            <p class="text-sm">推薦前往<strong>首爾站樂天 Mart</strong>，貨源最全且可現場退稅。</p>
+            <p class="text-sm text-gray-500 mt-1">搭乘 4 號線 (424 → 426) 直達。</p>
+        </div>
+        <div class="bg-yellow-50 p-4 rounded-xl border border-yellow-200">
+            <h2 class="font-bold text-yellow-800">✈️ 返程 (KE2027)</h2>
+            <p class="text-sm">16:10 仁川 T2 起飛 → 17:50 抵達桃園 T1</p>
+            <p class="text-sm mt-2 font-bold">建議：13:40 前抵達 T2 櫃檯報到。</p>
         </div>
     </div>
 </body>
