@@ -168,11 +168,17 @@
             <button onclick="showDay('16')" class="day-tab-btn flex-1 bg-gray-200 text-gray-700 py-2 rounded-full text-xs font-bold shadow-sm transition">8/16(日)</button>
         </div>
 
-        <!-- 8/14(五) 內容 -->
+        <!-- 8/14(五) 內容 (新增：下機海關 SeS 提示) -->
         <div id="day-14" class="day-content space-y-4">
             <div class="bg-white p-4 rounded-xl shadow border-l-4 border-blue-500">
                 <h2 class="font-bold text-gray-800 text-sm">✈️ 去程航程資訊 (大韓航空 KE2028)</h2>
                 <p class="text-xs text-gray-600 mt-1"><strong>18:55</strong> 桃園 T1 起飛 ➔ <strong>22:35</strong> 抵達 <strong>仁川機場第二航廈 (ICN T2)</strong></p>
+            </div>
+            
+            <!-- 新增：下機過海關 SeS 提示 -->
+            <div class="bg-purple-50 p-3.5 rounded-xl border border-purple-200 text-xs text-purple-900 leading-relaxed">
+                <p class="font-extrabold text-sm mb-1 text-purple-800">🛂 下機過海關提示 (SeS 自動通關)</p>
+                <p class="font-medium">第一次入境請先走<span class="font-bold text-red-600">人工通道</span>，過關後記得順便在海關櫃檯旁申請辦理 <span class="font-bold text-red-600">SeS 入境自動通關</span>！申辦完成後，承辦人員會在護照背面貼上 SeS 字樣貼紙，日後再訪首爾即可直接走自動通關免排隊！</p>
             </div>
             
             <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 border-l-4 border-blue-600">
@@ -189,10 +195,8 @@
             </div>
         </div>
         
-        <!-- 8/15(六) 內容 (移除樂天酒店、新增南大門棉被、所有景點大按鈕化) -->
+        <!-- 8/15(六) 內容 -->
         <div id="day-15" class="day-content hidden space-y-4">
-            
-            <!-- 明洞地圖置頂 -->
             <div class="bg-white p-3 rounded-xl shadow border border-gray-100">
                 <p class="text-xs font-bold text-gray-500 mb-1.5">🗺️ 明洞大掃貨黃金地圖參考 (點擊開啟大圖)</p>
                 <a href="https://gn1884728.github.io/my-travels/images/lounge/明洞地圖.jpg" target="_blank" class="block rounded-lg overflow-hidden border">
@@ -200,11 +204,9 @@
                 </a>
             </div>
 
-            <!-- 全日行程與大按鈕導航元件群 -->
             <div class="bg-white p-4 rounded-xl shadow border-l-4 border-orange-500 space-y-4">
                 <h2 class="font-bold text-gray-800 text-sm border-b pb-2">🛍️ 今日行程焦點：明洞與南大門雙商圈爆購</h2>
                 
-                <!-- 景點 1：Olive Young -->
                 <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
                     <p class="text-xs font-bold text-gray-800 mb-2">✨ Olive Young 明洞旗艦店</p>
                     <p class="text-[11px] text-gray-500 mb-2.5">全韓國美妝保養最頂旗艦店，現場直接高效率退稅！</p>
@@ -213,7 +215,6 @@
                     </a>
                 </div>
 
-                <!-- 景點 2：MLB -->
                 <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
                     <p class="text-xs font-bold text-gray-800 mb-2">🧢 MLB 明洞中央店</p>
                     <p class="text-[11px] text-gray-500 mb-2.5">潮流服飾、經典帽子必朝聖旗艦門市，全家掃貨天堂。</p>
@@ -222,16 +223,14 @@
                     </a>
                 </div>
 
-                <!-- 景點 3：南大門市場 -->
                 <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
-                    <p class="text-xs font-bold text-gray-800 mb-2">🛏️ 南大門市場 (棉被採買)</p>
+                    <p class="text-xs font-bold text-gray-800 mb-2">🛏️ 南大門市場 (棉著採買)</p>
                     <p class="text-[11px] text-gray-500 mb-2.5">韓國超高 C/P 值極細纖維棉被採買聖地，輕柔好蓋，店家皆可高效率壓縮打包！</p>
                     <a href="https://map.naver.com/p/search/남대문시장" target="_blank" class="block text-center bg-emerald-600 text-white py-2 rounded-lg text-xs font-bold shadow-sm transition hover:bg-emerald-700">
                         🗺️ 開啟 Naver Map 導航
                     </a>
                 </div>
 
-                <!-- 景點 4：明洞大創 -->
                 <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
                     <p class="text-xs font-bold text-gray-800 mb-2">🏢 明洞大創 (DAISO, 站號 424)</p>
                     <p class="text-[11px] text-gray-500 mb-2.5">超高層旗艦店，全棟文具生活雜貨掃貨天堂。</p>
@@ -240,7 +239,6 @@
                     </a>
                 </div>
 
-                <!-- 景點 5：Music Korea -->
                 <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
                     <p class="text-xs font-bold text-gray-800 mb-2">💿 Music Korea (站號 424)</p>
                     <p class="text-[11px] text-gray-500 mb-2.5">K-POP 唱片專賣首選，位於 Nature Republic 大樓樓上。</p>
@@ -248,7 +246,6 @@
                         🗺️ 開啟 Naver Map 導航
                     </a>
                 </div>
-
             </div>
         </div>
 
@@ -363,16 +360,18 @@
         </div>
     </div>
 
-    <!-- ==================== 4. 清單分頁區塊 ==================== -->
+    <!-- ==================== 4. 清單分頁區塊 (新增非常準 APP) ==================== -->
     <div id="section-list" class="main-section hidden space-y-4">
         <div class="bg-white p-4 rounded-xl shadow">
             <h2 class="font-bold border-b pb-2 mb-3 text-gray-800 text-base">📝 8月首爾行李與準備清單</h2>
             
+            <!-- APP安裝清單 (新增：非常準) -->
             <div class="mb-4 bg-blue-50/40 p-3 rounded-xl border border-blue-100">
                 <h3 class="text-xs font-bold text-blue-700 mb-1.5">📲 出發前必裝手機 APP</h3>
                 <ul class="text-xs text-gray-600 space-y-1 list-disc pl-4">
                     <li><span class="font-semibold text-gray-800">Naver Map</span>：韓國在地絕對精準導航，找店必備。</li>
                     <li><span class="font-semibold text-gray-800">Uber</span>：在韓國可無縫叫到在地計程車。</li>
+                    <li><span class="font-semibold text-gray-800 text-blue-600">非常準</span>：航班動態監控神隊友，即時追蹤大韓與華航起降資訊。</li>
                 </ul>
             </div>
 
