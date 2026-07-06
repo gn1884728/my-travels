@@ -7,12 +7,28 @@
     <!-- Tailwind CSS 框架 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
+        // 核心選單切換邏輯 (行程/美食/其他主分頁)
+        function switchTab(tabName) {
+            // 隱藏所有主區塊
+            document.querySelectorAll('.main-section').forEach(el => el.classList.add('hidden'));
+            // 顯示點選的區塊
+            document.getElementById('section-' + tabName).classList.remove('hidden');
+            
+            // 底部導航按鈕高亮切換
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-blue-600', 'font-bold');
+                btn.classList.add('text-gray-500');
+            });
+            event.currentTarget.classList.remove('text-gray-500');
+            event.currentTarget.classList.add('text-blue-600', 'font-bold');
+        }
+
+        // 行程內的日期切換邏輯
         function showDay(day) {
             document.querySelectorAll('.day-content').forEach(el => el.classList.add('hidden'));
             document.getElementById('day-' + day).classList.remove('hidden');
             
-            // 日期按鈕高亮狀態切換
-            document.querySelectorAll('.day-btn').forEach(btn => {
+            document.querySelectorAll('.day-tab-btn').forEach(btn => {
                 btn.classList.remove('bg-blue-600', 'text-white');
                 btn.classList.add('bg-gray-200', 'text-gray-700');
             });
@@ -20,7 +36,7 @@
             event.currentTarget.classList.add('bg-blue-600', 'text-white');
         }
 
-        // 輕量前端即時天氣 API 串接
+        // 輕量前端即時天氣 API
         async function fetchSeoulWeather() {
             try {
                 const response = await fetch('https://wttr.in/Seoul?format=j1');
@@ -34,7 +50,7 @@
         window.onload = fetchSeoulWeather;
     </script>
 </head>
-<body class="bg-gray-50 p-4 max-w-md mx-auto min-h-screen pb-12">
+<body class="bg-gray-50 p-4 max-w-md mx-auto min-h-screen pb-24">
     
     <!-- 頂部標題與即時天氣列 -->
     <div class="text-center mb-4">
@@ -44,55 +60,78 @@
         </div>
     </div>
 
-    <!-- 日期切換按鈕 -->
-    <div class="flex space-x-2 mb-4">
-        <button onclick="showDay('14')" class="day-btn flex-1 bg-blue-600 text-white py-2.5 rounded-xl text-sm font-bold shadow-sm transition">8/14(五)</button>
-        <button onclick="showDay('15')" class="day-btn flex-1 bg-gray-200 text-gray-700 py-2.5 rounded-xl text-sm font-bold shadow-sm transition">8/15(六)</button>
-        <button onclick="showDay('16')" class="day-btn flex-1 bg-gray-200 text-gray-700 py-2.5 rounded-xl text-sm font-bold shadow-sm transition">8/16(日)</button>
-    </div>
-
-    <!-- ==================== 8/14(五) ==================== -->
-    <div id="day-14" class="day-content space-y-4">
-        <div class="bg-white p-4 rounded-xl shadow">
-            <h2 class="font-bold border-b pb-2 mb-2 text-gray-800">✈️ 航程資訊 (KE2028)</h2>
-            <p class="text-sm">18:55 桃園 T1 起飛 → 22:35 抵達仁川 T2</p>
+    <!-- ==================== 1. 行程分頁區塊 ==================== -->
+    <div id="section-schedule" class="main-section space-y-4">
+        <!-- 日期切換按鈕 (還原 1000080748.jpg 膠囊風格) -->
+        <div class="flex space-x-2 mb-2">
+            <button onclick="showDay('14')" class="day-tab-btn flex-1 bg-blue-600 text-white py-2 rounded-full text-xs font-bold shadow-sm transition">8/14(五)</button>
+            <button onclick="showDay('15')" class="day-tab-btn flex-1 bg-gray-200 text-gray-700 py-2 rounded-full text-xs font-bold shadow-sm transition">8/15(六)</button>
+            <button onclick="showDay('16')" class="day-tab-btn flex-1 bg-gray-200 text-gray-700 py-2 rounded-full text-xs font-bold shadow-sm transition">8/16(日)</button>
         </div>
-        
-        <div class="bg-blue-50 p-4 rounded-xl border border-blue-200">
-            <h2 class="font-bold text-blue-800 flex items-center">🚌 機場至飯店交通流線</h2>
-            <p class="text-sm mt-2 font-medium">1. 搭乘位置：</p>
-            <p class="text-sm text-gray-600 pl-3">出關後，至 仁川 T2 地下 1 樓搭乘 <strong>6015 號機場巴士</strong>。</p>
-            <p class="text-sm mt-1 font-medium">2. 行車時間：</p>
-            <p class="text-sm text-gray-600 pl-3">車程約 70-80 分鐘直達明洞。</p>
+
+        <!-- 8/14(五) 內容 -->
+        <div id="day-14" class="day-content space-y-4">
+            <div class="bg-white p-4 rounded-xl shadow border-l-4 border-blue-500">
+                <h2 class="font-bold text-gray-800 text-sm">✈️ 航程資訊 (KE2028)</h2>
+                <p class="text-xs text-gray-600 mt-1">18:55 桃園 T1 起飛 → 22:35 抵達仁川 T2</p>
+            </div>
             
-            <div class="mt-3 pt-3 border-t border-blue-100 flex flex-col space-y-2">
-                <a href="https://map.naver.com/p/search/SL호텔명동" target="_blank" class="block text-center bg-blue-600 text-white py-2 rounded-lg text-xs font-bold shadow-sm hover:bg-blue-700">
+            <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 border-l-4 border-blue-600">
+                <h2 class="font-bold text-blue-800 text-sm">🚌 機場至飯店交通流線</h2>
+                <p class="text-xs text-gray-600 mt-1">出關後，至 仁川 T2 地下 1 樓搭乘 <strong>6015 號機場巴士</strong>（車程約 70-80 分鐘直達明洞）。</p>
+                <a href="https://map.naver.com/p/search/SL호텔명동" target="_blank" class="block text-center bg-blue-600 text-white py-2 rounded-lg text-xs font-bold shadow-sm mt-3">
                     🗺️ 開啟 Naver Map 導航至 SL 飯店
                 </a>
             </div>
+
+            <div class="bg-white p-4 rounded-xl shadow">
+                <h2 class="font-bold text-xs mb-2 text-gray-800">🗺️ 6015 機場巴士路線圖參考</h2>
+                <a href="https://gn1884728.github.io/my-travels/images/lounge/6015.jpg" target="_blank" class="block">
+                    <img src="https://gn1884728.github.io/my-travels/images/lounge/6015.jpg" alt="6015路線圖" class="w-full rounded-lg border">
+                    <p class="text-xs text-blue-600 mt-1.5 text-center font-bold underline">點擊查看高清大圖</p>
+                </a>
+            </div>
+        </div>
+        
+        <!-- 8/15(六) 內容 -->
+        <div id="day-15" class="day-content hidden space-y-4">
+            <div class="bg-white p-4 rounded-xl shadow border-l-4 border-orange-500">
+                <h2 class="font-bold text-gray-800 text-sm">🛍️ 今日行程焦點：首爾潮流購物</h2>
+                <p class="text-xs text-gray-600 mt-1">• 明洞大創 (DAISO, 站號 424)：整棟超高層地標，掃貨必逛。</p>
+                <p class="text-xs text-gray-600 mt-1">• Music Korea (站號 424)：位於明洞 Nature Republic 大樓樓上。</p>
+                <p class="text-xs text-blue-600 font-bold mt-2">💡 備註：今日美食攻略已整合至下方「美食」選單中，可隨時點擊查看！</p>
+            </div>
         </div>
 
-        <div class="bg-white p-4 rounded-xl shadow">
-            <h2 class="font-bold text-sm mb-2 text-gray-800">🗺️ 6015 機場巴士路線圖參考</h2>
-            <a href="https://gn1884728.github.io/my-travels/images/lounge/6015.jpg" target="_blank" class="block relative group">
-                <img src="https://gn1884728.github.io/my-travels/images/lounge/6015.jpg" alt="6015路線圖" class="w-full rounded-lg border">
-                <div class="absolute inset-0 bg-black/5 rounded-lg"></div>
-                <p class="text-xs text-blue-600 mt-1.5 text-center font-bold underline">點擊查看高清大圖</p>
-            </a>
+        <!-- 8/16(日) 內容 -->
+        <div id="day-16" class="day-content hidden space-y-4">
+            <div class="bg-white p-4 rounded-xl shadow border-l-4 border-purple-500">
+                <h2 class="font-bold text-gray-800 text-sm">🛍️ 上午：伴手禮最終回核銷</h2>
+                <p class="text-xs text-gray-700">推薦前往：<strong>首爾站 樂天 Mart (LOTTE Mart)</strong></p>
+                <div class="bg-gray-50 p-2 rounded-lg border border-gray-200 mt-2 text-xs text-gray-600">
+                    <span class="font-bold text-blue-600">🚇 地鐵：</span> 搭乘 4 號線從 <strong>明洞站 (424)</strong> ➔ <strong>首爾站 (426)</strong> 直達。
+                </div>
+                <a href="https://map.naver.com/p/search/롯데마트%20서울역점" target="_blank" class="inline-block mt-2 text-xs text-green-600 underline font-bold">
+                    🗺️ Naver Map 導航至首爾站樂天馬特
+                </a>
+            </div>
+
+            <div class="bg-yellow-50 p-4 rounded-xl border border-yellow-200 border-l-4 border-yellow-600">
+                <h2 class="font-bold text-yellow-800 text-sm">✈️ 返程歸國流線 (KE2027)</h2>
+                <p class="text-xs text-gray-700 mt-1">16:10 仁川機場 T2 起飛 ➔ 17:50 抵達桃園 T1。</p>
+                <p class="text-xs text-red-600 font-bold mt-2">🚨 大叔提醒：請務必於 13:40 前 抵達 T2 櫃檯報到！</p>
+            </div>
         </div>
     </div>
-    
-    <!-- ==================== 8/15(六) ==================== -->
-    <div id="day-15" class="day-content hidden space-y-4">
+
+    <!-- ==================== 2. 美食分頁區塊 ==================== -->
+    <div id="section-food" class="main-section hidden space-y-4">
         <div class="bg-white p-4 rounded-xl shadow">
-            <h2 class="font-bold border-b pb-2 mb-2 text-gray-800 flex items-center">🍴 補血美食精算</h2>
+            <h2 class="font-bold border-b pb-2 mb-2 text-gray-800 text-base">🍴 明洞極致美食攻略</h2>
             
-            <div class="mb-3">
-                <p class="text-sm font-bold text-gray-800 flex items-center">
-                    <span class="bg-blue-100 text-blue-700 text-xs px-1.5 py-0.5 rounded mr-1">4 號線</span> 
-                    明洞餃子 (總店, 站號 424)
-                </p>
-                <p class="text-xs text-gray-600 mt-0.5">💡 必點：刀切麵 (Kalguksu) + 蒸餃 (Mandu)。兩人建議各點一份，經典必配強烈蒜味泡菜！</p>
+            <div class="mb-4">
+                <p class="text-sm font-bold text-gray-800">明洞餃子 (總店, 站號 424)</p>
+                <p class="text-xs text-gray-600 mt-0.5">必點：刀切麵 + 蒸餃。兩人建議各點一份，經典必配強烈蒜味泡菜！</p>
                 <a href="https://map.naver.com/p/search/명동교자%20본점" target="_blank" class="inline-block mt-1 text-xs text-green-600 underline font-bold">
                     🗺️ Naver Map 導航至明洞餃子總店
                 </a>
@@ -100,56 +139,56 @@
 
             <div class="pt-3 border-t border-gray-100">
                 <p class="text-sm font-bold text-gray-800">荒謬的生肉 (明洞店, 站號 424)</p>
-                <p class="text-xs text-gray-600 mt-0.5">💡 必吃：超高 CP 值厚切豬五花肉吃到飽，大口吃肉補體力！</p>
+                <p class="text-xs text-gray-600 mt-0.5">必吃：超高 CP 值厚切豬五花肉吃到飽，大口吃肉補體力！</p>
                 <p class="text-xs font-semibold text-red-500 mt-0.5">💵 預估預算：約 18,800 KRW / 人</p>
                 <a href="https://map.naver.com/p/search/엉터리생고기%20명동점" target="_blank" class="inline-block mt-1 text-xs text-green-600 underline font-bold">
                     🗺️ Naver Map 導航至荒謬的生肉
                 </a>
             </div>
         </div>
+    </div>
 
-        <div class="bg-white p-4 rounded-xl shadow">
-            <h2 class="font-bold border-b pb-2 mb-2 text-gray-800">🛍️ 首爾潮流購物地圖</h2>
-            <div class="space-y-2">
-                <div>
-                    <p class="text-sm font-bold text-gray-800">• 明洞大創 (DAISO, 站號 424)</p>
-                    <p class="text-xs text-gray-500 pl-3">整棟超高層大創，掃貨必逛首選。</p>
-                </div>
-                <div>
-                    <p class="text-sm font-bold text-gray-800">• 唱片行：Music Korea (站號 424)</p>
-                    <p class="text-xs text-gray-500 pl-3">位置在明洞 Nature Republic 大樓的樓上。</p>
-                </div>
-            </div>
+    <!-- ==================== 3~6. 其他預留分頁區塊 ==================== -->
+    <div id="section-tickets" class="main-section hidden p-4 bg-white rounded-xl shadow text-center text-sm text-gray-500">🎟️ 票券功能區塊（已為阿助預留代碼）</div>
+    <div id="section-list" class="main-section hidden p-4 bg-white rounded-xl shadow text-center text-sm text-gray-500">📝 清單功能區塊（已為阿助預留代碼）</div>
+    <div id="section-ledger" class="main-section hidden p-4 bg-white rounded-xl shadow text-center text-sm text-gray-500">💰 帳本功能區塊（已為阿助預留代碼）</div>
+    <div id="section-checkin" class="main-section hidden p-4 bg-white rounded-xl shadow text-center text-sm text-gray-500">📍 打卡功能區塊（已為阿助預留代碼）</div>
+
+    <!-- ==================== 固定式底部多樣導航選單 ==================== -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50 max-w-md mx-auto">
+        <div class="flex justify-around items-center py-2">
+            <!-- 1. 行程 -->
+            <button onclick="switchTab('schedule')" class="nav-btn flex flex-col items-center justify-center w-14 text-blue-600 font-bold transition">
+                <span class="text-lg">📅</span>
+                <span class="text-[10px] mt-0.5">行程</span>
+            </button>
+            <!-- 2. 美食 -->
+            <button onclick="switchTab('food')" class="nav-btn flex flex-col items-center justify-center w-14 text-gray-500 transition">
+                <span class="text-lg">🍔</span>
+                <span class="text-[10px] mt-0.5">美食</span>
+            </button>
+            <!-- 3. 票券 -->
+            <button onclick="switchTab('tickets')" class="nav-btn flex flex-col items-center justify-center w-14 text-gray-500 transition">
+                <span class="text-lg">🎟️</span>
+                <span class="text-[10px] mt-0.5">票券</span>
+            </button>
+            <!-- 4. 清單 -->
+            <button onclick="switchTab('list')" class="nav-btn flex flex-col items-center justify-center w-14 text-gray-500 transition">
+                <span class="text-lg">📝</span>
+                <span class="text-[10px] mt-0.5">清單</span>
+            </button>
+            <!-- 5. 帳本 -->
+            <button onclick="switchTab('ledger')" class="nav-btn flex flex-col items-center justify-center w-14 text-gray-500 transition">
+                <span class="text-lg">💰</span>
+                <span class="text-[10px] mt-0.5">帳本</span>
+            </button>
+            <!-- 6. 打卡 -->
+            <button onclick="switchTab('checkin')" class="nav-btn flex flex-col items-center justify-center w-14 text-gray-500 transition">
+                <span class="text-lg">📍</span>
+                <span class="text-[10px] mt-0.5">打卡</span>
+            </button>
         </div>
     </div>
 
-    <!-- ==================== 8/16(日) ==================== -->
-    <div id="day-16" class="day-content hidden space-y-4">
-        <div class="bg-white p-4 rounded-xl shadow">
-            <h2 class="font-bold border-b pb-2 mb-2 text-gray-800">🛍️ 上午：伴手禮最終回核銷</h2>
-            <p class="text-sm font-medium">推薦前往：<strong>首爾站 樂天 Mart (LOTTE Mart)</strong></p>
-            <p class="text-xs text-gray-600 mt-0.5">💡 首爾貨源最齊全的大型超市，支援現場直接退稅，非常高效率！</p>
-            
-            <!-- 精準地鐵站號流線 -->
-            <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-200 mt-2 text-xs text-gray-700">
-                <span class="font-bold text-blue-600">🚇 地鐵流線：</span> 
-                搭乘 <span class="text-blue-500 font-semibold">4 號線</span> 從 <strong>明洞站 (424)</strong> ➔ 直達 <strong>首爾站 (426)</strong>，出站即可抵達。
-            </div>
-            
-            <a href="https://map.naver.com/p/search/롯데마트%20서울역점" target="_blank" class="inline-block mt-2 text-xs text-green-600 underline font-bold">
-                🗺️ Naver Map 導航至首爾站樂天馬特
-            </a>
-        </div>
-
-        <div class="bg-yellow-50 p-4 rounded-xl border border-yellow-200">
-            <h2 class="font-bold text-yellow-800 flex items-center">✈️ 返程歸國流線 (KE2027)</h2>
-            <div class="text-sm mt-2 space-y-1 text-gray-800">
-                <p>• <strong>16:10</strong> 仁川機場 T2 起飛 ➔ <strong>17:50</strong> 抵達桃園 T1。</p>
-                <p class="text-red-600 font-bold mt-2">🚨 大叔嚴格精算提醒：</p>
-                <p class="text-xs text-gray-700 pl-3 bg-white/60 p-1.5 rounded border border-yellow-100">請務必於 <strong>13:40 前</strong> 抵達仁川機場第二航廈（T2）航空公司櫃檯排隊辦理報到，保留充裕的退稅與過安檢時間！</p>
-            </div>
-        </div>
-    </div>
-    
 </body>
 </html>
