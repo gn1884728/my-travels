@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>2026 泰國芭達雅五天四夜行程表</title>
     
+    <!-- ==================== PWA 行動 App 隱藏網址列設定 ==================== -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="泰國避暑遊">
     <meta name="theme-color" content="#059669">
     
+    <!-- 精美手機桌面圖示 (自動生成帶有南洋度假感的高質感綠色底圖) -->
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23059669%22/><text y=%2265%22 x=%2218%22 fill=%22white%22 font-size=%2242%22 font-weight=%22bold%22 font-family=%22sans-serif%22>泰</text></svg>">
 
     <style>
@@ -23,8 +25,18 @@
         .tab-scroll-container::-webkit-scrollbar { display: none; }
         .tab-btn { background: rgba(255,255,255,0.2); color: #d1fae5; border: none; padding: 8px 16px; border-radius: 20px; font-size: 14px; margin-right: 8px; cursor: pointer; transition: all 0.2s;}
         .tab-btn.active { background: white; color: #059669; font-weight: bold; }
+        
+        /* 升級版：天氣與會籍看板樣式 */
+        .weather-banner { background: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%); border-radius: 12px; padding: 14px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #bae6fd; display: flex; align-items: center; justify-content: space-between; }
+        .weather-info { display: flex; flex-direction: column; gap: 2px; }
+        .weather-title { font-size: 14px; font-weight: bold; color: #0369a1; display: flex; align-items: center; gap: 4px; }
+        .weather-detail { font-size: 12px; color: #0284c7; line-height: 1.4; }
+        .weather-icon { font-size: 32px; padding-right: 4px; }
+        
         .card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); border-left: 4px solid #10b981;}
         .card.highlight { border-left: 4px solid #f59e0b; }
+        .card.success-status { border-left: 4px solid #3b82f6; background-color: #eff6ff; }
+        
         .date-header { font-size: 18px; font-weight: bold; margin-bottom: 16px; border-left: 4px solid #059669; padding-left: 8px; color: #0f172a;}
         .time { color: #059669; font-weight: 800; display: inline-block; width: 65px; vertical-align: top;}
         .event-group { display: inline-block; width: calc(100% - 70px); }
@@ -32,11 +44,13 @@
         .desc { font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 8px;}
         .hotel-tag { font-size: 13px; color: #047857; background: #d1fae5; padding: 6px 10px; border-radius: 6px; display: inline-block; font-weight: 600; margin-bottom: 8px;}
         .drive-info { background: #fffbeb; color: #b45309; padding: 6px 10px; border-radius: 6px; font-size: 13px; font-weight: bold; margin-top: 8px; border-left: 3px solid #f59e0b; display: inline-block;}
+        .drive-info.done { background: #f0fdf4; color: #166534; border-left: 3px solid #16a34a; }
+        
         .budget-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
         .budget-table th, .budget-table td { border: 1px solid #e2e8f0; padding: 10px; text-align: left; }
         .budget-table th { background: #f8fafc; color: #059669; font-weight: bold; }
         .budget-table tr:nth-child(even) { background: #fdfdfd; }
-        .total-row { font-weight: bold; background: #fee2e2 !important; color: #991b1b; }
+        
         .btn-mark { display: block; background: #10b981; color: white; border: none; text-align: center; padding: 10px; border-radius: 8px; font-size: 14px; font-weight: bold; margin-top: 12px; cursor: pointer; width: 100%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: background 0.2s; box-sizing: border-box;}
         .btn-unmark { display: block; background: #94a3b8; color: white; border: none; text-align: center; padding: 8px; border-radius: 8px; font-size: 13px; cursor: pointer; width: 100%; margin-top: 8px; box-sizing: border-box;}
         .checklist-group { margin-bottom: 20px; }
@@ -46,10 +60,12 @@
         .check-text { font-size: 15px; color: #334155; transition: all 0.2s; line-height: 1.4;}
         .check-subtext { font-size: 12px; color: #64748b; margin-top: 2px; }
         .check-item input[type="checkbox"]:checked + .check-text-box .check-text { color: #94a3b8; text-decoration: line-through; }
+        
         .food-visited-btn { display: inline-block; margin-top: 8px; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; cursor: pointer; border: 2px solid #10b981; color: #10b981; background: white; transition: all 0.2s; }
         .food-visited-btn.visited { background: #10b981; color: white; }
         .food-visited-stamp { display: none; font-size: 13px; color: #10b981; font-weight: bold; margin-top: 4px; }
         .food-visited-stamp.show { display: block; }
+        
         .expense-input-card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .expense-input-card .input-row { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
         .expense-input-card input, .expense-input-card select { flex: 1; min-width: 120px; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; }
@@ -61,32 +77,25 @@
         .expense-item .e-cat { color: #64748b; font-size: 12px; background: #f1f5f9; padding: 2px 8px; border-radius: 10px; margin: 0 8px; }
         .expense-item .e-amt { font-weight: bold; color: #059669; white-space: nowrap; }
         .expense-total { background: #059669; color: white; border-radius: 10px; padding: 14px 16px; text-align: center; margin-top: 16px; font-size: 16px; font-weight: bold; }
+        
         .checkin-card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-left: 4px solid #f59e0b; }
         .checkin-card select, .checkin-card textarea, .checkin-card input { width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; margin-bottom: 10px; box-sizing: border-box; font-family: inherit; }
         .checkin-card textarea { resize: none; height: 80px; }
         .btn-checkin { background: #f59e0b; color: white; border: none; padding: 12px; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; width: 100%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .btn-checkin:active { background: #d97706; }
-        .checkin-log { margin-top: 16px; }
-        .checkin-log-title { font-size: 15px; font-weight: bold; color: #059669; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 12px; }
-        .checkin-item { background: #fffbeb; border-radius: 10px; padding: 12px; margin-bottom: 8px; border-left: 3px solid #f59e0b; }
-        .checkin-item .ci-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
-        .checkin-item .ci-name { font-weight: bold; color: #b45309; font-size: 14px; }
-        .checkin-item .ci-time { font-size: 12px; color: #94a3b8; }
-        .checkin-item .ci-place { font-size: 13px; color: #334155; margin-bottom: 4px; }
-        .checkin-item .ci-msg { font-size: 13px; color: #475569; font-style: italic; }
-        .checkin-empty { text-align: center; color: #94a3b8; font-size: 14px; padding: 24px 0; }
+        
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding: 12px 0; z-index: 100; padding-bottom: calc(12px + env(safe-area-inset-bottom));}
         .nav-item { cursor: pointer; color: #94a3b8; font-size: 11px; font-weight: 600; text-align: center; flex: 1; transition: color 0.2s;}
         .nav-item.active { color: #059669; }
         .nav-icon { font-size: 20px; display: block; margin-bottom: 4px; }
         
-        /* 隱藏過敏原面板樣式 */
         .safe-hidden-panel { display: none; margin-top: 10px; padding: 14px; background-color: #f0fdf4; border-radius: 8px; border: 2px dashed #059669; font-size: 14px; color: #047857; line-height: 1.8; font-weight: bold; }
     </style>
 </head>
 <body>
 <div class="header"><h1>🌴 2026 泰國避暑之旅</h1></div>
 
+<!-- ==================== 行程視圖 ==================== -->
 <div id="view-itinerary" class="main-view active">
     <div class="tab-scroll-container">
         <button class="tab-btn active" onclick="showDay('d1', this)">08/22 (出發・芭達雅)</button>
@@ -97,6 +106,20 @@
     </div>
     
     <div class="container">
+        <!-- 升級版：比照首爾/東京與阿助行程的高質感氣候指標看板 -->
+        <div class="weather-banner">
+            <div class="weather-info">
+                <div class="weather-title">⛅ 泰國 8 月氣候動態精算看板</div>
+                <div class="weather-detail">
+                    🌡️ <strong>均溫：</strong>26°C - 33°C (體感偏悶熱，室內冷氣強)<br>
+                    🌧️ <strong style="color: #0284c7;">降雨：</strong>雨季多陣雨/雷陣雨，好發於午後<br>
+                    💡 <strong>精算備忘：</strong>建議隨身攜帶輕便折傘，多安排商場及高空酒廊避雨。
+                </div>
+            </div>
+            <div class="weather-icon">🌦️</div>
+        </div>
+
+        <!-- 會籍看板 -->
         <div class="card highlight" style="background: #fffbeb;">
             <div class="event" style="color: #b45309;">💡 會籍權益與重要時程</div>
             <div class="desc" style="font-size: 13px; font-weight: 600; line-height: 1.6;">
@@ -105,6 +128,7 @@
             </div>
         </div>
 
+        <!-- 08/22 -->
         <div id="d1" class="day-content" style="display:block;">
             <div class="date-header">8月22日（六）啟程與海景浪漫晚宴 【芭達雅】</div>
             <div class="hotel-tag">🏨 宿：芭達雅假日酒店（預計升等海景套房）</div>
@@ -141,8 +165,9 @@
             </div></div>
         </div>
 
+        <!-- 08/23 -->
         <div id="d2" class="day-content" style="display:none;">
-            <div class="date-header">8月23日（日）震撼木雕與懸崖海景放蹤一日遊 【芭達雅】</div>
+            <div class="date-header">8月23日（日）震撼木雕與懸崖海景放鬆一日遊 【芭達雅】</div>
             <div class="hotel-tag">🏨 宿：芭達雅假日酒店</div>
             
             <div class="card"><span class="time">08:30</span><div class="event-group">
@@ -171,13 +196,14 @@
             </div></div>
         </div>
 
+        <!-- 08/24 -->
         <div id="d3" class="day-content" style="display:none;">
             <div class="date-header">8月24日（一）世界級熱帶花園與海上漂浮日落 【芭達雅】</div>
             <div class="hotel-tag">🏨 宿：芭達雅假日酒店</div>
             
             <div class="card"><span class="time">08:30</span><div class="event-group">
                 <div class="event">飯店活力早餐 🍉</div>
-                <div class="desc">充分數受豐盛早餐，開啟度假的一天。</div>
+                <div class="desc">充分享受豐盛早餐，開啟度假的一天。</div>
             </div></div>
 
             <div class="card"><span class="time">10:00</span><div class="event-group">
@@ -196,6 +222,7 @@
             </div></div>
         </div>
 
+        <!-- 08/25 -->
         <div id="d4" class="day-content" style="display:none;">
             <div class="date-header">8月25日（二）慢慢移防曼谷市區 【曼谷】</div>
             <div class="hotel-tag">🏨 宿：曼谷洲際酒店（OP特惠價房型）</div>
@@ -205,10 +232,11 @@
                 <div class="desc">享用早餐後辦理退房。</div>
             </div></div>
 
-            <div class="card"><span class="time">11:00</span><div class="event-group">
+            <!-- 進度更新：10:30已預訂包車，白白已訂 -->
+            <div class="card success-status"><span class="time">10:30</span><div class="event-group">
                 <div class="event">搭乘 6 人座專車北上 🚗</div>
-                <div class="desc">4 人共同搭乘預約好的 <strong>6 人座包車</strong> 往曼谷移動。</div>
-                <span class="drive-info">🚗 跨城市 6 人座包車：待訂</span>
+                <div class="desc">4 人共同搭乘預約好的 <strong>6 人座豪華包車</strong> 往曼谷移動。中途預計停靠網美海灘俱樂部。</div>
+                <span class="drive-info done">✅ 跨城市 6 人座專車：白白已預訂完成</span>
             </div></div>
 
             <div class="card highlight"><span class="time">11:30</span><div class="event-group">
@@ -237,6 +265,7 @@
             </div></div>
         </div>
 
+        <!-- 08/26 -->
         <div id="d5" class="day-content" style="display:none;">
             <div class="date-header">8月26日（三）經典祈福與返台收尾 【曼谷】</div>
             
@@ -269,6 +298,7 @@
     </div>
 </div>
 
+<!-- ==================== 美食視圖 ==================== -->
 <div id="view-food" class="main-view">
     <div class="container">
         <div class="date-header">🍲 泰國美食口袋名單</div>
@@ -292,6 +322,7 @@
     </div>
 </div>
 
+<!-- ==================== 票券視圖 ==================== -->
 <div id="view-tickets" class="main-view">
     <div class="container">
         <div class="date-header">🎟️ 交通調度中心</div>
@@ -310,15 +341,15 @@
         <div class="card ticket-card" id="ticket-1">
             <div class="ticket-header">
                 <div class="event">8/25 芭達雅 ➔ 曼谷洲際 豪華6人座專車</div>
-                <span class="status-badge pending">⏳ 待採買</span>
+                <span class="status-badge bought">✅ 白白已訂</span>
             </div>
             <div class="desc">跨城市北上、中途停靠網美咖啡廳的 6 人座專車包車。</div>
-            <div class="ticket-details"></div>
-            <button class="btn-mark" onclick="markAsBought(this, 1)">✔️ 標記為已購買並記錄</button>
+            <div class="ticket-details" style="display:block;"><div>🛒 <strong>狀態：</strong>白白已處理預訂完畢</div></div>
         </div>
     </div>
 </div>
 
+<!-- ==================== 清單視圖 ==================== -->
 <div id="view-checklist" class="main-view">
     <div class="container">
         <div class="date-header">📝 泰國行前精算裝備清單</div>
@@ -360,6 +391,7 @@
     </div>
 </div>
 
+<!-- ==================== 帳本視圖 ==================== -->
 <div id="view-expenses" class="main-view">
     <div class="container">
         <div class="date-header">💰 雲端總帳本 ＆ 即時記帳</div>
@@ -403,13 +435,15 @@
                     <tr><td>🏨 芭達雅假日酒店 (3晚)</td><td>55,000 點</td><td>折合台幣約 NT$ 8,800 元</td></tr>
                     <tr><td>🏨 曼谷洲際酒店 (1晚)</td><td>3,411 泰銖</td><td>官網 OP 優惠價預訂</td></tr>
                     <tr><td>🚗 交通：BKK機場➔芭達雅</td><td>約 1,800 泰銖</td><td>預估行情成本（豪華大空間廂型車）</td></tr>
-                    <tr><td>🚗 交通：其他跨城及送機</td><td>待填寫</td><td>包含續留移防包車費用追蹤</td></tr>
+                    <tr><td>🚗 交通：8/25 芭達雅➔曼谷</td><td>✅ 已預訂</td><td>白白已完成專車包車預訂</td></tr>
+                    <tr><td>🚗 交通：8/26 機場送機</td><td>待填寫</td><td>包含續留移防包車費用追蹤</td></tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
+<!-- ==================== 打卡視圖 ==================== -->
 <div id="view-checkin" class="main-view">
     <div class="container">
         <div class="date-header">📍 團員打卡回報</div>
@@ -438,6 +472,7 @@
     </div>
 </div>
 
+<!-- ==================== 底部導覽列 ==================== -->
 <div class="bottom-nav">
     <div class="nav-item active" onclick="switchView('view-itinerary', this)"><span class="nav-icon">📅</span>行程</div>
     <div class="nav-item" onclick="switchView('view-food', this)"><span class="nav-icon">🍲</span>美食</div>
