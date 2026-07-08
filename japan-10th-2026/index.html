@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-<head><script>
-  window.onload = function() {
-    var password = "102026";
-    var input = prompt("此行程為私人資料，請輸入查看密碼：");
-    if (input !== password) {
-      document.body.innerHTML = "<div style='text-align:center; padding-top:50px; font-family:sans-serif;'><h1>存取被拒</h1><p>密碼錯誤，將於 3 秒後自動返回。</p></div>";
-      setTimeout(function() { window.location.href = "https://gn1884728.github.io/my-travels/"; }, 3000);
-    }
-  };
-</script>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>2026 秋季家族自駕遊</title>
     
     <meta name="theme-color" content="#1E3A8A">
     
-    <!-- iOS 專用隱藏網址列與圖示 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="日本秋遊">
     <link rel="apple-touch-icon" href="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f341.png">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="日本秋遊">
+    <link rel="icon" type="image/png" sizes="72x72" href="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f341.png">
+    
+    <link rel="manifest" href='data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%222026%E7%A7%8B%E5%AD%A3%E6%97%A5%E6%9C%AC%E9%81%8A%22%2C%22short_name%22%3A%22%E6%97%A5%E6%9C%AC%E9%81%8A%22%2C%22display%22%3A%22standalone%22%2C%22start_url%22%3A%22.%2F%22%2C%22background_color%22%3A%22%23f4f6f8%22%2C%22theme_color%22%3A%22%231E3A8A%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fcdnjs.cloudflare.com%2Fajax%2Flibs%2Ftwemoji%2F14.0.2%2Fsvg%2F1f341.svg%22%2C%22sizes%22%3A%22any%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%2C%7B%22src%22%3A%22https%3A%2F%2Fcdnjs.cloudflare.com%2Fajax%2Flibs%2Ftwemoji%2F14.0.2%2F72x72%2F1f341.png%22%2C%22sizes%22%3A%2272x72%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D'>
+
+    <style>
 
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="日本秋遊">
