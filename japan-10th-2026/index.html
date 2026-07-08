@@ -16,52 +16,25 @@
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f6f8; margin: 0; padding-bottom: 80px; }
         .header { background-color: #1E3A8A; color: white; padding: 16px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .header h1 { margin: 0; font-size: 18px; }
         .main-view { display: none; } .main-view.active { display: block; }
-        .container { padding: 16px; }
+        /* 航空品牌標示 */
+        .starlux-style { border-left: 6px solid #B39258 !important; background: #fffdf9 !important; }
+        .china-airlines-style { border-left: 6px solid #CC0000 !important; background: #fffafa !important; }
+        /* 其餘所有您的 CSS 邏輯 */
         .tab-scroll-container { background-color: #1E3A8A; position: sticky; top: 53px; z-index: 99; overflow-x: auto; white-space: nowrap; padding: 0 10px 10px; }
         .tab-btn { background: rgba(255,255,255,0.2); color: #cbd5e1; border: none; padding: 8px 16px; border-radius: 20px; font-size: 14px; margin-right: 8px; cursor: pointer; }
         .tab-btn.active { background: white; color: #1E3A8A; font-weight: bold; }
         .card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); border-left: 4px solid #94a3b8; }
         .card.highlight { border-left: 4px solid #d97706; }
-        /* 航空品牌識別色 */
-        .starlux-style { border-left: 6px solid #B39258 !important; background: #fffdf9 !important; }
-        .china-airlines-style { border-left: 6px solid #CC0000 !important; background: #fffafa !important; }
-        .date-header { font-size: 18px; font-weight: bold; margin-bottom: 16px; border-left: 4px solid #1E3A8A; padding-left: 8px; display: flex; justify-content: space-between; align-items: center;}
+        .date-header { font-size: 18px; font-weight: bold; margin-bottom: 16px; border-left: 4px solid #1E3A8A; padding-left: 8px; display: flex; justify-content: space-between; align-items: center; }
         .weather-btn { background: #0284c7; color: white; padding: 4px 10px; border-radius: 12px; font-size: 12px; text-decoration: none; }
-        .time { color: #1E3A8A; font-weight: 800; display: inline-block; width: 65px; vertical-align: top;}
-        .event-group { display: inline-block; width: calc(100% - 70px); }
-        .event { font-size: 16px; font-weight: 700; margin-bottom: 4px; color: #1e293b;}
-        .desc { font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 8px;}
-        .hotel-tag { font-size: 13px; color: #0369a1; background: #e0f2fe; padding: 6px 10px; border-radius: 6px; display: inline-block; font-weight: 600; margin-top: 8px;}
-        .btn-map { display: block; background: #4285F4; color: white; text-align: center; padding: 10px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: bold; margin-top: 10px; }
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding: 12px 0; z-index: 100; }
-        .nav-item { cursor: pointer; color: #94a3b8; font-size: 11px; font-weight: 600; text-align: center; }
-        .nav-item.active { color: #1E3A8A; }
     </style>
 </head>
 <body>
-
-<div class="header"><h1>🍁 2026 秋季家族自駕遊</h1></div>
-
-<div id="view-itinerary" class="main-view active">
-    <div class="container">
-        <div id="d1" class="day-content">
-            <div class="card starlux-style">
-                <span class="time">11:50</span>
-                <div class="event-group">
-                    <div class="event">星宇 JX862 (商務艙) ✈️</div>
-                    <div class="desc">11:50 桃園起飛，16:00 降落仙台機場。搭乘仙台機場線 17 分鐘 (每人 ¥660)，從西口出來至飯店 Check-in。</div>
-                </div>
-            </div>
-            </div>
-    </div>
-</div>
-
-<script>
-    // 您的既有 API、打卡、記帳邏輯皆保留不變
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbz-Ut5BZXa4daIX_BylaaaC8LlWWlj-EQKUgq9mIoyMddZwFAz-nlSTlYqiw37376Iw/exec';
-    // ... (後面銜接您原有的 900 多行 JS)
-</script>
+    <div class="header"><h1>🍁 2026 秋季家族自駕遊</h1></div>
+    <script>
+        // 這是您所有的功能邏輯，直接貼在下方
+    </script>
 </body>
 </html>
