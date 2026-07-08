@@ -30,7 +30,7 @@
         .date-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
         .date-header { font-size: 18px; font-weight: bold; border-left: 4px solid #059669; padding-left: 8px; color: #0f172a; margin: 0; }
         
-        /* 完美復刻：精緻天氣互動按鈕 */
+        /* 精緻天氣互動按鈕 */
         .weather-btn { background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); color: white; border: none; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 4px rgba(2,132,199,0.2); transition: transform 0.1s; -webkit-tap-highlight-color: transparent; }
         .weather-btn:active { transform: scale(0.95); }
 
@@ -108,8 +108,6 @@
         .nav-item { cursor: pointer; color: #94a3b8; font-size: 11px; font-weight: 600; text-align: center; flex: 1; transition: color 0.2s;}
         .nav-item.active { color: #059669; }
         .nav-icon { font-size: 20px; display: block; margin-bottom: 4px; }
-        
-        .safe-hidden-panel { display: none; margin-top: 10px; padding: 14px; background-color: #f0fdf4; border-radius: 8px; border: 2px dashed #059669; font-size: 14px; color: #047857; line-height: 1.8; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -404,7 +402,7 @@
 <!-- ==================== 票券視圖 ==================== -->
 <div id="view-tickets" class="main-view">
     <div class="container">
-        <div class="date-header" style="margin-bottom:16px;">🎟️ 交通調度中心</div>
+        <div class="date-header">🎟️ 交通調度中心</div>
         <div class="desc" style="margin-bottom: 16px;">追蹤本次 6 人座商務包車與機場送機的採購進度。</div>
         
         <div class="card ticket-card" id="ticket-0">
@@ -431,7 +429,7 @@
 <!-- ==================== 清單視圖 ==================== -->
 <div id="view-checklist" class="main-view">
     <div class="container">
-        <div class="date-header" style="margin-bottom:16px;">📝 泰國行前精算裝備清單</div>
+        <div class="date-header">📝 泰國行前精算裝備清單</div>
         <div class="desc" style="margin-bottom: 20px;">各項旅行必備確認，包含特殊時程清點。</div>
         <div class="card">
             <div class="checklist-group">
@@ -459,13 +457,6 @@
                 <label class="check-item"><input type="checkbox" id="chk-8"><div class="check-text-box"><div class="check-text">腸胃藥、感冒藥</div><div class="check-subtext">預防水土不服或溫差感冒</div></div></label>
                 <label class="check-item"><input type="checkbox" id="chk-9"><div class="check-text-box"><div class="check-text">泰國上網卡 / eSIM</div><div class="check-subtext">出發前先確認網卡</div></div></label>
             </div>
-            
-            <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;">
-            <div class="checklist-group-title" onclick="toggleSafePanel()" style="color: #059669; font-weight: bold;">过敏提示</div>
-            <div id="safe-panel" class="safe-hidden-panel">
-                • ❌ 絕對不可吃：牛肉、螃蟹、泰國蝦（大頭蝦）、胡蘿蔔。<br>
-                • ✅ 安全可享用：海水草蝦、白蝦、小卷（透抽 OK！）、雞肉、魚肉、原型蔬菜。
-            </div>
         </div>
     </div>
 </div>
@@ -473,7 +464,7 @@
 <!-- ==================== 帳本視圖 ==================== -->
 <div id="view-expenses" class="main-view">
     <div class="container">
-        <div class="date-header" style="margin-bottom:16px;">💰 雲端總帳本 ＆ 即時記帳</div>
+        <div class="date-header">💰 雲端總帳本 ＆ 即時記帳</div>
         <div class="expense-input-card">
             <div class="event" style="margin-bottom: 12px;">➕ 快速記帳</div>
             <div class="input-row">
@@ -525,7 +516,7 @@
 <!-- ==================== 打卡視圖 ==================== -->
 <div id="view-checkin" class="main-view">
     <div class="container">
-        <div class="date-header" style="margin-bottom:16px;">📍 團員打卡回報</div>
+        <div class="date-header">📍 團員打卡回報</div>
         <div class="checkin-card">
             <div class="event" style="margin-bottom: 12px;">📌 我要打卡</div>
             <select id="ci-member">
@@ -564,7 +555,6 @@
 <script>
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbzbm7RHCwxoYAatJF_tMhjPHUCgIfYW7kQxAzpA-S-9H1IQCxFZhD36CK-bw_Ndu27V/exec';
 
-// 天氣彈出視窗資料控制
 const weatherData = {
     '芭達雅': {
         title: '🌦️ 芭達雅 8 月氣候指標',
@@ -587,15 +577,6 @@ function openWeather(city) {
 
 function closeWeather() {
     document.getElementById('weatherModal').style.display = 'none';
-}
-
-function toggleSafePanel() {
-    const panel = document.getElementById('safe-panel');
-    if (panel.style.display === 'block') {
-        panel.style.display = 'none';
-    } else {
-        panel.style.display = 'block';
-    }
 }
 
 function switchView(id, btn) {
