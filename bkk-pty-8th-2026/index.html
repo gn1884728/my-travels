@@ -78,9 +78,13 @@
         .check-item { display: flex; align-items: flex-start; margin-bottom: 12px; cursor: pointer; }
         .check-item input[type="checkbox"] { margin-top: 4px; margin-right: 12px; width: 18px; height: 18px; accent-color: #10b981; cursor: pointer; flex-shrink: 0;}
         .check-text { font-size: 15px; color: #334155; transition: all 0.2s; line-height: 1.4;}
-        .check-subtext { font-size: 12px; color: #64748b; margin-top: 2px; }
+        .check-subtext { font-size: 12px; color: #64748b; margin-top: 4px; display: block; }
         .check-item input[type="checkbox"]:checked + .check-text-box .check-text { color: #94a3b8; text-decoration: line-through; }
         
+        /* 清單內直達連結按鈕 */
+        .list-link-btn { display: inline-block; background-color: #e0f2fe; color: #0369a1; text-decoration: none; font-size: 11px; font-weight: bold; padding: 4px 8px; border-radius: 6px; margin-top: 6px; border: 1px solid #bae6fd; }
+        .list-link-btn:active { background-color: #bae6fd; }
+
         .food-visited-btn { display: inline-block; margin-top: 8px; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; cursor: pointer; border: 2px solid #10b981; color: #10b981; background: white; transition: all 0.2s; }
         .food-visited-btn.visited { background: #10b981; color: white; }
         .food-visited-stamp { display: none; font-size: 13px; color: #10b981; font-weight: bold; margin-top: 4px; }
@@ -402,7 +406,7 @@
 <!-- ==================== 票券視圖 ==================== -->
 <div id="view-tickets" class="main-view">
     <div class="container">
-        <div class="date-header">🎟️ 交通調度中心</div>
+        <div class="date-header" style="margin-bottom:16px;">🎟️ 交通調度中心</div>
         <div class="desc" style="margin-bottom: 16px;">追蹤本次 6 人座商務包車與機場送機的採購進度。</div>
         
         <div class="card ticket-card" id="ticket-0">
@@ -429,9 +433,30 @@
 <!-- ==================== 清單視圖 ==================== -->
 <div id="view-checklist" class="main-view">
     <div class="container">
-        <div class="date-header">📝 泰國行前精算裝備清單</div>
+        <div class="date-header" style="margin-bottom:16px;">📝 泰國行前精算裝備清單</div>
         <div class="desc" style="margin-bottom: 20px;">各項旅行必備確認，包含特殊時程清點。</div>
         <div class="card">
+            <!-- 新增邏輯：泰國簽證與出入境快速通關科技 -->
+            <div class="checklist-group">
+                <div class="checklist-group-title">🛂 泰國入境科技與簽證準備</div>
+                <label class="check-item">
+                    <input type="checkbox" id="chk-tdac">
+                    <div class="check-text-box">
+                        <div class="check-text">線上 TDAC (電子入出境卡)</div>
+                        <div class="check-subtext">💡 <strong>備註：</strong>抵達前 72 小時內必須上網完成申請。</div>
+                        <a href="https://tdac.immigration.go.th/arrival-card/#/home" target="_blank" class="list-link-btn">🔗 直達 TDAC 申請官網</a>
+                    </div>
+                </label>
+                <label class="check-item">
+                    <input type="checkbox" id="chk-thim">
+                    <div class="check-text-box">
+                        <div class="check-text">全新 THIM APP 自動通關系統</div>
+                        <div class="check-subtext">💡 <strong>備註：</strong>泰國最新入出境管理系統，加速通關防線。</div>
+                        <a href="https://bkk.com.tw/thailand-immigration-management-system/" target="_blank" class="list-link-btn">📖 查閱 THIM APP 說明文章</a>
+                    </div>
+                </label>
+            </div>
+
             <div class="checklist-group">
                 <div class="checklist-group-title">🔔 本次關鍵時程</div>
                 <label class="check-item"><input type="checkbox" id="chk-0"><div class="check-text-box"><div class="check-text">4月記得剪新光無限卡</div><div class="check-subtext">確認紅利點數已全數清空</div></div></label>
@@ -464,7 +489,7 @@
 <!-- ==================== 帳本視圖 ==================== -->
 <div id="view-expenses" class="main-view">
     <div class="container">
-        <div class="date-header">💰 雲端總帳本 ＆ 即時記帳</div>
+        <div class="date-header" style="margin-bottom:16px;">💰 雲端總帳本 ＆ 即時記帳</div>
         <div class="expense-input-card">
             <div class="event" style="margin-bottom: 12px;">➕ 快速記帳</div>
             <div class="input-row">
@@ -502,7 +527,8 @@
             <table class="budget-table">
                 <thead><tr><th>預算項目</th><th>預估金額</th><th>備註</th></tr></thead>
                 <tbody>
-                    <tr><td>🏨 芭達雅假日酒店 (3晚)</td><td>55,000 點</td><td>折合台幣約 NT$ 8,800 元</td></tr>
+                    <!-- 第二個邏輯：點數與台幣下修修正 -->
+                    <tr><td>🏨 芭達雅假日酒店 (3晚)</td><td>53,000 點</td><td>折合台幣約 NT$ 8,480 元</td></tr>
                     <tr><td>🏨 曼谷洲際酒店 (1晚)</td><td>3,411 泰銖</td><td>官網 OP 優惠價預訂</td></tr>
                     <tr><td>🚗 交通：BKK機場➔芭達雅</td><td>約 1,800 泰銖</td><td>預估行情成本（豪華大空間廂型車）</td></tr>
                     <tr><td>🚗 交通：8/25 芭達雅➔曼谷</td><td>✅ 已預訂</td><td>白白已完成專車包車預訂</td></tr>
