@@ -15,6 +15,7 @@
         <button onclick="render('food')" class="flex flex-col items-center"><i class="fas fa-gift text-lg mb-1"></i>優惠</button>
         <button onclick="render('travel')" class="flex flex-col items-center"><i class="fas fa-plane-departure text-lg mb-1"></i>行程</button>
         <button onclick="render('lounge')" class="flex flex-col items-center"><i class="fas fa-couch text-lg mb-1"></i>貴賓室</button>
+        <button onclick="render('mileage')" class="flex flex-col items-center"><i class="fas fa-chart-line text-lg mb-1"></i>航空哩程</button>
     </nav>
     <script>
         let d = {};
@@ -35,6 +36,52 @@
                     <select id="a" onchange="up_mem()" class="w-full p-4 border rounded-xl mb-3"><option value="">選擇機場</option></select>
                     <select id="m" onchange="show()" class="w-full p-4 border rounded-xl mb-3"><option value="">選擇會籍</option></select>
                     <div id="r"></div>`;
+            } else if(tab === 'mileage') {
+                app.innerHTML = `
+                    <h2 class="text-xl font-bold mb-1 text-center">🏨 萬豪轉哩程成本效益表</h2>
+                    <p class="text-xs text-gray-500 text-center mb-4">以 60,000 點轉 25,000 哩計算基準</p>
+                    <div class="space-y-3">
+                        <div class="bg-white p-4 rounded-2xl shadow border-l-4 border-green-500">
+                            <div class="flex justify-between items-center text-sm font-bold">
+                                <span>每點成本 NT$ 0.210</span>
+                                <span class="text-green-600">NT$ 0.504 / 哩</span>
+                            </div>
+                            <p class="text-xs text-gray-600 mt-1">總花費：NT$ 12,600</p>
+                            <p class="text-xs text-green-700 font-bold mt-1">🔥 甜甜價！換 JAL/ANA/Alaska 非常划算</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-2xl shadow border-l-4 border-blue-500">
+                            <div class="flex justify-between items-center text-sm font-bold">
+                                <span>每點成本 NT$ 0.220</span>
+                                <span class="text-blue-600">NT$ 0.528 / 哩</span>
+                            </div>
+                            <p class="text-xs text-gray-600 mt-1">總花費：NT$ 13,200</p>
+                            <p class="text-xs text-gray-600 mt-1">官方加碼促銷買分常見成本</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-2xl shadow border-l-4 border-yellow-500">
+                            <div class="flex justify-between items-center text-sm font-bold">
+                                <span>每點成本 NT$ 0.230</span>
+                                <span class="text-yellow-600">NT$ 0.552 / 哩</span>
+                            </div>
+                            <p class="text-xs text-gray-600 mt-1">總花費：NT$ 13,800</p>
+                            <p class="text-xs text-gray-600 mt-1">接近常態入手價，補哩程缺口仍划算</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-2xl shadow border-l-4 border-orange-400">
+                            <div class="flex justify-between items-center text-sm font-bold">
+                                <span>每點成本 NT$ 0.240</span>
+                                <span class="text-orange-500">NT$ 0.576 / 哩</span>
+                            </div>
+                            <p class="text-xs text-gray-600 mt-1">總花費：NT$ 14,400</p>
+                            <p class="text-xs text-gray-600 mt-1">稍微偏高，建議用於高價值商務艙兌換</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-2xl shadow border-l-4 border-red-500">
+                            <div class="flex justify-between items-center text-sm font-bold">
+                                <span>每點成本 NT$ 0.250</span>
+                                <span class="text-red-600">NT$ 0.600 / 哩</span>
+                            </div>
+                            <p class="text-xs text-gray-600 mt-1">總花費：NT$ 15,000</p>
+                            <p class="text-xs text-red-600 font-bold mt-1">⚠️ 成本過 0.6，建議優先考慮直接買哩程</p>
+                        </div>
+                    </div>`;
             }
         }
         function up_city() { const c=document.getElementById('c').value; document.getElementById('ci').innerHTML='<option value="">選擇城市</option>'+Object.keys(d.lounge[c]||{}).map(ci=>`<option value="${ci}">${ci}</option>`).join(''); }
