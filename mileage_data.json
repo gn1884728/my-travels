@@ -1,0 +1,12 @@
+{
+  "marriott": [
+    { "cost": "0.210", "mile": "0.504", "total": "12,600", "note": "甜甜價！換 JAL/ANA/Alaska 非常划算", "border": "border-green-500", "tagColor": "text-green-600" },
+    { "cost": "0.220", "mile": "0.528", "total": "13,200", "note": "官方加碼促銷買分常見成本", "border": "border-blue-500", "tagColor": "text-blue-600" },
+    { "cost": "0.230", "mile": "0.552", "total": "13,800", "note": "接近常態入手價，補哩程缺口仍划算", "border": "border-yellow-500", "tagColor": "text-yellow-600" },
+    { "cost": "0.240", "mile": "0.576", "total": "14,400", "note": "稍微偏高，建議用於高價值商務艙兌換", "border": "border-orange-400", "tagColor": "text-orange-500" },
+    { "cost": "0.250", "mile": "0.600", "total": "15,000", "note": "成本過 0.6，建議優先考慮直接買哩程", "border": "border-red-500", "tagColor": "text-red-600" }
+  ],
+  "ihg": [
+    { "tier": "常態特賣買分", "value": "0.14", "note": "適合搭配 4 晚送 1 晚或點數房兌換", "border": "border-purple-500", "tagColor": "text-purple-600" }
+  ]
+}
