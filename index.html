@@ -119,8 +119,8 @@
                 });
                 const result = await response.json();
                 if(result.status === "success") {
-                    if (result.message && result.message !== "已成功記錄至試算表！") {
-                        msg.innerHTML = "📋 <b class='text-blue-600'>AI 整理結果：</b><br><div class='text-left mt-2 p-3 bg-gray-50 rounded-xl border'>" + result.message.replace(/\n/g, '<br>') + "</div>";
+                    if (result.isQuery) {
+                        msg.innerHTML = "📋 <b class='text-blue-600'>AI 整理結果：</b><br><div class='text-left mt-2 p-3 bg-gray-50 rounded-xl border whitespace-pre-wrap'>" + result.message + "</div>";
                     } else {
                         msg.innerHTML = "✅ 記錄成功！<br><span class='text-xs text-gray-500'>已自動存入 Google 試算表</span>";
                         document.getElementById('noteInput').value = "";
