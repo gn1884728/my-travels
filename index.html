@@ -21,10 +21,8 @@
     <script>
         let d = {};
         let mileageData = {};
-        // 已更新為你的最新 Google Apps Script 網址
         const scriptUrl = "https://script.google.com/macros/s/AKfycbwVLmSnHAsJ8DjU9ZJgp5ZZThsxbPHAtXIQ7R93O_nTd-Uz8WrkdpyFhVwwxvTEddXq/exec";
         
-        // 同步載入兩份 JSON 資料
         Promise.all([
             fetch('data.json?t='+Date.now()).then(r => r.json()),
             fetch('mileage_data.json?t='+Date.now()).then(r => r.json())
@@ -72,12 +70,12 @@
                 app.innerHTML = `
                     <div class="bg-white p-5 rounded-2xl shadow">
                         <h3 class="font-bold text-lg mb-3 text-gray-800"><i class="fas fa-microphone-alt text-blue-600 mr-2"></i>AI 智慧隨手記事</h3>
-                        <textarea id="noteInput" placeholder="請輸入行程/記事（如：明天開會），或輸入查詢指令（如：整理8月份工作）..." class="w-full h-32 p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm mb-3"></textarea>
+                        <textarea id="noteInput" placeholder="請輸入行程或記事..." class="w-full h-32 p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm mb-3"></textarea>
                         <div class="flex gap-2">
                             <button onclick="startVoiceInput()" class="bg-emerald-600 text-white p-3 rounded-xl flex-1 font-bold text-sm shadow"><i class="fas fa-microphone mr-1"></i>語音輸入</button>
-                            <button onclick="sendNote()" id="submitBtn" class="bg-blue-600 text-white p-3 rounded-xl flex-1 font-bold text-sm shadow">送出並 AI 整理</button>
+                            <button onclick="sendNote()" id="submitBtn" class="bg-blue-600 text-white p-3 rounded-xl flex-1 font-bold text-sm shadow">送出記事</button>
                         </div>
-                        <div id="resultMsg" class="mt-4 text-sm text-gray-600 bg-gray-50 p-3 rounded-xl border hidden"></div>
+                        <p id="resultMsg" class="mt-4 text-sm text-gray-600 text-center"></p>
                     </div>`;
             }
         }
@@ -91,29 +89,27 @@
             const recognition = new SpeechRecognition();
             recognition.lang = 'zh-TW';
             recognition.interimResults = false;
-            const msgBox = document.getElementById('resultMsg');
-            msgBox.classList.remove('hidden');
-            msgBox.innerText = "🎙️ 請開始說話...";
+            const msg = document.getElementById('resultMsg');
+            msg.innerText = "🎙️ 請開始說話...";
 
             recognition.onresult = function(event) {
                 const speechText = event.results[0][0].transcript;
                 document.getElementById('noteInput').value = speechText;
-                msgBox.innerText = "✅ 語音辨識完成！";
+                msg.innerText = "✅ 語音辨識完成！";
             };
             recognition.onerror = function(event) {
-                msgBox.innerText = "❌ 語音辨識發生錯誤：" + event.error;
+                msg.innerText = "❌ 語音辨識發生錯誤：" + event.error;
             };
             recognition.start();
         }
 
         async function sendNote() {
             const text = document.getElementById('noteInput').value.trim();
-            const msgBox = document.getElementById('resultMsg');
+            const msg = document.getElementById('resultMsg');
             const btn = document.getElementById('submitBtn');
             if (!text) { alert('請輸入內容'); return; }
 
-            msgBox.classList.remove('hidden');
-            msgBox.innerText = "⏳ AI 正在處理中...";
+            msg.innerText = "⏳ 正在傳送至試算表...";
             btn.disabled = true;
 
             try {
@@ -123,17 +119,13 @@
                 });
                 const result = await response.json();
                 if(result.status === "success") {
-                    if (result.message && result.message !== "已成功記錄至試算表！") {
-                        msgBox.innerHTML = "📋 <b>AI 整理結果：</b><br>" + result.message.replace(/\n/g, '<br>');
-                    } else {
-                        msgBox.innerHTML = "✅ 記錄成功！<br><span class='text-xs text-gray-500'>已自動結構化存入 Google 試算表</span>";
-                        document.getElementById('noteInput').value = "";
-                    }
+                    msg.innerHTML = "✅ 記錄成功！<br><span class='text-xs text-gray-500'>已自動存入 Google 試算表</span>";
+                    document.getElementById('noteInput').value = "";
                 } else {
-                    msgBox.innerText = "❌ 失敗：" + result.message;
+                    msg.innerText = "❌ 失敗：" + result.message;
                 }
             } catch (e) {
-                msgBox.innerText = "❌ 發生錯誤：" + e;
+                msg.innerText = "❌ 發生錯誤：" + e;
             } finally {
                 btn.disabled = false;
             }
@@ -141,7 +133,7 @@
 
         function up_city() { const c=document.getElementById('c').value; document.getElementById('ci').innerHTML='<option value="">選擇城市</option>'+Object.keys(d.lounge[c]||{}).map(ci=>`<option value="${ci}">${ci}</option>`).join(''); }
         function up_air() { const c=document.getElementById('c').value, ci=document.getElementById('ci').value; document.getElementById('a').innerHTML='<option value="">選擇機場</option>'+Object.keys(d.lounge[c][ci]||{}).map(a=>`<option value="${a}">${a}</option>`).join(''); }
-        function up_mem() { const c=document.getElementById('c').value, ci=document.getElementById('ci'].value, a=document.getElementById('a').value; document.getElementById('m').innerHTML='<option value="">選擇會籍</option>'+Object.keys(d.lounge[c][ci][a]||{}).map(m=>`<option value="${m}">${m}</option>`).join(''); }
+        function up_mem() { const c=document.getElementById('c').value, ci=document.getElementById('ci').value, a=document.getElementById('a').value; document.getElementById('m').innerHTML='<option value="">選擇會籍</option>'+Object.keys(d.lounge[c][ci][a]||{}).map(m=>`<option value="${m}">${m}</option>`).join(''); }
         function show() {
             const c=document.getElementById('c').value, ci=document.getElementById('ci').value, a=document.getElementById('a').value, m=document.getElementById('m').value;
             const s = d.lounge[c]?.[ci]?.[a]?.[m];
