@@ -70,12 +70,12 @@
                 app.innerHTML = `
                     <div class="bg-white p-5 rounded-2xl shadow">
                         <h3 class="font-bold text-lg mb-3 text-gray-800"><i class="fas fa-microphone-alt text-blue-600 mr-2"></i>AI 智慧隨手記事</h3>
-                        <textarea id="noteInput" placeholder="請輸入行程或記事..." class="w-full h-32 p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm mb-3"></textarea>
+                        <textarea id="noteInput" placeholder="請輸入行程/記事，或輸入「查詢 8月份行程」..." class="w-full h-32 p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm mb-3"></textarea>
                         <div class="flex gap-2">
                             <button onclick="startVoiceInput()" class="bg-emerald-600 text-white p-3 rounded-xl flex-1 font-bold text-sm shadow"><i class="fas fa-microphone mr-1"></i>語音輸入</button>
-                            <button onclick="sendNote()" id="submitBtn" class="bg-blue-600 text-white p-3 rounded-xl flex-1 font-bold text-sm shadow">送出記事</button>
+                            <button onclick="sendNote()" id="submitBtn" class="bg-blue-600 text-white p-3 rounded-xl flex-1 font-bold text-sm shadow">送出並 AI 整理</button>
                         </div>
-                        <p id="resultMsg" class="mt-4 text-sm text-gray-600 text-center"></p>
+                        <div id="resultMsg" class="mt-4 text-sm text-gray-600 text-center"></div>
                     </div>`;
             }
         }
@@ -109,7 +109,7 @@
             const btn = document.getElementById('submitBtn');
             if (!text) { alert('請輸入內容'); return; }
 
-            msg.innerText = "⏳ 正在傳送至試算表...";
+            msg.innerText = "⏳ AI 正在處理中...";
             btn.disabled = true;
 
             try {
@@ -119,8 +119,12 @@
                 });
                 const result = await response.json();
                 if(result.status === "success") {
-                    msg.innerHTML = "✅ 記錄成功！<br><span class='text-xs text-gray-500'>已自動存入 Google 試算表</span>";
-                    document.getElementById('noteInput').value = "";
+                    if (result.message && result.message !== "已成功記錄至試算表！") {
+                        msg.innerHTML = "📋 <b class='text-blue-600'>AI 整理結果：</b><br><div class='text-left mt-2 p-3 bg-gray-50 rounded-xl border'>" + result.message.replace(/\n/g, '<br>') + "</div>";
+                    } else {
+                        msg.innerHTML = "✅ 記錄成功！<br><span class='text-xs text-gray-500'>已自動存入 Google 試算表</span>";
+                        document.getElementById('noteInput').value = "";
+                    }
                 } else {
                     msg.innerText = "❌ 失敗：" + result.message;
                 }
