@@ -8,9 +8,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-100 h-screen flex flex-col font-sans max-w-md mx-auto">
-    <header class="bg-blue-600 text-white p-5 text-xl font-bold text-center shadow-md">生活優惠中心</header>
-    <main id="app" class="flex-1 p-4 overflow-y-auto pb-32"></main>
+<body class="bg-gray-100 h-screen flex flex-col font-sans max-w-md mx-auto overflow-hidden">
+    <header class="bg-blue-600 text-white p-5 text-xl font-bold text-center shadow-md z-10">生活優惠中心</header>
+    
+    <!-- 主內容區加入固定底部留白與內部捲動，避免蓋住按鈕 -->
+    <main id="app" class="flex-1 p-4 overflow-y-auto pb-28"></main>
+    
     <nav class="bg-white border-t flex justify-around p-4 shadow-2xl fixed bottom-0 w-full max-w-md mx-auto z-50">
         <button onclick="render('food')" class="flex flex-col items-center text-gray-600 hover:text-blue-600"><i class="fas fa-gift text-lg mb-1"></i>優惠</button>
         <button onclick="render('travel')" class="flex flex-col items-center text-gray-600 hover:text-blue-600"><i class="fas fa-plane-departure text-lg mb-1"></i>行程</button>
@@ -68,7 +71,7 @@
                     </div>`;
             } else if(tab === 'note') {
                 app.innerHTML = `
-                    <div class="bg-white p-5 rounded-2xl shadow">
+                    <div class="bg-white p-5 rounded-2xl shadow mb-10">
                         <h3 class="font-bold text-lg mb-3 text-gray-800"><i class="fas fa-microphone-alt text-blue-600 mr-2"></i>AI 智慧隨手記事</h3>
                         <textarea id="noteInput" placeholder="請輸入行程/記事，或輸入「查詢 8月份行程」..." class="w-full h-32 p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm mb-3"></textarea>
                         <div class="flex gap-2">
@@ -120,12 +123,11 @@
                 const result = await response.json();
                 if(result.status === "success") {
                     if (result.isQuery) {
-                        // 將查詢結果轉換為精美表格呈現
                         msg.innerHTML = `📋 <b class='text-blue-600'>AI 查詢結果：</b><br>
-                        <div class='mt-3 overflow-x-auto'>
-                            <table class='w-full border-collapse border border-gray-300 text-xs text-left bg-white shadow-sm rounded-lg'>
-                                <thead>
-                                    <tr class='bg-blue-50 text-blue-700'>
+                        <div class='mt-3 overflow-x-auto max-h-60 overflow-y-auto border rounded-lg'>
+                            <table class='w-full border-collapse border border-gray-300 text-xs text-left bg-white shadow-sm'>
+                                <thead class='sticky top-0 bg-blue-50 text-blue-700'>
+                                    <tr>
                                         <th class='border border-gray-300 p-2'>日期</th>
                                         <th class='border border-gray-300 p-2'>時間</th>
                                         <th class='border border-gray-300 p-2'>地點</th>
@@ -138,7 +140,6 @@
                             </table>
                         </div>`;
                         
-                        // 用前端簡單解析後端回傳的文字並塞入表格
                         setTimeout(() => {
                             const tbody = document.getElementById('queryTableBody');
                             const lines = result.message.split('\n');
@@ -146,16 +147,15 @@
                             
                             lines.forEach(line => {
                                 if (line.includes('|') || line.includes('日期')) {
-                                    // 抓取格式如：日期：... | 時間：...
                                     let dMatch = line.match(/日期[：:]\s*([^\|]+)/);
                                     let tMatch = line.match(/時間[：:]\s*([^\|]+)/);
                                     let lMatch = line.match(/地點[：:]\s*([^\|]+)/);
                                     let cMatch = line.match(/內容[：:]\s*(.+)/) || line.match(/說明[：:]\s*(.+)/);
                                     
-                                    let dateVal = dMatch ? dMatch.1.trim() : "-";
-                                    let timeVal = tMatch ? tMatch.1.trim() : "-";
-                                    let locVal = lMatch ? lMatch.1.trim() : "-";
-                                    let contentVal = cMatch ? cMatch.1.trim() : line;
+                                    let dateVal = dMatch ? dMatch[1].trim() : "-";
+                                    let timeVal = tMatch ? tMatch[1].trim() : "-";
+                                    let locVal = lMatch ? lMatch[1].trim() : "-";
+                                    let contentVal = cMatch ? cMatch[1].trim() : line;
                                     
                                     if (dateVal !== "日期" && !line.includes("以下是")) {
                                         rowsHtml += `<tr class='hover:bg-gray-50'>
@@ -169,7 +169,6 @@
                             });
                             
                             if (rowsHtml === '') {
-                                // 如果沒有對齊線條，直接把每一行當作純文字塞進表格
                                 lines.forEach(line => {
                                     if (line.trim().length > 0 && !line.includes("以下是")) {
                                         rowsHtml += `<tr><td colspan='4' class='border border-gray-300 p-2 text-gray-800'>${line}</td></tr>`;
