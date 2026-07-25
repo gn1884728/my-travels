@@ -11,7 +11,6 @@
 <body class="bg-gray-100 h-screen flex flex-col font-sans max-w-md mx-auto overflow-hidden">
     <header class="bg-blue-600 text-white p-5 text-xl font-bold text-center shadow-md z-10">生活優惠中心</header>
     
-    <!-- 主內容區加入固定底部留白與內部捲動，避免蓋住按鈕 -->
     <main id="app" class="flex-1 p-4 overflow-y-auto pb-28"></main>
     
     <nav class="bg-white border-t flex justify-around p-4 shadow-2xl fixed bottom-0 w-full max-w-md mx-auto z-50">
@@ -34,6 +33,31 @@
             mileageData = resMileage;
             render('food');
         });
+
+        // 簡化日期格式，去除冗長的標準時間字串
+        function cleanDate(str) {
+            if (!str) return "-";
+            // 嘗試提取年份、月份、日期
+            let match = str.match(/(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
+            if (match) return `${match[1]}/${match[2]}/${match[3]}`;
+            // 如果是英文格式如 Aug 01 2026
+            let enMatch = str.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{1,2}\s+\d{4}/i);
+            if (enMatch) {
+                let dObj = new Date(str);
+                if (!isNaN(dObj)) {
+                    return `${dObj.getFullYear()}/${dObj.getMonth()+1}/${dObj.getDate()}`;
+                }
+            }
+            return str.replace(/GMT.*$/, '').trim();
+        }
+
+        // 簡化時間格式
+        function cleanTime(str) {
+            if (!str || str.includes("1899")) return "-";
+            let match = str.match(/(\d{1,2}:\d{2})/);
+            if (match) return match[1];
+            return str.replace(/GMT.*$/, '').trim();
+        }
 
         function render(tab, month = new Date().getMonth() + 1) {
             const app = document.getElementById('app');
@@ -152,15 +176,15 @@
                                     let lMatch = line.match(/地點[：:]\s*([^\|]+)/);
                                     let cMatch = line.match(/內容[：:]\s*(.+)/) || line.match(/說明[：:]\s*(.+)/);
                                     
-                                    let dateVal = dMatch ? dMatch[1].trim() : "-";
-                                    let timeVal = tMatch ? tMatch[1].trim() : "-";
+                                    let dateVal = cleanDate(dMatch ? dMatch[1].trim() : "-");
+                                    let timeVal = cleanTime(tMatch ? tMatch[1].trim() : "-");
                                     let locVal = lMatch ? lMatch[1].trim() : "-";
                                     let contentVal = cMatch ? cMatch[1].trim() : line;
                                     
                                     if (dateVal !== "日期" && !line.includes("以下是")) {
                                         rowsHtml += `<tr class='hover:bg-gray-50'>
-                                            <td class='border border-gray-300 p-2 font-medium text-gray-800'>${dateVal}</td>
-                                            <td class='border border-gray-300 p-2 text-gray-600'>${timeVal}</td>
+                                            <td class='border border-gray-300 p-2 font-medium text-gray-800 whitespace-nowrap'>${dateVal}</td>
+                                            <td class='border border-gray-300 p-2 text-gray-600 whitespace-nowrap'>${timeVal}</td>
                                             <td class='border border-gray-300 p-2 text-gray-600'>${locVal}</td>
                                             <td class='border border-gray-300 p-2 text-gray-800'>${contentVal}</td>
                                         </tr>`;
