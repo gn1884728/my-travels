@@ -297,67 +297,6 @@
             }
         }
     },
-    "news": [
-        {
-            "brand": "遠見",
-            "title": "2026FIFA世界盃》西班牙睽違16年再奪下世足冠軍！粉碎阿根廷二連霸之夢，贏得隊史第2座大力神盃 - 遠見雜誌",
-            "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE8wUDcxQWhOZlQyb3RDSHZmMUxRbi10dDVCVTNHSjRuUVJkTDZxR0NMX01NU2E0ZWtJaVNqaTNqdl9xZnZNNzRNMFNyY3BEUQ?oc=5",
-            "time": "20:57"
-        },
-        {
-            "brand": "遠見",
-            "title": "S3 EP368 ／【財富遠見】台灣財富新賽局！亞資中心兩年有感，如何撬動台商、科技新富的傳承大計？ - 遠見雜誌",
-            "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE1GNzBadExlWlBLS1dOc0QxM3RJWHpNR19FTlNQdmRWdFZBS0d5cGFRTjFZOUUydzdYd1RiZTFZdmxOZV9LaS1QSUhZVmNQc2hMUVI3WFphcw?oc=5",
-            "time": "20:57"
-        },
-        {
-            "brand": "遠見",
-            "title": "中聯三大股東公開道歉！提改革方案、邀第三方進董事會強化治理 - 遠見雜誌",
-            "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE5tbk44VHFxM19ia2RRbE1mOVRFX2gwR21qeFM4X1MwRVNraWNsczFmTlRYY3NISXM3OGFuRmVwdzJXVlVjNmRZZzIxZlBIZw?oc=5",
-            "time": "20:57"
-        },
-        {
-            "brand": "遠見",
-            "title": "新光三越正式進駐台北車站：「營運不中斷」將分區分期改裝 - 遠見雜誌",
-            "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1fRU9VMWdjX3ZLZXItakJvVUY0YnBuNTlBTmNkM1dIemtEZUlXeTlFWjhXS1hXQjJzdldiT3dsMkIwRzEtZk9zcDNvQUZnUQ?oc=5",
-            "time": "20:57"
-        },
-        {
-            "brand": "遠見",
-            "title": "美戰爭部次長：台灣屬第一島鏈，國安戰略確保戰力達標 - 遠見雜誌",
-            "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE01YWphTW00b19WUDVwTGZYY050d0c3LWZCUE9CZm5rYVZUT2pCZllDVDJzNGc1WVE5VlkxMU96RHRjcHlURHEtVElPWm4xUQ?oc=5",
-            "time": "20:57"
-        },
-        {
-            "brand": "商周",
-            "title": "全台首份調查新台商出海信心指數 決策者搶先申請｜商周 - campaign.businessweekly.com.tw",
-            "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE5uaWVJYy1vYzBEZW53cTlfR3J6ckI3Yy1ibXlnUFNPWGN0UkZJVl94LUt1Y0daMVVUdUxYTXFVSHRmemJMZWRWWHN4VDIzYUFVWk8zM2c4bThwTTVNRUJhcmNoNUJRS0VTVUdaXw?oc=5",
-            "time": "20:57"
-        },
-        {
-            "brand": "商周",
-            "title": "隨口講的玩笑話可能已經違法！6大職場霸凌行為、4大自保方式一次看－精選書摘 - 商周",
-            "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5nekNfQUpIRTlaMmhLZ3JmS1dza1lZZDVKSXBHVl9ueF9kQlJSQXJnNklxTnpTNWl3dmpiMmxwME9xdmczTXRqTkZaaEUyaEhBeHZUWXlacHlKd211Rko2dU41ZXM?oc=5",
-            "time": "20:57"
-        },
-        {
-            "brand": "商周",
-            "title": "世界新台商》美國，正在被台商重新製造？測你懂多少，領台商關鍵時刻回顧｜商周 - campaign.businessweekly.com.tw",
-            "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBiaThPejQ5REhJa3JZR3ZRdFF6YTFYOGRnLXFDWkRJV05kUmJ4WElDdWpONmlfVXREQ2hCWlUyRUZNWUNaRXREM2Rza3FrQVVwcURFcEMzVGFOZEp4R1dWUkh5M0FNWVNtUXc?oc=5",
-            "time": "20:57"
-        },
-        {
-            "brand": "商周",
-            "title": "台塑化11天飆漲49%！不是一日行情：「煉油」是旺到2030年的新金牛 - 商周",
-            "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBPRU80d2c5Sll4LS1ZNXNmVWQ5bkZXOGtqbUNLYUIzS3BDY2QtNk81TEpfWXJZYzlqcUYwZkdJWEFHMkYzc3VabEpIV3pGczE4VUJBdGdoOHhCbExIMlpZZjlvdWpFLUpTeW5Qa3RR?oc=5",
-            "time": "20:57"
-        },
-        {
-            "brand": "商周",
-            "title": "每天一杯咖啡，真的只是提神嗎？最新研究發現：喝下30分鐘後，腹部血流悄悄改變 - 良醫健康網",
-            "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1ZR2FCRl9kTlVUSDJNSWNtMTZaR01heDZZcGhDdjE5eVh4bjNId19JNVo1SFJMZkNVYVAtZ2FXS0FjSmJnaTFWMFI2XzF2YjZCZnh6SVNOMlR3alZ5cWFhS2pYUHZOdWh1elE?oc=5",
-            "time": "20:57"
-        }
-    ],
-    "last_updated": "2026-07-25 20:57:13"
+    "news": [],
+    "last_updated": "2026-07-26 10:05:41"
 }
