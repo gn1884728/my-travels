@@ -72,7 +72,8 @@
                     <select id="m" onchange="show()" class="w-full p-4 border rounded-xl mb-3"><option value="">選擇會籍</option></select>
                     <div id="r"></div>`;
             } else if(tab === 'mileage') {
-                let marriottHtml = (mileageData.mileage || []).map(item => `
+                // 這裡已修改為讀取 mileageData.marriott
+                let marriottHtml = (mileageData.marriott || []).map(item => `
                     <div class="bg-white p-4 rounded-2xl shadow border-l-4 ${item.border} mb-3">
                         <div class="flex justify-between items-center text-sm font-bold">
                             <span>每點成本 NT$ ${item.cost}</span>
@@ -87,7 +88,7 @@
                     <h2 class="text-xl font-bold mb-1 text-center">🏨 萬豪轉哩程成本效益表</h2>
                     <p class="text-xs text-gray-500 text-center mb-4">以 60,000 點轉 25,000 哩計算基準</p>
                     <div class="space-y-3">
-                        ${marriottHtml}
+                        ${marriottHtml || '<p class="text-center text-gray-400 my-4">目前尚無萬豪點數資料</p>'}
                     </div>`;
             } else if(tab === 'note') {
                 app.innerHTML = `
@@ -178,7 +179,6 @@
                                     let contentVal = cMatch ? cMatch[1].trim() : line;
                                     
                                     if (dateVal !== "日期" && !line.includes("以下是")) {
-                                        // 組合成可排序的時間字串 (YYYY/MM/DD HH:MM)
                                         let sortKey = (dateVal.includes('/') ? dateVal : '2026/' + dateVal) + ' ' + (timeVal !== '-' ? timeVal : '00:00');
                                         parsedRows.push({
                                             sortKey: sortKey,
@@ -191,7 +191,6 @@
                                 }
                             });
                             
-                            // 依照時間先後順序排序 (由早到晚)
                             parsedRows.sort((a, b) => new Date(a.sortKey) - new Date(b.sortKey));
                             
                             let rowsHtml = '';
