@@ -64,7 +64,7 @@
                 // 1. 切換至記事頁面
                 render('note');
                 
-                // 2. 自動帶入查詢範例文字（避免使用「整理/查詢」關鍵字以免觸發試算表搜尋）
+                // 2. 自動帶入查詢範例文字
                 const noteInput = document.getElementById('noteInput');
                 if (noteInput && skillId === 'japan-fireworks') {
                     noteInput.value = "介紹洞爺湖煙火與長岡花火節的施放日期、建議進出機場與交通攻略";
@@ -131,7 +131,64 @@
                 const list = d.food[month] || [];
                 document.getElementById('food-list').innerHTML = list.map(i => `<div class="bg-white p-5 rounded-2xl shadow mb-4"><span class="${i.color} text-white px-3 py-1 rounded-full text-xs font-bold">${i.brand}</span><h3 class="font-bold text-lg my-2">${i.title}</h3><p class="text-gray-500 text-sm mb-4">${i.time}</p><div class="flex gap-3"><a href="${i.url}" class="bg-blue-600 text-white p-3 rounded-xl flex-1 text-center font-bold text-sm shadow">前往優惠</a><a href="https://www.google.com/calendar/render?action=TEMPLATE&text=${i.title}" class="bg-gray-200 p-3 rounded-xl px-5 text-sm font-bold text-gray-700">+日曆</a></div></div>`).join('');
             } else if(tab === 'travel') {
-                app.innerHTML = d.travel.map(i => `<a href="${i.url}" class="block bg-white p-5 rounded-2xl shadow mb-4 font-bold text-lg text-blue-700 hover:bg-blue-50 transition"><i class="fas fa-plane mr-2"></i>${i.title}</a>`).join('');
+                // ==================== 【方法 1 升級】花火節精選卡片 + 原有行程 ====================
+                const fireworksTravelList = [
+                    {
+                        title: "長岡祭大花火大會",
+                        tag: "🎆 日本三大花火",
+                        tagColor: "bg-rose-500",
+                        date: "2027/08/02 - 08/03",
+                        location: "新潟縣長岡市信濃川",
+                        airport: "成田 (NRT) / 羽田 (HND) / 新潟 (KIJ)",
+                        url: "https://nagaokamatsuri.com/",
+                        calUrl: "https://www.google.com/calendar/render?action=TEMPLATE&text=長岡祭大花火大會&dates=20270802T112000Z/20270803T131000Z&location=新潟縣長岡市"
+                    },
+                    {
+                        title: "洞爺湖花火大會 (冬花火/長跑花火)",
+                        tag: "🎆 北海道溫泉花火",
+                        tagColor: "bg-amber-500",
+                        date: "2027/02月上旬 (冬) ｜ 4/28-10/31 (長跑)",
+                        location: "北海道洞爺湖溫泉湖畔",
+                        airport: "新千歲機場 (CTS)",
+                        url: "https://www.laketoya.com/event/fireworks/",
+                        calUrl: "https://www.google.com/calendar/render?action=TEMPLATE&text=洞爺湖花火大會&location=洞爺湖溫泉"
+                    },
+                    {
+                        title: "熱海海上花火大會",
+                        tag: "🎆 海上迴音花火",
+                        tagColor: "bg-indigo-500",
+                        date: "2027/02/21 (冬) ｜ 四季皆有場次",
+                        location: "靜岡縣熱海灣",
+                        airport: "羽田 (HND) / 成田 (NRT)",
+                        url: "https://www.ataminews.gr.jp/event/8/",
+                        calUrl: "https://www.google.com/calendar/render?action=TEMPLATE&text=熱海海上花火大會&location=靜岡縣熱海灣"
+                    }
+                ];
+
+                let fireworksCardsHtml = fireworksTravelList.map(item => `
+                    <div class="bg-white p-5 rounded-2xl shadow mb-4 border-l-4 border-blue-500">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="${item.tagColor} text-white px-3 py-1 rounded-full text-xs font-bold">${item.tag}</span>
+                            <span class="text-xs text-gray-500 font-bold">${item.location}</span>
+                        </div>
+                        <h3 class="font-bold text-lg my-1 text-gray-800">${item.title}</h3>
+                        <p class="text-gray-600 text-xs my-1"><i class="far fa-calendar-alt mr-1 text-blue-500"></i><b>日期：</b>${item.date}</p>
+                        <p class="text-gray-600 text-xs mb-3"><i class="fas fa-plane-arrival mr-1 text-blue-500"></i><b>建議機場：</b>${item.airport}</p>
+                        <div class="flex gap-2">
+                            <a href="${item.url}" target="_blank" class="bg-blue-600 text-white p-2.5 rounded-xl flex-1 text-center font-bold text-xs shadow hover:bg-blue-700 transition">查看官方攻略</a>
+                            <a href="${item.calUrl}" target="_blank" class="bg-gray-100 p-2.5 rounded-xl text-xs font-bold text-gray-700 hover:bg-gray-200 transition">+ 日曆</a>
+                        </div>
+                    </div>
+                `).join('');
+
+                let userTravelHtml = (d.travel || []).map(i => `<a href="${i.url}" target="_blank" class="block bg-white p-5 rounded-2xl shadow mb-4 font-bold text-lg text-blue-700 hover:bg-blue-50 transition"><i class="fas fa-plane mr-2"></i>${i.title}</a>`).join('');
+
+                app.innerHTML = `
+                    <h2 class="text-xl font-bold mb-3 text-center text-gray-800"><i class="fas fa-plane-departure text-blue-600 mr-2"></i>精選花火與旅行行程</h2>
+                    <div class="mb-4">${fireworksCardsHtml}</div>
+                    <h3 class="font-bold text-base my-3 text-gray-700 border-b pb-2"><i class="fas fa-bookmark text-blue-500 mr-1.5"></i>常用旅行連結</h3>
+                    <div>${userTravelHtml}</div>
+                `;
             } else if(tab === 'lounge') {
                 app.innerHTML = `
                     <select id="c" onchange="up_city()" class="w-full p-4 border rounded-xl mb-3 font-bold bg-white"><option value="">選擇國家</option>${Object.keys(d.lounge).map(c=>`<option value="${c}">${c}</option>`).join('')}</select>
