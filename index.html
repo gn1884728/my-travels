@@ -64,12 +64,12 @@
                 // 1. 切換至記事頁面
                 render('note');
                 
-                // 2. 自動帶入查詢範例文字
+                // 2. 自動帶入查詢範例文字（避免使用「整理/查詢」關鍵字以免觸發試算表搜尋）
                 const noteInput = document.getElementById('noteInput');
                 if (noteInput && skillId === 'japan-fireworks') {
-                    noteInput.value = "請幫我整理洞爺湖煙火與長岡花火節的施放日期、建議進出機場與交通攻略";
+                    noteInput.value = "介紹洞爺湖煙火與長岡花火節的施放日期、建議進出機場與交通攻略";
                 } else if (noteInput && skillId === 'hotel-points') {
-                    noteInput.value = "請幫我分析萬豪與 IHG 飯店點數房兌換性價比與房型升等建議";
+                    noteInput.value = "分析萬豪與 IHG 飯店點數房兌換性價比與房型升等建議";
                 }
 
                 const badge = document.getElementById('skillStatusBadge');
@@ -99,7 +99,7 @@
         function cleanDate(str) {
             if (!str) return "-";
             let match = str.match(/(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
-            if (match) return `${match}/${match}/${match[3]}`;
+            if (match) return `${match}/${match}/${match}`;
             let enMatch = str.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{1,2}\s+\d{4}/i);
             if (enMatch) {
                 let dObj = new Date(str);
@@ -465,7 +465,6 @@
 
         function up_city() { const c=document.getElementById('c').value; document.getElementById('ci').innerHTML='<option value="">選擇城市</option>'+Object.keys(d.lounge[c]||{}).map(ci=>`<option value="${ci}">${ci}</option>`).join(''); }
         function up_air() { const c=document.getElementById('c').value, ci=document.getElementById('ci').value; document.getElementById('a').innerHTML='<option value="">選擇機場</option>'+Object.keys(d.lounge[c][ci][a]||{}).map(a=>`<option value="${a}">${a}</option>`).join(''); }
-        function up_mem() { const c=document.getElementById('c').value, ci=document.getElementById('ci').value, a=document.getElementById('a').value; document.getElementById('m').innerHTML='<option value="">選擇會籍</option>'+Object.keys(d.lounge[c][ci][a]||{}).map(m=>`<option value="${m}">${m}</option>`).join(''); }
         function show() {
             const s = d.lounge[document.getElementById('c').value]?.[document.getElementById('ci').value]?.[document.getElementById('a').value]?.[document.getElementById('m').value];
             document.getElementById('r').innerHTML = (s && s.length > 0) ? `<div class="bg-white p-5 rounded-2xl shadow"><h3 class="font-bold text-lg">${s[0].name}</h3><p class="text-sm my-3 text-gray-600">${s[0].desc}</p><div class="flex flex-wrap gap-2">${s[0].img.map(url => `<img src="${url}" class="w-full sm:w-1/2 rounded-xl">`).join('')}</div></div>` : `<div class="p-4 text-center text-gray-400">目前無貴賓室資料</div>`;
