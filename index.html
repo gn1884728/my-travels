@@ -99,7 +99,7 @@
         function cleanDate(str) {
             if (!str) return "-";
             let match = str.match(/(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
-            if (match) return `${match}/${match[2]}/${match[3]}`;
+            if (match) return `${match}/${match}/${match[3]}`;
             let enMatch = str.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{1,2}\s+\d{4}/i);
             if (enMatch) {
                 let dObj = new Date(str);
@@ -408,8 +408,10 @@
                 const result = await response.json();
                 if(result.status === "success") {
                     if (result.message) {
-                        // 1. 如果是試算表行程結構（含有 | 表格結構與日期欄位），渲染為試算表表格
-                        if (result.isQuery && result.message.includes('|') && (result.message.includes('日期') || result.message.includes('說明'))) {
+                        // 判定：只有當「沒有選擇專屬 Skill 模式 (currentSystemPrompt 為空)」且「回應內容包含試算表 | 符號與日期關鍵字」時，才渲染為試算表行程表格
+                        const isSheetScheduleTable = (!currentSystemPrompt) && result.isQuery && result.message.includes('|') && (result.message.includes('日期') || result.message.includes('說明'));
+
+                        if (isSheetScheduleTable) {
                             msg.innerHTML = `📋 <b class='text-blue-600'>AI 查詢結果（已按時間排序）：</b><br>
                             <div class='mt-3 overflow-x-auto max-h-60 overflow-y-auto border rounded-lg'>
                                 <table class='w-full border-collapse border border-gray-300 text-xs text-left bg-white shadow-sm'>
@@ -420,25 +422,36 @@
                                 </table>
                             </div>`;
                             setTimeout(() => {
-                                const tbody = document.getElementById('queryTableBody');
-                                let parsedRows = [];
-                                result.message.split('\n').forEach(line => {
-                                    if (line.includes('|')) {
-                                        let dMatch = line.match(/日期[：:]\s*([^\|]+)/), tMatch = line.match(/時間[：:]\s*([^\|]+)/), lMatch = line.match(/地點[：:]\s*([^\|]+)/), cMatch = line.match(/內容[：:]\s*(.+)/) || line.match(/說明[：:]\s*(.+)/);
-                                        let dateVal = cleanDate(dMatch ? dMatch.trim() : "-"), timeVal = cleanTime(tMatch ? tMatch.trim() : "-");
-                                        if (dateVal !== "日期" && !line.includes("以下是")) {
-                                            parsedRows.push({
-                                                sortKey: (dateVal.includes('/') ? dateVal : '2026/' + dateVal) + ' ' + (timeVal !== '-' ? timeVal : '00:00'),
-                                                date: dateVal, time: timeVal, location: lMatch ? lMatch.trim() : "-", content: cMatch ? cMatch.trim() : line
-                                            });
+                                try {
+                                    const tbody = document.getElementById('queryTableBody');
+                                    let parsedRows = [];
+                                    result.message.split('\n').forEach(line => {
+                                        if (line.includes('|')) {
+                                            let dMatch = line.match(/日期[：:]\s*([^\|]+)/), tMatch = line.match(/時間[：:]\s*([^\|]+)/), lMatch = line.match(/地點[：:]\s*([^\|]+)/), cMatch = line.match(/內容[：:]\s*(.+)/) || line.match(/說明[：:]\s*(.+)/);
+                                            let dateVal = cleanDate(dMatch ? dMatch.trim() : "-"), timeVal = cleanTime(tMatch ? tMatch.trim() : "-");
+                                            if (dateVal !== "日期" && !line.includes("以下是")) {
+                                                parsedRows.push({
+                                                    sortKey: (dateVal.includes('/') ? dateVal : '2026/' + dateVal) + ' ' + (timeVal !== '-' ? timeVal : '00:00'),
+                                                    date: dateVal, time: timeVal, location: lMatch ? lMatch.trim() : "-", content: cMatch ? cMatch.trim() : line
+                                                });
+                                            }
                                         }
-                                    }
-                                });
-                                parsedRows.sort((a, b) => new Date(a.sortKey) - new Date(b.sortKey));
-                                tbody.innerHTML = parsedRows.map(row => `<tr class='hover:bg-gray-50'><td class='border p-2 whitespace-nowrap'>${row.date}</td><td class='border p-2 whitespace-nowrap'>${row.time}</td><td class='border p-2'>${row.location}</td><td class='border p-2'>${row.content}</td></tr>`).join('') || `<tr><td colspan='4' class='p-3 text-center'>查無相關記錄</td></tr>`;
+                                    });
+                                    parsedRows.sort((a, b) => {
+                                        let da = new Date(a.sortKey), db = new Date(b.sortKey);
+                                        if (isNaN(da)) return 1;
+                                        if (isNaN(db)) return -1;
+                                        return da - db;
+                                    });
+                                    tbody.innerHTML = parsedRows.map(row => `<tr class='hover:bg-gray-50'><td class='border p-2 whitespace-nowrap'>${row.date}</td><td class='border p-2 whitespace-nowrap'>${row.time}</td><td class='border p-2'>${row.location}</td><td class='border p-2'>${row.content}</td></tr>`).join('') || `<tr><td colspan='4' class='p-3 text-center'>查無相關記錄</td></tr>`;
+                                } catch (err) {
+                                    console.error("解析行程表格錯誤:", err);
+                                    let formattedMsg = result.message.replace(/\n/g, '<br>');
+                                    msg.innerHTML = `<div class='p-4 bg-blue-50/70 rounded-xl border border-blue-100 text-sm leading-relaxed text-gray-800 shadow-sm'><b class='text-blue-700 block mb-2 text-base'><i class='fas fa-robot mr-1.5'></i>${currentSkillName}：</b>${formattedMsg}</div>`;
+                                }
                             }, 100);
                         } else {
-                            // 2. 如果是一般 AI 攻略/問答回覆，直接以漂亮的卡片文字呈現！
+                            // 當啟用了專屬 Skill (如花火節/飯店比價)，直接以漂亮的 AI 文字卡片呈現 AI 的回覆！
                             let formattedMsg = result.message.replace(/\n/g, '<br>');
                             msg.innerHTML = `<div class='p-4 bg-blue-50/70 rounded-xl border border-blue-100 text-sm leading-relaxed text-gray-800 shadow-sm'><b class='text-blue-700 block mb-2 text-base'><i class='fas fa-robot mr-1.5'></i>${currentSkillName}：</b>${formattedMsg}</div>`;
                         }
