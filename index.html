@@ -195,7 +195,7 @@
                     <select id="m" onchange="show()" class="w-full p-4 border rounded-xl mb-3 bg-white"><option value="">選擇會籍</option></select>
                     <div id="r"></div>`;
             } else if(tab === 'mileage') {
-                // ==================== 【已整合】Google 試算表哩程計算機介面 ====================
+                // ==================== 【已整合 JSONP】Google 試算表哩程計算機介面 ====================
                 app.innerHTML = `
                     <div class="bg-white p-5 rounded-2xl shadow mb-10">
                         <div class="flex justify-between items-center mb-3">
@@ -207,7 +207,6 @@
                             <div class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i>正在載入雲端試算表資料...</div>
                         </div>
                     </div>`;
-                // 自動發送請求抓取試算表資料
                 fetchMileageSheetData();
             } else if(tab === 'note') {
                 app.innerHTML = `
@@ -216,7 +215,7 @@
                             <h3 class="font-bold text-lg text-gray-800"><i class="fas fa-microphone-alt text-blue-600 mr-2"></i>AI 智慧隨手記事</h3>
                             <span id="skillStatusBadge" class="bg-blue-50 text-blue-700 text-xs px-2.5 py-1 rounded-full font-bold">目前模式：${currentSkillName}</span>
                         </div>
-                        <textarea id="noteInput" placeholder="請輸入行程/記事，或輸入「查詢 8月份行程」..." class="w-full h-32 p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm mb-3 bg-gray-50"></textarea>
+                        <textarea id="noteInput" placeholder="請輸入行程/記事，或輸入專屬指令..." class="w-full h-32 p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm mb-3 bg-gray-50"></textarea>
                         <div class="flex gap-2">
                             <button onclick="startVoiceInput()" class="bg-emerald-600 text-white p-3 rounded-xl flex-1 font-bold text-sm shadow"><i class="fas fa-microphone mr-1"></i>語音輸入</button>
                             <button onclick="sendNote()" id="submitBtn" class="bg-blue-600 text-white p-3 rounded-xl flex-1 font-bold text-sm shadow">送出並 AI 整理</button>
@@ -308,34 +307,41 @@
             }
         }
 
-        /* ==================== 雲端試算表哩程資料串接 JS ==================== */
+        /* ==================== 雲端試算表哩程資料串接 JS (JSONP 繞過 CORS) ==================== */
         function fetchMileageSheetData() {
             const container = document.getElementById('mileage-sheet-content');
             if (!container) return;
             
-            fetch(mileageSheetApiUrl)
-                .then(response => response.json())
-                .then(result => {
-                    if(result.status === "success" && result.data) {
-                        let rows = result.data;
-                        let html = "<table class='w-full border-collapse border border-gray-200 text-center bg-white shadow-sm rounded-lg overflow-hidden'>";
-                        rows.forEach((row, index) => {
-                            html += index === 0 ? "<thead class='bg-blue-50 text-blue-700 font-bold'><tr>" : "<tr>";
-                            row.forEach(cell => {
-                                html += index === 0 ? `<th class="border border-gray-200 p-2">${cell}</th>` : `<td class="border border-gray-200 p-2 text-gray-600">${cell}</td>`;
-                            });
-                            html += index === 0 ? "</tr></thead><tbody>" : "</tr>";
+            const callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
+            window[callbackName] = function(result) {
+                delete window[callbackName];
+                if (scriptTag && scriptTag.parentNode) {
+                    document.body.removeChild(scriptTag);
+                }
+                
+                if(result && result.status === "success" && result.data) {
+                    let rows = result.data;
+                    let html = "<table class='w-full border-collapse border border-gray-200 text-center bg-white shadow-sm rounded-lg overflow-hidden'>";
+                    rows.forEach((row, index) => {
+                        html += index === 0 ? "<thead class='bg-blue-50 text-blue-700 font-bold'><tr>" : "<tr>";
+                        row.forEach(cell => {
+                            html += index === 0 ? `<th class="border border-gray-200 p-2">${cell}</th>` : `<td class="border border-gray-200 p-2 text-gray-600">${cell}</td>`;
                         });
-                        html += "</tbody></table>";
-                        container.innerHTML = html;
-                    } else {
-                        container.innerHTML = `<div class="p-4 text-center text-rose-500">無法讀取試算表資料格式</div>`;
-                    }
-                })
-                .catch(err => {
-                    console.error("讀取試算表失敗:", err);
-                    container.innerHTML = `<div class="p-4 text-center text-rose-500">載入失敗，請確認網路或 GAS 部署權限</div>`;
-                });
+                        html += index === 0 ? "</tr></thead><tbody>" : "</tr>";
+                    });
+                    html += "</tbody></table>";
+                    container.innerHTML = html;
+                } else {
+                    container.innerHTML = `<div class="p-4 text-center text-rose-500">試算表格式解析錯誤</div>`;
+                }
+            };
+
+            const scriptTag = document.createElement('script');
+            scriptTag.src = mileageSheetApiUrl + '?callback=' + callbackName;
+            scriptTag.onerror = function() {
+                container.innerHTML = `<div class="p-4 text-center text-rose-500">載入失敗，請確認 GAS 部署權限或網址是否正確</div>`;
+            };
+            document.body.appendChild(scriptTag);
         }
 
         function loadMileageSheetData() {
