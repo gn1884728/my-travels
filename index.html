@@ -45,9 +45,6 @@
         let currentSkillName = "通用助手";
         const scriptUrl = "https://script.google.com/macros/s/AKfycbwVLmSnHAsJ8DjU9ZJgp5ZZThsxbPHAtXIQ7R93O_nTd-Uz8WrkdpyFhVwwxvTEddXq/exec";
         
-        // 你的 Google 試算表 GAS 哩程計算器網址
-        const mileageSheetApiUrl = "https://script.google.com/macros/s/AKfycbwHAC-Dpdr1WCNLI2qpq54eIWSFrdOggGDZI_LOMwRBI4N7w8stVsCLYtIgy43J6B8Kuw/exec";
-        
         // 載入 Skill JSON 檔的邏輯
         async function loadSelectedSkill(skillId) {
             if (skillId === 'default') {
@@ -77,7 +74,6 @@
                 if (badge) badge.innerText = `目前模式：${currentSkillName}`;
             } catch (e) {
                 console.error("載入 Skill 失敗:", e);
-                alert("⚠️ 載入 Skill 失敗，請確認 GitHub 上是否有該 Skill 檔案");
             }
         }
 
@@ -179,7 +175,7 @@
                     </div>
                 `).join('');
 
-                // 過濾掉 2026/7 韓國過期行程
+                // 移除過期行程
                 let filteredTravel = (d.travel || []).filter(i => !i.title.includes('韓國') && !i.title.includes('7月'));
                 let userTravelHtml = filteredTravel.map(i => `<a href="${i.url}" target="_blank" class="block bg-white p-5 rounded-2xl shadow mb-4 font-bold text-lg text-blue-700 hover:bg-blue-50 transition"><i class="fas fa-plane mr-2"></i>${i.title}</a>`).join('');
 
@@ -197,7 +193,7 @@
                     <select id="m" onchange="show()" class="w-full p-4 border rounded-xl mb-3 bg-white"><option value="">選擇會籍</option></select>
                     <div id="r"></div>`;
             } else if(tab === 'mileage') {
-                // ==================== 【完整版】萬豪卡片 + 雲端長榮哩程計算中心 ====================
+                // ==================== 【互動式】長榮哩程計算中心 + 萬豪成本效益表 ====================
                 let marriottHtml = (mileageData.marriott || []).map(item => `
                     <div class="bg-white p-4 rounded-2xl shadow border-l-4 ${item.border} mb-3">
                         <div class="flex justify-between items-center text-sm font-bold">
@@ -215,16 +211,28 @@
                     <div class="space-y-3 mb-6">${marriottHtml || '<p class="text-center text-gray-400 my-4">目前尚無萬豪點數資料</p>'}</div>
                     
                     <div class="bg-white p-5 rounded-2xl shadow mb-10 border-t-4 border-blue-600">
-                        <div class="flex justify-between items-center mb-3">
-                            <h2 class="text-lg font-bold text-gray-800"><i class="fas fa-cloud text-blue-600 mr-2"></i>長榮雲端哩程計算中心</h2>
-                            <button onclick="loadMileageSheetData()" class="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-blue-100 transition"><i class="fas fa-sync-alt mr-1"></i>重新整理</button>
+                        <h2 class="text-lg font-bold mb-3 text-gray-800"><i class="fas fa-plane text-blue-600 mr-2"></i>長榮航空哩程互動計算器</h2>
+                        <p class="text-xs text-gray-500 mb-4">可隨時線上切換航線與艙等，即時算出所需哩程與總值</p>
+                        
+                        <div class="grid grid-cols-2 gap-3 mb-4 text-sm">
+                            <div>
+                                <label class="block text-gray-500 text-xs mb-1 font-bold">選擇航線區域</label>
+                                <select id="eva_route" onchange="drawEvaCalc()" class="w-full p-2 border rounded-lg bg-gray-50 font-medium">
+                                    <option value="japan">日本線 (經濟 35k / 商務 50k)</option>
+                                    <option value="seasia">東南亞線 (經濟 40k / 商務 65k)</option>
+                                    <option value="usa">美洲線 (經濟 70k / 商務 140k)</option>
+                                    <option value="europe">歐洲線 (經濟 75k / 商務 150k)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-550 text-xs mb-1 font-bold">兌換人數 (位)</label>
+                                <input type="number" id="eva_pax" value="2" min="1" class="w-full p-2 border rounded-lg bg-gray-50 font-medium" oninput="drawEvaCalc()">
+                            </div>
                         </div>
-                        <p class="text-xs text-gray-500 mb-4">即時同步您的 Google 試算表計算數據</p>
-                        <div id="mileage-sheet-content" class="overflow-x-auto text-xs text-gray-700">
-                            <div class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i>正在載入雲端試算表資料...</div>
-                        </div>
+
+                        <div id="eva_calc_result" class="mt-3"></div>
                     </div>`;
-                fetchMileageSheetData();
+                drawEvaCalc();
             } else if(tab === 'note') {
                 app.innerHTML = `
                     <div class="bg-white p-5 rounded-2xl shadow mb-10">
@@ -232,7 +240,7 @@
                             <h3 class="font-bold text-lg text-gray-800"><i class="fas fa-microphone-alt text-blue-600 mr-2"></i>AI 智慧隨手記事</h3>
                             <span id="skillStatusBadge" class="bg-blue-50 text-blue-700 text-xs px-2.5 py-1 rounded-full font-bold">目前模式：${currentSkillName}</span>
                         </div>
-                        <textarea id="noteInput" placeholder="請輸入行程/記事，或輸入專屬指令..." class="w-full h-32 p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm mb-3 bg-gray-50"></textarea>
+                        <textarea id="noteInput" placeholder="請輸入行程/記事..." class="w-full h-32 p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm mb-3 bg-gray-50"></textarea>
                         <div class="flex gap-2">
                             <button onclick="startVoiceInput()" class="bg-emerald-600 text-white p-3 rounded-xl flex-1 font-bold text-sm shadow"><i class="fas fa-microphone mr-1"></i>語音輸入</button>
                             <button onclick="sendNote()" id="submitBtn" class="bg-blue-600 text-white p-3 rounded-xl flex-1 font-bold text-sm shadow">送出並 AI 整理</button>
@@ -261,7 +269,7 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-gray-500 text-xs mb-1 font-bold">請款匯率 <span class="font-normal text-[10px]">(可手動)</span></label>
+                                <label class="block text-gray-500 text-xs mb-1 font-bold">請款匯率</label>
                                 <input type="number" id="calc_rate" step="0.01" class="w-full p-2 border rounded-lg bg-gray-50 font-medium text-blue-700" oninput="drawCalcTable()">
                             </div>
                             <div>
@@ -321,59 +329,60 @@
             }
         }
 
-        /* ==================== 雲端試算表哩程資料串接 JS (JSONP) ==================== */
-        function fetchMileageSheetData() {
-            const container = document.getElementById('mileage-sheet-content');
+        /* ==================== 長榮互動哩程計算核心邏輯 ==================== */
+        function drawEvaCalc() {
+            const container = document.getElementById('eva_calc_result');
             if (!container) return;
-            
-            const callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
-            window[callbackName] = function(result) {
-                delete window[callbackName];
-                if (scriptTag && scriptTag.parentNode) {
-                    document.body.removeChild(scriptTag);
-                }
-                
-                if(result && result.status === "success" && result.data) {
-                    let rows = result.data;
-                    let html = "<table class='w-full border-collapse border border-gray-200 text-center bg-white shadow-sm rounded-lg overflow-hidden'>";
-                    rows.forEach((row, index) => {
-                        html += index === 0 ? "<thead class='bg-blue-50 text-blue-700 font-bold'><tr>" : "<tr>";
-                        row.forEach(cell => {
-                            html += index === 0 ? `<th class="border border-gray-200 p-2">${cell}</th>` : `<td class="border border-gray-200 p-2 text-gray-600">${cell}</td>`;
-                        });
-                        html += index === 0 ? "</tr></thead><tbody>" : "</tr>";
-                    });
-                    html += "</tbody></table>";
-                    container.innerHTML = html;
-                } else {
-                    container.innerHTML = `<div class="p-4 text-center text-rose-500">試算表格式解析錯誤</div>`;
-                }
+
+            const route = document.getElementById('eva_route').value;
+            const pax = parseInt(document.getElementById('eva_pax').value) || 1;
+
+            const rates = {
+                japan: { name: "日本線", eco: 35000, biz: 50000 },
+                seasia: { name: "東南亞線", eco: 40000, biz: 65000 },
+                usa: { name: "美洲線", eco: 70000, biz: 140000 },
+                europe: { name: "歐洲線", eco: 75000, biz: 150000 }
             };
 
-            const scriptTag = document.createElement('script');
-            scriptTag.src = mileageSheetApiUrl + '?callback=' + callbackName;
-            scriptTag.onerror = function() {
-                container.innerHTML = `<div class="p-4 text-center text-rose-500">載入失敗，請確認 GAS 部署權限或網址是否正確</div>`;
-            };
-            document.body.appendChild(scriptTag);
+            const target = rates[route];
+            const valPerMile = 0.45; // 以 1哩 = 0.45 台幣估算價值
+
+            let html = `<table class="w-full border-collapse border border-gray-200 text-center bg-white shadow-sm rounded-lg overflow-hidden text-xs">
+                <thead class="bg-blue-50 text-blue-700 font-bold">
+                    <tr>
+                        <th class="border p-2">艙等</th>
+                        <th class="border p-2">單人哩程</th>
+                        <th class="border p-2">總共 (${pax}人)</th>
+                        <th class="border p-2">估算價值 (NT$)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border p-2 font-medium">經濟艙</td>
+                        <td class="border p-2 text-gray-800 font-bold">${target.eco.toLocaleString()} 哩</td>
+                        <td class="border p-2 text-blue-600 font-bold">{(target.eco * pax).toLocaleString()} 哩</td>
+                        <td class="border p-2 text-emerald-600 font-bold">NT$ ${Math.round(target.eco * pax * valPerMile).toLocaleString()}</td>
+                    </tr>
+                    <tr>
+                        <td class="border p-2 font-medium">商務艙 (皇璽桂冠)</td>
+                        <td class="border p-2 text-gray-800 font-bold">${target.biz.toLocaleString()} 哩</td>
+                        <td class="border p-2 text-blue-600 font-bold">{(target.biz * pax).toLocaleString()} 哩</td>
+                        <td class="border p-2 text-emerald-600 font-bold">NT$ ${Math.round(target.biz * pax * valPerMile).toLocaleString()}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="text-gray-400 text-[10px] text-center mt-2"><i class="fas fa-info-circle mr-1"></i>基準價值以 1 哩 = 0.45 台幣試算，可隨時更改人數與航線</p>`;
+
+            container.innerHTML = html;
         }
 
-        function loadMileageSheetData() {
-            const container = document.getElementById('mileage-sheet-content');
-            if (container) {
-                container.innerHTML = `<div class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i>重新載入中...</div>`;
-            }
-            fetchMileageSheetData();
-        }
-
-        /* ==================== 積分計算專用 JS ==================== */
+        /* ==================== 飯店精算器相關函式 ==================== */
         function switchBrand() {
             let brand = document.querySelector('input[name="calc_brand"]:checked').value;
             let wm = document.getElementById('wrap_marriott');
             let wi = document.getElementById('wrap_ihg');
             let lm = document.getElementById('lbl_marriott');
             let li = document.getElementById('lbl_ihg');
-            
             if(brand === 'marriott') {
                 wm.classList.remove('hidden'); wi.classList.add('hidden');
                 lm.style.cssText = 'background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); font-weight: bold; color: #2563eb;';
@@ -395,7 +404,6 @@
 
         function drawCalcTable() {
             if(!document.getElementById('calc_table_container')) return;
-
             let curr = document.getElementById('calc_curr').value;
             let rate = (curr === 'CNY') ? ex_cny : ((curr === 'TWD') ? ex_twd : 1);
             let sym = (curr === 'CNY') ? '¥' : ((curr === 'TWD') ? 'NT$' : '$');
@@ -423,14 +431,9 @@
                 let m_promo = parseFloat(document.getElementById('m_promo').value) || 0;
                 let m_gift = parseFloat(document.getElementById('m_gift').value) || 0;
                 let m_proxy = parseFloat(document.getElementById('m_proxy').value) || 0;
-                
                 let m_elite_bonus = Math.floor(base * (m_tier === '鈦金/大使' ? 0.75 : 0.5));
                 let m_total = base + m_elite_bonus + m_gift;
-                let opts = {
-                    "基本累積": m_total,
-                    "自訂加贈": m_total + (m_promo * nights),
-                    "雙倍積分": m_total + base
-                };
+                let opts = { "基本累積": m_total, "自訂加贈": m_total + (m_promo * nights), "雙倍積分": m_total + base };
 
                 for(const [p, v] of Object.entries(opts)) {
                     let localVal = (v * 0.25) / customRate;
@@ -439,7 +442,6 @@
                     let isProfit = netLocal <= 0;
                     let cColor = isProfit ? "text-emerald-600" : "text-rose-500";
                     let sign = isProfit ? "賺" : "實付";
-
                     html += `<tr>
                         <td class="border border-gray-200 p-2 text-gray-600 whitespace-nowrap">${p}</td>
                         <td class="border border-gray-200 p-2 font-bold text-gray-800">${v}</td>
@@ -451,11 +453,7 @@
                 let i_tier = document.getElementById('i_tier').value;
                 let i_proxy = parseFloat(document.getElementById('i_proxy').value) || 0;
                 let i_tier_bonus = (i_tier === '鑽石會籍') ? base : Math.floor(base * 0.6);
-                let opts = {
-                    "雙倍 (總3倍)": base + i_tier_bonus + base,
-                    "三倍 (總4倍)": base + i_tier_bonus + (base * 2),
-                    "4N/8K 活動": base + i_tier_bonus + (2000 * nights)
-                };
+                let opts = { "雙倍 (總3倍)": base + i_tier_bonus + base, "三倍 (總4倍)": base + i_tier_bonus + (base * 2), "4N/8K 活動": base + i_tier_bonus + (2000 * nights) };
 
                 for(const [p, v] of Object.entries(opts)) {
                     let localVal = (v * 0.16) / customRate;
@@ -464,7 +462,6 @@
                     let isProfit = netLocal <= 0;
                     let cColor = isProfit ? "text-emerald-600" : "text-rose-500";
                     let sign = isProfit ? "賺" : "實付";
-
                     html += `<tr>
                         <td class="border border-gray-200 p-2 text-gray-600 whitespace-nowrap">${p}</td>
                         <td class="border border-gray-200 p-2 font-bold text-gray-800">${v}</td>
@@ -473,12 +470,10 @@
                     </tr>`;
                 }
             }
-            
             html += `</tbody></table><p class="text-gray-400 text-[10px] text-center mt-3"><i class="fas fa-sync-alt mr-1"></i>依 1 USD = ${ex_cny} CNY / ${ex_twd} TWD 即時換算</p>`;
             document.getElementById('calc_table_container').innerHTML = html;
         }
 
-        /* ==================== AI 語音與日曆其他功能 ==================== */
         function startVoiceInput() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) { alert("您的瀏覽器不支援語音辨識功能。"); return; }
@@ -491,7 +486,6 @@
                 document.getElementById('noteInput').value = e.results[0][0].transcript;
                 msg.innerText = "✅ 語音辨識完成！";
             };
-            recognition.onerror = function(e) { msg.innerText = "❌ 錯誤：" + e.error; };
             recognition.start();
         }
 
@@ -503,30 +497,18 @@
             msg.innerText = "⏳ AI 正在處理中...";
             btn.disabled = true;
             try {
-                const response = await fetch(scriptUrl, { 
-                    method: "POST", 
-                    body: JSON.stringify({ 
-                        text: text,
-                        systemPrompt: currentSystemPrompt 
-                    }) 
-                });
+                const response = await fetch(scriptUrl, { method: "POST", body: JSON.stringify({ text: text, systemPrompt: currentSystemPrompt }) });
                 const result = await response.json();
                 if(result.status === "success") {
-                    if (result.message) {
-                        let formattedMsg = result.message.replace(/\n/g, '<br>');
-                        msg.innerHTML = `<div class='p-4 bg-blue-50/70 rounded-xl border border-blue-100 text-sm leading-relaxed text-gray-800 shadow-sm'><b class='text-blue-700 block mb-2 text-base'><i class='fas fa-robot mr-1.5'></i>${currentSkillName}：</b>${formattedMsg}</div>`;
-                    } else {
-                        msg.innerHTML = "✅ 記錄成功！已自動存入 Google 試算表";
-                        document.getElementById('noteInput').value = "";
-                    }
-                } else msg.innerText = "❌ 失敗：" + result.message;
+                    msg.innerHTML = `<div class='p-4 bg-blue-50/70 rounded-xl border text-sm leading-relaxed text-gray-800 shadow-sm'><b>${currentSkillName}：</b><br>${result.message.replace(/\n/g, '<br>')}</div>`;
+                } else { msg.innerText = "❌ 失敗：" + result.message; }
             } catch (e) { msg.innerText = "❌ 發生錯誤：" + e; } finally { btn.disabled = false; }
         }
 
         function up_city() { const c=document.getElementById('c').value; document.getElementById('ci').innerHTML='<option value="">選擇城市</option>'+Object.keys(d.lounge[c]||{}).map(ci=>`<option value="${ci}">${ci}</option>`).join(''); }
         function up_air() { const c=document.getElementById('c').value, ci=document.getElementById('ci').value; document.getElementById('a').innerHTML='<option value="">選擇機場</option>'+Object.keys(d.lounge[c][ci]||{}).map(a=>`<option value="${a}">${a}</option>`).join(''); }
         function show() {
-            const s = d.lounge[document.getElementById('c').value]?.[document.getElementById('ci').value]?.[document.getElementById('a').value]?.[document.getElementById('m').value];
+            const s = d.lounge[document.getElementById('c').value]?.[document.getElementById('ci'].value]?.[document.getElementById('a'].value]?.[document.getElementById('m'].value];
             document.getElementById('r').innerHTML = (s && s.length > 0) ? `<div class="bg-white p-5 rounded-2xl shadow"><h3 class="font-bold text-lg">${s[0].name}</h3><p class="text-sm my-3 text-gray-600">${s[0].desc}</p><div class="flex flex-wrap gap-2">${s[0].img.map(url => `<img src="${url}" class="w-full sm:w-1/2 rounded-xl">`).join('')}</div></div>` : `<div class="p-4 text-center text-gray-400">目前無貴賓室資料</div>`;
         }
     </script>
