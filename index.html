@@ -45,6 +45,9 @@
         let currentSkillName = "通用助手";
         const scriptUrl = "https://script.google.com/macros/s/AKfycbwVLmSnHAsJ8DjU9ZJgp5ZZThsxbPHAtXIQ7R93O_nTd-Uz8WrkdpyFhVwwxvTEddXq/exec";
         
+        // 你的 Google 試算表 GAS 哩程計算器網址
+        const mileageSheetApiUrl = "https://script.google.com/macros/s/AKfycbwHAC-Dpdr1WCNLI2qpq54eIWSFrdOggGDZI_LOMwRBI4N7w8stVsCLYtIgy43J6B8Kuw/exec";
+        
         // 載入 Skill JSON 檔的邏輯
         async function loadSelectedSkill(skillId) {
             if (skillId === 'default') {
@@ -61,10 +64,8 @@
                 currentSystemPrompt = skillData.systemPrompt || "";
                 currentSkillName = skillData.name || skillId;
                 
-                // 1. 切換至記事頁面
                 render('note');
                 
-                // 2. 自動帶入查詢範例文字
                 const noteInput = document.getElementById('noteInput');
                 if (noteInput && skillId === 'japan-fireworks') {
                     noteInput.value = "介紹洞爺湖煙火與長岡花火節的施放日期、建議進出機場與交通攻略";
@@ -74,10 +75,9 @@
 
                 const badge = document.getElementById('skillStatusBadge');
                 if (badge) badge.innerText = `目前模式：${currentSkillName}`;
-                console.log("成功載入 Skill:", currentSkillName, currentSystemPrompt);
             } catch (e) {
                 console.error("載入 Skill 失敗:", e);
-                alert("⚠️ 載入 Skill 失敗，請確認 GitHub 上是否有 skills/japan-fireworks.json 檔案");
+                alert("⚠️ 載入 Skill 失敗，請確認 GitHub 上是否有該 Skill 檔案");
             }
         }
 
@@ -118,7 +118,6 @@
         function render(tab, month = new Date().getMonth() + 1) {
             const app = document.getElementById('app');
             
-            // 更新導覽列顏色狀態
             document.querySelectorAll('nav button').forEach(btn => {
                 btn.classList.remove('text-blue-600', 'font-bold');
                 btn.classList.add('text-gray-600');
@@ -131,7 +130,6 @@
                 const list = d.food[month] || [];
                 document.getElementById('food-list').innerHTML = list.map(i => `<div class="bg-white p-5 rounded-2xl shadow mb-4"><span class="${i.color} text-white px-3 py-1 rounded-full text-xs font-bold">${i.brand}</span><h3 class="font-bold text-lg my-2">${i.title}</h3><p class="text-gray-500 text-sm mb-4">${i.time}</p><div class="flex gap-3"><a href="${i.url}" class="bg-blue-600 text-white p-3 rounded-xl flex-1 text-center font-bold text-sm shadow">前往優惠</a><a href="https://www.google.com/calendar/render?action=TEMPLATE&text=${i.title}" class="bg-gray-200 p-3 rounded-xl px-5 text-sm font-bold text-gray-700">+日曆</a></div></div>`).join('');
             } else if(tab === 'travel') {
-                // ==================== 【方法 1 升級】花火節精選卡片 + 原有行程 ====================
                 const fireworksTravelList = [
                     {
                         title: "長岡祭大花火大會",
@@ -197,20 +195,20 @@
                     <select id="m" onchange="show()" class="w-full p-4 border rounded-xl mb-3 bg-white"><option value="">選擇會籍</option></select>
                     <div id="r"></div>`;
             } else if(tab === 'mileage') {
-                let marriottHtml = (mileageData.marriott || []).map(item => `
-                    <div class="bg-white p-4 rounded-2xl shadow border-l-4 ${item.border} mb-3">
-                        <div class="flex justify-between items-center text-sm font-bold">
-                            <span>每點成本 NT$ ${item.cost}</span>
-                            <span class="${item.tagColor}">NT$ ${item.mile} / 哩</span>
-                        </div>
-                        <p class="text-xs text-gray-600 mt-1">總花費：NT$ ${item.total}</p>
-                        <p class="text-xs ${item.tagColor} font-bold mt-1">${item.note}</p>
-                    </div>
-                `).join('');
+                // ==================== 【已整合】Google 試算表哩程計算機介面 ====================
                 app.innerHTML = `
-                    <h2 class="text-xl font-bold mb-1 text-center">🏨 萬豪轉哩程成本效益表</h2>
-                    <p class="text-xs text-gray-500 text-center mb-4">以 60,000 點轉 25,000 哩計算基準</p>
-                    <div class="space-y-3">${marriottHtml || '<p class="text-center text-gray-400 my-4">目前尚無萬豪點數資料</p>'}</div>`;
+                    <div class="bg-white p-5 rounded-2xl shadow mb-10">
+                        <div class="flex justify-between items-center mb-3">
+                            <h2 class="text-lg font-bold text-gray-800"><i class="fas fa-chart-line text-blue-600 mr-2"></i>雲端哩程計算中心</h2>
+                            <button onclick="loadMileageSheetData()" class="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-blue-100 transition"><i class="fas fa-sync-alt mr-1"></i>重新整理</button>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-4">即時同步您的 Google 試算表計算數據</p>
+                        <div id="mileage-sheet-content" class="overflow-x-auto text-xs text-gray-700">
+                            <div class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i>正在載入雲端試算表資料...</div>
+                        </div>
+                    </div>`;
+                // 自動發送請求抓取試算表資料
+                fetchMileageSheetData();
             } else if(tab === 'note') {
                 app.innerHTML = `
                     <div class="bg-white p-5 rounded-2xl shadow mb-10">
@@ -226,12 +224,10 @@
                         <div id="resultMsg" class="mt-4 text-sm text-gray-600"></div>
                     </div>`;
             } else if(tab === 'calc') {
-                // ==================== 飯店精算器介面 ====================
                 app.innerHTML = `
                     <div class="bg-white p-5 rounded-2xl shadow mb-10">
                         <h3 class="font-bold text-lg mb-4 text-gray-800 text-center"><i class="fas fa-calculator text-blue-600 mr-2"></i>飯店積分精算器</h3>
                         
-                        <!-- 切換品牌 -->
                         <div class="flex rounded-xl bg-gray-100 p-1 mb-5">
                             <label class="flex-1 text-center py-2 rounded-lg cursor-pointer transition-colors duration-200" id="lbl_marriott" style="background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); font-weight: bold; color: #2563eb;">
                                 <input type="radio" name="calc_brand" value="marriott" checked onchange="switchBrand(); drawCalcTable();" class="hidden"> 🏨 萬豪
@@ -241,7 +237,6 @@
                             </label>
                         </div>
 
-                        <!-- 共用輸入區 -->
                         <div class="grid grid-cols-2 gap-3 mb-4 text-sm">
                             <div>
                                 <label class="block text-gray-500 text-xs mb-1 font-bold">結帳幣別</label>
@@ -265,7 +260,6 @@
                             </div>
                         </div>
                         
-                        <!-- 萬豪專屬設定 -->
                         <div id="wrap_marriott" class="mb-4 p-3 bg-blue-50/50 rounded-xl border border-blue-100">
                             <div class="grid grid-cols-2 gap-3 text-sm">
                                 <div>
@@ -290,7 +284,6 @@
                             </div>
                         </div>
 
-                        <!-- IHG專屬設定 -->
                         <div id="wrap_ihg" class="mb-4 p-3 bg-orange-50/50 rounded-xl border border-orange-100 hidden">
                             <div class="grid grid-cols-2 gap-3 text-sm">
                                 <div>
@@ -307,14 +300,50 @@
                             </div>
                         </div>
 
-                        <!-- 輸出表格區域 -->
                         <div id="calc_table_container" class="overflow-x-auto mt-2"></div>
                     </div>
                 `;
-                // 初始化匯率與表格
                 document.getElementById('calc_rate').value = (ex_twd / ex_cny).toFixed(2);
                 drawCalcTable();
             }
+        }
+
+        /* ==================== 雲端試算表哩程資料串接 JS ==================== */
+        function fetchMileageSheetData() {
+            const container = document.getElementById('mileage-sheet-content');
+            if (!container) return;
+            
+            fetch(mileageSheetApiUrl)
+                .then(response => response.json())
+                .then(result => {
+                    if(result.status === "success" && result.data) {
+                        let rows = result.data;
+                        let html = "<table class='w-full border-collapse border border-gray-200 text-center bg-white shadow-sm rounded-lg overflow-hidden'>";
+                        rows.forEach((row, index) => {
+                            html += index === 0 ? "<thead class='bg-blue-50 text-blue-700 font-bold'><tr>" : "<tr>";
+                            row.forEach(cell => {
+                                html += index === 0 ? `<th class="border border-gray-200 p-2">${cell}</th>` : `<td class="border border-gray-200 p-2 text-gray-600">${cell}</td>`;
+                            });
+                            html += index === 0 ? "</tr></thead><tbody>" : "</tr>";
+                        });
+                        html += "</tbody></table>";
+                        container.innerHTML = html;
+                    } else {
+                        container.innerHTML = `<div class="p-4 text-center text-rose-500">無法讀取試算表資料格式</div>`;
+                    }
+                })
+                .catch(err => {
+                    console.error("讀取試算表失敗:", err);
+                    container.innerHTML = `<div class="p-4 text-center text-rose-500">載入失敗，請確認網路或 GAS 部署權限</div>`;
+                });
+        }
+
+        function loadMileageSheetData() {
+            const container = document.getElementById('mileage-sheet-content');
+            if (container) {
+                container.innerHTML = `<div class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin mr-2"></i>重新載入中...</div>`;
+            }
+            fetchMileageSheetData();
         }
 
         /* ==================== 積分計算專用 JS ==================== */
@@ -454,7 +483,6 @@
             msg.innerText = "⏳ AI 正在處理中...";
             btn.disabled = true;
             try {
-                // 送出時連同當前選取的 systemPrompt 一起傳送給後端 API
                 const response = await fetch(scriptUrl, { 
                     method: "POST", 
                     body: JSON.stringify({ 
@@ -465,7 +493,6 @@
                 const result = await response.json();
                 if(result.status === "success") {
                     if (result.message) {
-                        // 判定：只有當「沒有選擇專屬 Skill 模式 (currentSystemPrompt 為空)」且「回應內容包含試算表 | 符號與日期關鍵字」時，才渲染為試算表行程表格
                         const isSheetScheduleTable = (!currentSystemPrompt) && result.isQuery && result.message.includes('|') && (result.message.includes('日期') || result.message.includes('說明'));
 
                         if (isSheetScheduleTable) {
@@ -485,11 +512,11 @@
                                     result.message.split('\n').forEach(line => {
                                         if (line.includes('|')) {
                                             let dMatch = line.match(/日期[：:]\s*([^\|]+)/), tMatch = line.match(/時間[：:]\s*([^\|]+)/), lMatch = line.match(/地點[：:]\s*([^\|]+)/), cMatch = line.match(/內容[：:]\s*(.+)/) || line.match(/說明[：:]\s*(.+)/);
-                                            let dateVal = cleanDate(dMatch ? dMatch.trim() : "-"), timeVal = cleanTime(tMatch ? tMatch.trim() : "-");
+                                            let dateVal = cleanDate(dMatch ? dMatch[1].trim() : "-"), timeVal = cleanTime(tMatch ? tMatch[1].trim() : "-");
                                             if (dateVal !== "日期" && !line.includes("以下是")) {
                                                 parsedRows.push({
                                                     sortKey: (dateVal.includes('/') ? dateVal : '2026/' + dateVal) + ' ' + (timeVal !== '-' ? timeVal : '00:00'),
-                                                    date: dateVal, time: timeVal, location: lMatch ? lMatch.trim() : "-", content: cMatch ? cMatch.trim() : line
+                                                    date: dateVal, time: timeVal, location: lMatch ? lMatch[1].trim() : "-", content: cMatch ? cMatch[1].trim() : line
                                                 });
                                             }
                                         }
@@ -508,7 +535,6 @@
                                 }
                             }, 100);
                         } else {
-                            // 當啟用了專屬 Skill (如花火節/飯店比價)，直接以漂亮的 AI 文字卡片呈現 AI 的回覆！
                             let formattedMsg = result.message.replace(/\n/g, '<br>');
                             msg.innerHTML = `<div class='p-4 bg-blue-50/70 rounded-xl border border-blue-100 text-sm leading-relaxed text-gray-800 shadow-sm'><b class='text-blue-700 block mb-2 text-base'><i class='fas fa-robot mr-1.5'></i>${currentSkillName}：</b>${formattedMsg}</div>`;
                         }
@@ -521,7 +547,7 @@
         }
 
         function up_city() { const c=document.getElementById('c').value; document.getElementById('ci').innerHTML='<option value="">選擇城市</option>'+Object.keys(d.lounge[c]||{}).map(ci=>`<option value="${ci}">${ci}</option>`).join(''); }
-        function up_air() { const c=document.getElementById('c').value, ci=document.getElementById('ci').value; document.getElementById('a').innerHTML='<option value="">選擇機場</option>'+Object.keys(d.lounge[c][ci][a]||{}).map(a=>`<option value="${a}">${a}</option>`).join(''); }
+        function up_air() { const c=document.getElementById('c').value, ci=document.getElementById('ci').value; document.getElementById('a').innerHTML='<option value="">選擇機場</option>'+Object.keys(d.lounge[c][ci]||{}).map(a=>`<option value="${a}">${a}</option>`).join(''); }
         function show() {
             const s = d.lounge[document.getElementById('c').value]?.[document.getElementById('ci').value]?.[document.getElementById('a').value]?.[document.getElementById('m').value];
             document.getElementById('r').innerHTML = (s && s.length > 0) ? `<div class="bg-white p-5 rounded-2xl shadow"><h3 class="font-bold text-lg">${s[0].name}</h3><p class="text-sm my-3 text-gray-600">${s[0].desc}</p><div class="flex flex-wrap gap-2">${s[0].img.map(url => `<img src="${url}" class="w-full sm:w-1/2 rounded-xl">`).join('')}</div></div>` : `<div class="p-4 text-center text-gray-400">目前無貴賓室資料</div>`;
