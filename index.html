@@ -85,7 +85,13 @@
                 app.innerHTML = `<select onchange="renderFoodMonth(this.value)" class="w-full p-3 mb-4 rounded-xl border font-bold bg-white">${options}</select><div id="food-list"></div>`;
                 renderFoodMonth(month);
             } else if(tab === 'travel') {
-                app.innerHTML = `<h2 class="text-xl font-bold mb-3 text-center text-gray-800"><i class="fas fa-plane-departure text-blue-600 mr-2"></i>精選旅行行程</h2>`;
+                let travelHtml = `<h2 class="text-xl font-bold mb-3 text-center text-gray-800"><i class="fas fa-plane-departure text-blue-600 mr-2"></i>精選旅行行程</h2>`;
+                if(d.travel && d.travel.length > 0) {
+                    travelHtml += d.travel.map(t => `<div class="bg-white p-4 rounded-xl shadow mb-3"><h3 class="font-bold text-md text-blue-700">${t.title || '行程'}</h3><p class="text-xs text-gray-600 mt-1">${t.desc || ''}</p></div>`).join('');
+                } else {
+                    travelHtml += `<p class="text-center text-gray-400 py-4">目前尚無行程資料</p>`;
+                }
+                app.innerHTML = travelHtml;
             } else if(tab === 'lounge') {
                 let loungeKeys = d.lounge ? Object.keys(d.lounge) : [];
                 app.innerHTML = `
@@ -116,7 +122,13 @@
                         <div id="pointResult" class="text-center text-xl font-bold text-rose-600 py-4 bg-gray-50 rounded-xl">預估小樹點：0 點</div>
                     </div>`;
             } else if(tab === 'mileage') {
-                app.innerHTML = `<h2 class="text-xl font-bold mb-3 text-center text-gray-800">哩程與點數試算</h2>`;
+                let mileageHtml = `<h2 class="text-xl font-bold mb-3 text-center text-gray-800"><i class="fas fa-chart-line text-blue-600 mr-2"></i>哩程與點數試算</h2>`;
+                if(mileageData.marriott && mileageData.marriott.length > 0) {
+                    mileageHtml += mileageData.marriott.map(m => `<div class="bg-white p-4 rounded-xl shadow mb-3"><div class="font-bold text-sm text-gray-800">${m.name || '項目'}</div><div class="text-xs text-gray-500 mt-1">${m.detail || ''}</div></div>`).join('');
+                } else {
+                    mileageHtml += `<p class="text-center text-gray-400 py-4">目前尚無哩程試算資料</p>`;
+                }
+                app.innerHTML = mileageHtml;
             } else if(tab === 'note') {
                 app.innerHTML = `
                     <div class="bg-white p-5 rounded-2xl shadow mb-10">
@@ -167,7 +179,6 @@
         function calcPoints() {
             const amt = parseFloat(document.getElementById('consumeAmt').value) || 0;
             const rate = (parseFloat(document.getElementById('consumeRate').value) || 0) / 100;
-            // 採用無條件捨去，符合銀行實際入帳邏輯
             const points = Math.floor(amt * rate); 
             document.getElementById('pointResult').innerText = `預估小樹點：${points} 點`;
         }
@@ -178,6 +189,12 @@
             const list = (d.food && d.food[month]) || [];
             foodList.innerHTML = list.map(i => `<div class="bg-white p-5 rounded-2xl shadow mb-4"><h3 class="font-bold text-lg">${i.title}</h3><a href="${i.url}" class="text-blue-600">前往優惠</a></div>`).join('') || '<p class="text-center text-gray-400 py-4">目前尚無此月份優惠</p>';
         }
+
+        // 貴賓室連動查詢輔助函式 (預留防呆)
+        function up_city() {}
+        function up_air() {}
+        function up_mem() {}
+        function show() {}
 
         async function sendNote() {
             const text = document.getElementById('noteInput')?.value.trim();
