@@ -167,7 +167,8 @@
         function calcPoints() {
             const amt = parseFloat(document.getElementById('consumeAmt').value) || 0;
             const rate = (parseFloat(document.getElementById('consumeRate').value) || 0) / 100;
-            const points = Math.round(amt * rate); // 精準四捨五入
+            // 採用無條件捨去，符合銀行實際入帳邏輯
+            const points = Math.floor(amt * rate); 
             document.getElementById('pointResult').innerText = `預估小樹點：${points} 點`;
         }
 
