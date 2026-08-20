@@ -196,10 +196,41 @@
                 `).join('');
 
                 app.innerHTML = `
+                    <!-- 1. 飯店住房點數回饋計算器 (IHG & 萬豪) -->
+                    <div class="bg-white p-5 rounded-2xl shadow mb-6 border-t-4 border-indigo-600">
+                        <h2 class="text-lg font-bold mb-3 text-gray-800"><i class="fas fa-hotel text-indigo-600 mr-2"></i>飯店住房點數試算 (IHG / 萬豪)</h2>
+                        <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
+                            <div>
+                                <label class="block text-gray-500 text-xs mb-1 font-bold">選擇飯店集團</label>
+                                <select id="hotel_brand" onchange="drawHotelCalc()" class="w-full p-2 border rounded-lg bg-gray-50 font-medium">
+                                    <option value="ihg">IHG 優悅會 (基礎 10點/美元)</option>
+                                    <option value="marriott">萬豪旅享家 (基礎 10點/美元)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-500 text-xs mb-1 font-bold">會員會籍加成</label>
+                                <select id="hotel_tier" onchange="drawHotelCalc()" class="w-full p-2 border rounded-lg bg-gray-50 font-medium">
+                                    <option value="base">白板會員 (0%)</option>
+                                    <option value="silver">銀卡 (+10%)</option>
+                                    <option value="gold">金卡 (+25%)</option>
+                                    <option value="platinum">白金卡 (+50%)</option>
+                                    <option value="titanium">鈦金/鑽石 (+100%)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="block text-gray-500 text-xs mb-1 font-bold">未稅房費總額 (TWD)</label>
+                            <input type="number" id="hotel_spend" value="5000" class="w-full p-2 border rounded-lg bg-gray-50 font-medium text-sm" oninput="drawHotelCalc()">
+                        </div>
+                        <div id="hotel_calc_result" class="mt-3 text-sm"></div>
+                    </div>
+
+                    <!-- 2. 萬豪轉哩程成本效益表 -->
                     <h2 class="text-xl font-bold mb-1 text-center text-gray-800"><i class="fas fa-chart-line text-blue-600 mr-2"></i>萬豪轉哩程成本效益表</h2>
                     <p class="text-xs text-gray-500 text-center mb-4">以 60,000 點轉 25,000 哩計算基準</p>
                     <div class="space-y-3 mb-6">${marriottHtml || '<p class="text-center text-gray-400 my-4">目前尚無萬豪點數資料</p>'}</div>
                     
+                    <!-- 3. 長榮航空哩程互動計算器 -->
                     <div class="bg-white p-5 rounded-2xl shadow mb-10 border-t-4 border-blue-600">
                         <h2 class="text-lg font-bold mb-3 text-gray-800"><i class="fas fa-plane text-blue-600 mr-2"></i>長榮航空哩程互動計算器</h2>
                         <p class="text-xs text-gray-500 mb-4">可隨時線上切換航線與艙等，即時算出所需哩程與總值</p>
@@ -220,6 +251,7 @@
                         </div>
                         <div id="eva_calc_result" class="mt-3"></div>
                     </div>`;
+                drawHotelCalc();
                 drawEvaCalc();
             } else if(tab === 'note') {
                 app.innerHTML = `
@@ -284,6 +316,32 @@
             const rate = (parseFloat(document.getElementById('consumeRate').value) || 0) / 100;
             const points = Math.round(amt * rate); // 四捨五入至整數位
             document.getElementById('pointResult').innerText = `預估小樹點：${points} 點`;
+        }
+
+        // 飯店點數計算邏輯
+        function drawHotelCalc() {
+            const container = document.getElementById('hotel_calc_result');
+            if (!container) return;
+            const spendTWD = parseFloat(document.getElementById('hotel_spend').value) || 0;
+            const brand = document.getElementById('hotel_brand').value;
+            const tier = document.getElementById('hotel_tier').value;
+            
+            // 換算美元 (使用預設匯率 32.5)
+            const spendUSD = spendTWD / 32.5;
+            let baseRate = 10; // 每美元 10 點
+            let bonusMultipliers = { base: 0, silver: 0.10, gold: 0.25, platinum: 0.50, titanium: 1.00 };
+            let bonusRate = baseRate * bonusMultipliers[tier];
+            let totalRate = baseRate + bonusRate;
+            let totalPoints = Math.round(spendUSD * totalRate);
+
+            container.innerHTML = `
+                <div class="bg-gray-50 p-3 rounded-xl border text-xs space-y-1">
+                    <div><b>未稅房費換算：</b>約 USD $${spendUSD.toFixed(2)}</div>
+                    <div><b>基礎回饋點數：</b>${Math.round(spendUSD * baseRate).toLocaleString()} 點</div>
+                    <div><b>會籍加成點數：</b>${Math.round(spendUSD * bonusRate).toLocaleString()} 點</div>
+                    <div class="text-indigo-600 font-bold pt-1 border-t">預估總獲得點數：${totalPoints.toLocaleString()} 點</div>
+                </div>
+            `;
         }
 
         function renderFoodMonth(month) {
