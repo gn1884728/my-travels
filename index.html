@@ -30,27 +30,24 @@
     <!-- 主畫面內容區 -->
     <main id="app" class="flex-1 p-4 overflow-y-auto pb-28"></main>
 
-    <!-- 底部導覽列：7 個按鈕完整呈現 -->
-    <nav class="bg-white border-t flex justify-between p-2 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.1)] fixed bottom-0 w-full max-w-md mx-auto z-50 text-[10px]">
-        <button onclick="render('food', event)" class="flex-1 flex flex-col items-center text-gray-600 hover:text-blue-600 transition-colors">
+    <!-- 底部導覽列：恢復 6 個按鈕，合併為「精算哩程」 -->
+    <nav class="bg-white border-t flex justify-between p-3 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.1)] fixed bottom-0 w-full max-w-md mx-auto z-50 text-[11px]">
+        <button onclick="render('food', event)" class="flex flex-col items-center text-gray-600 hover:text-blue-600 w-1/6 transition-colors">
             <i class="fas fa-gift text-lg mb-1"></i>優惠
         </button>
-        <button onclick="render('travel', event)" class="flex-1 flex flex-col items-center text-gray-600 hover:text-blue-600 transition-colors">
+        <button onclick="render('travel', event)" class="flex flex-col items-center text-gray-600 hover:text-blue-600 w-1/6 transition-colors">
             <i class="fas fa-plane-departure text-lg mb-1"></i>行程
         </button>
-        <button onclick="render('lounge', event)" class="flex-1 flex flex-col items-center text-gray-600 hover:text-blue-600 transition-colors">
+        <button onclick="render('lounge', event)" class="flex flex-col items-center text-gray-600 hover:text-blue-600 w-1/6 transition-colors">
             <i class="fas fa-couch text-lg mb-1"></i>貴賓室
         </button>
-        <button onclick="render('cube_calc', event)" class="flex-1 flex flex-col items-center text-gray-600 hover:text-blue-600 transition-colors">
+        <button onclick="render('cube_calc', event)" class="flex flex-col items-center text-gray-600 hover:text-blue-600 w-1/6 transition-colors">
             <i class="fas fa-credit-card text-lg mb-1"></i>CUBE
         </button>
-        <button onclick="render('calc', event)" class="flex-1 flex flex-col items-center text-gray-600 hover:text-blue-600 transition-colors">
-            <i class="fas fa-calculator text-lg mb-1"></i>精算
+        <button onclick="render('calc_mileage', event)" class="flex flex-col items-center text-gray-600 hover:text-blue-600 w-1/6 transition-colors">
+            <i class="fas fa-calculator text-lg mb-1"></i>精算哩程
         </button>
-        <button onclick="render('mileage', event)" class="flex-1 flex flex-col items-center text-gray-600 hover:text-blue-600 transition-colors">
-            <i class="fas fa-chart-line text-lg mb-1"></i>哩程
-        </button>
-        <button onclick="render('note', event)" class="flex-1 flex flex-col items-center text-gray-600 hover:text-blue-600 transition-colors">
+        <button onclick="render('note', event)" class="flex flex-col items-center text-gray-600 hover:text-blue-600 w-1/6 transition-colors">
             <i class="fas fa-microphone-alt text-lg mb-1"></i>記事
         </button>
     </nav>
@@ -97,19 +94,17 @@
             
             if(exData && exData.rates) {
                 ex_twd = exData.rates.TWD;
-                // 計算 人民幣 對 台幣的交叉匯率
                 ex_cny = exData.rates.CNY ? (exData.rates.TWD / exData.rates.CNY) : 4.77;
             }
             // 預設渲染首頁
             render('food');
         });
 
-        // 完整路由與畫面渲染引擎 (結構全展開)
+        // 完整路由與畫面渲染引擎
         function render(tab, ev = null) {
             const app = document.getElementById('app');
             if (!app) return;
 
-            // 處理底部按鈕的顏色高亮狀態
             document.querySelectorAll('nav button').forEach(btn => {
                 btn.classList.remove('text-blue-600', 'font-bold');
                 btn.classList.add('text-gray-600');
@@ -136,7 +131,6 @@
                 renderFoodMonth(month);
 
             } else if (tab === 'travel') {
-                // 完整花火節陣列
                 const fireworksTravelList = [
                     {
                         title: "長岡祭大花火大會",
@@ -192,8 +186,8 @@
 
             } else if (tab === 'lounge') {
                 let loungeKeys = d.lounge ? Object.keys(d.lounge) : [];
-                
                 let countryOptions = loungeKeys.map(c => `<option value="${c}">${c}</option>`).join('');
+                
                 app.innerHTML = `
                     <h2 class="text-xl font-bold mb-4 text-center text-gray-800"><i class="fas fa-couch text-blue-600 mr-2"></i>貴賓室查詢</h2>
                     <select id="c" onchange="up_city()" class="w-full p-4 border rounded-xl mb-3 font-bold bg-white">
@@ -235,14 +229,25 @@
                     </div>
                 `;
 
-            } else if (tab === 'calc') {
-                // 完美復刻您的截圖，專屬「精算」頁面，並替換「代刷」為「支出成本」
+            } else if (tab === 'calc_mileage') {
+                // 合併版：精算 (住房點數) + 哩程 (萬豪轉哩程 + 長榮計算器)
+                let marriottHtml = (mileageData.marriott || []).map(item => `
+                    <div class="bg-white p-4 rounded-2xl shadow border-l-4 ${item.border || 'border-blue-500'} mb-3">
+                        <div class="flex justify-between items-center text-sm font-bold">
+                            <span>每點成本 NT$ ${item.cost}</span>
+                            <span class="${item.tagColor || 'text-blue-600'}">NT$ ${item.mile} / 哩</span>
+                        </div>
+                        <p class="text-xs text-gray-600 mt-1">總花費：NT$ ${item.total}</p>
+                        <p class="text-xs ${item.tagColor || 'text-blue-600'} font-bold mt-1">${item.note}</p>
+                    </div>
+                `).join('');
+
                 app.innerHTML = `
-                    <div class="bg-white p-5 rounded-2xl shadow mb-16">
+                    <!-- 區塊 1：萬豪住房點數專業精算 -->
+                    <div class="bg-white p-5 rounded-2xl shadow mb-8">
                         <h3 class="font-bold text-lg mb-4 text-center text-blue-700">
                             <i class="fas fa-calculator mr-2"></i>萬豪住房點數專業精算
                         </h3>
-                        
                         <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
                             <div>
                                 <label class="block text-gray-500 text-xs mb-1 font-bold">結帳幣別</label>
@@ -258,7 +263,6 @@
                                 <input type="number" id="calc_rate" value="4.77" step="0.01" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawProCalc()">
                             </div>
                         </div>
-
                         <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
                             <div>
                                 <label class="block text-gray-500 text-xs mb-1 font-bold">單晚房費</label>
@@ -269,7 +273,6 @@
                                 <input type="number" id="calc_nights" value="1" min="1" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawProCalc()">
                             </div>
                         </div>
-
                         <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
                             <div>
                                 <label class="block text-gray-500 text-xs mb-1 font-bold">每晚加贈活動</label>
@@ -280,7 +283,6 @@
                                 <input type="number" id="calc_welcome_gift" value="1000" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawProCalc()">
                             </div>
                         </div>
-
                         <div class="grid grid-cols-2 gap-3 mb-4 text-sm">
                             <div>
                                 <label class="block text-gray-500 text-xs mb-1 font-bold">萬豪會籍</label>
@@ -297,33 +299,16 @@
                                 <input type="number" id="calc_service_fee" value="110" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawProCalc()">
                             </div>
                         </div>
-
                         <div id="calc_table_result" class="mt-4"></div>
-
-                        <div class="text-center text-[11px] text-gray-400 mt-3">
-                            <i class="fas fa-sync-alt mr-1"></i>依 1 USD = 6.75 CNY / 32.18 TWD 即時換算
-                        </div>
+                        <div class="text-center text-[11px] text-gray-400 mt-3"><i class="fas fa-sync-alt mr-1"></i>依 1 USD = 6.75 CNY / 32.18 TWD 即時換算</div>
                     </div>
-                `;
-                drawProCalc();
 
-            } else if (tab === 'mileage') {
-                let marriottHtml = (mileageData.marriott || []).map(item => `
-                    <div class="bg-white p-4 rounded-2xl shadow border-l-4 ${item.border || 'border-blue-500'} mb-3">
-                        <div class="flex justify-between items-center text-sm font-bold">
-                            <span>每點成本 NT$ ${item.cost}</span>
-                            <span class="${item.tagColor || 'text-blue-600'}">NT$ ${item.mile} / 哩</span>
-                        </div>
-                        <p class="text-xs text-gray-600 mt-1">總花費：NT$ ${item.total}</p>
-                        <p class="text-xs ${item.tagColor || 'text-blue-600'} font-bold mt-1">${item.note}</p>
-                    </div>
-                `).join('');
-
-                app.innerHTML = `
+                    <!-- 區塊 2：萬豪轉哩程效益表 -->
                     <h2 class="text-xl font-bold mb-1 text-center text-gray-800"><i class="fas fa-chart-line text-blue-600 mr-2"></i>萬豪轉哩程成本效益表</h2>
                     <p class="text-xs text-gray-500 text-center mb-4">以 60,000 點轉 25,000 哩計算基準</p>
-                    <div class="space-y-3 mb-6">${marriottHtml || '<p class="text-center text-gray-400 my-4">目前尚無萬豪點數資料</p>'}</div>
+                    <div class="space-y-3 mb-8">${marriottHtml || '<p class="text-center text-gray-400 my-4">目前尚無萬豪點數資料</p>'}</div>
                     
+                    <!-- 區塊 3：長榮航空哩程計算器 -->
                     <div class="bg-white p-5 rounded-2xl shadow mb-10 border-t-4 border-blue-600">
                         <h2 class="text-lg font-bold mb-3 text-gray-800"><i class="fas fa-plane text-blue-600 mr-2"></i>長榮航空哩程互動計算器</h2>
                         <div class="grid grid-cols-2 gap-3 mb-4 text-sm">
@@ -343,9 +328,12 @@
                         <div id="eva_calc_result" class="mt-3"></div>
                     </div>
                 `;
+                // 同時啟動兩個計算器的預設渲染
+                drawProCalc();
                 drawEvaCalc();
 
             } else if (tab === 'note') {
+                // 完整記事功能
                 app.innerHTML = `
                     <div class="bg-white p-5 rounded-2xl shadow mb-10">
                         <div class="flex justify-between items-center mb-3">
@@ -415,7 +403,7 @@
             document.getElementById('pointResult').innerText = `預估小樹點：${points} 點`;
         }
 
-        // 專業精算表格邏輯
+        // 專業精算表格邏輯 (包含支出成本)
         function drawProCalc() {
             const container = document.getElementById('calc_table_result');
             if (!container) return;
@@ -427,8 +415,6 @@
             const perNightBonus = parseFloat(document.getElementById('calc_per_night_bonus').value) || 0;
             const welcomeGift = parseFloat(document.getElementById('calc_welcome_gift').value) || 0;
             const tierBonusRate = parseFloat(document.getElementById('calc_tier').value) || 0;
-            
-            // 已經將 "代刷支付費用" 改為 "支出成本"
             const serviceFee = parseFloat(document.getElementById('calc_service_fee').value) || 0;
 
             const totalSpendOriginal = nightPrice * nights;
@@ -444,7 +430,6 @@
             const tierPoints = Math.round(basePoints * tierBonusRate);
             const bonusTotal = (perNightBonus * nights) + welcomeGift;
             
-            // 萬豪點數價值基準
             const pointValueRate = 0.23;
 
             const scenarios = [
