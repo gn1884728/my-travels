@@ -1,0 +1,9 @@
+{
+  "stores": [
+    { "name": "梁社漢", "plan": "樂享購", "rate": 0.03 },
+    { "name": "星巴克", "plan": "集精選", "rate": 0.03 },
+    { "name": "momo", "plan": "玩數位", "rate": 0.03 },
+    { "name": "Uber", "plan": "趣旅行", "rate": 0.03 },
+    { "name": "麥當勞", "plan": "樂享購", "rate": 0.03 }
+  ]
+}
