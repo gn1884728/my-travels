@@ -1,9 +1,19 @@
 {
   "stores": [
-    { "name": "梁社漢", "plan": "樂享購", "rate": 0.03 },
+    { "name": "梁社漢", "plan": "樂饗購", "rate": 0.03 },
     { "name": "星巴克", "plan": "集精選", "rate": 0.03 },
     { "name": "momo", "plan": "玩數位", "rate": 0.03 },
+    { "name": "PChome", "plan": "玩數位", "rate": 0.03 },
+    { "name": "蝦皮", "plan": "玩數位", "rate": 0.03 },
     { "name": "Uber", "plan": "趣旅行", "rate": 0.03 },
-    { "name": "麥當勞", "plan": "樂享購", "rate": 0.03 }
+    { "name": "Uber Eats", "plan": "樂饗購", "rate": 0.03 },
+    { "name": "Foodpanda", "plan": "樂饗購", "rate": 0.03 },
+    { "name": "麥當勞", "plan": "樂饗購", "rate": 0.03 },
+    { "name": "肯德基", "plan": "樂饗購", "rate": 0.03 },
+    { "name": "台灣虎航", "plan": "趣旅行", "rate": 0.03 },
+    { "name": "可樂旅遊", "plan": "趣旅行", "rate": 0.03 },
+    { "name": "雄獅旅遊", "plan": "趣旅行", "rate": 0.03 },
+    { "name": "Agoda", "plan": "趣旅行", "rate": 0.03 },
+    { "name": "Booking.com", "plan": "趣旅行", "rate": 0.03 }
   ]
 }
