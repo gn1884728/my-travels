@@ -9,16 +9,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-gray-100 h-screen flex flex-col font-sans max-w-md mx-auto overflow-hidden">
-    
-    <!-- Header -->
+
     <header class="bg-blue-600 text-white p-4 shadow-md z-10 flex flex-col items-center gap-2">
         <div class="text-xl font-bold">生活優惠中心</div>
     </header>
-    
-    <!-- Main Content Area -->
+
     <main id="app" class="flex-1 p-4 overflow-y-auto pb-28"></main>
-    
-    <!-- Navigation Bar -->
+
     <nav class="bg-white border-t flex justify-between p-3 shadow-lg fixed bottom-0 w-full max-w-md mx-auto z-50 text-[11px]">
         <button onclick="render('food', event)" class="flex flex-col items-center text-gray-600 hover:text-blue-600 w-1/6"><i class="fas fa-gift text-lg mb-1"></i>優惠</button>
         <button onclick="render('travel', event)" class="flex flex-col items-center text-gray-600 hover:text-blue-600 w-1/6"><i class="fas fa-plane-departure text-lg mb-1"></i>行程</button>
@@ -29,110 +26,108 @@
     </nav>
 
     <script>
-        /* --- 全域資料變數區 --- */
         let d = { food: {}, travel: [], lounge: {} };
         let mileageData = { marriott: [] };
+        const scriptUrl = "https://script.google.com/macros/s/AKfycbwVLmSnHAsJ8DjU9ZJgp5ZZThsxbPHAtXIQ7R93O_nTd-Uz8WrkdpyFhVwwxvTEddXq/exec";
 
-        /* --- 頁面渲染邏輯 (保留所有頁籤結構) --- */
+        /* --- 初始化資料載入 --- */
+        async function init() {
+            try {
+                const [resData, resMileage] = await Promise.all([
+                    fetch('data.json?t='+Date.now()).then(r => r.json()).catch(() => ({ food: {}, travel: [], lounge: {} })),
+                    fetch('mileage_data.json?t='+Date.now()).then(r => r.json()).catch(() => ({ marriott: [] }))
+                ]);
+                d = resData;
+                mileageData = resMileage;
+                render('food');
+            } catch(e) { console.error("資料載入錯誤", e); }
+        }
+
+        /* --- 核心渲染邏輯 --- */
         function render(tab, ev = null) {
             const app = document.getElementById('app');
-            // 高亮導覽列
             document.querySelectorAll('nav button').forEach(btn => {
                 btn.classList.remove('text-blue-600', 'font-bold');
                 btn.classList.add('text-gray-600');
             });
             if (ev) ev.currentTarget.classList.add('text-blue-600', 'font-bold');
 
-            /* --- 優惠頁籤 --- */
             if(tab === 'food') {
                 app.innerHTML = `<h2 class="text-xl font-bold mb-4">優惠資訊</h2><div id="food-list"></div>`;
-                // 原有優惠資料載入邏輯...
-            } 
-            /* --- 行程頁籤 --- */
-            else if(tab === 'travel') {
-                app.innerHTML = `<h2 class="text-xl font-bold mb-3">精選旅行行程</h2>`;
-            } 
-            /* --- 貴賓室查詢頁籤 (保留你原本的邏輯位址) --- */
-            else if(tab === 'lounge') {
+                renderFoodList();
+            } else if(tab === 'travel') {
+                app.innerHTML = `<h2 class="text-xl font-bold mb-3">精選旅行行程</h2><div id="travel-list"></div>`;
+                renderTravelList();
+            } else if(tab === 'lounge') {
                 app.innerHTML = `
                     <h2 class="text-xl font-bold mb-3">貴賓室查詢</h2>
-                    <select id="c" onchange="up_city()" class="w-full p-3 border rounded-xl mb-2"><option>國家</option></select>
-                    <select id="ci" onchange="up_air()" class="w-full p-3 border rounded-xl mb-2"><option>城市</option></select>
-                    <div id="r"></div>`;
-            } 
-            /* --- CUBE 精算頁籤 (包含最新的巢狀搜尋邏輯) --- */
-            else if(tab === 'cube_calc') {
+                    <select id="c" onchange="up_city()" class="w-full p-3 border rounded-xl mb-2"><option value="">選擇國家</option>${Object.keys(d.lounge).map(c => `<option value="${c}">${c}</option>`).join('')}</select>
+                    <select id="ci" onchange="up_air()" class="w-full p-3 border rounded-xl mb-2"><option value="">選擇城市</option></select>
+                    <select id="a" onchange="up_mem()" class="w-full p-3 border rounded-xl mb-2"><option value="">選擇機場</option></select>
+                    <div id="r" class="mt-4"></div>`;
+            } else if(tab === 'cube_calc') {
                 app.innerHTML = `
                     <div class="bg-white p-5 rounded-2xl shadow">
                         <h3 class="font-bold text-lg mb-3">CUBE 卡權益精算</h3>
-                        <input type="text" id="storeSearch" oninput="searchStore()" placeholder="🔍 輸入店名..." class="w-full p-3 border rounded-xl mb-3">
+                        <input type="text" id="storeSearch" oninput="searchStore()" placeholder="🔍 輸入店名速查..." class="w-full p-3 border rounded-xl mb-3">
                         <div id="storeResult" class="p-3 bg-blue-50 rounded-xl mb-3 text-sm font-bold text-blue-800 hidden"></div>
                         <input type="number" id="consumeAmt" placeholder="消費金額" class="w-full p-3 border rounded-xl mb-2" oninput="calcPoints()">
-                        <input type="number" id="consumeRate" placeholder="回饋率" class="w-full p-3 border rounded-xl mb-2" oninput="calcPoints()">
+                        <input type="number" id="consumeRate" placeholder="回饋率 (%)" class="w-full p-3 border rounded-xl mb-2" oninput="calcPoints()">
                         <div id="pointResult" class="text-center text-xl font-bold text-rose-600 py-4">預估小樹點：0 點</div>
                     </div>`;
-            } 
-            /* --- 哩程頁籤 --- */
-            else if(tab === 'mileage') {
-                app.innerHTML = `<h2 class="text-xl font-bold mb-3">哩程與點數試算</h2>`;
-            } 
-            /* --- 記事頁籤 --- */
-            else if(tab === 'note') {
-                app.innerHTML = `<h2 class="text-xl font-bold mb-3">AI 智慧隨手記事</h2>
+            } else if(tab === 'mileage') {
+                app.innerHTML = `<h2 class="text-xl font-bold mb-3">哩程與點數</h2><div id="mileage-list"></div>`;
+                renderMileage();
+            } else if(tab === 'note') {
+                app.innerHTML = `<h2 class="text-xl font-bold mb-3">AI 智慧記事</h2>
                                  <textarea id="noteInput" class="w-full h-32 p-3 border rounded-xl mb-3"></textarea>
-                                 <button onclick="sendNote()" class="bg-blue-600 text-white w-full p-3 rounded-xl">送出</button>`;
+                                 <button onclick="sendNote()" class="bg-blue-600 text-white w-full p-3 rounded-xl font-bold">送出</button>
+                                 <div id="resultMsg" class="mt-4 text-sm"></div>`;
             }
         }
 
-        /* --- CUBE 搜尋邏輯 (支援 plans 巢狀結構) --- */
+        /* --- 各頁籤細部功能函式 --- */
+        function renderFoodList() { /* 優惠邏輯 */ }
+        function renderTravelList() { /* 行程邏輯 */ }
+        function renderMileage() { /* 哩程列表 */ }
+        function up_city() { /* 貴賓室連動 */ }
+        function up_air() { /* 貴賓室連動 */ }
+        function up_mem() { /* 貴賓室連動 */ }
+
         async function searchStore() {
             const val = document.getElementById('storeSearch').value.trim().toLowerCase();
             const resDiv = document.getElementById('storeResult');
             if (!val) { resDiv.classList.add('hidden'); return; }
-            
-            try {
-                const response = await fetch('cube_config.json?t=' + Date.now());
-                const data = await response.json();
-                let matched = null;
-
-                // 展開 plans 物件進行搜尋
-                if (data.plans) {
-                    for (const [planName, stores] of Object.entries(data.plans)) {
-                        const found = stores.find(s => s.name.toLowerCase().includes(val));
-                        if (found) {
-                            matched = { plan: planName, name: found.name, rate: found.rate };
-                            break;
-                        }
-                    }
+            const response = await fetch('cube_config.json?t='+Date.now());
+            const data = await response.json();
+            let matched = null;
+            if (data.plans) {
+                for (const [planName, stores] of Object.entries(data.plans)) {
+                    const found = stores.find(s => s.name.toLowerCase().includes(val));
+                    if (found) { matched = { plan: planName, name: found.name, rate: found.rate }; break; }
                 }
-
-                if (matched) {
-                    resDiv.classList.remove('hidden');
-                    resDiv.innerHTML = `符合通路：<b>${matched.name}</b><br>推薦方案：<b>${matched.plan}</b> (回饋 ${matched.rate * 100}%)`;
-                    document.getElementById('consumeRate').value = matched.rate * 100;
-                    calcPoints();
-                } else {
-                    resDiv.classList.remove('hidden');
-                    resDiv.innerHTML = `未找到符合通路`;
-                }
-            } catch(e) { console.error(e); }
+            }
+            if (matched) {
+                resDiv.classList.remove('hidden');
+                resDiv.innerHTML = `通路：<b>${matched.name}</b><br>方案：<b>${matched.plan}</b> (${matched.rate*100}%)`;
+                document.getElementById('consumeRate').value = matched.rate * 100;
+                calcPoints();
+            }
         }
 
-        /* --- 計算邏輯 (無條件捨去) --- */
         function calcPoints() {
             const amt = parseFloat(document.getElementById('consumeAmt').value) || 0;
             const rate = (parseFloat(document.getElementById('consumeRate').value) || 0) / 100;
-            const points = Math.floor(amt * rate); 
-            document.getElementById('pointResult').innerText = `預估小樹點：${points} 點`;
+            document.getElementById('pointResult').innerText = `預估小樹點：${Math.floor(amt * rate)} 點`;
         }
 
-        /* --- 其他佔位函式 (保持結構完整) --- */
-        function up_city() {}
-        function up_air() {}
-        function sendNote() { alert('AI 記事已發送'); }
+        async function sendNote() {
+            const text = document.getElementById('noteInput').value;
+            const res = await fetch(scriptUrl, { method: "POST", body: JSON.stringify({ text }) });
+            document.getElementById('resultMsg').innerText = "✅ 已送出";
+        }
 
-        // 初始執行
-        render('food');
+        init();
     </script>
 </body>
 </html>
