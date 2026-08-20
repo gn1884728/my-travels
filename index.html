@@ -29,20 +29,20 @@
     <!-- 主畫面內容區 -->
     <main id="app" class="flex-1 p-4 overflow-y-auto pb-28"></main>
 
-    <!-- 底部導覽列 6 個完整按鈕 -->
+    <!-- 底部導覽列 6 個完整按鈕 (包含精算) -->
     <nav class="bg-white border-t flex justify-between p-3 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.1)] fixed bottom-0 w-full max-w-md mx-auto z-50 text-[11px]">
         <button onclick="render('food', event)" class="flex flex-col items-center text-gray-600 hover:text-blue-600 w-1/6"><i class="fas fa-gift text-lg mb-1"></i>優惠</button>
         <button onclick="render('travel', event)" class="flex flex-col items-center text-gray-600 hover:text-blue-600 w-1/6"><i class="fas fa-plane-departure text-lg mb-1"></i>行程</button>
         <button onclick="render('lounge', event)" class="flex flex-col items-center text-gray-600 hover:text-blue-600 w-1/6"><i class="fas fa-couch text-lg mb-1"></i>貴賓室</button>
         <button onclick="render('cube_calc', event)" class="flex flex-col items-center text-gray-600 hover:text-blue-600 w-1/6"><i class="fas fa-credit-card text-lg mb-1"></i>CUBE</button>
-        <button onclick="render('mileage', event)" class="flex flex-col items-center text-gray-600 hover:text-blue-600 w-1/6"><i class="fas fa-chart-line text-lg mb-1"></i>哩程</button>
+        <button onclick="render('calc', event)" class="flex flex-col items-center text-gray-600 hover:text-blue-600 w-1/6"><i class="fas fa-calculator text-lg mb-1"></i>精算</button>
         <button onclick="render('note', event)" class="flex flex-col items-center text-gray-600 hover:text-blue-600 w-1/6"><i class="fas fa-microphone-alt text-lg mb-1"></i>記事</button>
     </nav>
 
     <script>
         let d = { food: {}, travel: [], lounge: {} };
         let mileageData = { marriott: [] };
-        let ex_twd = 32.50, ex_cny = 7.23;
+        let ex_twd = 32.50, ex_cny = 4.77;
         let currentSystemPrompt = "";
         let currentSkillName = "通用助手";
         const scriptUrl = "https://script.google.com/macros/s/AKfycbwVLmSnHAsJ8DjU9ZJgp5ZZThsxbPHAtXIQ7R93O_nTd-Uz8WrkdpyFhVwwxvTEddXq/exec";
@@ -67,6 +67,7 @@
             }
         }
 
+        // 完整初始化載入資料
         Promise.all([
             fetch('data.json?t='+Date.now()).then(r => r.json()).catch(() => ({ food: {}, travel: [], lounge: {} })),
             fetch('mileage_data.json?t='+Date.now()).then(r => r.json()).catch(() => ({ marriott: [] })),
@@ -76,11 +77,12 @@
             mileageData = resMileage || { marriott: [] };
             if(exData && exData.rates) {
                 ex_twd = exData.rates.TWD;
-                ex_cny = exData.rates.CNY;
+                ex_cny = exData.rates.CNY ? (exData.rates.TWD / exData.rates.CNY) : 4.77;
             }
             render('food');
         });
 
+        // 完整渲染路由控制
         function render(tab, ev = null) {
             const app = document.getElementById('app');
             if (!app) return;
@@ -100,7 +102,54 @@
                 app.innerHTML = `<select onchange="renderFoodMonth(this.value)" class="w-full p-3 mb-4 rounded-xl border font-bold bg-white">${options}</select><div id="food-list"></div>`;
                 renderFoodMonth(month);
             } else if(tab === 'travel') {
-                app.innerHTML = `<h2 class="text-xl font-bold mb-3 text-center text-gray-800"><i class="fas fa-plane-departure text-blue-600 mr-2"></i>精選花火與旅行行程</h2>`;
+                const fireworksTravelList = [
+                    {
+                        title: "長岡祭大花火大會",
+                        tag: "🎆 日本三大花火",
+                        tagColor: "bg-rose-500",
+                        date: "2027/08/02 - 08/03",
+                        location: "新潟縣長岡市信濃川",
+                        airport: "成田 (NRT) / 羽田 (HND) / 新潟 (KIJ)",
+                        url: "https://nagaokamatsuri.com/",
+                        calUrl: "https://www.google.com/calendar/render?action=TEMPLATE&text=長岡祭大花火大會&dates=20270802T112000Z/20270803T131000Z&location=新潟縣長岡市"
+                    },
+                    {
+                        title: "洞爺湖花火大會 (冬花火/長跑花火)",
+                        tag: "🎆 北海道溫泉花火",
+                        tagColor: "bg-amber-500",
+                        date: "2027/02月上旬 (冬) ｜ 4/28-10/31 (長跑)",
+                        location: "北海道洞爺湖溫泉湖畔",
+                        airport: "新千歲機場 (CTS)",
+                        url: "https://www.laketoya.com/event/fireworks/",
+                        calUrl: "https://www.google.com/calendar/render?action=TEMPLATE&text=洞爺湖花火大會&location=洞爺湖溫泉"
+                    }
+                ];
+
+                let fireworksCardsHtml = fireworksTravelList.map(item => `
+                    <div class="bg-white p-5 rounded-2xl shadow mb-4 border-l-4 border-blue-500">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="${item.tagColor} text-white px-3 py-1 rounded-full text-xs font-bold">${item.tag}</span>
+                            <span class="text-xs text-gray-500 font-bold">${item.location}</span>
+                        </div>
+                        <h3 class="font-bold text-lg my-1 text-gray-800">${item.title}</h3>
+                        <p class="text-gray-600 text-xs my-1"><i class="far fa-calendar-alt mr-1 text-blue-500"></i><b>日期：</b>${item.date}</p>
+                        <p class="text-gray-600 text-xs mb-3"><i class="fas fa-plane-arrival mr-1 text-blue-500"></i><b>建議機場：</b>${item.airport}</p>
+                        <div class="flex gap-2">
+                            <a href="${item.url}" target="_blank" class="bg-blue-600 text-white p-2.5 rounded-xl flex-1 text-center font-bold text-xs shadow hover:bg-blue-700 transition">查看官方攻略</a>
+                            <a href="${item.calUrl}" target="_blank" class="bg-gray-100 p-2.5 rounded-xl text-xs font-bold text-gray-700 hover:bg-gray-200 transition">+ 日曆</a>
+                        </div>
+                    </div>
+                `).join('');
+
+                let filteredTravel = (d.travel || []).filter(i => !i.title.includes('韓國') && !i.title.includes('7月'));
+                let userTravelHtml = filteredTravel.map(i => `<a href="${i.url}" target="_blank" class="block bg-white p-5 rounded-2xl shadow mb-4 font-bold text-lg text-blue-700 hover:bg-blue-50 transition"><i class="fas fa-plane mr-2"></i>${i.title}</a>`).join('');
+
+                app.innerHTML = `
+                    <h2 class="text-xl font-bold mb-3 text-center text-gray-800"><i class="fas fa-plane-departure text-blue-600 mr-2"></i>精選花火與旅行行程</h2>
+                    <div class="mb-4">${fireworksCardsHtml}</div>
+                    <h3 class="font-bold text-base my-3 text-gray-700 border-b pb-2"><i class="fas fa-bookmark text-blue-500 mr-1.5"></i>常用旅行連結</h3>
+                    <div>${userTravelHtml}</div>
+                `;
             } else if(tab === 'lounge') {
                 let loungeKeys = d.lounge ? Object.keys(d.lounge) : [];
                 app.innerHTML = `
@@ -130,6 +179,75 @@
                         </div>
                         <div id="pointResult" class="text-center text-xl font-bold text-rose-600 py-4 bg-gray-50 rounded-xl">預估小樹點：0 點</div>
                     </div>`;
+            } else if(tab === 'calc') {
+                // 完美復刻您截圖中的「精算」專業選單
+                app.innerHTML = `
+                    <div class="bg-white p-5 rounded-2xl shadow mb-16">
+                        <h3 class="font-bold text-lg mb-3 text-gray-800 text-center"><i class="fas fa-calculator text-blue-600 mr-2"></i>萬豪住房點數專業精算</h3>
+                        
+                        <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
+                            <div>
+                                <label class="block text-gray-500 text-xs mb-1 font-bold">結帳幣別</label>
+                                <select id="calc_currency" onchange="drawProCalc()" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium">
+                                    <option value="CNY">人民幣 (CNY)</option>
+                                    <option value="USD">美元 (USD)</option>
+                                    <option value="TWD">台幣 (TWD)</option>
+                                    <option value="JPY">日幣 (JPY)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-500 text-xs mb-1 font-bold">請款匯率 (可手動)</label>
+                                <input type="number" id="calc_rate" value="4.77" step="0.01" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawProCalc()">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
+                            <div>
+                                <label class="block text-gray-500 text-xs mb-1 font-bold">單晚房費</label>
+                                <input type="number" id="calc_night_price" value="600" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawProCalc()">
+                            </div>
+                            <div>
+                                <label class="block text-gray-500 text-xs mb-1 font-bold">晚數</label>
+                                <input type="number" id="calc_nights" value="1" min="1" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawProCalc()">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
+                            <div>
+                                <label class="block text-gray-500 text-xs mb-1 font-bold">每晚加贈活動</label>
+                                <input type="number" id="calc_per_night_bonus" value="0" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawProCalc()">
+                            </div>
+                            <div>
+                                <label class="block text-gray-500 text-xs mb-1 font-bold">迎賓禮</label>
+                                <input type="number" id="calc_welcome_gift" value="1000" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawProCalc()">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 mb-4 text-sm">
+                            <div>
+                                <label class="block text-gray-500 text-xs mb-1 font-bold">萬豪會籍</label>
+                                <select id="calc_tier" onchange="drawProCalc()" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium">
+                                    <option value="0">白板會員 (0%)</option>
+                                    <option value="0.1">銀卡 (+10%)</option>
+                                    <option value="0.25">金卡 (+25%)</option>
+                                    <option value="0.5">白金卡 (+50%)</option>
+                                    <option value="1.0" selected>鈦金/大使 (+100%)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-500 text-xs mb-1 font-bold">代刷支付費用</label>
+                                <input type="number" id="calc_service_fee" value="110" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawProCalc()">
+                            </div>
+                        </div>
+
+                        <!-- 計算結果表格區 (完全對應截圖) -->
+                        <div id="calc_table_result" class="mt-4"></div>
+
+                        <div class="text-center text-[11px] text-gray-400 mt-3">
+                            <i class="fas fa-sync-alt mr-1"></i>依 1 USD = 6.75 CNY / 32.18 TWD 即時換算
+                        </div>
+                    </div>`;
+                drawProCalc();
             } else if(tab === 'mileage') {
                 let marriottHtml = (mileageData.marriott || []).map(item => `
                     <div class="bg-white p-4 rounded-2xl shadow border-l-4 ${item.border || 'border-blue-500'} mb-3">
@@ -143,58 +261,17 @@
                 `).join('');
 
                 app.innerHTML = `
-                    <!-- 豐富版：飯店住房點數深度試算 (IHG / 萬豪) -->
-                    <div class="bg-white p-5 rounded-2xl shadow mb-6 border-t-4 border-indigo-600">
-                        <h2 class="text-lg font-bold mb-3 text-gray-800"><i class="fas fa-hotel text-indigo-600 mr-2"></i>飯店住房點數深度試算</h2>
-                        <p class="text-xs text-gray-500 mb-3">精算未稅房費對應之基礎點數、會籍加成與預估台幣價值</p>
-                        
-                        <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
-                            <div>
-                                <label class="block text-gray-500 text-xs mb-1 font-bold">選擇飯店集團</label>
-                                <select id="hotel_brand" onchange="drawHotelCalc()" class="w-full p-2 border rounded-lg bg-gray-50 font-medium">
-                                    <option value="ihg">IHG 優悅會 (標準 10點/$)</option>
-                                    <option value="marriott">萬豪旅享家 (標準 10點/$)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-gray-500 text-xs mb-1 font-bold">會員會籍加成</label>
-                                <select id="hotel_tier" onchange="drawHotelCalc()" class="w-full p-2 border rounded-lg bg-gray-50 font-medium">
-                                    <option value="base">白板會員 (0%)</option>
-                                    <option value="silver">銀卡 (+10%)</option>
-                                    <option value="gold">金卡 (+25%)</option>
-                                    <option value="platinum">白金卡 (+50%)</option>
-                                    <option value="titanium">鈦金/鑽石 (+100%)</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
-                            <div>
-                                <label class="block text-gray-500 text-xs mb-1 font-bold">未稅房費總額 (TWD)</label>
-                                <input type="number" id="hotel_spend" value="5000" class="w-full p-2 border rounded-lg bg-gray-50 font-medium text-sm" oninput="drawHotelCalc()">
-                            </div>
-                            <div>
-                                <label class="block text-gray-500 text-xs mb-1 font-bold">額外迎賓/促銷加成點數</label>
-                                <input type="number" id="hotel_bonus" value="1000" class="w-full p-2 border rounded-lg bg-gray-50 font-medium text-sm" oninput="drawHotelCalc()">
-                            </div>
-                        </div>
-
-                        <div id="hotel_calc_result" class="mt-4 text-sm"></div>
-                    </div>
-
-                    <!-- 萬豪轉哩程成本效益表 -->
                     <h2 class="text-xl font-bold mb-1 text-center text-gray-800"><i class="fas fa-chart-line text-blue-600 mr-2"></i>萬豪轉哩程成本效益表</h2>
                     <p class="text-xs text-gray-500 text-center mb-4">以 60,000 點轉 25,000 哩計算基準</p>
                     <div class="space-y-3 mb-6">${marriottHtml || '<p class="text-center text-gray-400 my-4">目前尚無萬豪點數資料</p>'}</div>
                     
-                    <!-- 長榮航空哩程互動計算器 -->
                     <div class="bg-white p-5 rounded-2xl shadow mb-10 border-t-4 border-blue-600">
                         <h2 class="text-lg font-bold mb-3 text-gray-800"><i class="fas fa-plane text-blue-600 mr-2"></i>長榮航空哩程互動計算器</h2>
                         <div class="grid grid-cols-2 gap-3 mb-4 text-sm">
                             <div>
                                 <label class="block text-gray-500 text-xs mb-1 font-bold">選擇航線區域</label>
                                 <select id="eva_route" onchange="drawEvaCalc()" class="w-full p-2 border rounded-lg bg-gray-50 font-medium">
-                                    <option value="japan">東北亞/東南亞線 (經濟 35k/40k)</option>
+                                    <option value="japan">東北亞/東南亞線 (經濟 37.5k/40k)</option>
                                     <option value="usa">美洲線 (經濟 70k / 商務 140k)</option>
                                     <option value="europe">歐洲線 (經濟 75k / 商務 150k)</option>
                                 </select>
@@ -206,7 +283,6 @@
                         </div>
                         <div id="eva_calc_result" class="mt-3"></div>
                     </div>`;
-                drawHotelCalc();
                 drawEvaCalc();
             } else if(tab === 'note') {
                 app.innerHTML = `
@@ -225,7 +301,7 @@
             }
         }
 
-        // CUBE 搜尋：支援多方案顯示
+        // CUBE 搜尋：支援多方案同時顯示
         async function searchStore() {
             const val = document.getElementById('storeSearch').value.trim().toLowerCase();
             const resDiv = document.getElementById('storeResult');
@@ -234,58 +310,99 @@
                 const response = await fetch('cube_config.json?t=' + Date.now());
                 const data = await response.json();
                 let matchedList = [];
-                for (const [planName, stores] of Object.entries(data.plans || {})) {
-                    const found = stores.find(s => s.name.toLowerCase().includes(val));
-                    if (found) matchedList.push({ plan: planName, name: found.name, rate: found.rate });
+                if (data.plans) {
+                    for (const [planName, stores] of Object.entries(data.plans)) {
+                        const found = stores.find(s => s.name.toLowerCase().includes(val));
+                        if (found) matchedList.push({ plan: planName, name: found.name, rate: found.rate });
+                    }
                 }
                 if (matchedList.length > 0) {
                     resDiv.classList.remove('hidden');
-                    resDiv.innerHTML = matchedList.map(m => `&bull; <b>${m.name}</b> ➔ 方案：<b>${m.plan}</b> (${m.rate*100}%)<br>`).join('');
+                    let html = `找到 ${matchedList.length} 個適用方案：<br>`;
+                    matchedList.forEach(m => {
+                        html += `&bull; <b>${m.name}</b> ➔ 方案：<b>${m.plan}</b> (${m.rate*100}%)<br>`;
+                    });
+                    resDiv.innerHTML = html;
                     document.getElementById('consumeRate').value = matchedList[0].rate * 100;
                     calcPoints();
-                } else { resDiv.classList.remove('hidden'); resDiv.innerHTML = "無此通路資料"; }
-            } catch(e) { console.error(e); }
+                } else {
+                    resDiv.classList.remove('hidden');
+                    resDiv.innerHTML = `未找到符合通路，請手動確認`;
+                }
+            } catch(e) { console.error("搜尋錯誤:", e); }
         }
 
-        // 四捨五入計算
         function calcPoints() {
             const amt = parseFloat(document.getElementById('consumeAmt').value) || 0;
             const rate = (parseFloat(document.getElementById('consumeRate').value) || 0) / 100;
             document.getElementById('pointResult').innerText = `預估小樹點：${Math.round(amt * rate)} 點`;
         }
 
-        // 豐富版：飯店住房點數深度試算邏輯
-        function drawHotelCalc() {
-            const container = document.getElementById('hotel_calc_result');
+        // 專屬「精算」頁面表格渲染邏輯 (完美對應您的截圖)
+        function drawProCalc() {
+            const container = document.getElementById('calc_table_result');
             if (!container) return;
-            const spendTWD = parseFloat(document.getElementById('hotel_spend').value) || 0;
-            const bonusExtra = parseFloat(document.getElementById('hotel_bonus').value) || 0;
-            const brand = document.getElementById('hotel_brand').value;
-            const tier = document.getElementById('hotel_tier').value;
-            
-            const spendUSD = spendTWD / ex_twd;
-            let baseRate = 10;
-            let bonusMultipliers = { base: 0, silver: 0.10, gold: 0.25, platinum: 0.50, titanium: 1.00 };
-            let bonusRate = baseRate * bonusMultipliers[tier];
-            let totalBaseAndBonus = Math.round(spendUSD * (baseRate + bonusRate)) + bonusExtra;
-            
-            // 點數估值 (萬豪約 0.23 NTD/點，IHG約 0.16 NTD/點)
-            let pointValuation = brand === 'marriott' ? 0.23 : 0.16;
-            let estimatedValueTWD = Math.round(totalBaseAndBonus * pointValuation);
+
+            const currency = document.getElementById('calc_currency').value;
+            const rate = parseFloat(document.getElementById('calc_rate').value) || 1;
+            const nightPrice = parseFloat(document.getElementById('calc_night_price').value) || 0;
+            const nights = parseInt(document.getElementById('calc_nights').value) || 1;
+            const perNightBonus = parseFloat(document.getElementById('calc_per_night_bonus').value) || 0;
+            const welcomeGift = parseFloat(document.getElementById('calc_welcome_gift').value) || 0;
+            const tierBonusRate = parseFloat(document.getElementById('calc_tier').value) || 0;
+            const serviceFee = parseFloat(document.getElementById('calc_service_fee').value) || 0;
+
+            // 總房費 (原幣)
+            const totalSpendOriginal = nightPrice * nights;
+            // 換算為美元 (假設 1 USD = 6.75 CNY 或依匯率折算)
+            let spendUSD = currency === 'CNY' ? (totalSpendOriginal / rate) : (totalSpendOriginal / rate); 
+            if (currency === 'USD') spendUSD = totalSpendOriginal;
+
+            // 基本積分 (10點/美元)
+            const basePoints = Math.round(spendUSD * 10);
+            // 會籍加成積分
+            const tierPoints = Math.round(basePoints * tierBonusRate);
+            // 自訂加贈與迎賓禮
+            const bonusTotal = (perNightBonus * nights) + welcomeGift;
+
+            // 點數價值估算 (每點約 0.23 NTD)
+            const pointValueRate = 0.23;
+
+            // 計算三種情境：基本累積、自訂加贈、雙倍積分
+            const scenarios = [
+                { name: "基本累積", pts: basePoints + tierPoints },
+                { name: "自訂加贈", pts: basePoints + tierPoints + bonusTotal },
+                { name: "雙倍積分", pts: (basePoints * 2) + tierPoints + bonusTotal }
+            ];
+
+            let tableRows = scenarios.map(s => {
+                const totalValueNTD = Math.round(s.pts * pointValueRate);
+                const netDiffNTD = totalValueNTD - serviceFee;
+                const netColor = netDiffNTD >= 0 ? "text-emerald-600" : "text-rose-600";
+                const netText = netDiffNTD >= 0 ? `賺 NT$${netDiffNTD}` : `賠 NT$${Math.abs(netDiffNTD)}`;
+
+                return `
+                    <tr class="border-b">
+                        <td class="p-2.5 font-medium text-left">${s.name}</td>
+                        <td class="p-2.5 font-bold text-gray-800">${s.pts.toLocaleString()}</td>
+                        <td class="p-2.5 ${netColor} font-bold">${netText}</td>
+                    </tr>
+                `;
+            }).join('');
 
             container.innerHTML = `
-                <div class="bg-gray-50 p-3.5 rounded-xl border text-xs space-y-1.5">
-                    <div class="flex justify-between"><span>未稅房費換算：</span><b class="text-gray-800">USD $${spendUSD.toFixed(2)}</b></div>
-                    <div class="flex justify-between"><span>基礎回饋點數：</span><b class="text-gray-800">${Math.round(spendUSD * baseRate).toLocaleString()} 點</b></div>
-                    <div class="flex justify-between"><span>會籍加成點數：</span><b class="text-gray-800">${Math.round(spendUSD * bonusRate).toLocaleString()} 點</b></div>
-                    <div class="flex justify-between"><span>迎賓/促銷加成：</span><b class="text-gray-800">${bonusExtra.toLocaleString()} 點</b></div>
-                    <div class="flex justify-between pt-2 border-t text-indigo-700 font-bold text-sm">
-                        <span>預估總獲得點數：</span><span>${totalBaseAndBonus.toLocaleString()} 點</span>
-                    </div>
-                    <div class="flex justify-between text-emerald-600 font-bold">
-                        <span>預估點數價值 (約)：</span><span>NT$ ${estimatedValueTWD.toLocaleString()}</span>
-                    </div>
-                </div>
+                <table class="w-full border-collapse border border-gray-200 text-center bg-white shadow-sm rounded-xl overflow-hidden text-xs">
+                    <thead class="bg-blue-50 text-blue-700 font-bold">
+                        <tr>
+                            <th class="border p-2.5 text-left">方案</th>
+                            <th class="border p-2.5">積分</th>
+                            <th class="border p-2.5">扣除代刷成本淨差異</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${tableRows}
+                    </tbody>
+                </table>
             `;
         }
 
