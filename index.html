@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!-- 防快取機制 -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <link rel="manifest" href="manifest.json">
@@ -12,7 +11,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-gray-100 h-screen flex flex-col font-sans max-w-md mx-auto overflow-hidden">
-    <!-- 頂部 Header -->
     <header class="bg-blue-600 text-white p-4 shadow-md z-10 flex flex-col items-center gap-2">
         <div class="text-xl font-bold">生活優惠中心</div>
         <div class="w-full max-w-xs text-xs font-normal text-gray-800">
@@ -26,7 +24,6 @@
     
     <main id="app" class="flex-1 p-4 overflow-y-auto pb-28"></main>
     
-    <!-- 導覽列 6 個完整按鈕 -->
     <nav class="bg-white border-t flex justify-between p-3 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.1)] fixed bottom-0 w-full max-w-md mx-auto z-50 text-[11px]">
         <button onclick="render('food', event)" class="flex flex-col items-center text-gray-600 hover:text-blue-600 w-1/6"><i class="fas fa-gift text-lg mb-1"></i>優惠</button>
         <button onclick="render('travel', event)" class="flex flex-col items-center text-gray-600 hover:text-blue-600 w-1/6"><i class="fas fa-plane-departure text-lg mb-1"></i>行程</button>
@@ -37,8 +34,8 @@
     </nav>
 
     <script>
-        let d = {};
-        let mileageData = {};
+        let d = { food: {}, travel: [], lounge: {} };
+        let mileageData = { marriott: [] };
         let ex_twd = 32.50, ex_cny = 7.23;
         let currentSystemPrompt = "";
         let currentSkillName = "通用助手";
@@ -49,8 +46,6 @@
                 currentSystemPrompt = "";
                 currentSkillName = "通用助手";
                 render('note');
-                const badge = document.getElementById('skillStatusBadge');
-                if (badge) badge.innerText = "目前模式：通用助手";
                 return;
             }
             try {
@@ -59,30 +54,15 @@
                 currentSystemPrompt = skillData.systemPrompt || "";
                 currentSkillName = skillData.name || skillId;
                 render('note');
-                const noteInput = document.getElementById('noteInput');
-                if (noteInput && skillId === 'japan-fireworks') {
-                    noteInput.value = "介紹洞爺湖煙火與長岡花火節的施放日期、建議進出機場與交通攻略";
-                } else if (noteInput && skillId === 'hotel-points') {
-                    noteInput.value = "分析萬豪與 IHG 飯店點數房兌換性價比與房型升等建議";
-                }
-                const badge = document.getElementById('skillStatusBadge');
-                if (badge) badge.innerText = `目前模式：${currentSkillName}`;
-            } catch (e) {
-                console.error("載入 Skill 失敗:", e);
-            }
+            } catch (e) { console.error("載入 Skill 失敗:", e); }
         }
 
         Promise.all([
             fetch('data.json?t='+Date.now()).then(r => r.json()).catch(() => ({ food: {}, travel: [], lounge: {} })),
-            fetch('mileage_data.json?t='+Date.now()).then(r => r.json()).catch(() => ({ marriott: [] })),
-            fetch('https://api.exchangerate-api.com/v4/latest/USD').then(r => r.json()).catch(() => null)
-        ]).then(([resData, resMileage, exData]) => {
+            fetch('mileage_data.json?t='+Date.now()).then(r => r.json()).catch(() => ({ marriott: [] }))
+        ]).then(([resData, resMileage]) => {
             d = resData || { food: {}, travel: [], lounge: {} };
             mileageData = resMileage || { marriott: [] };
-            if(exData && exData.rates) {
-                ex_twd = exData.rates.TWD;
-                ex_cny = exData.rates.CNY;
-            }
             render('food');
         });
 
@@ -105,54 +85,7 @@
                 app.innerHTML = `<select onchange="renderFoodMonth(this.value)" class="w-full p-3 mb-4 rounded-xl border font-bold bg-white">${options}</select><div id="food-list"></div>`;
                 renderFoodMonth(month);
             } else if(tab === 'travel') {
-                const fireworksTravelList = [
-                    {
-                        title: "長岡祭大花火大會",
-                        tag: "🎆 日本三大花火",
-                        tagColor: "bg-rose-500",
-                        date: "2027/08/02 - 08/03",
-                        location: "新潟縣長岡市信濃川",
-                        airport: "成田 (NRT) / 羽田 (HND) / 新潟 (KIJ)",
-                        url: "https://nagaokamatsuri.com/",
-                        calUrl: "https://www.google.com/calendar/render?action=TEMPLATE&text=長岡祭大花火大會&dates=20270802T112000Z/20270803T131000Z&location=新潟縣長岡市"
-                    },
-                    {
-                        title: "洞爺湖花火大會 (冬花火/長跑花火)",
-                        tag: "🎆 北海道溫泉花火",
-                        tagColor: "bg-amber-500",
-                        date: "2027/02月上旬 (冬) ｜ 4/28-10/31 (長跑)",
-                        location: "北海道洞爺湖溫泉湖畔",
-                        airport: "新千歲機場 (CTS)",
-                        url: "https://www.laketoya.com/event/fireworks/",
-                        calUrl: "https://www.google.com/calendar/render?action=TEMPLATE&text=洞爺湖花火大會&location=洞爺湖溫泉"
-                    }
-                ];
-
-                let fireworksCardsHtml = fireworksTravelList.map(item => `
-                    <div class="bg-white p-5 rounded-2xl shadow mb-4 border-l-4 border-blue-500">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="${item.tagColor} text-white px-3 py-1 rounded-full text-xs font-bold">${item.tag}</span>
-                            <span class="text-xs text-gray-500 font-bold">${item.location}</span>
-                        </div>
-                        <h3 class="font-bold text-lg my-1 text-gray-800">${item.title}</h3>
-                        <p class="text-gray-600 text-xs my-1"><i class="far fa-calendar-alt mr-1 text-blue-500"></i><b>日期：</b>${item.date}</p>
-                        <p class="text-gray-600 text-xs mb-3"><i class="fas fa-plane-arrival mr-1 text-blue-500"></i><b>建議機場：</b>${item.airport}</p>
-                        <div class="flex gap-2">
-                            <a href="${item.url}" target="_blank" class="bg-blue-600 text-white p-2.5 rounded-xl flex-1 text-center font-bold text-xs shadow hover:bg-blue-700 transition">查看官方攻略</a>
-                            <a href="${item.calUrl}" target="_blank" class="bg-gray-100 p-2.5 rounded-xl text-xs font-bold text-gray-700 hover:bg-gray-200 transition">+ 日曆</a>
-                        </div>
-                    </div>
-                `).join('');
-
-                let filteredTravel = (d.travel || []).filter(i => !i.title.includes('韓國') && !i.title.includes('7月'));
-                let userTravelHtml = filteredTravel.map(i => `<a href="${i.url}" target="_blank" class="block bg-white p-5 rounded-2xl shadow mb-4 font-bold text-lg text-blue-700 hover:bg-blue-50 transition"><i class="fas fa-plane mr-2"></i>${i.title}</a>`).join('');
-
-                app.innerHTML = `
-                    <h2 class="text-xl font-bold mb-3 text-center text-gray-800"><i class="fas fa-plane-departure text-blue-600 mr-2"></i>精選花火與旅行行程</h2>
-                    <div class="mb-4">${fireworksCardsHtml}</div>
-                    <h3 class="font-bold text-base my-3 text-gray-700 border-b pb-2"><i class="fas fa-bookmark text-blue-500 mr-1.5"></i>常用旅行連結</h3>
-                    <div>${userTravelHtml}</div>
-                `;
+                app.innerHTML = `<h2 class="text-xl font-bold mb-3 text-center text-gray-800"><i class="fas fa-plane-departure text-blue-600 mr-2"></i>精選旅行行程</h2>`;
             } else if(tab === 'lounge') {
                 let loungeKeys = d.lounge ? Object.keys(d.lounge) : [];
                 app.innerHTML = `
@@ -164,7 +97,10 @@
             } else if(tab === 'cube_calc') {
                 app.innerHTML = `
                     <div class="bg-white p-5 rounded-2xl shadow mb-10">
-                        <h3 class="font-bold text-lg mb-4 text-gray-800 text-center"><i class="fas fa-credit-card text-blue-600 mr-2"></i>CUBE 卡權益精算</h3>
+                        <h3 class="font-bold text-lg mb-3 text-gray-800 text-center"><i class="fas fa-credit-card text-blue-600 mr-2"></i>CUBE 卡權益精算</h3>
+                        <div class="bg-amber-50 border border-amber-200 text-amber-800 p-3 rounded-xl text-xs mb-4">
+                            <b>💡 童樂匯解鎖提醒：</b>需「親子與未成年子女皆持有本行帳戶」且「持有有效 CUBE 正卡」始可切換！
+                        </div>
                         <input type="text" id="storeSearch" oninput="searchStore()" placeholder="🔍 輸入店名速查方案..." class="w-full p-3 border rounded-xl mb-3 bg-gray-50 text-sm">
                         <div id="storeResult" class="p-3 bg-blue-50 rounded-xl mb-4 text-sm font-bold text-blue-800 hidden"></div>
                         <div class="grid grid-cols-2 gap-3 mb-4">
@@ -180,82 +116,58 @@
                         <div id="pointResult" class="text-center text-xl font-bold text-rose-600 py-4 bg-gray-50 rounded-xl">預估小樹點：0 點</div>
                     </div>`;
             } else if(tab === 'mileage') {
-                let marriottHtml = (mileageData.marriott || []).map(item => `
-                    <div class="bg-white p-4 rounded-2xl shadow border-l-4 ${item.border || 'border-blue-500'} mb-3">
-                        <div class="flex justify-between items-center text-sm font-bold">
-                            <span>每點成本 NT$ ${item.cost}</span>
-                            <span class="${item.tagColor || 'text-blue-600'}">NT$ ${item.mile} / 哩</span>
-                        </div>
-                        <p class="text-xs text-gray-600 mt-1">總花費：NT$ ${item.total}</p>
-                        <p class="text-xs ${item.tagColor || 'text-blue-600'} font-bold mt-1">${item.note}</p>
-                    </div>
-                `).join('');
-
-                app.innerHTML = `
-                    <h2 class="text-xl font-bold mb-1 text-center text-gray-800"><i class="fas fa-chart-line text-blue-600 mr-2"></i>萬豪轉哩程成本效益表</h2>
-                    <p class="text-xs text-gray-500 text-center mb-4">以 60,000 點轉 25,000 哩計算基準</p>
-                    <div class="space-y-3 mb-6">${marriottHtml || '<p class="text-center text-gray-400 my-4">目前尚無萬豪點數資料</p>'}</div>
-                    
-                    <div class="bg-white p-5 rounded-2xl shadow mb-10 border-t-4 border-blue-600">
-                        <h2 class="text-lg font-bold mb-3 text-gray-800"><i class="fas fa-plane text-blue-600 mr-2"></i>長榮航空哩程互動計算器</h2>
-                        <p class="text-xs text-gray-500 mb-4">可隨時線上切換航線與艙等，即時算出所需哩程與總值</p>
-                        
-                        <div class="grid grid-cols-2 gap-3 mb-4 text-sm">
-                            <div>
-                                <label class="block text-gray-500 text-xs mb-1 font-bold">選擇航線區域</label>
-                                <select id="eva_route" onchange="drawEvaCalc()" class="w-full p-2 border rounded-lg bg-gray-50 font-medium">
-                                    <option value="japan">日本線 (經濟 35k / 商務 50k)</option>
-                                    <option value="seasia">東南亞線 (經濟 40k / 商務 65k)</option>
-                                    <option value="usa">美洲線 (經濟 70k / 商務 140k)</option>
-                                    <option value="europe">歐洲線 (經濟 75k / 商務 150k)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-gray-500 text-xs mb-1 font-bold">兌換人數 (位)</label>
-                                <input type="number" id="eva_pax" value="2" min="1" class="w-full p-2 border rounded-lg bg-gray-50 font-medium" oninput="drawEvaCalc()">
-                            </div>
-                        </div>
-                        <div id="eva_calc_result" class="mt-3"></div>
-                    </div>`;
-                drawEvaCalc();
+                app.innerHTML = `<h2 class="text-xl font-bold mb-3 text-center text-gray-800">哩程與點數試算</h2>`;
             } else if(tab === 'note') {
                 app.innerHTML = `
                     <div class="bg-white p-5 rounded-2xl shadow mb-10">
-                        <div class="flex justify-between items-center mb-3">
-                            <h3 class="font-bold text-lg text-gray-800"><i class="fas fa-microphone-alt text-blue-600 mr-2"></i>AI 智慧隨手記事</h3>
-                            <span id="skillStatusBadge" class="bg-blue-50 text-blue-700 text-xs px-2.5 py-1 rounded-full font-bold">目前模式：${currentSkillName}</span>
-                        </div>
-                        <textarea id="noteInput" placeholder="請輸入行程/記事..." class="w-full h-32 p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm mb-3 bg-gray-50"></textarea>
-                        <div class="flex gap-2">
-                            <button onclick="startVoiceInput()" class="bg-emerald-600 text-white p-3 rounded-xl flex-1 font-bold text-sm shadow"><i class="fas fa-microphone mr-1"></i>語音輸入</button>
-                            <button onclick="sendNote()" id="submitBtn" class="bg-blue-600 text-white p-3 rounded-xl flex-1 font-bold text-sm shadow">送出並 AI 整理</button>
-                        </div>
+                        <h3 class="font-bold text-lg mb-3 text-gray-800"><i class="fas fa-microphone-alt text-blue-600 mr-2"></i>AI 智慧隨手記事</h3>
+                        <textarea id="noteInput" placeholder="請輸入行程/記事..." class="w-full h-32 p-3 border rounded-xl text-sm mb-3 bg-gray-50"></textarea>
+                        <button onclick="sendNote()" id="submitBtn" class="bg-blue-600 text-white p-3 rounded-xl w-full font-bold text-sm shadow">送出並 AI 整理</button>
                         <div id="resultMsg" class="mt-4 text-sm text-gray-600"></div>
                     </div>`;
             }
         }
 
-        // CUBE 核心精算功能
         async function searchStore() {
-            const val = document.getElementById('storeSearch').value;
+            const val = document.getElementById('storeSearch').value.trim().toLowerCase();
             const resDiv = document.getElementById('storeResult');
+            if (!val) {
+                resDiv.classList.add('hidden');
+                return;
+            }
             try {
-                const response = await fetch('cube_config.json?t='+Date.now());
+                const response = await fetch('cube_config.json?t=' + Date.now());
                 const data = await response.json();
-                const match = data.stores.find(s => s.name.includes(val));
-                if (match) {
+                let matched = null;
+
+                if (data.plans) {
+                    for (const [planName, stores] of Object.entries(data.plans)) {
+                        const found = stores.find(s => s.name.toLowerCase().includes(val));
+                        if (found) {
+                            matched = { plan: planName, name: found.name, rate: found.rate };
+                            break;
+                        }
+                    }
+                }
+
+                if (matched) {
                     resDiv.classList.remove('hidden');
-                    resDiv.innerHTML = `推薦方案：${match.plan} (回饋 ${match.rate*100}%)`;
-                    document.getElementById('consumeRate').value = match.rate * 100;
+                    resDiv.innerHTML = `符合通路：<b>${matched.name}</b><br>推薦方案：<b>${matched.plan}</b> (回饋 ${Math.round(matched.rate * 1000) / 10}%)`;
+                    document.getElementById('consumeRate').value = matched.rate * 100;
                     calcPoints();
-                } else { resDiv.classList.add('hidden'); }
-            } catch(e) { console.error("搜尋錯誤:", e); }
+                } else {
+                    resDiv.classList.remove('hidden');
+                    resDiv.innerHTML = `未找到完全符合通路，請手動確認`;
+                }
+            } catch(e) { 
+                console.error(e); 
+            }
         }
 
         function calcPoints() {
             const amt = parseFloat(document.getElementById('consumeAmt').value) || 0;
             const rate = (parseFloat(document.getElementById('consumeRate').value) || 0) / 100;
-            const points = Math.round(amt * rate); // 四捨五入
+            const points = Math.round(amt * rate); // 精準四捨五入
             document.getElementById('pointResult').innerText = `預估小樹點：${points} 點`;
         }
 
@@ -263,106 +175,20 @@
             const foodList = document.getElementById('food-list');
             if (!foodList) return;
             const list = (d.food && d.food[month]) || [];
-            foodList.innerHTML = list.map(i => `<div class="bg-white p-5 rounded-2xl shadow mb-4"><span class="${i.color || 'bg-blue-500'} text-white px-3 py-1 rounded-full text-xs font-bold">${i.brand}</span><h3 class="font-bold text-lg my-2">${i.title}</h3><p class="text-gray-500 text-sm mb-4">${i.time}</p><div class="flex gap-3"><a href="${i.url}" class="bg-blue-600 text-white p-3 rounded-xl flex-1 text-center font-bold text-sm shadow">前往優惠</a><a href="https://www.google.com/calendar/render?action=TEMPLATE&text=${i.title}" class="bg-gray-200 p-3 rounded-xl px-5 text-sm font-bold text-gray-700">+日曆</a></div></div>`).join('') || '<p class="text-center text-gray-400 py-4">目前尚無此月份優惠</p>';
-        }
-
-        function drawEvaCalc() {
-            const container = document.getElementById('eva_calc_result');
-            if (!container) return;
-            const route = document.getElementById('eva_route').value;
-            const pax = parseInt(document.getElementById('eva_pax').value) || 1;
-            const rates = {
-                japan: { name: "日本線", eco: 35000, biz: 50000 },
-                seasia: { name: "東南亞線", eco: 40000, biz: 65000 },
-                usa: { name: "美洲線", eco: 70000, biz: 140000 },
-                europe: { name: "歐洲線", eco: 75000, biz: 150000 }
-            };
-            const target = rates[route];
-            const valPerMile = 0.45;
-
-            container.innerHTML = `<table class="w-full border-collapse border border-gray-200 text-center bg-white shadow-sm rounded-lg overflow-hidden text-xs">
-                <thead class="bg-blue-50 text-blue-700 font-bold">
-                    <tr>
-                        <th class="border p-2">艙等</th>
-                        <th class="border p-2">單人哩程</th>
-                        <th class="border p-2">總共 (${pax}人)</th>
-                        <th class="border p-2">估算價值 (NT$)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="border p-2 font-medium">經濟艙</td>
-                        <td class="border p-2 text-gray-800 font-bold">${target.eco.toLocaleString()} 哩</td>
-                        <td class="border p-2 text-blue-600 font-bold">${(target.eco * pax).toLocaleString()} 哩</td>
-                        <td class="border p-2 text-emerald-600 font-bold">NT$ ${Math.round(target.eco * pax * valPerMile).toLocaleString()}</td>
-                    </tr>
-                    <tr>
-                        <td class="border p-2 font-medium">商務艙 (皇璽桂冠)</td>
-                        <td class="border p-2 text-gray-800 font-bold">${target.biz.toLocaleString()} 哩</td>
-                        <td class="border p-2 text-blue-600 font-bold">${(target.biz * pax).toLocaleString()} 哩</td>
-                        <td class="border p-2 text-emerald-600 font-bold">NT$ ${Math.round(target.biz * pax * valPerMile).toLocaleString()}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p class="text-gray-400 text-[10px] text-center mt-2"><i class="fas fa-info-circle mr-1"></i>基準價值以 1 哩 = 0.45 台幣試算</p>`;
-        }
-
-        function startVoiceInput() {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRecognition) { alert("您的瀏覽器不支援語音辨識功能。"); return; }
-            const recognition = new SpeechRecognition();
-            recognition.lang = 'zh-TW';
-            recognition.interimResults = false;
-            const msg = document.getElementById('resultMsg');
-            if(msg) msg.innerText = "🎙️ 請開始說話...";
-            recognition.onresult = function(e) {
-                const noteInput = document.getElementById('noteInput');
-                if(noteInput) noteInput.value = e.results[0][0].transcript;
-                if(msg) msg.innerText = "✅ 語音辨識完成！";
-            };
-            recognition.start();
+            foodList.innerHTML = list.map(i => `<div class="bg-white p-5 rounded-2xl shadow mb-4"><h3 class="font-bold text-lg">${i.title}</h3><a href="${i.url}" class="text-blue-600">前往優惠</a></div>`).join('') || '<p class="text-center text-gray-400 py-4">目前尚無此月份優惠</p>';
         }
 
         async function sendNote() {
             const text = document.getElementById('noteInput')?.value.trim();
             const msg = document.getElementById('resultMsg');
-            const btn = document.getElementById('submitBtn');
             if (!text) { alert('請輸入內容'); return; }
-            if(msg) msg.innerText = "⏳ AI 正在處理中...";
-            if(btn) btn.disabled = true;
+            msg.innerText = "⏳ AI 處理中...";
             try {
-                const response = await fetch(scriptUrl, { method: "POST", body: JSON.stringify({ text: text, systemPrompt: currentSystemPrompt }) });
+                const response = await fetch(scriptUrl, { method: "POST", body: JSON.stringify({ text: text }) });
                 const result = await response.json();
-                if(result.status === "success") {
-                    if(msg) msg.innerHTML = `<div class='p-4 bg-blue-50/70 rounded-xl border text-sm leading-relaxed text-gray-800 shadow-sm'><b>${currentSkillName}：</b><br>${result.message.replace(/\n/g, '<br>')}</div>`;
-                } else { if(msg) msg.innerText = "❌ 失敗：" + result.message; }
-            } catch (e) { if(msg) msg.innerText = "❌ 發生錯誤：" + e; } finally { if(btn) btn.disabled = false; }
-        }
-
-        function up_city() { 
-            const cElem = document.getElementById('c');
-            const ciElem = document.getElementById('ci');
-            if(!cElem || !ciElem) return;
-            const c = cElem.value; 
-            ciElem.innerHTML='<option value="">選擇城市</option>'+Object.keys(d.lounge[c]||{}).map(ci=>`<option value="${ci}">${ci}</option>`).join(''); 
-        }
-        function up_air() { 
-            const cElem = document.getElementById('c');
-            const ciElem = document.getElementById('ci');
-            const aElem = document.getElementById('a');
-            if(!cElem || !ciElem || !aElem) return;
-            const c = cElem.value, ci = ciElem.value; 
-            aElem.innerHTML='<option value="">選擇機場</option>'+Object.keys(d.lounge[c]?.[ci]||{}).map(a=>`<option value="${a}">${a}</option>`).join(''); 
-        }
-        function show() {
-            const cElem = document.getElementById('c');
-            const ciElem = document.getElementById('ci');
-            const aElem = document.getElementById('a');
-            const mElem = document.getElementById('m');
-            const rElem = document.getElementById('r');
-            if(!cElem || !ciElem || !aElem || !mElem || !rElem) return;
-            const s = d.lounge[cElem.value]?.[ciElem.value]?.[aElem.value]?.[mElem.value];
-            rElem.innerHTML = (s && s.length > 0) ? `<div class="bg-white p-5 rounded-2xl shadow"><h3 class="font-bold text-lg">${s[0].name}</h3><p class="text-sm my-3 text-gray-600">${s[0].desc}</p><div class="flex flex-wrap gap-2">${s[0].img.map(url => `<img src="${url}" class="w-full sm:w-1/2 rounded-xl">`).join('')}</div></div>` : `<div class="p-4 text-center text-gray-400">目前無貴賓室資料</div>`;
+                if(result.status === "success") { msg.innerText = "✅ 成功：" + result.message; }
+                else { msg.innerText = "❌ 失敗：" + result.message; }
+            } catch (e) { msg.innerText = "❌ 錯誤：" + e; }
         }
     </script>
 </body>
