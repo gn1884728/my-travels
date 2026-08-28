@@ -98,13 +98,11 @@
                 ex_cny = exData.rates.CNY;
                 ex_jpy = exData.rates.JPY;
                 
-                // 若當下停留在精算頁面，立即更新畫面匯率
                 if(document.getElementById('calc_currency')) {
                     updateCurrencyRate('calc');
                     updateCurrencyRate('ihg_calc');
                 }
             }
-            // 預設渲染首頁
             render('food');
         });
 
@@ -131,10 +129,9 @@
                 }).join('');
                 
                 app.innerHTML = `
-                    <!-- 頂部切換按鈕 -->
                     <div class="flex gap-2 mb-4">
-                        <button onclick="render('food')" class="flex-1 bg-blue-600 text-white p-2.5 rounded-xl font-bold text-sm shadow">🗓️ 本月優惠</button>
-                        <button onclick="loadDeliveryCoupons()" class="flex-1 bg-emerald-100 text-emerald-700 p-2.5 rounded-xl font-bold text-sm shadow hover:bg-emerald-600 hover:text-white transition-colors">🛵 外送即時碼</button>
+                        <button onclick="render('food')" class="food-tab-btn flex-1 bg-blue-600 text-white p-2.5 rounded-xl font-bold text-sm shadow transition-colors">🗓️ 本月優惠</button>
+                        <button onclick="loadDeliveryCoupons()" class="food-tab-btn flex-1 bg-emerald-50 text-emerald-700 p-2.5 rounded-xl font-bold text-sm shadow hover:bg-emerald-600 hover:text-white transition-colors border border-emerald-100">🛵 外送/信用卡即時碼</button>
                     </div>
                     
                     <div id="food-dynamic-content">
@@ -434,7 +431,6 @@
                     </div>
                 `;
                 
-                // 初次載入時，強制更新匯率並計算
                 updateCurrencyRate('calc');
                 updateCurrencyRate('ihg_calc');
                 drawEvaCalc();
@@ -458,71 +454,122 @@
         }
 
         // ==========================================
-        // 各個業務邏輯函式區
+        // 外送 / 信用卡 爬蟲解析器
         // ==========================================
-
-        // 非同步爬取 GitHub 外部優惠碼 JSON
         async function loadDeliveryCoupons() {
+            // 切換按鈕樣式
+            const btns = document.querySelectorAll('.food-tab-btn');
+            if (btns.length >= 2) {
+                btns[0].className = "food-tab-btn flex-1 bg-blue-50 text-blue-700 p-2.5 rounded-xl font-bold text-sm shadow hover:bg-blue-600 hover:text-white transition-colors border border-blue-100";
+                btns[1].className = "food-tab-btn flex-1 bg-emerald-600 text-white p-2.5 rounded-xl font-bold text-sm shadow transition-colors";
+            }
+            
             const container = document.getElementById('food-dynamic-content');
             if (!container) return;
             
-            container.innerHTML = '<div class="text-center text-gray-500 py-16"><i class="fas fa-spinner fa-spin text-3xl mb-3 text-emerald-500"></i><br>正在從 GitHub 抓取最新外送優惠...</div>';
+            container.innerHTML = '<div class="text-center text-gray-500 py-16"><i class="fas fa-spinner fa-spin text-3xl mb-3 text-emerald-500"></i><br>正在從 GitHub 即時解析各家優惠...</div>';
             
             try {
-                // 同時抓取 Uber Eats 與 Foodpanda 的公開資料
-                const [ueRes, fpRes] = await Promise.all([
-                    fetch('https://raw.githubusercontent.com/ridemountainpig/tasty-coupon/main/coupon-json/ubereats.json'),
-                    fetch('https://raw.githubusercontent.com/ridemountainpig/tasty-coupon/main/coupon-json/foodpanda.json').catch(() => null)
-                ]);
+                // 直接抓取 README.md 原始碼
+                const res = await fetch('https://raw.githubusercontent.com/ridemountainpig/tasty-coupon/main/README.md');
+                if (!res.ok) throw new Error("Fetch failed");
+                const mdText = await res.text();
                 
-                const ueData = ueRes.ok ? await ueRes.json() : [];
-                const fpData = (fpRes && fpRes.ok) ? await fpRes.json() : [];
+                const lines = mdText.split('\\n');
+                let htmlBuffer = '';
                 
-                // 萬用解析：預防該專案的 JSON 結構變動
-                const parseData = (data) => Array.isArray(data) ? data : (data.coupons || data.data || Object.values(data)[0] || []);
-                
-                const renderCards = (list, brandName, brandColor, btnColor) => {
-                    if (!list || list.length === 0) return '';
-                    return list.map(item => {
-                        const title = item.title || item.name || item.description || '外送優惠活動';
-                        const code = item.code || item.coupon || '';
-                        const date = item.expire_date || item.end_date || '依官方公告';
+                let currentGroup = '綜合優惠';
+                let brandColor = 'border-gray-300';
+                let btnColor = 'text-gray-600';
+
+                for (let i = 0; i < lines.length; i++) {
+                    let line = lines[i].trim();
+                    if (!line) continue;
+                    
+                    // 記錄表格上方的標題作為分類名稱
+                    if (!line.startsWith('|') && !line.startsWith('<') && !line.startsWith('![')) {
+                        let cleanTitle = line.replace(/#/g, '').replace(/\\*/g, '').trim();
+                        if (cleanTitle.length > 0 && cleanTitle.length < 40) {
+                            currentGroup = cleanTitle;
+                            if (currentGroup.toLowerCase().includes('uber')) { brandColor = 'border-green-500'; btnColor = 'text-green-600'; }
+                            else if (currentGroup.toLowerCase().includes('panda') || currentGroup.includes('熊貓')) { brandColor = 'border-pink-500'; btnColor = 'text-pink-600'; }
+                            else if (currentGroup.includes('信用卡') || currentGroup.includes('聯名卡')) { brandColor = 'border-blue-500'; btnColor = 'text-blue-600'; }
+                            else { brandColor = 'border-gray-500'; btnColor = 'text-gray-700'; }
+                        }
+                    }
+                    
+                    // 偵測到表格資料
+                    if (line.startsWith('|') && line.includes('優惠') && (line.includes('內容') || line.includes('代碼') || line.includes('連結'))) {
+                        if (i + 1 < lines.length && lines[i+1].includes('---')) i++; // 跳過分隔線
                         
-                        return `
-                            <div class="bg-white p-4 rounded-2xl shadow mb-3 border-l-4 ${brandColor}">
-                                <div class="flex justify-between items-start mb-2">
-                                    <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs font-bold">${brandName}</span>
-                                    <span class="text-[10px] text-rose-500 font-bold bg-rose-50 px-2 py-1 rounded">期限: ${date}</span>
-                                </div>
-                                <h4 class="font-bold text-gray-800 text-sm mb-2 leading-snug">${title}</h4>
-                                ${code ? `
-                                    <div class="bg-gray-50 p-2.5 rounded-xl border border-dashed border-gray-300 flex justify-between items-center mt-2">
-                                        <span class="font-mono font-bold text-lg tracking-wider ${btnColor}">${code}</span>
-                                        <button onclick="navigator.clipboard.writeText('${code}'); alert('已複製優惠碼：${code}')" class="text-xs bg-gray-200 text-gray-700 px-3 py-1.5 rounded-lg font-bold shadow-sm hover:bg-gray-300 transition-colors">複製</button>
+                        // 開始解析列
+                        while (i + 1 < lines.length && lines[i+1].trim().startsWith('|')) {
+                            i++;
+                            let rowLine = lines[i].trim();
+                            let cols = rowLine.split('|');
+                            if (cols[0].trim() === '') cols.shift();
+                            if (cols.length > 0 && cols[cols.length - 1].trim() === '') cols.pop();
+                            cols = cols.map(c => c.trim());
+                            
+                            if (cols.length >= 2) {
+                                // 移除贅字與 HTML 標籤
+                                let title = cols[0].replace(/\\(複製並前往使用\\)/gi, '').replace(/\\(前往合作頁面\\)/gi, '').replace(/<[^>]*>?/gm, '').trim();
+                                let codeStr = cols[1].replace(/\\(複製並前往使用\\)/gi, '').replace(/\\(前往合作頁面\\)/gi, '').replace(/<[^>]*>?/gm, '').trim();
+                                let expire = cols[2] ? cols[2].replace(/<[^>]*>?/gm, '').trim() : '依公告';
+                                let target = cols[3] ? cols[3].replace(/<[^>]*>?/gm, '').trim() : '無限制';
+                                
+                                // 解析 Markdown 超連結 [text](url)
+                                let linkMatch = codeStr.match(/\\[(.*?)\\]\\((.*?)\\)/);
+                                if (linkMatch) {
+                                    codeStr = linkMatch[1]; 
+                                }
+                                
+                                let actionHtml = '';
+                                if (codeStr === '立即領取優惠' || codeStr.includes('領取優惠') || codeStr.includes('指定連結') || codeStr.includes('當日公布')) {
+                                   actionHtml = \`<div class="text-xs text-blue-600 mt-2 font-bold bg-blue-50 p-2.5 rounded-xl text-center border border-blue-100">🔗 點擊 App 內領取 / 自動派發</div>\`;
+                                } else if (codeStr && codeStr.length < 30) {
+                                   actionHtml = \`
+                                        <div class="bg-gray-50 p-2.5 rounded-xl border border-dashed border-gray-300 flex justify-between items-center mt-2">
+                                            <span class="font-mono font-bold text-lg tracking-wider \${btnColor}">\${codeStr}</span>
+                                            <button onclick="navigator.clipboard.writeText('\${codeStr}'); alert('已複製：\${codeStr}')" class="text-xs bg-white border border-gray-200 text-gray-700 px-3 py-1.5 rounded-lg font-bold shadow-sm hover:bg-gray-100 transition-colors">複製</button>
+                                        </div>
+                                   \`;
+                                } else {
+                                   actionHtml = \`<div class="text-xs text-gray-500 mt-2 font-bold">\${codeStr}</div>\`;
+                                }
+
+                                htmlBuffer += \`
+                                    <div class="bg-white p-4 rounded-2xl shadow mb-3 border-l-4 \${brandColor}">
+                                        <div class="flex justify-between items-start mb-2 gap-2">
+                                            <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-[10px] font-bold leading-none inline-block">\${currentGroup}</span>
+                                            <span class="text-[10px] text-rose-600 font-bold bg-rose-50 px-2 py-1 rounded border border-rose-100 whitespace-nowrap">⏳ \${expire}</span>
+                                        </div>
+                                        <h4 class="font-bold text-gray-800 text-sm mb-1 leading-snug">\${title}</h4>
+                                        \${target !== '無限制' && target !== '' ? \`<p class="text-[11px] text-gray-500 mb-2">🎯 適用：\${target}</p>\` : ''}
+                                        \${actionHtml}
                                     </div>
-                                ` : '<div class="text-xs text-gray-400 mt-2">※ 無需優惠碼 / 點擊 App 內領取</div>'}
-                            </div>
-                        `;
-                    }).join('');
-                };
+                                \`;
+                            }
+                        }
+                    }
+                }
                 
-                const ueHtml = renderCards(parseData(ueData), 'Uber Eats', 'border-green-500', 'text-green-600');
-                const fpHtml = renderCards(parseData(fpData), 'Foodpanda', 'border-pink-500', 'text-pink-600');
-                
-                container.innerHTML = `
-                    <div class="mb-4">
-                        ${ueHtml ? ueHtml : '<p class="text-center text-gray-400 text-sm py-4">目前暫無 Uber Eats 優惠碼</p>'}
-                        ${fpHtml ? fpHtml : ''}
-                    </div>
-                `;
+                if (htmlBuffer) {
+                    container.innerHTML = \`<div class="mb-4 animate-[fadeIn_0.5s_ease-in-out]">\${htmlBuffer}</div>\`;
+                } else {
+                    container.innerHTML = '<div class="text-center text-gray-400 py-10">目前暫無可用的優惠</div>';
+                }
                 
             } catch (e) {
-                console.error("載入外送優惠失敗:", e);
-                container.innerHTML = '<div class="text-center text-rose-500 py-10 font-bold"><i class="fas fa-exclamation-triangle text-2xl mb-2"></i><br>載入失敗，無法連線至外部資料庫。</div>';
+                console.error("載入優惠失敗:", e);
+                container.innerHTML = '<div class="text-center text-rose-500 py-10 font-bold"><i class="fas fa-exclamation-triangle text-2xl mb-2"></i><br>無法連線至 GitHub 解析檔案。</div>';
             }
         }
 
-        // 自動更新匯率連動
+        // ==========================================
+        // 其他共用邏輯區
+        // ==========================================
+
         function updateCurrencyRate(calcPrefix) {
             const currency = document.getElementById(calcPrefix + '_currency').value;
             const rateInput = document.getElementById(calcPrefix + '_rate');
@@ -535,7 +582,6 @@
             if (calcPrefix === 'ihg_calc') drawIhgCalc();
         }
 
-        // CUBE 搜尋
         async function searchStore() {
             const val = document.getElementById('storeSearch').value.trim().toLowerCase();
             const resDiv = document.getElementById('storeResult');
@@ -582,7 +628,6 @@
             document.getElementById('pointResult').innerText = `預估小樹點：${points} 點`;
         }
 
-        // 萬豪專業精算表格邏輯
         function drawProCalc() {
             const container = document.getElementById('calc_table_result');
             if (!container) return;
@@ -597,16 +642,13 @@
             const serviceFee = parseFloat(document.getElementById('calc_service_fee').value) || 0;
             const actualPaidInput = document.getElementById('calc_actual_paid').value;
 
-            // 如果沒有填寫實際支出，預設為 單晚房價 * 晚數
             const actualPaid = actualPaidInput !== "" ? parseFloat(actualPaidInput) : (nightPrice * nights);
 
-            // 計算積分基準 (合格淨價轉 USD)
             const qualifySpendPerNight = nightPrice / taxDivisor;
             const totalQualifySpend = qualifySpendPerNight * nights;
             let spendUSD = totalQualifySpend;
             if (currency !== 'USD') spendUSD = totalQualifySpend / rate;
 
-            // 實際支出轉台幣 (NTD) 用來結算總成本
             let actualPaidUSD = actualPaid;
             if (currency !== 'USD') actualPaidUSD = actualPaid / rate;
             let actualPaidNTD = actualPaidUSD * ex_twd;
@@ -623,8 +665,6 @@
 
             let tableRows = scenarios.map(s => {
                 const totalValueNTD = Math.round(s.pts * pointValueRate);
-                
-                // 最終淨房費 = 實際總成本 - 點數價值
                 const netRoomCost = totalCostNTD - totalValueNTD;
                 const netColor = netRoomCost <= 0 ? "text-emerald-600" : "text-gray-800";
                 const netText = netRoomCost <= 0 ? `倒賺 NT$ ${Math.abs(netRoomCost).toLocaleString()}` : `NT$ ${netRoomCost.toLocaleString()}`;
@@ -660,7 +700,6 @@
             `;
         }
 
-        // IHG 專業精算表格邏輯 (加入長榮比較與稅費扣除)
         function drawIhgCalc() {
             const container = document.getElementById('ihg_calc_table_result');
             if (!container) return;
@@ -676,16 +715,13 @@
             const serviceFee = parseFloat(document.getElementById('ihg_calc_service_fee').value) || 0;
             const actualPaidInput = document.getElementById('ihg_calc_actual_paid').value;
 
-            // 如果沒有填寫實際支出，預設為 單晚房價 * 晚數
             const actualPaid = actualPaidInput !== "" ? parseFloat(actualPaidInput) : (nightPrice * nights);
 
-            // 計算積分基準 (合格淨價轉 USD)
             const qualifySpendPerNight = nightPrice / taxDivisor;
             const totalQualifySpend = qualifySpendPerNight * nights;
             let spendUSD = totalQualifySpend;
             if (currency !== 'USD') spendUSD = totalQualifySpend / rate;
 
-            // 實際支出轉台幣 (NTD) 用來結算總成本
             let actualPaidUSD = actualPaid;
             if (currency !== 'USD') actualPaidUSD = actualPaid / rate;
             let actualPaidNTD = actualPaidUSD * ex_twd;
@@ -694,16 +730,14 @@
             const basePoints = Math.round(spendUSD * 10);
             const tierPoints = Math.round(basePoints * tierBonusRate);
             
-            // 判斷下拉選單的加贈活動點數
             let promoBonus = 0;
             if (promoType === '4n8k') promoBonus = nights * 2000;
             else if (promoType === '2n2k') promoBonus = nights * 1000;
-            else if (promoType === 'double') promoBonus = basePoints; // 雙倍活動：原始積分(Base) 再送一倍
+            else if (promoType === 'double') promoBonus = basePoints;
 
             const pointValueRate = 0.15;
             const evaValue = 225;
 
-            // 建立情境
             const scenarios = [
                 { name: "基本累積", pts: basePoints + tierPoints + welcomeGift }
             ];
@@ -715,11 +749,9 @@
             let tableRows = scenarios.map(s => {
                 const totalValueNTD = Math.round(s.pts * pointValueRate);
                 
-                // 算「選積分」或「選長榮」各自的最終淨房費
                 const pointNetRoomCost = totalCostNTD - totalValueNTD;
                 const evaNetRoomCost = totalCostNTD - evaValue;
                 
-                // 判斷哪個比較划算，給予綠色標記
                 const pColor = pointNetRoomCost <= evaNetRoomCost ? "text-emerald-600 font-bold" : "text-gray-500";
                 const eColor = evaNetRoomCost < pointNetRoomCost ? "text-emerald-600 font-bold" : "text-gray-500";
 
@@ -762,7 +794,6 @@
             `;
         }
 
-        // 渲染優惠月份
         function renderFoodMonth(month) {
             const foodList = document.getElementById('food-list');
             if (!foodList) return;
@@ -785,7 +816,6 @@
             `).join('');
         }
 
-        // 長榮哩程試算表
         function drawEvaCalc() {
             const container = document.getElementById('eva_calc_result');
             if (!container) return;
@@ -828,7 +858,6 @@
             `;
         }
 
-        // 貴賓室三層下拉選單連動
         function up_city() { 
             const cElem = document.getElementById('c');
             const ciElem = document.getElementById('ci');
@@ -879,7 +908,6 @@
             }
         }
 
-        // AI 筆記：語音輸入
         function startVoiceInput() { 
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition; 
             if (!SpeechRecognition) {
@@ -894,7 +922,6 @@
             recognition.start(); 
         }
         
-        // AI 筆記：送出至 Google Apps Script
         async function sendNote() { 
             const text = document.getElementById('noteInput')?.value.trim();
             const msg = document.getElementById('resultMsg');
@@ -912,7 +939,7 @@
                 const result = await response.json(); 
                 
                 if (result.status === "success") {
-                    msg.innerHTML = `<div class='p-4 bg-blue-50/70 rounded-xl border text-sm text-gray-800 shadow-sm'><b>${currentSkillName}：</b><br>${result.message.replace(/\n/g, '<br>')}</div>`;
+                    msg.innerHTML = `<div class='p-4 bg-blue-50/70 rounded-xl border text-sm text-gray-800 shadow-sm'><b>${currentSkillName}：</b><br>${result.message.replace(/\\n/g, '<br>')}</div>`;
                 } else {
                     msg.innerText = `❌ 失敗：${result.message}`;
                 }
