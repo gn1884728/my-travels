@@ -457,7 +457,6 @@
         // 外送 / 信用卡 爬蟲解析器
         // ==========================================
         async function loadDeliveryCoupons() {
-            // 切換按鈕樣式
             const btns = document.querySelectorAll('.food-tab-btn');
             if (btns.length >= 2) {
                 btns[0].className = "food-tab-btn flex-1 bg-blue-50 text-blue-700 p-2.5 rounded-xl font-bold text-sm shadow hover:bg-blue-600 hover:text-white transition-colors border border-blue-100";
@@ -470,12 +469,11 @@
             container.innerHTML = '<div class="text-center text-gray-500 py-16"><i class="fas fa-spinner fa-spin text-3xl mb-3 text-emerald-500"></i><br>正在從 GitHub 即時解析各家優惠...</div>';
             
             try {
-                // 直接抓取 README.md 原始碼
                 const res = await fetch('https://raw.githubusercontent.com/ridemountainpig/tasty-coupon/main/README.md');
                 if (!res.ok) throw new Error("Fetch failed");
                 const mdText = await res.text();
                 
-                const lines = mdText.split('\\n');
+                const lines = mdText.split('\n');
                 let htmlBuffer = '';
                 
                 let currentGroup = '綜合優惠';
@@ -486,9 +484,8 @@
                     let line = lines[i].trim();
                     if (!line) continue;
                     
-                    // 記錄表格上方的標題作為分類名稱
                     if (!line.startsWith('|') && !line.startsWith('<') && !line.startsWith('![')) {
-                        let cleanTitle = line.replace(/#/g, '').replace(/\\*/g, '').trim();
+                        let cleanTitle = line.replace(/#/g, '').replace(/\*/g, '').trim();
                         if (cleanTitle.length > 0 && cleanTitle.length < 40) {
                             currentGroup = cleanTitle;
                             if (currentGroup.toLowerCase().includes('uber')) { brandColor = 'border-green-500'; btnColor = 'text-green-600'; }
@@ -498,11 +495,9 @@
                         }
                     }
                     
-                    // 偵測到表格資料
                     if (line.startsWith('|') && line.includes('優惠') && (line.includes('內容') || line.includes('代碼') || line.includes('連結'))) {
-                        if (i + 1 < lines.length && lines[i+1].includes('---')) i++; // 跳過分隔線
+                        if (i + 1 < lines.length && lines[i+1].includes('---')) i++;
                         
-                        // 開始解析列
                         while (i + 1 < lines.length && lines[i+1].trim().startsWith('|')) {
                             i++;
                             let rowLine = lines[i].trim();
@@ -512,50 +507,48 @@
                             cols = cols.map(c => c.trim());
                             
                             if (cols.length >= 2) {
-                                // 移除贅字與 HTML 標籤
-                                let title = cols[0].replace(/\\(複製並前往使用\\)/gi, '').replace(/\\(前往合作頁面\\)/gi, '').replace(/<[^>]*>?/gm, '').trim();
-                                let codeStr = cols[1].replace(/\\(複製並前往使用\\)/gi, '').replace(/\\(前往合作頁面\\)/gi, '').replace(/<[^>]*>?/gm, '').trim();
+                                let title = cols[0].replace(/\(複製並前往使用\)/gi, '').replace(/\(前往合作頁面\)/gi, '').replace(/<[^>]*>?/gm, '').trim();
+                                let codeStr = cols[1].replace(/\(複製並前往使用\)/gi, '').replace(/\(前往合作頁面\)/gi, '').replace(/<[^>]*>?/gm, '').trim();
                                 let expire = cols[2] ? cols[2].replace(/<[^>]*>?/gm, '').trim() : '依公告';
                                 let target = cols[3] ? cols[3].replace(/<[^>]*>?/gm, '').trim() : '無限制';
                                 
-                                // 解析 Markdown 超連結 [text](url)
-                                let linkMatch = codeStr.match(/\\[(.*?)\\]\\((.*?)\\)/);
+                                let linkMatch = codeStr.match(/\[(.*?)\]\((.*?)\)/);
                                 if (linkMatch) {
                                     codeStr = linkMatch[1]; 
                                 }
                                 
                                 let actionHtml = '';
                                 if (codeStr === '立即領取優惠' || codeStr.includes('領取優惠') || codeStr.includes('指定連結') || codeStr.includes('當日公布')) {
-                                   actionHtml = \`<div class="text-xs text-blue-600 mt-2 font-bold bg-blue-50 p-2.5 rounded-xl text-center border border-blue-100">🔗 點擊 App 內領取 / 自動派發</div>\`;
+                                   actionHtml = `<div class="text-xs text-blue-600 mt-2 font-bold bg-blue-50 p-2.5 rounded-xl text-center border border-blue-100">🔗 點擊 App 內領取 / 自動派發</div>`;
                                 } else if (codeStr && codeStr.length < 30) {
-                                   actionHtml = \`
+                                   actionHtml = `
                                         <div class="bg-gray-50 p-2.5 rounded-xl border border-dashed border-gray-300 flex justify-between items-center mt-2">
-                                            <span class="font-mono font-bold text-lg tracking-wider \${btnColor}">\${codeStr}</span>
-                                            <button onclick="navigator.clipboard.writeText('\${codeStr}'); alert('已複製：\${codeStr}')" class="text-xs bg-white border border-gray-200 text-gray-700 px-3 py-1.5 rounded-lg font-bold shadow-sm hover:bg-gray-100 transition-colors">複製</button>
+                                            <span class="font-mono font-bold text-lg tracking-wider ${btnColor}">${codeStr}</span>
+                                            <button onclick="navigator.clipboard.writeText('${codeStr}'); alert('已複製：${codeStr}')" class="text-xs bg-white border border-gray-200 text-gray-700 px-3 py-1.5 rounded-lg font-bold shadow-sm hover:bg-gray-100 transition-colors">複製</button>
                                         </div>
-                                   \`;
+                                   `;
                                 } else {
-                                   actionHtml = \`<div class="text-xs text-gray-500 mt-2 font-bold">\${codeStr}</div>\`;
+                                   actionHtml = `<div class="text-xs text-gray-500 mt-2 font-bold">${codeStr}</div>`;
                                 }
 
-                                htmlBuffer += \`
-                                    <div class="bg-white p-4 rounded-2xl shadow mb-3 border-l-4 \${brandColor}">
+                                htmlBuffer += `
+                                    <div class="bg-white p-4 rounded-2xl shadow mb-3 border-l-4 ${brandColor}">
                                         <div class="flex justify-between items-start mb-2 gap-2">
-                                            <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-[10px] font-bold leading-none inline-block">\${currentGroup}</span>
-                                            <span class="text-[10px] text-rose-600 font-bold bg-rose-50 px-2 py-1 rounded border border-rose-100 whitespace-nowrap">⏳ \${expire}</span>
+                                            <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-[10px] font-bold leading-none inline-block">${currentGroup}</span>
+                                            <span class="text-[10px] text-rose-600 font-bold bg-rose-50 px-2 py-1 rounded border border-rose-100 whitespace-nowrap">⏳ ${expire}</span>
                                         </div>
-                                        <h4 class="font-bold text-gray-800 text-sm mb-1 leading-snug">\${title}</h4>
-                                        \${target !== '無限制' && target !== '' ? \`<p class="text-[11px] text-gray-500 mb-2">🎯 適用：\${target}</p>\` : ''}
-                                        \${actionHtml}
+                                        <h4 class="font-bold text-gray-800 text-sm mb-1 leading-snug">${title}</h4>
+                                        ${target !== '無限制' && target !== '' ? `<p class="text-[11px] text-gray-500 mb-2">🎯 適用：${target}</p>` : ''}
+                                        ${actionHtml}
                                     </div>
-                                \`;
+                                `;
                             }
                         }
                     }
                 }
                 
                 if (htmlBuffer) {
-                    container.innerHTML = \`<div class="mb-4 animate-[fadeIn_0.5s_ease-in-out]">\${htmlBuffer}</div>\`;
+                    container.innerHTML = `<div class="mb-4 animate-[fadeIn_0.5s_ease-in-out]">${htmlBuffer}</div>`;
                 } else {
                     container.innerHTML = '<div class="text-center text-gray-400 py-10">目前暫無可用的優惠</div>';
                 }
@@ -939,7 +932,7 @@
                 const result = await response.json(); 
                 
                 if (result.status === "success") {
-                    msg.innerHTML = `<div class='p-4 bg-blue-50/70 rounded-xl border text-sm text-gray-800 shadow-sm'><b>${currentSkillName}：</b><br>${result.message.replace(/\\n/g, '<br>')}</div>`;
+                    msg.innerHTML = `<div class='p-4 bg-blue-50/70 rounded-xl border text-sm text-gray-800 shadow-sm'><b>${currentSkillName}：</b><br>${result.message.replace(/\n/g, '<br>')}</div>`;
                 } else {
                     msg.innerText = `❌ 失敗：${result.message}`;
                 }
