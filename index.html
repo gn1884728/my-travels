@@ -57,7 +57,8 @@
         let d = { food: {}, travel: [], lounge: {} };
         let mileageData = { marriott: [] };
         let ex_twd = 32.50;
-        let ex_cny = 4.77;
+        let ex_cny = 7.15;
+        let ex_jpy = 145.0;
         let currentSystemPrompt = "";
         let currentSkillName = "通用助手";
         const scriptUrl = "https://script.google.com/macros/s/AKfycbwVLmSnHAsJ8DjU9ZJgp5ZZThsxbPHAtXIQ7R93O_nTd-Uz8WrkdpyFhVwwxvTEddXq/exec";
@@ -94,7 +95,8 @@
             
             if(exData && exData.rates) {
                 ex_twd = exData.rates.TWD;
-                ex_cny = exData.rates.CNY ? (exData.rates.TWD / exData.rates.CNY) : 4.77;
+                ex_cny = exData.rates.CNY;
+                ex_jpy = exData.rates.JPY;
             }
             // 預設渲染首頁
             render('food');
@@ -250,7 +252,7 @@
                         <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
                             <div>
                                 <label class="block text-gray-500 text-xs mb-1 font-bold">結帳幣別</label>
-                                <select id="calc_currency" onchange="drawProCalc()" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium">
+                                <select id="calc_currency" onchange="updateCurrencyRate('calc')" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium">
                                     <option value="CNY">人民幣 (CNY)</option>
                                     <option value="USD">美元 (USD)</option>
                                     <option value="TWD">台幣 (TWD)</option>
@@ -258,8 +260,8 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-gray-500 text-xs mb-1 font-bold">請款匯率 (可手動)</label>
-                                <input type="number" id="calc_rate" value="4.77" step="0.01" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawProCalc()">
+                                <label class="block text-gray-500 text-xs mb-1 font-bold">請款匯率</label>
+                                <input type="number" id="calc_rate" value="${ex_cny.toFixed(2)}" step="0.01" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawProCalc()">
                             </div>
                         </div>
                         <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
@@ -268,14 +270,18 @@
                                 <input type="number" id="calc_night_price" value="600" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawProCalc()">
                             </div>
                             <div>
-                                <label class="block text-gray-500 text-xs mb-1 font-bold">晚數</label>
-                                <input type="number" id="calc_nights" value="1" min="1" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawProCalc()">
+                                <label class="block text-gray-500 text-xs mb-1 font-bold">稅費扣除 (反推淨價)</label>
+                                <select id="calc_tax" onchange="drawProCalc()" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium">
+                                    <option value="1">已是淨價 (不扣除)</option>
+                                    <option value="1.166" selected>扣除 16.6% (中/台常態)</option>
+                                    <option value="1.1">扣除 10% (日本常態)</option>
+                                </select>
                             </div>
                         </div>
                         <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
                             <div>
-                                <label class="block text-gray-500 text-xs mb-1 font-bold">每晚加贈活動</label>
-                                <input type="number" id="calc_per_night_bonus" value="0" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawProCalc()">
+                                <label class="block text-gray-500 text-xs mb-1 font-bold">晚數</label>
+                                <input type="number" id="calc_nights" value="1" min="1" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawProCalc()">
                             </div>
                             <div>
                                 <label class="block text-gray-500 text-xs mb-1 font-bold">迎賓禮</label>
@@ -299,7 +305,7 @@
                             </div>
                         </div>
                         <div id="calc_table_result" class="mt-4"></div>
-                        <div class="text-center text-[11px] text-gray-400 mt-3"><i class="fas fa-sync-alt mr-1"></i>依 1 USD = 6.75 CNY / 32.18 TWD 即時換算</div>
+                        <div class="text-center text-[11px] text-gray-400 mt-3"><i class="fas fa-sync-alt mr-1"></i>自動帶入即時匯率進行試算</div>
                     </div>
 
                     <!-- 區塊 2：IHG 住房點數專業精算 -->
@@ -310,7 +316,7 @@
                         <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
                             <div>
                                 <label class="block text-gray-500 text-xs mb-1 font-bold">結帳幣別</label>
-                                <select id="ihg_calc_currency" onchange="drawIhgCalc()" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium">
+                                <select id="ihg_calc_currency" onchange="updateCurrencyRate('ihg_calc')" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium">
                                     <option value="CNY">人民幣 (CNY)</option>
                                     <option value="USD">美元 (USD)</option>
                                     <option value="TWD">台幣 (TWD)</option>
@@ -318,18 +324,22 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-gray-500 text-xs mb-1 font-bold">請款匯率 (可手動)</label>
-                                <input type="number" id="ihg_calc_rate" value="4.77" step="0.01" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawIhgCalc()">
+                                <label class="block text-gray-500 text-xs mb-1 font-bold">請款匯率</label>
+                                <input type="number" id="ihg_calc_rate" value="${ex_cny.toFixed(2)}" step="0.01" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawIhgCalc()">
                             </div>
                         </div>
                         <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
                             <div>
-                                <label class="block text-gray-500 text-xs mb-1 font-bold">單晚房費</label>
-                                <input type="number" id="ihg_calc_night_price" value="600" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawIhgCalc()">
+                                <label class="block text-gray-500 text-xs mb-1 font-bold">總房費 (含稅價)</label>
+                                <input type="number" id="ihg_calc_night_price" value="300" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawIhgCalc()">
                             </div>
                             <div>
-                                <label class="block text-gray-500 text-xs mb-1 font-bold">晚數</label>
-                                <input type="number" id="ihg_calc_nights" value="1" min="1" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawIhgCalc()">
+                                <label class="block text-gray-500 text-xs mb-1 font-bold">稅費扣除 (反推淨價)</label>
+                                <select id="ihg_calc_tax" onchange="drawIhgCalc()" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium">
+                                    <option value="1">已是淨價 (不扣除)</option>
+                                    <option value="1.166" selected>扣除 16.6% (中/台常態)</option>
+                                    <option value="1.1">扣除 10% (日本常態)</option>
+                                </select>
                             </div>
                         </div>
                         <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
@@ -343,8 +353,8 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-gray-500 text-xs mb-1 font-bold">迎賓/活動禮</label>
-                                <input type="number" id="ihg_calc_welcome_gift" value="600" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawIhgCalc()">
+                                <label class="block text-gray-500 text-xs mb-1 font-bold">晚數</label>
+                                <input type="number" id="ihg_calc_nights" value="1" min="1" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawIhgCalc()">
                             </div>
                         </div>
                         <div class="grid grid-cols-2 gap-3 mb-4 text-sm">
@@ -364,7 +374,7 @@
                             </div>
                         </div>
                         <div id="ihg_calc_table_result" class="mt-4"></div>
-                        <div class="text-center text-[11px] text-gray-400 mt-3"><i class="fas fa-sync-alt mr-1"></i>估值依 1 IHG 點數 = 0.15 TWD 即時換算</div>
+                        <div class="text-center text-[11px] text-gray-400 mt-3"><i class="fas fa-sync-alt mr-1"></i>估值依 1 IHG 點 = 0.15 TWD 即時換算</div>
                     </div>
 
                     <!-- 區塊 3：萬豪轉哩程效益表 -->
@@ -392,13 +402,11 @@
                         <div id="eva_calc_result" class="mt-3"></div>
                     </div>
                 `;
-                // 同時啟動計算器的預設渲染
                 drawProCalc();
                 drawIhgCalc();
                 drawEvaCalc();
 
             } else if (tab === 'note') {
-                // 完整記事功能
                 app.innerHTML = `
                     <div class="bg-white p-5 rounded-2xl shadow mb-10">
                         <div class="flex justify-between items-center mb-3">
@@ -419,6 +427,19 @@
         // ==========================================
         // 各個業務邏輯函式區
         // ==========================================
+
+        // 自動更新匯率連動
+        function updateCurrencyRate(calcPrefix) {
+            const currency = document.getElementById(calcPrefix + '_currency').value;
+            const rateInput = document.getElementById(calcPrefix + '_rate');
+            if (currency === 'CNY') rateInput.value = ex_cny.toFixed(2);
+            else if (currency === 'TWD') rateInput.value = ex_twd.toFixed(2);
+            else if (currency === 'JPY') rateInput.value = ex_jpy.toFixed(2);
+            else if (currency === 'USD') rateInput.value = 1.00;
+            
+            if (calcPrefix === 'calc') drawProCalc();
+            if (calcPrefix === 'ihg_calc') drawIhgCalc();
+        }
 
         // CUBE 搜尋
         async function searchStore() {
@@ -476,28 +497,27 @@
             const rate = parseFloat(document.getElementById('calc_rate').value) || 1;
             const nightPrice = parseFloat(document.getElementById('calc_night_price').value) || 0;
             const nights = parseInt(document.getElementById('calc_nights').value) || 1;
-            const perNightBonus = parseFloat(document.getElementById('calc_per_night_bonus').value) || 0;
+            const taxDivisor = parseFloat(document.getElementById('calc_tax').value) || 1;
             const welcomeGift = parseFloat(document.getElementById('calc_welcome_gift').value) || 0;
             const tierBonusRate = parseFloat(document.getElementById('calc_tier').value) || 0;
             const serviceFee = parseFloat(document.getElementById('calc_service_fee').value) || 0;
 
-            const totalSpendOriginal = nightPrice * nights;
-            let spendUSD = totalSpendOriginal;
+            // 扣除稅費得到真正的合格費用
+            const qualifySpendPerNight = nightPrice / taxDivisor;
+            const totalQualifySpend = qualifySpendPerNight * nights;
+            let spendUSD = totalQualifySpend;
 
-            if (currency === 'CNY' || currency === 'TWD' || currency === 'JPY') {
-                spendUSD = totalSpendOriginal / rate;
+            if (currency !== 'USD') {
+                spendUSD = totalQualifySpend / rate;
             }
 
             const basePoints = Math.round(spendUSD * 10);
             const tierPoints = Math.round(basePoints * tierBonusRate);
-            const bonusTotal = (perNightBonus * nights) + welcomeGift;
             
             const pointValueRate = 0.23;
 
             const scenarios = [
-                { name: "基本累積", pts: basePoints + tierPoints },
-                { name: "自訂加贈", pts: basePoints + tierPoints + bonusTotal },
-                { name: "雙倍積分", pts: (basePoints * 2) + tierPoints + bonusTotal }
+                { name: "基本累積", pts: basePoints + tierPoints + welcomeGift }
             ];
 
             let tableRows = scenarios.map(s => {
@@ -531,7 +551,7 @@
             `;
         }
 
-        // IHG 專業精算表格邏輯 (加入長榮 500 哩比較)
+        // IHG 專業精算表格邏輯 (加入長榮比較與稅費扣除)
         function drawIhgCalc() {
             const container = document.getElementById('ihg_calc_table_result');
             if (!container) return;
@@ -540,16 +560,18 @@
             const rate = parseFloat(document.getElementById('ihg_calc_rate').value) || 1;
             const nightPrice = parseFloat(document.getElementById('ihg_calc_night_price').value) || 0;
             const nights = parseInt(document.getElementById('ihg_calc_nights').value) || 1;
+            const taxDivisor = parseFloat(document.getElementById('ihg_calc_tax').value) || 1;
             const promoType = document.getElementById('ihg_calc_per_night_bonus').value;
-            const welcomeGift = parseFloat(document.getElementById('ihg_calc_welcome_gift').value) || 0;
             const tierBonusRate = parseFloat(document.getElementById('ihg_calc_tier').value) || 0;
             const serviceFee = parseFloat(document.getElementById('ihg_calc_service_fee').value) || 0;
 
-            const totalSpendOriginal = nightPrice * nights;
-            let spendUSD = totalSpendOriginal;
+            // 扣除稅費得到真正的合格費用 (Qualifying Spend)
+            const qualifySpendPerNight = nightPrice / taxDivisor;
+            const totalQualifySpend = qualifySpendPerNight * nights;
+            let spendUSD = totalQualifySpend;
 
-            if (currency === 'CNY' || currency === 'TWD' || currency === 'JPY') {
-                spendUSD = totalSpendOriginal / rate;
+            if (currency !== 'USD') {
+                spendUSD = totalQualifySpend / rate;
             }
 
             const basePoints = Math.round(spendUSD * 10);
@@ -561,27 +583,23 @@
             else if (promoType === '2n2k') promoBonus = nights * 1000;
             else if (promoType === 'double') promoBonus = basePoints; // 雙倍活動：原始積分(Base) 再送一倍
 
-            // IHG 點數價值與長榮 500 哩價值設定
             const pointValueRate = 0.15;
             const evaValue = 225;
 
             // 建立情境：如果選擇了活動，就列出「基本累積」與「搭配活動」兩列供比較
             const scenarios = [
-                { name: "基本累積", pts: basePoints + tierPoints + welcomeGift }
+                { name: "基本累積", pts: basePoints + tierPoints }
             ];
             
-            if (promoType === '4n8k') scenarios.push({ name: "4N8K 活動", pts: basePoints + tierPoints + welcomeGift + promoBonus });
-            else if (promoType === '2n2k') scenarios.push({ name: "2N2K 活動", pts: basePoints + tierPoints + welcomeGift + promoBonus });
-            else if (promoType === 'double') scenarios.push({ name: "雙倍積分活動", pts: basePoints + tierPoints + welcomeGift + promoBonus });
+            if (promoType === '4n8k') scenarios.push({ name: "4N8K 活動", pts: basePoints + tierPoints + promoBonus });
+            else if (promoType === '2n2k') scenarios.push({ name: "2N2K 活動", pts: basePoints + tierPoints + promoBonus });
+            else if (promoType === 'double') scenarios.push({ name: "雙倍積分活動", pts: basePoints + tierPoints + promoBonus });
 
             let tableRows = scenarios.map(s => {
                 const totalValueNTD = Math.round(s.pts * pointValueRate);
                 
-                // 扣除支出成本後的淨值
                 const pointNet = totalValueNTD - serviceFee;
                 const evaNet = evaValue - serviceFee;
-                
-                // 兩者方案差額 (積分價值減去長榮價值)
                 const diff = pointNet - evaNet; 
                 
                 const netColor = pointNet >= 0 ? "text-emerald-600" : "text-rose-600";
