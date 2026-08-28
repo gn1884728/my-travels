@@ -302,7 +302,7 @@
                                     <option value="0.1">銀卡 (+10%)</option>
                                     <option value="0.25">金卡 (+25%)</option>
                                     <option value="0.5">白金卡 (+50%)</option>
-                                    <option value="1.0" selected>鈦金/大使 (+100%)</option>
+                                    <option value="0.75" selected>鈦金/大使 (+75%)</option>
                                 </select>
                             </div>
                             <div>
@@ -380,7 +380,7 @@
                             </div>
                         </div>
                         <div id="ihg_calc_table_result" class="mt-4"></div>
-                        <div class="text-center text-[11px] text-gray-400 mt-3"><i class="fas fa-sync-alt mr-1"></i>系統已自動抓取即時美金匯率試算</div>
+                        <div class="text-center text-[11px] text-gray-400 mt-3"><i class="fas fa-sync-alt mr-1"></i>估值依 1 IHG 點 = 0.15 TWD 即時換算</div>
                     </div>
 
                     <!-- 區塊 3：萬豪轉哩程效益表 -->
@@ -482,7 +482,7 @@
                     calcPoints();
                 } else {
                     resDiv.classList.remove('hidden');
-                    resDiv.innerHTML = `未找到符合通路，請手動確認`;
+                    resDiv.innerHTML = `未找到符合通路，請手手動確認`;
                 }
             } catch(e) { 
                 console.error("搜尋錯誤:", e); 
@@ -559,7 +559,7 @@
             `;
         }
 
-        // IHG 專業精算表格邏輯 (加入長榮比較與稅費扣除)
+        // IHG 專業精算表格邏輯
         function drawIhgCalc() {
             const container = document.getElementById('ihg_calc_table_result');
             if (!container) return;
