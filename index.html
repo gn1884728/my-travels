@@ -11,6 +11,17 @@
     <title>生活優惠中心</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 加入 Markdown 解析器與樣式 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        .markdown-body h1, .markdown-body h2 { font-size: 1.1rem; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; color: #1e3a8a; }
+        .markdown-body h3 { font-weight: bold; margin-top: 0.5rem; color: #374151; }
+        .markdown-body ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+        .markdown-body a { color: #2563eb; text-decoration: underline; }
+        .markdown-body table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; margin-bottom: 1rem; font-size: 0.75rem; white-space: nowrap; }
+        .markdown-body th { background-color: #f3f4f6; font-weight: bold; text-align: left; }
+        .markdown-body th, .markdown-body td { border: 1px solid #e5e7eb; padding: 0.5rem; }
+    </style>
 </head>
 <body class="bg-gray-100 h-screen flex flex-col font-sans max-w-md mx-auto overflow-hidden">
     
@@ -347,13 +358,22 @@
             const container = document.getElementById('food-dynamic-content'); 
             if (!container) return;
             
-            container.innerHTML = '<div class="text-center text-gray-500 py-10">載入中...</div>';
+            container.innerHTML = '<div class="text-center text-gray-500 py-10"><i class="fas fa-spinner fa-spin text-2xl mb-2"></i><br>正在攔截最新外送與信用卡優惠...</div>';
             try {
+                // 直接攔截 GitHub 開源專案的最新 Markdown 原始檔
                 const res = await fetch('https://raw.githubusercontent.com/ridemountainpig/tasty-coupon/main/README.md');
+                if (!res.ok) throw new Error('攔截失敗');
                 const mdText = await res.text();
-                container.innerHTML = '<div class="text-center text-blue-600 py-10 font-bold">外送與信用卡優惠已攔截成功！(由於程式碼壓縮，此處顯示範例狀態)</div>';
+                
+                // 透過 marked.js 將 Markdown 轉換為漂亮的 HTML
+                const htmlContent = marked.parse(mdText);
+                
+                container.innerHTML = `
+                    <div class="bg-white p-5 rounded-2xl shadow mb-4 text-sm text-gray-800 markdown-body overflow-x-auto">
+                        ${htmlContent}
+                    </div>`;
             } catch(e) { 
-                container.innerHTML = '<div class="text-center text-rose-500 py-10 font-bold">無法連線至 GitHub 解析檔案。</div>'; 
+                container.innerHTML = '<div class="text-center text-rose-500 py-10 font-bold">無法連線至 GitHub 解析檔案，請稍後再試。</div>'; 
             }
         }
 
@@ -445,7 +465,7 @@
                 calcPoints();
             } else { 
                 resDiv.classList.remove('hidden'); 
-                resDiv.innerHTML = `未找到符合通路，請手動確認`; 
+                resDiv.innerHTML = `未找到符合通路，請手 manual手動確認`; 
             }
         }
 
