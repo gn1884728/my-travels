@@ -465,7 +465,7 @@
                 calcPoints();
             } else { 
                 resDiv.classList.remove('hidden'); 
-                resDiv.innerHTML = `未找到符合通路，請手 manual手動確認`; 
+                resDiv.innerHTML = `未找到符合通路，請手動確認`; 
             }
         }
 
@@ -634,12 +634,26 @@
                 </table>`;
         }
 
-        // 優惠列表渲染
+        // 優惠列表渲染 (全新卡片升級版)
         function renderFoodMonth(month) { 
-            document.getElementById('food-list').innerHTML = (d.food && d.food[month] || []).map(i => `
-                <div class="bg-white p-5 rounded-2xl shadow mb-4">
-                    <b>${i.title}</b>
-                </div>`).join(''); 
+            let items = d.food && d.food[month] ? d.food[month] : [];
+            if (items.length === 0) {
+                document.getElementById('food-list').innerHTML = '<div class="text-center text-gray-400 py-4 text-sm font-bold">本月尚無專屬優惠</div>';
+                return;
+            }
+            document.getElementById('food-list').innerHTML = items.map(i => {
+                let desc = i.desc ? `<p class="text-xs text-gray-600 mt-2">${i.desc}</p>` : (i.description ? `<p class="text-xs text-gray-600 mt-2">${i.description}</p>` : '');
+                let urlBtn = i.url ? `<a href="${i.url}" target="_blank" class="flex-1 text-center bg-blue-50 text-blue-600 p-2.5 rounded-xl font-bold text-xs shadow-sm">前往查看</a>` : '';
+                let calBtn = i.date ? `<a href="https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(i.title)}&dates=${i.date}" target="_blank" class="flex-1 text-center bg-gray-100 text-gray-700 p-2.5 rounded-xl font-bold text-xs shadow-sm">+ 加入日曆</a>` : '';
+                let btnGroup = (urlBtn || calBtn) ? `<div class="flex gap-2 mt-3">${urlBtn}${calBtn}</div>` : '';
+                
+                return `
+                <div class="bg-white p-5 rounded-2xl shadow mb-4 border-l-4 border-blue-500">
+                    <div class="font-bold text-gray-800 text-base">${i.title}</div>
+                    ${desc}
+                    ${btnGroup}
+                </div>`;
+            }).join(''); 
         }
         
         // 貴賓室連動選單功能
