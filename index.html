@@ -533,7 +533,7 @@
                 </table>`;
         }
 
-        // IHG 精算邏輯 (升級長榮哩程 + IHG點數疊加)
+        // IHG 精算邏輯 (加入倒賺顯示)
         function drawIhgCalc() {
             const container = document.getElementById('ihg_calc_table_result'); 
             if (!container) return;
@@ -558,7 +558,6 @@
             const basePoints = Math.round(spendUSD * 10); 
             const tierPoints = Math.round(basePoints * tierBonusRate);
             
-            // 活動點數疊加
             let promoBonus = promoType === '4n8k' ? nights * 2000 : promoType === '2n2k' ? nights * 1000 : promoType === 'double' ? basePoints : 0;
             
             const scenarios = [{ name: "基本累積", pts: basePoints + tierPoints + welcomeGift, promo: 0 }];
@@ -567,21 +566,22 @@
             }
             
             let tableRows = scenarios.map(s => {
-                // IHG 點數回血
                 const pointValueNTD = Math.round(s.pts * 0.15); 
                 const pointNetRoomCost = totalCostNTD - pointValueNTD; 
                 
-                // 長榮哩程回血 (底標 500哩 = 225元) + (迎賓禮 & 活動點數的額外疊加)
-                const evaExtraPts = welcomeGift + s.promo; // 長榮方案下，這些額外活動依舊給 IHG 點數
+                const evaExtraPts = welcomeGift + s.promo; 
                 const evaExtraValueNTD = Math.round(evaExtraPts * 0.15);
                 const totalEvaValueNTD = 225 + evaExtraValueNTD;
                 const evaNetRoomCost = totalCostNTD - totalEvaValueNTD;
                 
-                // 產生長榮欄位的疊加文字顯示
                 let evaDisplay = `500哩<br><span class="text-[10px] text-gray-500">(NT$ 225)</span>`;
                 if (evaExtraPts > 0) {
                     evaDisplay = `500哩<br><span class="text-rose-500">+${evaExtraPts.toLocaleString()}點</span><br><span class="text-[10px] text-gray-500">(總值 NT$ ${totalEvaValueNTD.toLocaleString()})</span>`;
                 }
+
+                // 判斷是否顯示倒賺
+                const pointNetText = pointNetRoomCost <= 0 ? `倒賺 NT$ ${Math.abs(pointNetRoomCost).toLocaleString()}` : `NT$ ${pointNetRoomCost.toLocaleString()}`;
+                const evaNetText = evaNetRoomCost <= 0 ? `倒賺 NT$ ${Math.abs(evaNetRoomCost).toLocaleString()}` : `NT$ ${evaNetRoomCost.toLocaleString()}`;
                 
                 return `
                     <tr class="border-b">
@@ -594,8 +594,8 @@
                             ${evaDisplay}
                         </td>
                         <td class="p-2 text-left pl-3 bg-orange-50/20 text-[11px] font-bold">
-                            <div class="${pointNetRoomCost <= 0 ? 'text-emerald-600' : ''}">積: NT$ ${pointNetRoomCost.toLocaleString()}</div>
-                            <div class="mt-1 ${evaNetRoomCost <= 0 ? 'text-emerald-600' : ''}">哩: NT$ ${evaNetRoomCost.toLocaleString()}</div>
+                            <div class="${pointNetRoomCost <= 0 ? 'text-emerald-600' : 'text-gray-800'}">積: ${pointNetText}</div>
+                            <div class="mt-1 ${evaNetRoomCost <= 0 ? 'text-emerald-600' : 'text-gray-800'}">哩: ${evaNetText}</div>
                         </td>
                     </tr>`;
             }).join('');
