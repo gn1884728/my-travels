@@ -2,71 +2,270 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>航空哩程與點數換算</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>精算哩程 | 瘋哥的3c盒子</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" href="icon-512.png">
+    <link rel="icon" type="image/png" href="icon-512.png">
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { padding-bottom: 80px; }
+        .tab-active { color: #2563eb; }
+    </style>
 </head>
-<body class="bg-gray-50 p-4 max-w-md mx-auto">
-    <!-- 頂端共用導覽列 -->
-    <div class="flex space-x-2 mb-4">
-        <a href="ajoo.html" class="flex-1 bg-gray-200 text-gray-700 py-2 rounded-lg text-sm text-center">首爾行程</a>
-        <a href="mileage.html" class="flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm text-center font-bold">航空哩程</a>
-    </div>
+<body class="bg-gray-100 font-sans">
 
-    <h1 class="text-2xl font-bold mb-2 text-center">🏨 萬豪轉哩程成本效益表</h1>
-    <p class="text-xs text-gray-500 text-center mb-4">以 60,000 點轉 25,000 哩計算基準</p>
-
-    <!-- 成本效益列表 -->
-    <div class="space-y-3">
-        <!-- 0.210 -->
-        <div class="bg-white p-3 rounded-xl shadow border-l-4 border-green-500">
-            <div class="flex justify-between items-center text-sm font-bold">
-                <span>每點成本 NT$ 0.210</span>
-                <span class="text-green-600">NT$ 0.504 / 哩</span>
-            </div>
-            <p class="text-xs text-gray-600 mt-1">總花費：NT$ 12,600</p>
-            <p class="text-xs text-green-700 font-bold mt-1">🔥 甜甜價！換 JAL/ANA/Alaska 非常划算</p>
-        </div>
-
-        <!-- 0.220 -->
-        <div class="bg-white p-3 rounded-xl shadow border-l-4 border-blue-500">
-            <div class="flex justify-between items-center text-sm font-bold">
-                <span>每點成本 NT$ 0.220</span>
-                <span class="text-blue-600">NT$ 0.528 / 哩</span>
-            </div>
-            <p class="text-xs text-gray-600 mt-1">總花費：NT$ 13,200</p>
-            <p class="text-xs text-gray-600 mt-1">官方加碼促銷買分常見成本</p>
-        </div>
-
-        <!-- 0.230 -->
-        <div class="bg-white p-3 rounded-xl shadow border-l-4 border-yellow-500">
-            <div class="flex justify-between items-center text-sm font-bold">
-                <span>每點成本 NT$ 0.230</span>
-                <span class="text-yellow-600">NT$ 0.552 / 哩</span>
-            </div>
-            <p class="text-xs text-gray-600 mt-1">總花費：NT$ 13,800</p>
-            <p class="text-xs text-gray-600 mt-1">接近常態入手價，補哩程缺口仍划算</p>
-        </div>
-
-        <!-- 0.240 -->
-        <div class="bg-white p-3 rounded-xl shadow border-l-4 border-orange-400">
-            <div class="flex justify-between items-center text-sm font-bold">
-                <span>每點成本 NT$ 0.240</span>
-                <span class="text-orange-500">NT$ 0.576 / 哩</span>
-            </div>
-            <p class="text-xs text-gray-600 mt-1">總花費：NT$ 14,400</p>
-            <p class="text-xs text-gray-600 mt-1">稍微偏高，建議用於高價值商務艙兌換</p>
-        </div>
-
-        <!-- 0.250 -->
-        <div class="bg-white p-3 rounded-xl shadow border-l-4 border-red-500">
-            <div class="flex justify-between items-center text-sm font-bold">
-                <span>每點成本 NT$ 0.250</span>
-                <span class="text-red-600">NT$ 0.600 / 哩</span>
-            </div>
-            <p class="text-xs text-gray-600 mt-1">總花費：NT$ 15,000</p>
-            <p class="text-xs text-red-600 font-bold mt-1">⚠️ 成本過 0.6，建議優先考慮直接買哩程</p>
+    <!-- 頂部 Header -->
+    <div class="bg-blue-600 text-white p-4 text-center sticky top-0 z-50 shadow-md">
+        <h1 class="text-lg font-bold mb-2">生活優惠中心</h1>
+        <div class="bg-white text-blue-600 text-xs font-bold py-1.5 px-4 rounded-full inline-flex items-center shadow">
+            <i class="fas fa-robot mr-1"></i> AI 模式：通用助手 <i class="fas fa-chevron-down ml-2"></i>
         </div>
     </div>
+
+    <div class="p-4 max-w-md mx-auto space-y-5 mt-2">
+        
+        <!-- 萬豪點數精算區塊 -->
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+            <h2 class="text-blue-800 font-bold mb-5 text-center text-lg tracking-wide">
+                <i class="fas fa-calculator mr-2"></i>萬豪住房點數專業精算
+            </h2>
+            
+            <div class="grid grid-cols-2 gap-4 mb-4 text-xs text-gray-500 font-bold">
+                <div>
+                    <label class="block mb-1.5">結帳幣別</label>
+                    <select class="w-full p-2.5 border border-gray-200 rounded-lg bg-blue-50 text-blue-800 outline-none">
+                        <option>台幣 (TWD)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-1.5">兌美金匯率</label>
+                    <input type="number" step="0.01" id="m-rate" value="31.54" class="w-full p-2.5 border border-gray-200 rounded-lg text-gray-800 outline-none focus:ring-1 focus:ring-blue-500" oninput="calcM()">
+                </div>
+                <div>
+                    <label class="block mb-1.5">計分單晚房費</label>
+                    <input type="number" id="m-price" value="6000" class="w-full p-2.5 border border-gray-200 rounded-lg text-gray-800 outline-none focus:ring-1 focus:ring-blue-500" oninput="calcM()">
+                </div>
+                <div>
+                    <label class="block mb-1.5">稅費扣除 (常態)</label>
+                    <select id="m-tax" class="w-full p-2.5 border border-gray-200 rounded-lg text-gray-800 outline-none" onchange="calcM()">
+                        <option value="15.5">扣除 15.5% (台灣常態)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-1.5">晚數</label>
+                    <input type="number" id="m-nights" value="2" class="w-full p-2.5 border border-gray-200 rounded-lg text-gray-800 outline-none focus:ring-1 focus:ring-blue-500" oninput="calcM()">
+                </div>
+                <div>
+                    <label class="block mb-1.5 text-emerald-600">實際總支付 (同幣別)</label>
+                    <input type="text" placeholder="若無折扣免填" class="w-full p-2.5 border border-emerald-100 rounded-lg bg-emerald-50 text-emerald-700 placeholder-emerald-300 outline-none">
+                </div>
+                <div>
+                    <label class="block mb-1.5">萬豪會籍</label>
+                    <select id="m-elite" class="w-full p-2.5 border border-gray-200 rounded-lg text-gray-800 outline-none" onchange="calcM()">
+                        <option value="0">白板卡 (+0%)</option>
+                        <option value="0.5">白金卡 (+50%)</option>
+                        <option value="0.75" selected>鈦金/大使 (+75%)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-1.5">迎賓禮</label>
+                    <input type="number" id="m-welcome" value="1000" class="w-full p-2.5 border border-gray-200 rounded-lg text-gray-800 outline-none focus:ring-1 focus:ring-blue-500" oninput="calcM()">
+                </div>
+            </div>
+
+            <div class="bg-red-50 p-2.5 rounded-lg text-red-600 font-bold text-center text-xs mb-4 border border-red-100">
+                🔥 當季權益活動：每連住 2 晚加贈 1,500 點
+            </div>
+
+            <div id="m-total-spend" class="bg-blue-50 text-blue-800 font-bold p-3 rounded-lg text-center mb-5 text-sm border border-blue-100">
+                💰 本次實際總支出：NT$ 0
+            </div>
+
+            <table class="w-full text-xs text-center border-collapse rounded-lg overflow-hidden border border-gray-100 shadow-sm">
+                <thead>
+                    <tr class="bg-gray-50 text-gray-500 border-b border-gray-100">
+                        <th class="p-2 font-bold w-1/3">方案</th>
+                        <th class="p-2 font-bold w-1/3">總獲取積分</th>
+                        <th class="p-2 font-bold w-1/3">回血後淨房費</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-700 font-bold">
+                    <tr class="border-b border-gray-50">
+                        <td class="p-3">無活動<br><span class="text-[10px] text-gray-400 font-normal">(基本+會籍)</span></td>
+                        <td class="p-3"><span id="m-pts-base" class="text-sm">0</span> 點<br><span id="m-val-base" class="text-[10px] text-gray-400 font-normal">價值 NT$ 0</span></td>
+                        <td class="p-3 text-sm" id="m-net-base">NT$ 0</td>
+                    </tr>
+                    <tr>
+                        <td class="p-3">🔥 疊加 Q3<br><span class="text-[10px] text-red-500 bg-red-50 px-1 rounded">每 2 晚加贈</span></td>
+                        <td class="p-3"><span id="m-pts-promo" class="text-sm text-red-600">0</span> 點<br><span id="m-val-promo" class="text-[10px] text-gray-400 font-normal">價值 NT$ 0</span></td>
+                        <td class="p-3 text-sm" id="m-net-promo">NT$ 0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 萬豪轉點哩程對照表 (新加入) -->
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+            <h3 class="text-blue-800 font-bold mb-2 text-center"><i class="fas fa-exchange-alt mr-2"></i>萬豪轉點航空哩程對照表</h3>
+            <p class="text-xs text-gray-500 mb-4 text-center font-bold">最佳轉點比例：每轉 60,000 點加贈 5,000 哩</p>
+            <table class="w-full text-xs text-center border-collapse rounded-lg overflow-hidden border border-gray-100 shadow-sm">
+                <thead>
+                    <tr class="bg-blue-50 text-blue-700 border-b border-blue-100">
+                        <th class="p-2.5 font-bold">萬豪點數</th>
+                        <th class="p-2.5 font-bold">兌換哩程</th>
+                        <th class="p-2.5 font-bold">等效比例</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-600 font-bold">
+                    <tr class="border-b border-gray-50">
+                        <td class="p-2.5">3,000 點</td>
+                        <td class="p-2.5 text-gray-800">1,000 哩</td>
+                        <td class="p-2.5">3 : 1</td>
+                    </tr>
+                    <tr class="border-b border-gray-50">
+                        <td class="p-2.5">30,000 點</td>
+                        <td class="p-2.5 text-gray-800">10,000 哩</td>
+                        <td class="p-2.5">3 : 1</td>
+                    </tr>
+                    <tr class="bg-rose-50">
+                        <td class="p-2.5 text-rose-600">60,000 點</td>
+                        <td class="p-2.5 text-rose-600 text-sm">25,000 哩</td>
+                        <td class="p-2.5 text-rose-600">2.4 : 1</td>
+                    </tr>
+                    <tr>
+                        <td class="p-2.5">120,000 點</td>
+                        <td class="p-2.5 text-gray-800">50,000 哩</td>
+                        <td class="p-2.5">2.4 : 1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- IHG 點數精算區塊 -->
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+            <h2 class="text-orange-600 font-bold mb-5 text-center text-lg tracking-wide">
+                <i class="fas fa-calculator mr-2"></i>IHG 積分 vs 長榮哩程 精算
+            </h2>
+            
+            <div class="grid grid-cols-2 gap-4 mb-4 text-xs text-gray-500 font-bold">
+                <div>
+                    <label class="block mb-1.5">結帳幣別</label>
+                    <select class="w-full p-2.5 border border-gray-200 rounded-lg bg-orange-50 text-orange-800 outline-none">
+                        <option>台幣 (TWD)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-1.5">兌美金匯率</label>
+                    <input type="number" step="0.01" id="i-rate" value="31.54" class="w-full p-2.5 border border-gray-200 rounded-lg text-gray-800 outline-none" oninput="calcI()">
+                </div>
+                <div>
+                    <label class="block mb-1.5">計分單晚房費</label>
+                    <input type="number" id="i-price" value="3000" class="w-full p-2.5 border border-gray-200 rounded-lg text-gray-800 outline-none" oninput="calcI()">
+                </div>
+                <div>
+                    <label class="block mb-1.5">稅費扣除</label>
+                    <select id="i-tax" class="w-full p-2.5 border border-gray-200 rounded-lg text-gray-800 outline-none" onchange="calcI()">
+                        <option value="15.5">扣除 15.5% (台灣常態)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-1.5">晚數</label>
+                    <input type="number" id="i-nights" value="1" class="w-full p-2.5 border border-gray-200 rounded-lg text-gray-800 outline-none" oninput="calcI()">
+                </div>
+                <div>
+                    <label class="block mb-1.5 text-emerald-600">實際總支付 (同幣別)</label>
+                    <input type="text" placeholder="若無折扣免填" class="w-full p-2.5 border border-emerald-100 rounded-lg bg-emerald-50 text-emerald-700 placeholder-emerald-300 outline-none">
+                </div>
+                <div>
+                    <label class="block mb-1.5">IHG 會籍</label>
+                    <select id="i-elite" class="w-full p-2.5 border border-gray-200 rounded-lg text-gray-800 outline-none" onchange="calcI()">
+                        <option value="0">俱樂部 (+0%)</option>
+                        <option value="0.6">白金卡 (+60%)</option>
+                        <option value="1.0" selected>鑽石卡 (+100%)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-1.5">迎賓禮</label>
+                    <input type="number" id="i-welcome" value="600" class="w-full p-2.5 border border-gray-200 rounded-lg text-gray-800 outline-none" oninput="calcI()">
+                </div>
+            </div>
+            
+            <div id="i-total-spend" class="bg-orange-50 text-orange-800 font-bold p-3 rounded-lg text-center mb-5 text-sm border border-orange-100">
+                💰 本次實際總支出：NT$ 0
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 底部固定導覽列 -->
+    <div class="fixed bottom-0 w-full bg-white border-t border-gray-200 flex justify-between px-6 py-3 text-[10px] text-gray-400 font-bold shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] pb-safe">
+        <div class="flex flex-col items-center"><i class="fas fa-gift text-lg mb-1"></i>優惠</div>
+        <div class="flex flex-col items-center"><i class="fas fa-plane text-lg mb-1"></i>行程</div>
+        <div class="flex flex-col items-center"><i class="fas fa-couch text-lg mb-1"></i>貴賓室</div>
+        <div class="flex flex-col items-center"><i class="fas fa-credit-card text-lg mb-1"></i>CUBE</div>
+        <div class="flex flex-col items-center tab-active"><i class="fas fa-calculator text-lg mb-1"></i>精算哩程</div>
+        <div class="flex flex-col items-center"><i class="fas fa-microphone text-lg mb-1"></i>記事</div>
+    </div>
+
+    <!-- 試算邏輯腳本 -->
+    <script>
+        function formatMoney(num) {
+            return num.toLocaleString('en-US');
+        }
+
+        function calcM() {
+            let rate = parseFloat(document.getElementById('m-rate').value) || 31.54;
+            let price = parseFloat(document.getElementById('m-price').value) || 0;
+            let taxRate = (parseFloat(document.getElementById('m-tax').value) || 15.5) / 100;
+            let nights = parseInt(document.getElementById('m-nights').value) || 0;
+            let eliteBonus = parseFloat(document.getElementById('m-elite').value) || 0;
+            let welcome = parseInt(document.getElementById('m-welcome').value) || 0;
+
+            let totalSpend = price * nights;
+            document.getElementById('m-total-spend').innerText = `💰 本次實際總支出：NT$ ${formatMoney(totalSpend)}`;
+
+            let netPrice = price / (1 + taxRate);
+            let usdPrice = netPrice / rate;
+            let basePtsPerNight = usdPrice * 10;
+            let totalBasePts = basePtsPerNight * nights;
+            let elitePts = totalBasePts * eliteBonus;
+            
+            let finalPtsBase = Math.round(totalBasePts + elitePts + welcome);
+            let valBase = Math.round(finalPtsBase * 0.23); 
+            let netBase = totalSpend - valBase;
+
+            document.getElementById('m-pts-base').innerText = formatMoney(finalPtsBase);
+            document.getElementById('m-val-base').innerText = `價值 NT$ ${formatMoney(valBase)}`;
+            document.getElementById('m-net-base').innerText = `NT$ ${formatMoney(netBase)}`;
+
+            let promoPts = 1500 * Math.floor(nights / 2);
+            let finalPtsPromo = finalPtsBase + promoPts;
+            let valPromo = Math.round(finalPtsPromo * 0.23);
+            let netPromo = totalSpend - valPromo;
+
+            document.getElementById('m-pts-promo').innerText = formatMoney(finalPtsPromo);
+            document.getElementById('m-val-promo').innerText = `價值 NT$ ${formatMoney(valPromo)}`;
+            document.getElementById('m-net-promo').innerText = `NT$ ${formatMoney(netPromo)}`;
+        }
+
+        function calcI() {
+            let price = parseFloat(document.getElementById('i-price').value) || 0;
+            let nights = parseInt(document.getElementById('i-nights').value) || 0;
+            let totalSpend = price * nights;
+            document.getElementById('i-total-spend').innerText = `💰 本次實際總支出：NT$ ${formatMoney(totalSpend)}`;
+        }
+
+        window.onload = function() {
+            calcM();
+            calcI();
+        };
+    </script>
 </body>
 </html>
