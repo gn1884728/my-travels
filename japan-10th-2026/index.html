@@ -15,7 +15,6 @@
     <meta name="application-name" content="日本秋遊">
     <link rel="icon" type="image/png" sizes="72x72" href="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f341.png">
     
-    <!-- 讓安卓乖乖聽話的完美 manifest -->
     <link rel="manifest" href='data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%222026%E7%A7%8B%E5%AD%A3%E6%97%A5%E6%9C%AC%E9%81%8A%22%2C%22short_name%22%3A%22%E6%97%A5%E6%9C%AC%E9%81%8A%22%2C%22display%22%3A%22standalone%22%2C%22start_url%22%3A%22.%2F%22%2C%22background_color%22%3A%22%23f4f6f8%22%2C%22theme_color%22%3A%22%231E3A8A%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fcdnjs.cloudflare.com%2Fajax%2Flibs%2Ftwemoji%2F14.0.2%2Fsvg%2F1f341.svg%22%2C%22sizes%22%3A%22any%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%2C%7B%22src%22%3A%22https%3A%2F%2Fcdnjs.cloudflare.com%2Fajax%2Flibs%2Ftwemoji%2F14.0.2%2F72x72%2F1f341.png%22%2C%22sizes%22%3A%2272x72%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D'>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f6f8; margin: 0; padding-bottom: 120px; }
@@ -150,15 +149,15 @@
 <div class="header"><h1>🍁 2026 秋季家族自駕遊</h1></div>
 <div id="view-itinerary" class="main-view active">
     <div class="tab-scroll-container">
-        <button class="tab-btn" onclick="showDay('d1', this)">10/25 (日)</button>
-        <button class="tab-btn" onclick="showDay('d2', this)">10/26 (一)</button>
-        <button class="tab-btn" onclick="showDay('d3', this)">10/27 (二)</button>
-        <button class="tab-btn active" onclick="showDay('d4', this)">10/28 (三)</button>
-        <button class="tab-btn" onclick="showDay('d5', this)">10/29 (四)</button>
-        <button class="tab-btn" onclick="showDay('d6', this)">10/30 (五)</button>
-        <button class="tab-btn" onclick="showDay('d7', this)">10/31 (六)</button>
-        <button class="tab-btn" onclick="showDay('d8', this)">11/01 (日)</button>
-        <button class="tab-btn" onclick="showDay('d9', this)">11/02 (一)</button>
+        <button class="tab-btn active" onclick="showDay('d1', this)">D1 (10/25 日)</button>
+        <button class="tab-btn" onclick="showDay('d2', this)">D2 (10/26 一)</button>
+        <button class="tab-btn" onclick="showDay('d3', this)">D3 (10/27 二)</button>
+        <button class="tab-btn" onclick="showDay('d4', this)">D4 (10/28 三)</button>
+        <button class="tab-btn" onclick="showDay('d5', this)">D5 (10/29 四)</button>
+        <button class="tab-btn" onclick="showDay('d6', this)">D6 (10/30 五)</button>
+        <button class="tab-btn" onclick="showDay('d7', this)">D7 (10/31 六)</button>
+        <button class="tab-btn" onclick="showDay('d8', this)">D8 (11/01 日)</button>
+        <button class="tab-btn" onclick="showDay('d9', this)">D9 (11/02 一)</button>
     </div>
     <div class="container">
         <div id="live-checkin-area" class="live-checkin-banner" style="display:none;">
@@ -166,10 +165,10 @@
             <div id="live-checkin-list"></div>
         </div>
         
-        <!-- Day 1 -->
-        <div id="d1" class="day-content" style="display:none;">
+        <!-- D1 (10/25 日) -->
+        <div id="d1" class="day-content" style="display:block;">
             <div class="date-header">
-                <span>10/25 (日) | 星宇啟航</span>
+                <span>D1 (10/25 日) | 星宇啟航</span>
                 <a href="https://tenki.jp/forecast/2/7/3410/4100/" target="_blank" class="weather-btn">⛅ 天氣</a>
             </div>
             <!-- ✈️ 星宇去程航班卡片 -->
@@ -208,9 +207,9 @@
                 </div>
                 <div class="flight-number">JX 862 ｜ 實際營運：STARLUX AIRLINES</div>
             </div>
-            <div class="card"><span class="time">08:00</span><div class="event-group">
+            <div class="card"><span class="time">08:30</span><div class="event-group">
                 <div class="event">專車機場接送 🚗</div>
-                <div class="desc">搭乘預約之機場接送專車，前往桃園機場第一航廈。</div>
+                <div class="desc">搭乘預約之機場接送專車，於 08:30出發前往桃園機場第一航廈。</div>
             </div></div>
             <div class="card"><span class="time">09:30</span><div class="event-group">
                 <div class="event">星宇貴賓室 ✨</div>
@@ -218,7 +217,11 @@
             </div></div>
             <div class="card highlight"><span class="time">11:50</span><div class="event-group">
                 <div class="event">星宇 JX862 (商務艙) ✈️</div>
-                <div class="desc">11:50 桃園起飛，16:00 降落仙台機場。搭乘仙台機場線 17 分鐘 (每人 ¥660)，從西口出來至飯店 Check-in。</div>
+                <div class="desc">11:50 桃園起飛，16:00 降落仙台機場。</div>
+            </div></div>
+            <div class="card"><span class="time">16:30</span><div class="event-group">
+                <div class="event">機場移動至仙台市區 🚆</div>
+                <div class="desc">降落後搭乘「仙台機場線 (Sendai Airport Line)」電車（約 17 分鐘，車資 ¥660/人）直達仙台站，出西口步行至 Comfort Hotel 辦理 Check-in。</div>
             </div></div>
             <div class="card">
                 <span class="time">晚間</span>
@@ -231,16 +234,16 @@
             </div>
         </div>
         
-        <!-- Day 2 (10/26 仙台➔安比) -->
+        <!-- D2 (10/26 一) -->
         <div id="d2" class="day-content" style="display:none;">
             <div class="date-header">
-                <span>10/26 (一) | 仙台 ➔ 安比</span>
+                <span>D2 (10/26 一) | 仙台 ➔ 安比高原</span>
                 <a href="https://tenki.jp/forecast/2/7/3410/4100/" target="_blank" class="weather-btn">⛅ 天氣</a>
             </div>
             <div class="card" style="background: #e0f2fe; border-left: 4px solid #0284c7;">
                 <div class="event" style="color: #0369a1;">🗺️ 東北 48H 自駕總路線圖</div>
-                <div class="desc" style="color: #0c4a6e;">包含仙台 ➔ 松島 ➔ 安比 ➔ 奧入瀨 ➔ 盛岡的完整動線導航。</div>
-                <a href="https://www.google.com/maps/dir/Toyota+Rent-A-Car+Sendai+Station+West+Entrance/松島海岸/安比高原全日空皇冠假日度假酒店/奧入瀨溪流+石戶休憩所/ART飯店+盛岡/Toyota+Rent+a+Car+Moriokaeki+Minamiguchi/" class="btn-link" style="background: #0284c7; color: white; margin-top: 8px;" target="_blank">📍 點我開啟 Google Map 總路線</a>
+                <div class="desc" style="color: #0c4a6e;">包含仙台 ➔ 松島 ➔ 安比的完整動線導航。</div>
+                <a href="https://www.google.com/maps/dir/Toyota+Rent-A-Car+Sendai+Station+West+Entrance/松島海岸/安比高原全日空皇冠假日度假酒店/" class="btn-link" style="background: #0284c7; color: white; margin-top: 8px;" target="_blank">📍 點我開啟 Google Map 總路線</a>
             </div>
             <div class="card"><span class="time">09:40</span><div class="event-group">
                 <div class="event">仙台站西口取車 🚗</div>
@@ -255,17 +258,24 @@
             </div></div>
             <div class="card highlight"><span class="time">13:00</span><div class="event-group">
                 <div class="event">奔向安比高原度假 🍁</div>
-                <div class="desc">直接駛上東北自動車道一路向北。辦理入住，享受白樺之湯露天溫泉與飯店晚宴。</div>
+                <div class="desc">駛上東北自動車道一路向北。抵達後辦理入住。</div>
                 <div class="drive-info">🚗 距松島：約 228 km / 2.5 小時</div>
                 <a href="https://maps.app.goo.gl/eohJHsWErSw6etNf7" class="btn-map" target="_blank">📍 導航至安比高原全日空皇冠假日度假酒店</a>
-                <br><div class="hotel-tag">🏨 宿：安比高原全日空皇冠假日</div>
+            </div></div>
+            <div class="card"><span class="time">晚間</span><div class="event-group">
+                <div class="event">白樺之湯溫泉 ♨️ ＆ 晚餐推薦</div>
+                <div class="desc">
+                    • <strong>溫泉</strong>：享受飯店著名的「白樺之湯」露天溫泉，洗滌開車疲憊。<br>
+                    • <strong>晚餐推薦</strong>：建議享用飯店內主廚自助吧 (Buffet) 嚴選在地食材，或預約館內「李朝苑」燒肉與日式料理。
+                </div>
+                <br><div class="hotel-tag">🏨 宿：安比高原全日空皇冠假日度假酒店</div>
             </div></div>
         </div>
         
-        <!-- Day 3 (10/27 奧入瀨➔盛岡) -->
+        <!-- D3 (10/27 二) -->
         <div id="d3" class="day-content" style="display:none;">
             <div class="date-header">
-                <span>10/27 (二) | 直攻奧入瀨 ➔ 盛岡</span>
+                <span>D3 (10/27 二) | 安比纜車 ➔ 奧入瀨 ➔ 盛岡</span>
                 <a href="https://tenki.jp/forecast/2/8/3120/2202/" target="_blank" class="weather-btn">⛅ 天氣</a>
             </div>
             <!-- ✈️ 亞航去程航班卡片 FD234 -->
@@ -306,8 +316,8 @@
             </div>
             
             <div class="card highlight"><span class="time">08:30</span><div class="event-group">
-                <div class="event">安比高原纜車與晨間散步 🌅</div>
-                <div class="desc">享用飯店早餐後，搭乘纜車欣賞秋季高原紅葉全景，隨後退房。</div>
+                <div class="event">安比高原纜車賞楓 🚡</div>
+                <div class="desc">建議 08:30 前往搭乘安比高原纜車（成人票價約 ¥2,200/人），俯瞰滿山紅葉絕景。隨後退房出發。</div>
             </div></div>
             <div class="card"><span class="time">10:30</span><div class="event-group">
                 <div class="event">直攻奧入瀨紅葉絕景 🍁</div>
@@ -322,60 +332,95 @@
             </div></div>
             <div class="card highlight"><span class="time">15:15</span><div class="event-group">
                 <div class="event">駛往盛岡市區 🚗</div>
-                <div class="desc">離開奧入瀨溪流，往南返回盛岡市區。晚間至盛岡大通商圈享用著名盛岡冷麵或在地燒肉。</div>
+                <div class="desc">離開奧入瀨溪流，往南返回盛岡市區。</div>
                 <div class="drive-info">🚗 距奧入瀨：約 141 km / 2 小時 15 分鐘</div>
                 <a href="https://maps.app.goo.gl/YourLink" class="btn-map" style="background:#10b981;" target="_blank">📍 導航至 ART 飯店盛岡</a>
+            </div></div>
+            <div class="card"><span class="time">晚間</span><div class="event-group">
+                <div class="event">盛岡市區散策與晚餐 🍜</div>
+                <div class="desc">
+                    抵達後可至盛岡大通商圈散步，晚餐享用盛岡冷麵或燒肉。周邊停車場費用約為 **¥1,100 / 晚**。
+                </div>
                 <br><div class="hotel-tag">🏨 宿：ART飯店 盛岡</div>
             </div></div>
         </div>
         
-        <!-- Day 4 (10/28 盛岡還車➔上野) -->
+        <!-- D4 (10/28 三) -->
         <div id="d4" class="day-content" style="display:block;">
             <div class="date-header">
-                <span>10/28 (三) | 盛岡漫遊 ➔ 上野大合體</span>
+                <span>D4 (10/28 三) | 盛岡巡禮 ➔ 上野大合體</span>
                 <a href="https://tenki.jp/forecast/3/16/4410/13101/" target="_blank" class="weather-btn">⛅ 東京天氣</a>
             </div>
             <div class="card"><span class="time">09:30</span><div class="event-group">
                 <div class="event">盛岡退房與還車 🚗</div>
-                <div class="desc">飯店退房，前往 Toyota 盛岡站南口店加滿油完租還車（精準控制 48 小時）。隨後將行李寄放於車站。</div>
+                <div class="desc">飯店退房，前往 Toyota 盛岡站南口店加滿油還車（精準控制 48 小時）。隨後將行李寄放於車站。</div>
                 <div class="drive-info">🚗 距飯店：約 600 公尺 / 3 分鐘</div>
                 <a href="https://maps.app.goo.gl/YourLink" class="btn-map" target="_blank">📍 導航至 Toyota 盛岡站南口店</a>
             </div></div>
-            <div class="card"><span class="time">10:15</span><div class="event-group">
-                <div class="event">盛岡城下町半日遊 🏯</div>
-                <div class="desc">參觀岩手銀行赤煉瓦館，漫步盛岡城跡公園賞紅葉，並遠眺岩手山初冠雪絕景。午餐品嚐「東家碗子蕎麥麵」。</div>
-            </div></div>
-            <div class="card highlight"><span class="time">15:17</span><div class="event-group">
+            
+            <!-- 🌟 新增：盛岡必訪景點（附導航、距離與交通方式，以盛岡站為出發點） -->
+            <div class="card highlight" style="background:#fffbeb; border-left:4px solid #f59e0b;">
+                <div class="event" style="color:#b45309;">🏯 盛岡站出發：開運橋與城跡公園半日漫遊</div>
+                <div class="desc" style="color:#78350f; margin-bottom:10px;">
+                    從盛岡站步行前往飯店或市區必經的浪漫地標與古城賞楓名所：
+                </div>
+                
+                <!-- 景點 1：開運橋 -->
+                <div style="background:white; padding:10px; border-radius:8px; margin-bottom:8px; border:1px solid #fde68a;">
+                    <div style="font-weight:bold; color:#92400e;">1️⃣ 盛岡開運橋（遠眺岩手山初冠雪）</div>
+                    <div style="fontSize:13px; color:#451a03; margin:4px 0;">從盛岡站步行約 5 分鐘（約 400 公尺）。站在橋上向北望去，北上川河畔與頂部覆蓋著初冠雪白霜的宏偉岩手山盡收眼底，景色極美！</div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=盛岡開運橋" class="btn-map" style="padding:6px; font-size:12px;" target="_blank">📍 導航至盛岡開運橋</a>
+                </div>
+                
+                <!-- 景點 2：盛岡城跡公園 -->
+                <div style="background:white; padding:10px; border-radius:8px; margin-bottom:8px; border:1px solid #fde68a;">
+                    <div style="font-weight:bold; color:#92400e;">2️⃣ 盛岡城跡公園（岩手公園）</div>
+                    <div style="fontSize:13px; color:#451a03; margin:4px 0;">從盛岡站步行約 15 分鐘（約 1.2 公里），或搭乘循環巴士「でんでんむし」約 6 分鐘（¥160）。秋季滿園紅葉與巨大花崗岩石垣交織，是極佳的賞楓散步點。（周邊停車場多約 ¥1,100/次）</div>
+                    <a href="https://maps.app.goo.gl/7XWWSS92hV8RiTd1VB-a-WY" class="btn-map" style="padding:6px; font-size:12px;" target="_blank">📍 導航至盛岡城跡公園</a>
+                </div>
+
+                <!-- 景點 3：岩手銀行赤煉瓦館 -->
+                <div style="background:white; padding:10px; border-radius:8px; border:1px solid #fde68a;">
+                    <div style="font-weight:bold; color:#92400e;">3️⃣ 岩手銀行赤煉瓦館</div>
+                    <div style="fontSize:13px; color:#451a03; margin:4px 0;">由東京車站建築大師辰野金吾設計。從盛岡站步行約 15 分鐘（約 1.1 公里），歐風紅磚建築非常適合拍照。</div>
+                    <a href="https://maps.app.goo.gl/La43ZyZ2hV8RIf6IKdUr_eg" class="btn-map" style="padding:6px; font-size:12px;" target="_blank">📍 導航至岩手銀行赤煉瓦館</a>
+                </div>
+            </div>
+
+            <div class="card"><span class="time">15:17</span><div class="event-group">
                 <div class="event">新幹線直達東京上野 🚄</div>
-                <div class="desc">車站採買伴手禮後，搭乘 Hayabusa 26 號（15:17 盛岡發車 ➔ 17:26 抵達上野），從容前往飯店辦理入住。</div>
-                <div class="desc" style="color: #d97706; font-weight: bold;">💡 車次：Hayabusa 26 號 (15:17 發)</div>
+                <div class="desc">於車站領取行李後，搭乘 **Hayabusa 26 號**（15:17 盛岡發車 ➔ 17:26 抵達上野）。</div>
+            </div></div>
+            <div class="card highlight"><span class="time">17:35</span><div class="event-group">
+                <div class="event">上野飯店 Check-in 🏨</div>
+                <div class="desc">抵達上野站後，先至「東京上野喜來登福朋飯店」辦理入住並放好行李。</div>
+                <div class="hotel-tag">🏨 吳哥宿：東京上野喜來登福朋飯店</div>
             </div></div>
             <div class="card highlight"><span class="time">19:00</span><div class="event-group">
-                <div class="event">AMEX 晚宴與家族大合體 🍻</div>
-                <div class="desc">前往 TORI bien 享用美國運通白金美饌晚餐，慶祝家族合體！</div>
-                <div class="hotel-tag">🏨 吳哥宿：東京上野喜來登福朋飯店｜TRIP NT$3,065 / 萬豪官網 ¥14,881（≒ NT$2,932）</div><br>
+                <div class="event">美國運通雙人美饌晚餐 🥂</div>
+                <div class="desc">與太太搭乘 **UBER** 從飯店前往 TORI bien 享用 19:00 的美國運通白金美饌晚餐。用餐完畢後返回上野與大舅子等人會合！</div>
                 <div class="hotel-tag">🏨 大舅子宿：SOLASIA Residence 北上野 601</div>
             </div></div>
         </div>
         
-        <!-- Day 5 (10/29) -->
+        <!-- D5 (10/29 四) -->
         <div id="d5" class="day-content" style="display:none;">
             <div class="date-header">
-                <span>10/29 (四) | 自駕 D1 鎌倉</span>
+                <span>D5 (10/29 四) | 關東自駕 D1 鎌倉</span>
                 <a href="https://tenki.jp/forecast/3/17/4610/14204/" target="_blank" class="weather-btn">⛅ 鎌倉天氣</a>
             </div>
             <div class="card" style="background: #eff6ff; border-left: 4px solid #2563eb;">
                 <div class="event" style="color: #1d4ed8;">🗺️ 關東富士 3 日自駕大環線</div>
-                <div class="desc" style="color: #1e3a8a;">串聯東京 ➔ Costco ➔ 橫濱 ➔ 鎌倉 ➔ 高尾山 ➔ 御殿場 ➔ 河口湖 ➔ 返回東京。</div>
-                <a href="https://www.google.com/maps/dir/トヨタレンタカー東日本橋/コストコホールセール川崎倉庫店/ヨコハマグランドインターコンチネンタルホテル/鶴岡八幡宮/鎌倉高校前駅/高尾山ケーブルカー清滝駅/御殿場プレミアム・アウトレット/東横INN富士河口湖大橋/新倉富士浅間神社/トヨタレンタカー東日本橋/" class="btn-link" style="background: #2563eb; color: white; margin-top: 8px;" target="_blank">📍 點我開啟 Google Map 總路線</a>
+                <div class="desc" style="color: #1e3a8a;">串聯東京 ➔ Costco ➔ 橫濱 ➔ 鎌倉 ➔ 高尾山 ➔ 河口湖 ➔ 御殿場 ➔ 返回東京。</div>
+                <a href="https://www.google.com/maps/dir/トヨタレンタカー上野駅前店/コストコホールセール川崎倉庫店/ヨコハマグランドインターコンチネンタルホテル/鶴岡八幡宮/鎌倉高校前駅/高尾山ケーブルカー清滝駅/東横INN富士河口湖大橋/新倉富士浅間神社/御殿場プレミアム・アウトレット/トヨタレンタカー上野駅前店/" class="btn-link" style="background: #2563eb; color: white; margin-top: 8px;" target="_blank">📍 點我開啟 Google Map 總路線</a>
             </div>
-            <div class="card"><span class="time">09:30</span><div class="event-group">
-                <div class="event">取車出發 🚗</div>
-                <div class="desc">前往 TOYOTA Rent a Car 上野站前店取車，確認 6 人與大行李空間。</div>
-                <div class="btn-row links-row">
-                    <a href="https://rent.toyota.co.jp/" class="btn-sm" style="background:#e11d2a; color:white;" target="_blank">🚗 TOYOTA 租車官網</a>
-                    <a href="https://maps.app.goo.gl/B9Z2KqE" class="btn-sm btn-map" style="margin-top:0;" target="_blank">📍 導航上野站前店</a>
+            <div class="card"><span class="time">08:30</span><div class="event-group">
+                <div class="event">東京上野站前店取車 🚗</div>
+                <div class="desc">
+                    前往 TOYOTA Rent a Car 上野站前店取車（W2 級距：諾亞 HEV 7-8人座油電車），確認 6 人與大行李空間。<br>
+                    <small style="color:#0284c7;">📌 預約代號：上野站前店借還 (10/29 08:30 ~ 10/31 20:00)，總金額 ¥59,917</small>
                 </div>
+                <a href="https://maps.app.goo.gl/B9Z2KqE" class="btn-map" target="_blank">📍 導航至 Toyota 上野站前店</a>
             </div></div>
             <div class="card"><span class="time">10:40</span><div class="event-group">
                 <div class="event">Costco 戰略補給 🛒</div>
@@ -394,21 +439,19 @@
                 <div class="desc">鶴岡八幡宮 ➔ 鎌倉大佛 ➔ 鎌倉高校前平交道日落 ➔ 18:00 返回橫濱洲際。</div>
                 <div class="drive-info">🚗 橫濱來回鎌倉：單趟約 25 km / 45 分鐘</div>
                 <a href="https://maps.app.goo.gl/qjyh7tUAHu1c7xK3A" class="btn-map" target="_blank">📍 導航至鶴岡八幡宮附設停車場</a>
-                <a href="https://maps.app.goo.gl/fsXmU6tL5GWUhrWC7" class="btn-map" target="_blank">📍 導航至開單大佛周邊停車場</a>
-                <a href="https://maps.app.goo.gl/1HRqVLW7aP2vR72u9" class="btn-map" target="_blank">📍 導航至七里濱海岸停車場</a>
                 <br><div class="hotel-tag">🏨 宿：橫濱洲際酒店 (房費 NT$3500 * 2間)</div>
             </div></div>
         </div>
         
-        <!-- Day 6 (10/30) -->
+        <!-- D6 (10/30 五) -->
         <div id="d6" class="day-content" style="display:none;">
             <div class="date-header">
-                <span>10/30 (五) | 河口湖自駕（絕景與紅葉季）</span>
+                <span>D6 (10/30 五) | 高尾山賞楓 ➔ 河口湖深度漫遊</span>
                 <a href="https://tenki.jp/forecast/3/22/4920/19430/" target="_blank" class="weather-btn">⛅ 河口湖天氣</a>
             </div>
             <div class="card"><span class="time">08:30</span><div class="event-group">
                 <div class="event">橫濱出發</div>
-                <div class="desc">飯店退房出發，一路向西。</div>
+                <div class="desc">飯店退房出發，一路向西前往高尾山。</div>
             </div></div>
             <div class="card"><span class="time">09:30</span><div class="event-group">
                 <div class="event">高尾山賞楓 🍁</div>
@@ -417,14 +460,8 @@
                 <a href="https://maps.app.goo.gl/LAvkn8RfbpPP6NKBA" class="btn-map" target="_blank">📍 導航至高尾山纜車停車場</a>
             </div></div>
             <div class="card highlight"><span class="time">13:30</span><div class="event-group">
-                <div class="event">御殿場 Outlet 爆買 🛍️</div>
-                <div class="desc">趁 11/1 退稅新制上路前，全家集中火力大爆買 3 小時。16:30 離開。</div>
-                <div class="drive-info">🚗 距高尾山：約 75 km / 1 小時 30 分鐘</div>
-                <a href="https://maps.app.goo.gl/PqJrYLgem2oqhWwF8" class="btn-map" target="_blank">📍 導航至御殿場 PREMIUM OUTLETS</a>
-            </div></div>
-            <div class="card highlight"><span class="time">下午</span><div class="event-group">
-                <div class="event">大石公園 🗻</div>
-                <div class="desc">拍攝紅色掃帚草＋無遮蔽富士山全景。自然生活館可供休憩購物。</div>
+                <div class="event">大石公園 🗻 (富士山絕景)</div>
+                <div class="desc">下午早點抵達河口湖，拍紅色掃帚草＋無遮蔽富士山全景。自然生活館可供休憩購物。</div>
                 <a href="https://maps.app.goo.gl/oWvV9RdWc5HkePJY6" class="btn-map" target="_blank">📍 導航至大石公園</a>
             </div></div>
             <div class="card highlight"><span class="time">傍晚</span><div class="event-group">
@@ -432,29 +469,18 @@
                 <div class="desc">秋季限定夜楓點燈，散步欣賞浪漫楓紅景色。</div>
                 <a href="https://maps.app.goo.gl/6FVkbvdEQjVZ8mGw8" class="btn-map" target="_blank">📍 導航至河口湖楓葉隧道</a>
             </div></div>
-            <div class="card"><span class="time">晚餐</span><div class="event-group">
-                <div class="event">晚餐備選（皆附大停車場）🍜</div>
-                <div class="desc">
-                    1. 甲州餺飥 小作（濃郁南瓜味噌）<br>
-                    2. 餺飥不動 東戀路店（白色雲朵建築）<br>
-                    3. 山麓園（百年古民家爐端燒）<br>
-                    4. Ogino / MaxValu 大型超市（大採買回飯店吃）
-                </div>
-            </div></div>
             <div class="card"><span class="time">17:30</span><div class="event-group">
-                <div class="event">河口湖周邊 🗻</div>
-                <div class="desc">抵達河口湖車站拍照。隨後前往飯店 Check-in。</div>
-                <div class="drive-info">🚗 距御殿場：約 30 km / 40 分鐘</div>
-                <a href="https://share.google/qtMmS94zOyEEsQKn1" class="btn-map" target="_blank">📍 導航至河口湖站</a>
+                <div class="event">河口湖東橫 INN Check-in 🏨</div>
+                <div class="desc">辦理入住，晚餐可於周邊享用餺飥麵 (小作或不動) 或大型超市採買。</div>
                 <a href="https://maps.app.goo.gl/DAY5AJoj7PcRCQpY8" class="btn-map" style="background:#10b981;" target="_blank">📍 導航至河口湖東橫 INN</a>
                 <br><div class="hotel-tag">🏨 宿：河口湖東橫 INN (3間共 ¥41,300)</div>
             </div></div>
         </div>
         
-        <!-- Day 7 (10/31) -->
+        <!-- D7 (10/31 六) -->
         <div id="d7" class="day-content" style="display:none;">
             <div class="date-header">
-                <span>10/31 (六) | 河口湖登高與返回東京</span>
+                <span>D7 (10/31 六) | 天上山 ➔ 御殿場 Outlet 爆買 ➔ 東京</span>
                 <a href="https://tenki.jp/forecast/3/16/4410/13101/" target="_blank" class="weather-btn">⛅ 東京天氣</a>
             </div>
             <div class="card highlight"><span class="time">09:00</span><div class="event-group">
@@ -464,28 +490,29 @@
             </div></div>
             <div class="card"><span class="time">11:00</span><div class="event-group">
                 <div class="event">新倉山淺間神社</div>
-                <div class="desc">富士山經典絕景拍攝。</div>
+                <div class="desc">富士山經典五重塔絕景拍攝。</div>
                 <div class="drive-info">🚗 距天上山：約 5 km / 15 分鐘</div>
                 <a href="https://maps.app.goo.gl/UtuaacWW1zFDWYnt5" class="btn-map" target="_blank">📍 導航至新倉山淺間神社第2駐車場</a>
             </div></div>
-            <div class="card"><span class="time">下午</span><div class="event-group">
-                <div class="event">啟程返回東京市區 🚗</div>
-                <div class="desc">上午黃金時段結束後啟程，避開週末傍晚塞車。建議 13:00 前離開河口湖。</div>
-                <div class="drive-info">🚗 距河口湖：約 110 km / 2 小時（⚠️ 週末傍晚易塞車，建議提早出發）</div>
+            <div class="card highlight"><span class="time">13:30</span><div class="event-group">
+                <div class="event">御殿場 Outlet 爆買 🛍️ (移至今日)</div>
+                <div class="desc">趁退稅新制上路前，全家集中火力大爆買 3 小時。16:30 離開。</div>
+                <div class="drive-info">🚗 距新倉山：約 45 km / 50 分鐘</div>
+                <a href="https://maps.app.goo.gl/PqJrYLgem2oqhWwF8" class="btn-map" target="_blank">📍 導航至御殿場 PREMIUM OUTLETS</a>
             </div></div>
-            <div class="card"><span class="time">19:00</span><div class="event-group">
-                <div class="event">東京還車</div>
-                <div class="desc">返回東京還車 (還車地點待與上野站前店確認跨區還車方案)。</div>
-                <div class="drive-info">🚗 距富士山：約 110 km / 2 小時 (⚠️ 週末傍晚易塞車，建議提早出發)</div>
+            <div class="card"><span class="time">20:00</span><div class="event-group">
+                <div class="event">返回東京上野還車 🚗</div>
+                <div class="desc">由御殿場開回東京上野站前店歸還 W2 車款（20:00 準時還車）。</div>
+                <div class="drive-info">🚗 距御殿場：約 100 km / 1 小時 40 分鐘</div>
                 <a href="https://maps.app.goo.gl/B9Z2KqE" class="btn-map" target="_blank">📍 導航至 Toyota 上野站前店 (還車)</a>
                 <br><div class="hotel-tag">🏨 宿：東京上野喜來登福朋飯店｜萬豪官網 ¥25,112（≒ NT$4,947）</div>
             </div></div>
         </div>
         
-        <!-- Day 8 (11/01) -->
+        <!-- D8 (11/01 日) -->
         <div id="d8" class="day-content" style="display:none;">
             <div class="date-header">
-                <span>11/01 (日) | 返台</span>
+                <span>D8 (11/01 日) | 返台 ＆ 成田移動</span>
                 <a href="https://tenki.jp/forecast/3/15/4510/12211/" target="_blank" class="weather-btn">⛅ 成田天氣</a>
             </div>
             <!-- ✈️ 華航回程航班卡片 -->
@@ -533,16 +560,16 @@
                 <div class="desc">成田機場二航廈 PP 或龍騰使用虛空貴賓室，華航金卡使用自營貴賓室。(華航 CI0101 14:35 起飛)。</div>
             </div></div>
             <div class="card"><span class="time">下午</span><div class="event-group">
-                <div class="event">大舅子移防</div>
-                <div class="desc">帶著行李移動至成田機場周邊飯店。晚間可於 1F LAWSON 採買，或搭乘接駁車前往成田 AEON MALL 做最後逛街衝刺。</div>
+                <div class="event">大舅子一家移動至成田機場周邊飯店</div>
+                <div class="desc">帶著行李移動至成田日航酒店。晚間可於 1F LAWSON 採買，或搭乘接駁車前往成田 AEON MALL 做最後逛街衝刺。</div>
                 <div class="hotel-tag">🏨 宿：成田日航酒店 (NT$4500/晚)</div>
             </div></div>
         </div>
         
-        <!-- Day 9 (11/02) -->
+        <!-- D9 (11/02 一) -->
         <div id="d9" class="day-content" style="display:none;">
             <div class="date-header">
-                <span>11/02 (一) | 大舅子賦歸</span>
+                <span>D9 (11/02 一) | 大舅子賦歸</span>
                 <a href="https://tenki.jp/forecast/3/15/4510/12211/" target="_blank" class="weather-btn">⛅ 成田天氣</a>
             </div>
             <!-- ✈️ 亞航回程航班卡片 FD235 -->
@@ -618,25 +645,6 @@
             <button class="food-visited-btn" onclick="toggleFoodVisited('food-2', this)">✔ 標記已去過</button>
             <div class="food-visited-stamp">✅ 已去過！</div>
         </div>
-        <div class="date-header" style="font-size: 16px; margin-top: 20px; border-left: 4px solid #d97706;">📍 弘前區</div>
-        <div class="card" id="food-3">
-            <div class="event">中味噌拉麵 (中みそ)</div>
-            <div class="desc">弘前當地人的靈魂美食，位於百貨地下街的濃郁生薑蒜味味噌拉麵。</div>
-            <span class="hotel-tag" style="background:#fef08a; color:#854d0e;">🍜 在地小吃</span>
-            <a href="https://www.google.com/maps/search/?api=1&query=中みそ+弘前" class="btn-map" target="_blank">📍 導航至餐廳</a>
-            <br>
-            <button class="food-visited-btn" onclick="toggleFoodVisited('food-3', this)">✔ 標記已去過</button>
-            <div class="food-visited-stamp">✅ 已去過！</div>
-        </div>
-        <div class="card" id="food-4">
-            <div class="event">café KITAMON</div>
-            <div class="desc">弘前市區的高質感咖啡廳，賞楓走累了享用下午茶與甜點的完美去處。</div>
-            <span class="hotel-tag" style="background:#e2e8f0; color:#475569;">🍰 甜點下午茶</span>
-            <a href="https://www.google.com/maps/search/?api=1&query=cafe+KITAMON+弘前" class="btn-map" target="_blank">📍 導航至餐廳</a>
-            <br>
-            <button class="food-visited-btn" onclick="toggleFoodVisited('food-4', this)">✔ 標記已去過</button>
-            <div class="food-visited-stamp">✅ 已去過！</div>
-        </div>
     </div>
 </div>
 
@@ -673,20 +681,6 @@
         </div>
         <div class="card ticket-card" id="ticket-2">
             <div class="ticket-header">
-                <div class="event">東京晴空塔觀景台門票</div>
-                <span class="status-badge pending">⏳ 待採買</span>
-            </div>
-            <div class="desc">建議提前購買避免現場排隊。</div>
-            <div class="btn-row links-row">
-                <a href="https://www.trip.com/t/645wzIqPCV2" class="btn-sm btn-trip" target="_blank">Trip.com</a>
-                <a href="https://affiliate.klook.com/sl/2t3vITT" class="btn-sm btn-klook" target="_blank">Klook</a>
-                <a href="https://www.kkday.com/zh-tw/product/10759-tokyo-skytree-observatory-advance-ticket-japan?cid=23311" class="btn-sm btn-kkday" target="_blank">KKday</a>
-            </div>
-            <div class="ticket-details"></div>
-            <button class="btn-mark" onclick="markAsBought(this, 2)">✔️ 標記為已購買並記錄</button>
-        </div>
-        <div class="card ticket-card" id="ticket-3">
-            <div class="ticket-header">
                 <div class="event">新幹線 (盛岡 ➔ 上野)</div>
                 <span class="status-badge pending">⏳ 待採買</span>
             </div>
@@ -694,10 +688,9 @@
             <div class="btn-row links-row">
                 <a href="https://www.trip.com/t/p7NkzXezCV2" class="btn-sm btn-trip" target="_blank">Trip.com</a>
                 <a href="https://affiliate.klook.com/sl/115FWbd" class="btn-sm btn-klook" target="_blank">Klook</a>
-                <a href="https://www.kkday.com/zh-tw/transportation/list_page/japan-rail/jp-shin-aomori-rail-to-jp-ueno-rail?dep_code=JP-2-00057&arr_code=JP-2-00036&dep_date=20261018&cid=23311" class="btn-sm btn-kkday" target="_blank">KKday</a>
             </div>
             <div class="ticket-details"></div>
-            <button class="btn-mark" onclick="markAsBought(this, 3)">✔️ 標記為已購買並記錄</button>
+            <button class="btn-mark" onclick="markAsBought(this, 2)">✔️ 標記為已購買並記錄</button>
         </div>
     </div>
 </div>
@@ -720,18 +713,6 @@
                 <label class="check-item"><input type="checkbox" id="chk-5"><div class="check-text-box"><div class="check-text">駕照日文譯本正本</div><div class="check-subtext">請提前至台灣監理所申請</div></div></label>
                 <label class="check-item"><input type="checkbox" id="chk-6"><div class="check-text-box"><div class="check-text">Toyota 租車預約確認信</div><div class="check-subtext">印出紙本或截圖，方便核對預約編號</div></div></label>
             </div>
-            <div class="checklist-group">
-                <div class="checklist-group-title">🧥 秋季衣物 (洋蔥式穿搭)</div>
-                <label class="check-item"><input type="checkbox" id="chk-7"><div class="check-text-box"><div class="check-text">防風防潑水外套</div><div class="check-subtext">天上山公園與奧入瀨溪流冷風較強</div></div></label>
-                <label class="check-item"><input type="checkbox" id="chk-8"><div class="check-text-box"><div class="check-text">輕薄發熱衣或保暖底層</div><div class="check-subtext">安比高原清晨看日出氣溫極低</div></div></label>
-                <label class="check-item"><input type="checkbox" id="chk-9"><div class="check-text-box"><div class="check-text">好穿耐走的休閒/運動鞋</div><div class="check-subtext">應付高尾山、鎌倉的大量步行動線</div></div></label>
-            </div>
-            <div class="checklist-group">
-                <div class="checklist-group-title">🔋 電子產品與雜物</div>
-                <label class="check-item"><input type="checkbox" id="chk-10"><div class="check-text-box"><div class="check-text">eSIM 或實體上網卡</div><div class="check-subtext">自駕導航依賴網路，建議準備雙備援</div></div></label>
-                <label class="check-item"><input type="checkbox" id="chk-11"><div class="check-text-box"><div class="check-text">行動電源與充電線</div><div class="check-subtext">拍照跟看地圖耗電極快</div></div></label>
-                <label class="check-item"><input type="checkbox" id="chk-12"><div class="check-text-box"><div class="check-text">大容量環保購物袋</div><div class="check-subtext">日本 Costco 與御殿場 Outlet 爆買必備</div></div></label>
-            </div>
         </div>
     </div>
 </div>
@@ -740,7 +721,6 @@
 <div id="view-expenses" class="main-view">
     <div class="container">
         <div class="date-header">💰 雲端總帳本 ＆ 即時記帳</div>
-        <!-- 🌟 升級：動態台銀匯率控制卡片 -->
         <div class="currency-card">
             <div class="currency-title">
                 <span>💱 匯率即時換算與設定</span>
@@ -758,21 +738,13 @@
                 </div>
             </div>
         </div>
-        <!-- 住宿資訊卡片區 -->
         <div class="card" style="border-left: 4px solid #1E3A8A;">
             <div class="event">🏨 東京上野喜來登福朋飯店</div>
-            <div class="desc">
-                預訂平台：Trip.com<br>
-                入住日期：10/28<br>
-                金額：<strong>NT$ 3,065</strong>
-            </div>
+            <div class="desc">預訂平台：Trip.com｜入住：10/28｜金額：<strong>NT$ 3,065</strong></div>
         </div>
         <div class="card" style="border-left: 4px solid #8b5cf6;">
             <div class="event">🏨 SOLASIA Residence 北上野 601</div>
-            <div class="desc">
-                住客：大舅子一家<br>
-                日期：10/27 - 10/28
-            </div>
+            <div class="desc">住客：大舅子一家｜日期：10/27 - 10/28</div>
         </div>
         <div class="expense-input-card">
             <div class="event" style="margin-bottom: 12px;">➕ 快速記帳</div>
@@ -807,27 +779,18 @@
             <div class="expense-total" id="expense-total" style="display:none;"></div>
         </div>
         
-        <!-- 更新為盛岡還車版本的預算表 -->
         <div class="card" style="border-left: 4px solid #10b981;">
-            <div class="event" style="color: #166534;">📊 東北雙人自駕預算估算</div>
-            <div class="desc" style="margin-bottom: 12px; font-weight: bold; color: #475569;">仙台取車 ➔ 盛岡還車 ＋ 新幹線回東京</div>
+            <div class="event" style="color: #166534;">📊 雙人自駕預算估算</div>
             <table class="budget-table">
                 <thead><tr><th>預算項目</th><th>預估金額</th><th>備註</th></tr></thead>
                 <tbody>
-                    <tr><td>🚗 Toyota 租車</td><td>¥18,982</td><td>2 天 (48 小時) 輕型小車含保險折扣</td></tr>
-                    <tr><td>🔄 異地還車費</td><td>¥18,700</td><td>宮城 ➔ 岩手 (盛岡)</td></tr>
-                    <tr><td>🛣️ 高速過路費</td><td>¥5,540</td><td>ETC 實支實付預估</td></tr>
-                    <tr><td>⛽ 車輛油資</td><td>¥4,000</td><td>總里程約 500 公里</td></tr>
-                    <tr><td>🏨 盛岡住宿</td><td>¥12,000</td><td>ART飯店盛岡 (暫估)</td></tr>
+                    <tr><td>🚗 東北租車 (仙台借/盛岡還)</td><td>¥37,682</td><td>含免責與NOC，48H</td></tr>
+                    <tr><td>🚗 關東租車 (上野借/還)</td><td>¥59,917</td><td>W2 級距油電車 (10/29-10/31)</td></tr>
+                    <tr><td>🛣️ 高速過路費 ＋ 油資</td><td>¥15,000</td><td>東北 ＋ 關東實支實付預估</td></tr>
                     <tr><td>🚄 回程新幹線</td><td>¥29,620</td><td>盛岡 ➔ 上野 (2人)</td></tr>
-                    <tr class="total-row"><td>💰 花費總計</td><td id="budget-jpy-total">¥88,842</td><td id="budget-twd-total">約 NT$ 19,101</td></tr>
+                    <tr class="total-row"><td>💰 花費總計 (日圓)</td><td id="budget-jpy-total">¥142,219</td><td id="budget-twd-total">約 NT$ 30,577</td></tr>
                 </tbody>
             </table>
-        </div>
-        
-        <div class="card">
-            <div class="event">家族公積金 Google 試算表</div>
-            <a href="https://docs.google.com/spreadsheets/d/1CxCyMKK4iY20Fgmr6g-xpsa0l1zmdcvknOJSB1eTelw/edit" class="btn-link" style="background:#1E3A8A; color: white;" target="_blank">📊 開啟共同線上試算表</a>
         </div>
     </div>
 </div>
@@ -850,57 +813,14 @@
             </select>
             <select id="ci-place">
                 <option value="">-- 選擇景點 --</option>
-                <optgroup label="📅 10/25 仙台">
-                    <option>桃園機場出發</option>
-                    <option>仙台機場抵達</option>
-                    <option>仙台全日空假日酒店</option>
-                    <option>仙台市區晚餐</option>
-                </optgroup>
-                <optgroup label="📅 10/26 松島・安比">
-                    <option>Toyota 仙台站西口取車</option>
-                    <option>松島公園</option>
-                    <option>安比高原全日空皇冠假日</option>
-                </optgroup>
-                <optgroup label="📅 10/27 奧入瀨・盛岡">
-                    <option>安比高原纜車山頂</option>
-                    <option>奧入瀨溪流</option>
-                    <option>ART飯店 盛岡</option>
-                    <option>盛岡大通商圈</option>
-                </optgroup>
-                <optgroup label="📅 10/28 盛岡・上野">
-                    <option>Toyota 盛岡南口還車</option>
-                    <option>盛岡城跡公園</option>
-                    <option>盛岡車站</option>
-                    <option>東京上野大合體</option>
-                    <option>TORI bien 晚宴</option>
-                </optgroup>
-                <optgroup label="📅 10/29 鎌倉">
-                    <option>Toyota 上野站前店取車</option>
-                    <option>Costco 川崎店</option>
-                    <option>橫濱洲際酒店</option>
-                    <option>鶴岡八幡宮</option>
-                    <option>鎌倉大佛</option>
-                    <option>鎌倉高校前平交道</option>
-                </optgroup>
-                <optgroup label="📅 10/30 富士山">
-                    <option>高尾山</option>
-                    <option>御殿場 Outlet</option>
-                    <option>河口湖東橫INN</option>
-                </optgroup>
-                <optgroup label="📅 10/31 東京">
-                    <option>天上山公園</option>
-                    <option>新倉山淺間神社</option>
-                    <option>Toyota 上野站前店還車</option>
-                    <option>東京上野</option>
-                </optgroup>
-                <optgroup label="📅 11/01-02 返程">
-                    <option>成田機場</option>
-                    <option>成田日航酒店</option>
-                    <option>高雄小港機場</option>
-                    <option>桃園機場抵台</option>
-                </optgroup>
+                <option>盛岡開運橋</option>
+                <option>盛岡城跡公園</option>
+                <option>岩手銀行赤煉瓦館</option>
+                <option>TORI bien 晚餐</option>
+                <option>河口湖大石公園</option>
+                <option>御殿場 Outlet</option>
             </select>
-            <textarea id="ci-msg" placeholder="留言（例：好美！鮮蚵超肥 🦪）"></textarea>
+            <textarea id="ci-msg" placeholder="留言（例：好美！ 🍁）"></textarea>
             <button class="btn-checkin" onclick="submitCheckin()">📍 送出打卡！</button>
             <div class="checkin-status" id="ci-status"></div>
         </div>
@@ -912,6 +832,7 @@
         </div>
     </div>
 </div>
+
 <div class="bottom-nav">
     <div class="nav-item active" onclick="switchView('view-itinerary', this)"><span class="nav-icon">📅</span>行程</div>
     <div class="nav-item" onclick="switchView('view-food', this)"><span class="nav-icon">🍔</span>美食</div>
@@ -920,77 +841,55 @@
     <div class="nav-item" onclick="switchView('view-expenses', this)"><span class="nav-icon">💰</span>帳本</div>
     <div class="nav-item" onclick="switchView('view-checkin', this)"><span class="nav-icon">📍</span>打卡</div>
 </div>
+
 <script>
-// ⚠️ GAS 金鑰網址
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbz-Ut5BZXa4daIX_BylaaaC8LlWWlj-EQKUgq9mIoyMddZwFAz-nlSTlYqiw37376Iw/exec';
-// 🌟 全局聯動匯率變數 (預設為 0.215)
 let globalExchangeRate = 0.215;
 function updateGlobalRate(val) {
     const rate = parseFloat(val);
     if (!isNaN(rate) && rate > 0) {
         globalExchangeRate = rate;
         localStorage.setItem('user_global_rate', rate);
-        // 即時重新計算當前輸入框的值
         calcCurrency('jpy');
-        // 重新讀取雲端帳本，用新匯率換算
         loadExpenses();
-        // 重新更新固定預算表的台幣預估
         updateBudgetTable();
     }
 }
 function calcCurrency(type) {
     const jpyInput = document.getElementById('calc-jpy');
     const twdInput = document.getElementById('calc-twd');
-    
     if(type === 'jpy') {
         const jpyVal = parseFloat(jpyInput.value);
-        if(!isNaN(jpyVal)) {
-            twdInput.value = Math.round(jpyVal * globalExchangeRate);
-        } else {
-            twdInput.value = '';
-        }
+        if(!isNaN(jpyVal)) twdInput.value = Math.round(jpyVal * globalExchangeRate);
+        else twdInput.value = '';
     } else if(type === 'twd') {
         const twdVal = parseFloat(twdInput.value);
-        if(!isNaN(twdVal)) {
-            jpyInput.value = Math.round(twdVal / globalExchangeRate);
-        } else {
-            jpyInput.value = '';
-        }
+        if(!isNaN(twdVal)) jpyInput.value = Math.round(twdVal / globalExchangeRate);
+        else jpyInput.value = '';
     }
 }
 function updateBudgetTable() {
-    // 預算更新為盛岡還車版本總金額：¥88,842
-    const budgetJpy = 88842;
+    const budgetJpy = 142219;
     const twdTarget = document.getElementById('budget-twd-total');
     if (twdTarget) {
         twdTarget.textContent = `約 NT$ ${Math.round(budgetJpy * globalExchangeRate).toLocaleString()}`;
     }
 }
-// ===== 🕒 時間時區自動轉換神器 =====
 function formatLocalTime(timeStr) {
     if (!timeStr) return '';
     const d = new Date(timeStr);
     if (isNaN(d.getTime())) return timeStr;
-    return d.toLocaleString('zh-TW', { 
-        month: '2-digit', 
-        day: '2-digit', 
-        hour: '2-digit', 
-        minute: '2-digit',
-        hour12: false
-    });
+    return d.toLocaleString('zh-TW', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
 }
-// ===== 分頁切換 =====
 function switchView(id, btn) {
     document.querySelectorAll('.main-view').forEach(el => el.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
     btn.classList.add('active');
     window.scrollTo(0, 0);
-    
     if (id === 'view-checkin') loadCheckinLog();
     if (id === 'view-expenses') loadExpenses();
 }
-// ===== 日期切換 =====
 function showDay(id, btn) {
     document.querySelectorAll('.day-content').forEach(el => el.style.display = 'none');
     document.getElementById(id).style.display = 'block';
@@ -998,12 +897,11 @@ function showDay(id, btn) {
     btn.classList.add('active');
     btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 }
-// ===== 票券功能 =====
 function markAsBought(btn, idx) {
     const card = btn.closest('.ticket-card');
-    const platform = prompt('請輸入購買平台（例：Klook, KKday, 官網）：', 'Klook');
+    const platform = prompt('請輸入購買平台：', 'Klook');
     if (platform === null) return;
-    const price = prompt('請輸入購買價格總額：', 'NT$ ');
+    const price = prompt('請輸入價格：', 'NT$ ');
     if (price === null) return;
     const cardUsed = prompt('請輸入刷卡卡別：', '中華航空璀璨無限卡');
     if (cardUsed === null) return;
@@ -1016,39 +914,13 @@ function applyTicketBought(card, data) {
     badge.className = 'status-badge bought';
     badge.innerText = '✅ 已完成採購';
     const detailsDiv = card.querySelector('.ticket-details');
-    detailsDiv.innerHTML = `<div>🛒 <strong>購買平台：</strong>${data.platform}</div><div>💰 <strong>購買價格：</strong>${data.price}</div><div>💳 <strong>使用信用卡：</strong>${data.cardUsed}</div>`;
+    detailsDiv.innerHTML = `<div>🛒 <strong>平台：</strong>${data.platform}</div><div>💰 <strong>價格：</strong>${data.price}</div><div>💳 <strong>卡別：</strong>${data.cardUsed}</div>`;
     detailsDiv.style.display = 'block';
     const linksRow = card.querySelector('.links-row');
     if (linksRow) linksRow.style.display = 'none';
     const markBtn = card.querySelector('.btn-mark');
     if (markBtn) markBtn.style.display = 'none';
-    
-    let unmarkBtn = card.querySelector('.btn-unmark');
-    if (!unmarkBtn) {
-        unmarkBtn = document.createElement('button');
-        unmarkBtn.className = 'btn-unmark';
-        unmarkBtn.textContent = '↩ 取消標記';
-        const idx = card.id.replace('ticket-', '');
-        unmarkBtn.onclick = () => unmarkTicket(card, parseInt(idx));
-        card.appendChild(unmarkBtn);
-    }
-    unmarkBtn.style.display = 'block';
 }
-function unmarkTicket(card, idx) {
-    localStorage.removeItem('ticket_' + idx);
-    const badge = card.querySelector('.status-badge');
-    badge.className = 'status-badge pending';
-    badge.innerText = '⏳ 待採買';
-    card.querySelector('.ticket-details').style.display = 'none';
-    card.querySelector('.ticket-details').innerHTML = '';
-    const linksRow = card.querySelector('.links-row');
-    if (linksRow) linksRow.style.display = 'flex';
-    const markBtn = card.querySelector('.btn-mark');
-    if (markBtn) markBtn.style.display = 'block';
-    const unmarkBtn = card.querySelector('.btn-unmark');
-    if (unmarkBtn) unmarkBtn.style.display = 'none';
-}
-// ===== 美食「已去過」功能 =====
 function toggleFoodVisited(cardId, btn) {
     const card = document.getElementById(cardId);
     const stamp = card.querySelector('.food-visited-stamp');
@@ -1067,14 +939,13 @@ function toggleFoodVisited(cardId, btn) {
         card.style.opacity = '0.7';
     }
 }
-// ===== 💰 雲端帳本功能 =====
 async function addExpense(btn) {
     const name = document.getElementById('exp-name').value.trim();
     const cat = document.getElementById('exp-cat').value;
     const amt = document.getElementById('exp-amt').value;
     const curr = document.getElementById('exp-curr').value;
     const who = localStorage.getItem('travel_identity') || '未知';
-    if (!name || !amt || amt <= 0) { alert('請填寫項目名稱和正確的金額！'); return; }
+    if (!name || !amt || amt <= 0) { alert('請填寫項目和金額！'); return; }
     btn.innerText = "寫入中...";
     btn.disabled = true;
     const params = new URLSearchParams({ action: 'addExpense', name, cat, amt, curr, who });
@@ -1086,7 +957,7 @@ async function addExpense(btn) {
         btn.disabled = false;
         loadExpenses();
     } catch(e) {
-        alert('連線失敗，請檢查網路。');
+        alert('連線失敗');
         btn.innerText = "記帳";
         btn.disabled = false;
     }
@@ -1094,166 +965,62 @@ async function addExpense(btn) {
 async function loadExpenses() {
     const list = document.getElementById('expense-list');
     const total = document.getElementById('expense-total');
-    list.innerHTML = '<div class="checkin-empty">讀取雲端帳本中... ☁️</div>';
+    list.innerHTML = '<div class="checkin-empty">讀取中... ☁️</div>';
     try {
         const res = await fetch(GAS_URL + '?action=getExpenses');
         const data = await res.json();
         if (!data || data.length === 0) {
-            list.innerHTML = '<div class="checkin-empty">還沒有記帳資料，快去花錢吧！🛍️</div>';
+            list.innerHTML = '<div class="checkin-empty">尚無記帳資料</div>';
             total.style.display = 'none';
             return;
         }
         let jpy = 0, ntd = 0;
         list.innerHTML = data.map(e => {
             if (e.curr === '¥') jpy += parseFloat(e.amt); else ntd += parseFloat(e.amt);
-            const localTime = formatLocalTime(e.time);
-            return `
-            <div class="expense-item">
-                <span class="e-name">${e.name} <br><small style="color:#94a3b8;">${e.who} · ${localTime}</small></span>
-                <span class="e-cat">${e.cat}</span>
-                <span class="e-amt">${e.curr}${Number(e.amt).toLocaleString()}</span>
-            </div>
-            `;
+            return `<div class="expense-item"><span class="e-name">${e.name} <br><small>${e.who}</small></span><span class="e-cat">${e.cat}</span><span class="e-amt">${e.curr}${Number(e.amt).toLocaleString()}</span></div>`;
         }).join('');
-        // 升級：除了顯示原始日幣加台幣，還利用動態匯率加總一個「預估台幣總花費」
-        let totalStr = '';
-        if (jpy > 0) totalStr += `¥${jpy.toLocaleString()}`;
-        if (jpy > 0 && ntd > 0) totalStr += ' ＋ ';
-        if (ntd > 0) totalStr += `NT$${ntd.toLocaleString()}`;
-        
         let combinedTwd = Math.round(ntd + (jpy * globalExchangeRate));
-        totalStr += `<br><small style="font-size:12px; opacity:0.8;">📈 依自訂匯率全折合台幣約：NT$ ${combinedTwd.toLocaleString()}</small>`;
-        total.innerHTML = '💰 累計支出：' + totalStr;
+        total.innerHTML = `💰 累計：¥${jpy.toLocaleString()} ＋ NT$${ntd.toLocaleString()}<br><small>折合台幣約：NT$ ${combinedTwd.toLocaleString()}</small>`;
         total.style.display = 'block';
     } catch(e) {
-        list.innerHTML = '<div class="checkin-empty">❌ 無法讀取帳本，請確認網路連線。</div>';
+        list.innerHTML = '<div class="checkin-empty">❌ 讀取失敗</div>';
     }
 }
-// ===== 📍 雲端打卡功能 =====
 async function submitCheckin() {
     const member = document.getElementById('ci-member').value;
     const place = document.getElementById('ci-place').value;
     const msg = document.getElementById('ci-msg').value.trim();
     const status = document.getElementById('ci-status');
-    if (!member || !place) { status.className = 'checkin-status error'; status.textContent = '⚠️ 請選擇團員和景點！'; return; }
-    status.className = 'checkin-status';
+    if (!member || !place) { status.textContent = '⚠️ 請選擇團員和景點！'; return; }
     status.textContent = '📡 傳送中...';
     const params = new URLSearchParams({ action: 'checkin', member, place, msg });
     try {
         await fetch(GAS_URL + '?' + params.toString());
-        status.className = 'checkin-status success';
-        status.textContent = `✅ ${member} 打卡成功！`;
+        status.textContent = `✅ 打卡成功！`;
         document.getElementById('ci-msg').value = '';
         loadCheckinLog();
     } catch(e) {
-        status.className = 'checkin-status error';
-        status.textContent = '❌ 傳送失敗，請稍後再試';
+        status.textContent = '❌ 失敗';
     }
 }
 async function loadCheckinLog() {
     try {
         const res = await fetch(GAS_URL + '?action=getCheckins');
         const data = await res.json();
-        
-        if (data && data.length > 0) {
-            localStorage.setItem('checkins', JSON.stringify(data));
-            renderCheckinLog(data);
-            renderLiveBanner(data);
-        } else {
-            renderCheckinLog([]);
-            renderLiveBanner([]);
-        }
+        renderCheckinLog(data);
     } catch(e) {
-        const local = JSON.parse(localStorage.getItem('checkins') || '[]');
-        renderCheckinLog(local);
-        renderLiveBanner(local);
+        renderCheckinLog([]);
     }
 }
 function renderCheckinLog(list) {
     const container = document.getElementById('checkin-log-list');
-    if (!list || list.length === 0) {
-        container.innerHTML = '<div class="checkin-empty">還沒有人打卡，快來第一個！</div>';
-        return;
-    }
-    const avatarColors = { '吳哥':'#1E3A8A', '吳嫂':'#d97706', '大舅子':'#10b981', '大舅嫂':'#8b5cf6', '語':'#ef4444', '呈':'#f97316' };
-    container.innerHTML = list.slice(0, 15).map(c => {
-        const localTime = formatLocalTime(c.time);
-        return `
-        <div class="checkin-item">
-            <div class="ci-header">
-                <span class="ci-name" style="color:${avatarColors[c.member] || '#5b21b6'}">👤 ${c.member}</span>
-                <span class="ci-time">${localTime}</span>
-            </div>
-            <div class="ci-place">📍 ${c.place}</div>
-            ${c.msg ? `<div class="ci-msg">「${c.msg}」</div>` : ''}
-        </div>
-        `;
-    }).join('');
+    if (!list || list.length === 0) { container.innerHTML = '<div class="checkin-empty">尚無打卡記錄</div>'; return; }
+    container.innerHTML = list.slice(0, 15).map(c => `<div class="checkin-item"><b>👤 ${c.member}</b> ➔ ${c.place}<br><small>${c.msg || ''}</small></div>`).join('');
 }
-function renderLiveBanner(list) {
-    const area = document.getElementById('live-checkin-area');
-    const listEl = document.getElementById('live-checkin-list');
-    if (!list || list.length === 0) { area.style.display = 'none'; return; }
-    const avatarColors = { '吳哥':'#A5B4FC', '吳嫂':'#FCD34D', '大舅子':'#6EE7B7', '大舅嫂':'#C4B5FD', '語':'#FCA5A5', '呈':'#FDBA74' };
-    
-    const latest = {};
-    list.forEach(c => { if (!latest[c.member]) latest[c.member] = c; });
-    
-    listEl.innerHTML = Object.values(latest).map(c => {
-        const localTime = formatLocalTime(c.time);
-        return `
-        <div class="live-checkin-item">
-            <div class="live-avatar" style="background:${avatarColors[c.member] || 'rgba(255,255,255,0.2)'}; color:#1e1e1e;">${c.member[0]}</div>
-            <div class="live-info">
-                <span class="live-place">${c.member} 在 ${c.place}</span>
-                ${c.msg ? `<div class="live-msg">${c.msg}</div>` : ''}
-            </div>
-            <span class="live-time">${localTime}</span>
-        </div>
-        `;
-    }).join('');
-    area.style.display = 'block';
-}
-// ===== 頁面載入初始化 =====
 document.addEventListener('DOMContentLoaded', () => {
-    // 優先讀取暫存的自訂匯率
     const savedRate = localStorage.getItem('user_global_rate');
-    if (savedRate) {
-        globalExchangeRate = parseFloat(savedRate);
-        document.getElementById('global-rate').value = savedRate;
-    }
+    if (savedRate) { globalExchangeRate = parseFloat(savedRate); document.getElementById('global-rate').value = savedRate; }
     updateBudgetTable();
-    // 初始化清單
-    document.querySelectorAll('.check-item input[type="checkbox"]').forEach(box => {
-        if (localStorage.getItem(box.id) === 'true') box.checked = true;
-        box.addEventListener('change', function() { localStorage.setItem(this.id, this.checked); });
-    });
-    // 初始化票券 (替換預設卡別設定)
-    document.querySelectorAll('.ticket-card').forEach((card, idx) => {
-        const saved = localStorage.getItem('ticket_' + idx);
-        if (saved) applyTicketBought(card, JSON.parse(saved));
-    });
-    // 初始化美食
-    ['food-1','food-2','food-3','food-4'].forEach(id => {
-        if (localStorage.getItem('food_' + id)) {
-            const card = document.getElementById(id);
-            if (card) {
-                const btn = card.querySelector('.food-visited-btn');
-                const stamp = card.querySelector('.food-visited-stamp');
-                btn.classList.add('visited');
-                btn.textContent = '✅ 已去過';
-                stamp.classList.add('show');
-                card.style.opacity = '0.7';
-            }
-        }
-    });
-    // 初始化打卡身份
-    const memberSelect = document.getElementById('ci-member');
-    if (memberSelect) {
-        const savedId = localStorage.getItem('travel_identity');
-        if (savedId) memberSelect.value = savedId;
-        memberSelect.addEventListener('change', function() { localStorage.setItem('travel_identity', this.value); });
-    }
     loadCheckinLog();
     loadExpenses();
 });
