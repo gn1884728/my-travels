@@ -143,6 +143,14 @@
         .flight-number { text-align: center; margin-top: 8px; font-size: 12px; opacity: 0.8; letter-spacing: 0.05em; }
         .flight-divider { height: 1px; background: rgba(255,255,255,0.15); margin: 10px 0; }
         .starlux-gold { color: #f0c060; }
+        
+        /* 🛠️ 行程卡片動態操作按鈕樣式 (AI 為您加入的) */
+        .card-actions { position: absolute; top: 12px; right: 12px; display: flex; gap: 4px; z-index: 10; }
+        .action-btn { background: #f1f5f9; border: none; border-radius: 4px; width: 24px; height: 24px; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #475569; transition: background 0.2s; }
+        .action-btn:hover { background: #e2e8f0; color: #1e293b; }
+        .action-btn.delete:hover { background: #fee2e2; color: #dc2626; }
+        .add-card-btn { background: #f8fafc; border: 2px dashed #cbd5e1; color: #64748b; width: 100%; padding: 12px; border-radius: 12px; font-weight: bold; cursor: pointer; text-align: center; margin-top: 10px; transition: all 0.2s; }
+        .add-card-btn:hover { background: #f1f5f9; border-color: #94a3b8; color: #1e293b; }
     </style>
 </head>
 <body>
@@ -172,7 +180,8 @@
                 <a href="https://tenki.jp/forecast/2/7/3410/4100/" target="_blank" class="weather-btn">⛅ 天氣</a>
             </div>
             <!-- ✈️ 星宇去程航班卡片 -->
-            <div class="flight-card starlux">
+            <div class="flight-card starlux" style="position:relative;">
+                <div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div>
                 <div class="flight-airline">
                     <span>✦ STARLUX AIRLINES 星宇航空</span>
                     <span class="flight-class-badge">商務艙 Business</span>
@@ -207,23 +216,24 @@
                 </div>
                 <div class="flight-number">JX 862 ｜ 實際營運：STARLUX AIRLINES</div>
             </div>
-            <div class="card"><span class="time">08:30</span><div class="event-group">
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">08:30</span><div class="event-group">
                 <div class="event">專車機場接送 🚗</div>
                 <div class="desc">搭乘預約之機場接送專車，於 08:30出發前往桃園機場第一航廈。</div>
             </div></div>
-            <div class="card"><span class="time">09:30</span><div class="event-group">
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">09:30</span><div class="event-group">
                 <div class="event">星宇貴賓室 ✨</div>
                 <div class="desc">夫妻憑商務艙機票，使用一航廈星宇貴賓室 (Galactic Lounge) 享用精緻早餐與休息。</div>
             </div></div>
-            <div class="card highlight"><span class="time">11:50</span><div class="event-group">
+            <div class="card highlight" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">11:50</span><div class="event-group">
                 <div class="event">星宇 JX862 (商務艙) ✈️</div>
                 <div class="desc">11:50 桃園起飛，16:00 降落仙台機場。</div>
             </div></div>
-            <div class="card"><span class="time">16:30</span><div class="event-group">
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">16:30</span><div class="event-group">
                 <div class="event">機場移動至仙台市區 🚆</div>
                 <div class="desc">降落後搭乘「仙台機場線 (Sendai Airport Line)」電車（約 17 分鐘，車資 ¥660/人）直達仙台站，出西口步行至 Comfort Hotel 辦理 Check-in。</div>
             </div></div>
-            <div class="card">
+            <div class="card" style="position:relative;">
+                <div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div>
                 <span class="time">晚間</span>
                 <div class="event-group">
                     <div class="event">仙台市區</div>
@@ -232,6 +242,7 @@
                     <a href="https://maps.app.goo.gl/YourComfortHotelLink" class="btn-map" target="_blank">📍 導航至 Comfort Hotel Sendai West</a>
                 </div>
             </div>
+            <button class="add-card-btn" onclick="addNewCard(this)">➕ 在此日新增自訂行程</button>
         </div>
         
         <!-- D2 (10/26 一) -->
@@ -240,29 +251,30 @@
                 <span>D2 (10/26 一) | 仙台 ➔ 安比高原</span>
                 <a href="https://tenki.jp/forecast/2/7/3410/4100/" target="_blank" class="weather-btn">⛅ 天氣</a>
             </div>
-            <div class="card" style="background: #e0f2fe; border-left: 4px solid #0284c7;">
+            <div class="card" style="background: #e0f2fe; border-left: 4px solid #0284c7; position:relative;">
+                <div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div>
                 <div class="event" style="color: #0369a1;">🗺️ 東北 48H 自駕總路線圖</div>
                 <div class="desc" style="color: #0c4a6e;">包含仙台 ➔ 松島 ➔ 安比的完整動線導航。</div>
                 <a href="https://www.google.com/maps/dir/Toyota+Rent-A-Car+Sendai+Station+West+Entrance/松島海岸/安比高原全日空皇冠假日度假酒店/" class="btn-link" style="background: #0284c7; color: white; margin-top: 8px;" target="_blank">📍 點我開啟 Google Map 總路線</a>
             </div>
-            <div class="card"><span class="time">09:40</span><div class="event-group">
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">09:40</span><div class="event-group">
                 <div class="event">仙台站西口取車 🚗</div>
                 <div class="desc">飯店退房步行 2 分鐘，前往 Toyota 仙台站西口店辦理手續。10:00 準時將大行李上車出發。</div>
                 <a href="https://maps.app.goo.gl/YourLink" class="btn-map" target="_blank">📍 導航至 Toyota 仙台站西口店</a>
             </div></div>
-            <div class="card"><span class="time">10:40</span><div class="event-group">
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">10:40</span><div class="event-group">
                 <div class="event">松島海岸吃鮮蚵 🦪</div>
                 <div class="desc">免去搭車寄物，直達日本三景「松島」，品嚐秋季剛解禁的現烤肥美鮮蚵。</div>
                 <div class="drive-info">🚗 距取車點：約 27.2 km / 36 分鐘</div>
                 <a href="https://maps.app.goo.gl/o1H432xSStjQ4F128" class="btn-map" target="_blank">📍 導航至松島海岸</a>
             </div></div>
-            <div class="card highlight"><span class="time">13:00</span><div class="event-group">
+            <div class="card highlight" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">13:00</span><div class="event-group">
                 <div class="event">奔向安比高原度假 🍁</div>
                 <div class="desc">駛上東北自動車道一路向北。抵達後辦理入住。</div>
                 <div class="drive-info">🚗 距松島：約 228 km / 2.5 小時</div>
                 <a href="https://maps.app.goo.gl/eohJHsWErSw6etNf7" class="btn-map" target="_blank">📍 導航至安比高原全日空皇冠假日度假酒店</a>
             </div></div>
-            <div class="card"><span class="time">晚間</span><div class="event-group">
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">晚間</span><div class="event-group">
                 <div class="event">白樺之湯溫泉 ♨️ ＆ 晚餐推薦</div>
                 <div class="desc">
                     • <strong>溫泉</strong>：享受飯店著名的「白樺之湯」露天溫泉，洗滌開車疲憊。<br>
@@ -270,6 +282,7 @@
                 </div>
                 <br><div class="hotel-tag">🏨 宿：安比高原全日空皇冠假日度假酒店</div>
             </div></div>
+            <button class="add-card-btn" onclick="addNewCard(this)">➕ 在此日新增自訂行程</button>
         </div>
         
         <!-- D3 (10/27 二) -->
@@ -279,7 +292,8 @@
                 <a href="https://tenki.jp/forecast/2/8/3120/2202/" target="_blank" class="weather-btn">⛅ 天氣</a>
             </div>
             <!-- ✈️ 亞航去程航班卡片 FD234 -->
-            <div style="background:linear-gradient(135deg,#cc0000 0%,#ff2222 60%,#880000 100%);color:white;border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 4px 12px rgba(0,0,0,0.15);">
+            <div style="background:linear-gradient(135deg,#cc0000 0%,#ff2222 60%,#880000 100%);color:white;border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 4px 12px rgba(0,0,0,0.15);position:relative;">
+                <div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div>
                 <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;opacity:0.9;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;">
                     <span>✦ AIRASIA 泰國亞洲航空</span>
                     <span style="background:rgba(255,255,255,0.2);padding:2px 8px;border-radius:10px;font-size:10px;">經濟艙 Economy</span>
@@ -315,34 +329,35 @@
                 <div style="text-align:center;margin-top:8px;font-size:12px;opacity:0.8;">FD 234 ｜ Airbus A320neo</div>
             </div>
             
-            <div class="card highlight"><span class="time">08:30</span><div class="event-group">
+            <div class="card highlight" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">08:30</span><div class="event-group">
                 <div class="event">安比高原纜車賞楓 🚡</div>
                 <div class="desc">建議 08:30 前往搭乘安比高原纜車（成人票價約 ¥2,200/人），俯瞰滿山紅葉絕景。隨後退房出發。</div>
             </div></div>
-            <div class="card"><span class="time">10:30</span><div class="event-group">
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">10:30</span><div class="event-group">
                 <div class="event">直攻奧入瀨紅葉絕景 🍁</div>
                 <div class="desc">驅車直攻奧入瀨溪流。沿著經典溪谷步道（如石ヶ戸、銚子大滝）漫步健行、拍照。</div>
                 <div class="drive-info">🚗 距安比高原：約 97.9 km / 1 小時 40 分鐘</div>
                 <a href="https://maps.app.goo.gl/1duLjjMLDgiTjLwD7" class="btn-map" target="_blank">📍 導航至奧入瀨溪流 石戶休憩所</a>
             </div></div>
-            <div class="card"><span class="time">12:30</span><div class="event-group">
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">12:30</span><div class="event-group">
                 <div class="event">大舅子抵達東京</div>
                 <div class="desc">大舅子降落成田 ➔ 搭乘 Skyliner 前往上野。</div>
                 <div class="hotel-tag">🏨 大舅子宿：SOLASIA Residence 北上野 601</div>
             </div></div>
-            <div class="card highlight"><span class="time">15:15</span><div class="event-group">
+            <div class="card highlight" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">15:15</span><div class="event-group">
                 <div class="event">駛往盛岡市區 🚗</div>
                 <div class="desc">離開奧入瀨溪流，往南返回盛岡市區。</div>
                 <div class="drive-info">🚗 距奧入瀨：約 141 km / 2 小時 15 分鐘</div>
                 <a href="https://maps.app.goo.gl/YourLink" class="btn-map" style="background:#10b981;" target="_blank">📍 導航至 ART 飯店盛岡</a>
             </div></div>
-            <div class="card"><span class="time">晚間</span><div class="event-group">
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">晚間</span><div class="event-group">
                 <div class="event">盛岡市區散策與晚餐 🍜</div>
                 <div class="desc">
                     抵達後可至盛岡大通商圈散步，晚餐享用盛岡冷麵或燒肉。周邊停車場費用約為 **¥1,100 / 晚**。
                 </div>
                 <br><div class="hotel-tag">🏨 宿：ART飯店 盛岡</div>
             </div></div>
+            <button class="add-card-btn" onclick="addNewCard(this)">➕ 在此日新增自訂行程</button>
         </div>
         
         <!-- D4 (10/28 三) -->
@@ -351,7 +366,7 @@
                 <span>D4 (10/28 三) | 盛岡巡禮 ➔ 上野大合體</span>
                 <a href="https://tenki.jp/forecast/3/16/4410/13101/" target="_blank" class="weather-btn">⛅ 東京天氣</a>
             </div>
-            <div class="card"><span class="time">09:30</span><div class="event-group">
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">09:30</span><div class="event-group">
                 <div class="event">盛岡退房與還車 🚗</div>
                 <div class="desc">飯店退房，前往 Toyota 盛岡站南口店加滿油還車（精準控制 48 小時）。隨後將行李寄放於車站。</div>
                 <div class="drive-info">🚗 距飯店：約 600 公尺 / 3 分鐘</div>
@@ -359,7 +374,8 @@
             </div></div>
             
             <!-- 盛岡必訪景點 -->
-            <div class="card highlight" style="background:#fffbeb; border-left:4px solid #f59e0b;">
+            <div class="card highlight" style="background:#fffbeb; border-left:4px solid #f59e0b; position:relative;">
+                <div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div>
                 <div class="event" style="color:#b45309;">🏯 盛岡站出發：開運橋與城跡公園半日漫遊</div>
                 <div class="desc" style="color:#78350f; margin-bottom:10px;">
                     從盛岡站步行前往飯店或市區必經的浪漫地標與古城賞楓名所：
@@ -381,20 +397,21 @@
                 </div>
             </div>
 
-            <div class="card"><span class="time">15:17</span><div class="event-group">
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">15:17</span><div class="event-group">
                 <div class="event">新幹線直達東京上野 🚄</div>
                 <div class="desc">於車站領取行李後，搭乘 **Hayabusa 26 號**（15:17 盛岡發車 ➔ 17:26 抵達上野）。</div>
             </div></div>
-            <div class="card highlight"><span class="time">17:35</span><div class="event-group">
+            <div class="card highlight" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">17:35</span><div class="event-group">
                 <div class="event">上野飯店 Check-in 🏨</div>
                 <div class="desc">抵達上野站後，先至「東京上野喜來登福朋飯店」辦理入住並放好行李。</div>
                 <div class="hotel-tag">🏨 吳哥宿：東京上野喜來登福朋飯店</div>
             </div></div>
-            <div class="card highlight"><span class="time">19:00</span><div class="event-group">
+            <div class="card highlight" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">19:00</span><div class="event-group">
                 <div class="event">美國運通雙人美饌晚餐 🥂</div>
                 <div class="desc">與太太搭乘 **UBER** 從飯店前往 TORI bien 享用 19:00 的美國運通白金美饌晚餐。用餐完畢後返回上野與大舅子等人會合！</div>
                 <div class="hotel-tag">🏨 大舅子宿：SOLASIA Residence 北上野 601</div>
             </div></div>
+            <button class="add-card-btn" onclick="addNewCard(this)">➕ 在此日新增自訂行程</button>
         </div>
         
         <!-- D5 (10/29 四) -->
@@ -403,12 +420,13 @@
                 <span>D5 (10/29 四) | 關東自駕 D1 鎌倉</span>
                 <a href="https://tenki.jp/forecast/3/17/4610/14204/" target="_blank" class="weather-btn">⛅ 鎌倉天氣</a>
             </div>
-            <div class="card" style="background: #eff6ff; border-left: 4px solid #2563eb;">
+            <div class="card" style="background: #eff6ff; border-left: 4px solid #2563eb; position:relative;">
+                <div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div>
                 <div class="event" style="color: #1d4ed8;">🗺️ 關東富士 3 日自駕大環線</div>
                 <div class="desc" style="color: #1e3a8a;">串聯東京 ➔ Costco ➔ 橫濱 ➔ 鎌倉 ➔ 高尾山 ➔ 河口湖 ➔ 御殿場 ➔ 返回東京。</div>
                 <a href="https://www.google.com/maps/dir/トヨタレンタカー上野駅前店/コストコホールセール川崎倉庫店/ヨコハマグランドインターコンチネンタルホテル/鶴岡八幡宮/鎌倉高校前駅/高尾山ケーブルカー清滝駅/東横INN富士河口湖大橋/新倉富士浅間神社/御殿場プレミアム・アウトレット/トヨタレンタカー上野駅前店/" class="btn-link" style="background: #2563eb; color: white; margin-top: 8px;" target="_blank">📍 點我開啟 Google Map 總路線</a>
             </div>
-            <div class="card"><span class="time">08:30</span><div class="event-group">
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">08:30</span><div class="event-group">
                 <div class="event">東京上野站前店取車 🚗</div>
                 <div class="desc">
                     前往 TOYOTA Rent a Car 上野站前店取車（W2 級距：諾亞 HEV 7-8人座油電車），確認 6 人與大行李空間。<br>
@@ -416,25 +434,26 @@
                 </div>
                 <a href="https://maps.app.goo.gl/B9Z2KqE" class="btn-map" target="_blank">📍 導航至 Toyota 上野站前店</a>
             </div></div>
-            <div class="card"><span class="time">10:40</span><div class="event-group">
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">10:40</span><div class="event-group">
                 <div class="event">Costco 戰略補給 🛒</div>
                 <div class="desc">川崎店免稅採買零食。※ 結帳限用 Mastercard，需備護照。</div>
                 <div class="drive-info">🚗 距取車點：約 25 km / 40 分鐘</div>
                 <a href="https://maps.app.goo.gl/49eHFatWLpmrsMCdA" class="btn-map" target="_blank">📍 導航至東京川崎店 Costco</a>
             </div></div>
-            <div class="card"><span class="time">13:45</span><div class="event-group">
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">13:45</span><div class="event-group">
                 <div class="event">橫濱洲際卸載重物</div>
                 <div class="desc">辦理提早入住，卸載大行李。</div>
                 <div class="drive-info">🚗 距 Costco：約 15 km / 30 分鐘</div>
                 <a href="https://www.google.com/travel/hotels/s/g2i9DcuFeUbQMmQq7" class="btn-map" target="_blank">📍 導航至橫濱洲際酒店</a>
             </div></div>
-            <div class="card highlight"><span class="time">14:30</span><div class="event-group">
+            <div class="card highlight" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">14:30</span><div class="event-group">
                 <div class="event">鎌倉精華大滿貫 ⛩️</div>
                 <div class="desc">鶴岡八幡宮 ➔ 鎌倉大佛 ➔ 鎌倉高校前平交道日落 ➔ 18:00 返回橫濱洲際。</div>
                 <div class="drive-info">🚗 橫濱來回鎌倉：單趟約 25 km / 45 分鐘</div>
                 <a href="https://maps.app.goo.gl/qjyh7tUAHu1c7xK3A" class="btn-map" target="_blank">📍 導航至鶴岡八幡宮附設停車場</a>
                 <br><div class="hotel-tag">🏨 宿：橫濱洲際酒店 (房費 NT$3500 * 2間)</div>
             </div></div>
+            <button class="add-card-btn" onclick="addNewCard(this)">➕ 在此日新增自訂行程</button>
         </div>
         
         <!-- D6 (10/30 五) -->
@@ -443,32 +462,33 @@
                 <span>D6 (10/30 五) | 高尾山賞楓 ➔ 河口湖深度漫遊</span>
                 <a href="https://tenki.jp/forecast/3/22/4920/19430/" target="_blank" class="weather-btn">⛅ 河口湖天氣</a>
             </div>
-            <div class="card"><span class="time">08:30</span><div class="event-group">
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">08:30</span><div class="event-group">
                 <div class="event">橫濱出發</div>
                 <div class="desc">飯店退房出發，一路向西前往高尾山。</div>
             </div></div>
-            <div class="card"><span class="time">09:30</span><div class="event-group">
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">09:30</span><div class="event-group">
                 <div class="event">高尾山賞楓 🍁</div>
                 <div class="desc">搭乘纜車或吊椅上山，節省體力並欣賞關東紅葉。12:00 簡單午餐後離開。</div>
                 <div class="drive-info">🚗 距橫濱：約 60 km / 1 小時 15 分鐘</div>
                 <a href="https://maps.app.goo.gl/LAvkn8RfbpPP6NKBA" class="btn-map" target="_blank">📍 導航至高尾山纜車停車場</a>
             </div></div>
-            <div class="card highlight"><span class="time">13:30</span><div class="event-group">
+            <div class="card highlight" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">13:30</span><div class="event-group">
                 <div class="event">大石公園 🗻 (富士山絕景)</div>
                 <div class="desc">下午早點抵達河口湖，拍紅色掃帚草＋無遮蔽富士山全景。自然生活館可供休憩購物。</div>
                 <a href="https://maps.app.goo.gl/oWvV9RdWc5HkePJY6" class="btn-map" target="_blank">📍 導航至大石公園</a>
             </div></div>
-            <div class="card highlight"><span class="time">傍晚</span><div class="event-group">
+            <div class="card highlight" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">傍晚</span><div class="event-group">
                 <div class="event">河口湖楓葉隧道 🍂</div>
                 <div class="desc">秋季限定夜楓點燈，散步欣賞浪漫楓紅景色。</div>
                 <a href="https://maps.app.goo.gl/6FVkbvdEQjVZ8mGw8" class="btn-map" target="_blank">📍 導航至河口湖楓葉隧道</a>
             </div></div>
-            <div class="card"><span class="time">17:30</span><div class="event-group">
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">17:30</span><div class="event-group">
                 <div class="event">河口湖東橫 INN Check-in 🏨</div>
                 <div class="desc">辦理入住，晚餐可於周邊享用餺飥麵 (小作或不動) 或大型超市採買。</div>
                 <a href="https://maps.app.goo.gl/DAY5AJoj7PcRCQpY8" class="btn-map" style="background:#10b981;" target="_blank">📍 導航至河口湖東橫 INN</a>
                 <br><div class="hotel-tag">🏨 宿：河口湖東橫 INN (3間共 ¥41,300)</div>
             </div></div>
+            <button class="add-card-btn" onclick="addNewCard(this)">➕ 在此日新增自訂行程</button>
         </div>
         
         <!-- D7 (10/31 六) -->
@@ -477,30 +497,31 @@
                 <span>D7 (10/31 六) | 天上山 ➔ 御殿場 Outlet 爆買 ➔ 東京</span>
                 <a href="https://tenki.jp/forecast/3/16/4410/13101/" target="_blank" class="weather-btn">⛅ 東京天氣</a>
             </div>
-            <div class="card highlight"><span class="time">09:00</span><div class="event-group">
+            <div class="card highlight" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">09:00</span><div class="event-group">
                 <div class="event">天上山公園纜車 🚡</div>
                 <div class="desc">清晨富士山能見度最高黃金時段，現場購買纜車票俯瞰湖景。每人 ¥1,700。</div>
                 <a href="https://maps.app.goo.gl/Dgs43ocicHhMS9xQ9" class="btn-map" target="_blank">📍 導航至河口湖纜車</a>
             </div></div>
-            <div class="card"><span class="time">11:00</span><div class="event-group">
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">11:00</span><div class="event-group">
                 <div class="event">新倉山淺間神社</div>
                 <div class="desc">富士山經典五重塔絕景拍攝。</div>
                 <div class="drive-info">🚗 距天上山：約 5 km / 15 分鐘</div>
                 <a href="https://maps.app.goo.gl/UtuaacWW1zFDWYnt5" class="btn-map" target="_blank">📍 導航至新倉山淺間神社第2駐車場</a>
             </div></div>
-            <div class="card highlight"><span class="time">13:30</span><div class="event-group">
+            <div class="card highlight" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">13:30</span><div class="event-group">
                 <div class="event">御殿場 Outlet 爆買 🛍️ (移至今日)</div>
                 <div class="desc">趁退稅新制上路前，全家集中火力大爆買 3 小時。16:30 離開。</div>
                 <div class="drive-info">🚗 距新倉山：約 45 km / 50 分鐘</div>
                 <a href="https://maps.app.goo.gl/PqJrYLgem2oqhWwF8" class="btn-map" target="_blank">📍 導航至御殿場 PREMIUM OUTLETS</a>
             </div></div>
-            <div class="card"><span class="time">20:00</span><div class="event-group">
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">20:00</span><div class="event-group">
                 <div class="event">返回東京上野還車 🚗</div>
                 <div class="desc">由御殿場開回東京上野站前店歸還 W2 車款（20:00 準時還車）。</div>
                 <div class="drive-info">🚗 距御殿場：約 100 km / 1 小時 40 分鐘</div>
                 <a href="https://maps.app.goo.gl/B9Z2KqE" class="btn-map" target="_blank">📍 導航至 Toyota 上野站前店 (還車)</a>
                 <br><div class="hotel-tag">🏨 宿：東京上野喜來登福朋飯店｜萬豪官網 ¥25,112（≒ NT$4,947）</div>
             </div></div>
+            <button class="add-card-btn" onclick="addNewCard(this)">➕ 在此日新增自訂行程</button>
         </div>
         
         <!-- D8 (11/01 日) -->
@@ -510,7 +531,8 @@
                 <a href="https://tenki.jp/forecast/3/15/4510/12211/" target="_blank" class="weather-btn">⛅ 成田天氣</a>
             </div>
             <!-- ✈️ 華航回程航班卡片 -->
-            <div class="flight-card china-airlines">
+            <div class="flight-card china-airlines" style="position:relative;">
+                <div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div>
                 <div class="flight-airline">
                     <span>✦ CHINA AIRLINES 中華航空</span>
                     <span class="flight-class-badge">經濟艙 Economy</span>
@@ -545,19 +567,20 @@
                 </div>
                 <div class="flight-number">CI 0101 ｜ CHINA AIRLINES 中華航空</div>
             </div>
-            <div class="card"><span class="time">11:00</span><div class="event-group">
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">11:00</span><div class="event-group">
                 <div class="event">搭乘 Skyliner 前往機場 🚄</div>
                 <div class="desc">搭乘 Skyliner 33 班次，11:41 抵達成田第二航廈。</div>
             </div></div>
-            <div class="card highlight"><span class="time">12:00</span><div class="event-group">
+            <div class="card highlight" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">12:00</span><div class="event-group">
                 <div class="event">機場貴賓室與返台 ✈️</div>
                 <div class="desc">成田機場二航廈 PP 或龍騰使用虛空貴賓室，華航金卡使用自營貴賓室。(華航 CI0101 14:35 起飛)。</div>
             </div></div>
-            <div class="card"><span class="time">下午</span><div class="event-group">
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">下午</span><div class="event-group">
                 <div class="event">大舅子一家移動至成田機場周邊飯店</div>
                 <div class="desc">帶著行李移動至成田日航酒店。晚間可於 1F LAWSON 採買，或搭乘接駁車前往成田 AEON MALL 做最後逛街衝刺。</div>
                 <div class="hotel-tag">🏨 宿：成田日航酒店 (NT$4500/晚)</div>
             </div></div>
+            <button class="add-card-btn" onclick="addNewCard(this)">➕ 在此日新增自訂行程</button>
         </div>
         
         <!-- D9 (11/02 一) -->
@@ -567,7 +590,8 @@
                 <a href="https://tenki.jp/forecast/3/15/4510/12211/" target="_blank" class="weather-btn">⛅ 成田天氣</a>
             </div>
             <!-- ✈️ 亞航回程航班卡片 FD235 -->
-            <div class="flight-card" style="background:linear-gradient(135deg,#cc0000 0%,#ff2222 60%,#880000 100%);color:white;border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 4px 12px rgba(0,0,0,0.15);">
+            <div class="flight-card" style="background:linear-gradient(135deg,#cc0000 0%,#ff2222 60%,#880000 100%);color:white;border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 4px 12px rgba(0,0,0,0.15); position:relative;">
+                <div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div>
                 <div class="flight-airline" style="font-size:11px;font-weight:700;letter-spacing:0.1em;opacity:0.9;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;">
                     <span>✦ AIRASIA 泰國亞洲航空</span>
                     <span class="flight-class-badge" style="background:rgba(255,255,255,0.2);padding:2px 8px;border-radius:10px;font-size:10px;">經濟艙 Economy</span>
@@ -602,14 +626,15 @@
                 </div>
                 <div style="text-align:center;margin-top:8px;font-size:12px;opacity:0.8;letter-spacing:0.05em;">FD 235 ｜ Airbus A320neo</div>
             </div>
-            <div class="card"><span class="time">10:30</span><div class="event-group">
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">10:30</span><div class="event-group">
                 <div class="event">搭乘接駁車 🚌</div>
                 <div class="desc">於飯店門口搭乘「免費機場接駁巴士」前往成田機場第二航廈。</div>
             </div></div>
-            <div class="card highlight"><span class="time">13:30</span><div class="event-group">
+            <div class="card highlight" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">13:30</span><div class="event-group">
                 <div class="event">搭機返家 ✈️</div>
                 <div class="desc">大舅子一家搭乘亞航 (AirAsia) FD235 班機返回高雄小港機場。旅途圓滿結束！</div>
             </div></div>
+            <button class="add-card-btn" onclick="addNewCard(this)">➕ 在此日新增自訂行程</button>
         </div>
     </div>
 </div>
@@ -836,6 +861,53 @@
 </div>
 
 <script>
+// ↕️ 行程卡片上下移動、刪除與新增的互動邏輯 (AI為您專屬加入)
+function moveCard(btn, direction) {
+    const card = btn.closest('.card') || btn.closest('.flight-card') || btn.closest('div[style*="linear-gradient"]');
+    if (!card) return;
+    const container = card.parentNode;
+    const cards = Array.from(container.children).filter(el => el.classList.contains('card') || el.classList.contains('flight-card') || (el.hasAttribute('style') && el.getAttribute('style').includes('linear-gradient')));
+    const index = cards.indexOf(card);
+    
+    if (direction === -1 && index > 0) {
+        container.insertBefore(card, cards[index - 1]);
+    } else if (direction === 1 && index < cards.length - 1) {
+        container.insertBefore(cards[index + 1], card);
+    }
+}
+
+function deleteCard(btn) {
+    if (!confirm('確定要刪除這個行程嗎？')) return;
+    const card = btn.closest('.card') || btn.closest('.flight-card') || btn.closest('div[style*="linear-gradient"]');
+    if (card) card.remove();
+}
+
+function addNewCard(btn) {
+    const dayContent = btn.closest('.day-content');
+    const time = prompt('請輸入時間（例如 14:00）：', '14:00');
+    if (!time) return;
+    const title = prompt('請輸入行程標題：', '新景點');
+    if (!title) return;
+    const desc = prompt('請輸入行程詳細描述：', '');
+    
+    const newCard = document.createElement('div');
+    newCard.className = 'card';
+    newCard.style.position = 'relative';
+    newCard.innerHTML = `
+        <div class="card-actions">
+            <button class="action-btn" onclick="moveCard(this, -1)">▲</button>
+            <button class="action-btn" onclick="moveCard(this, 1)">▼</button>
+            <button class="action-btn delete" onclick="deleteCard(this)">✕</button>
+        </div>
+        <span class="time">${time}</span>
+        <div class="event-group">
+            <div class="event">${title}</div>
+            <div class="desc">${desc}</div>
+        </div>
+    `;
+    dayContent.insertBefore(newCard, btn);
+}
+
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbz-Ut5BZXa4daIX_BylaaaC8LlWWlj-EQKUgq9mIoyMddZwFAz-nlSTlYqiw37376Iw/exec';
 let globalExchangeRate = 0.215;
 function updateGlobalRate(val) {
