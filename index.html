@@ -551,7 +551,7 @@
                 </table>`;
         }
 
-        // IHG 精算邏輯 (分離哩程與積分活動邏輯)
+        // IHG 精算邏輯 (依照使用者指令：將 UI 與底層母數皆修改為「會籍積分 tierPoints」)
         function drawIhgCalc() {
             const container = document.getElementById('ihg_calc_table_result'); 
             if (!container) return;
@@ -581,15 +581,17 @@
             let promoBonus = 0;
             if (promoType === '4n8k') promoBonus = nights * 2000;
             else if (promoType === '2n2k') promoBonus = nights * 1000;
-            else if (promoType === 'double') promoBonus = basePoints; 
-            else if (promoType === 'triple') promoBonus = basePoints * 2; 
+            // 根據使用者指示，促銷母數一律改為「會籍積分 tierPoints」
+            else if (promoType === 'double') promoBonus = tierPoints; 
+            else if (promoType === 'triple') promoBonus = tierPoints * 2; 
             
             const scenarios = [{ name: "基本累積<br>(基礎+會籍)", pts: basePoints + tierPoints + welcomeGift, promo: 0 }];
             
             if (promoType !== '0') {
                 let promoName = "疊加活動加贈";
-                if(promoType === 'double') promoName = "🔥 雙倍積分 (2x)<br><span class='text-[10px] text-gray-500 font-normal'>額外贈 1x 基礎分</span>";
-                if(promoType === 'triple') promoName = "🔥🔥🔥 Q4 三倍積分<br><span class='text-[10px] text-gray-500 font-normal'>額外贈 2x 基礎分</span>";
+                // 介面文字同步改為「額外贈會籍積分」
+                if(promoType === 'double') promoName = "🔥 雙倍積分 (2x)<br><span class='text-[10px] text-gray-500 font-normal'>額外贈 1x 會籍積分</span>";
+                if(promoType === 'triple') promoName = "🔥🔥🔥 Q4 三倍積分<br><span class='text-[10px] text-gray-500 font-normal'>額外贈 2x 會籍積分</span>";
                 scenarios.push({ name: promoName, pts: basePoints + tierPoints + welcomeGift + promoBonus, promo: promoBonus });
             }
             
@@ -597,8 +599,6 @@
                 const pointValueNTD = Math.round(s.pts * 0.15); 
                 const pointNetRoomCost = totalCostNTD - pointValueNTD; 
                 
-                // 修正：選擇累積航空哩程時，無法享有任何「促銷活動積分 (s.promo)」。
-                // 僅保留會員 check-in 時可能獨立給予的「迎賓點數 (welcomeGift)」
                 const evaExtraPts = welcomeGift; 
                 const evaExtraValueNTD = Math.round(evaExtraPts * 0.15);
                 const totalEvaValueNTD = 225 + evaExtraValueNTD;
