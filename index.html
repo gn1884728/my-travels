@@ -38,6 +38,7 @@
 
     <main id="app" class="flex-1 p-4 overflow-y-auto pb-28"></main>
 
+    <!-- 底部導覽列 -->
     <nav class="bg-white border-t flex justify-between p-3 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.1)] fixed bottom-0 w-full max-w-md mx-auto z-50 text-[11px]">
         <button onclick="render('food', event)" class="flex flex-col items-center text-gray-600 hover:text-blue-600 w-1/6 transition-colors">
             <i class="fas fa-gift text-lg mb-1"></i>優惠
@@ -48,8 +49,9 @@
         <button onclick="render('lounge', event)" class="flex flex-col items-center text-gray-600 hover:text-blue-600 w-1/6 transition-colors">
             <i class="fas fa-couch text-lg mb-1"></i>貴賓室
         </button>
+        <!-- 已更名為「信用卡」 -->
         <button onclick="render('cube_calc', event)" class="flex flex-col items-center text-gray-600 hover:text-blue-600 w-1/6 transition-colors">
-            <i class="fas fa-credit-card text-lg mb-1"></i>CUBE
+            <i class="fas fa-credit-card text-lg mb-1"></i>信用卡
         </button>
         <button onclick="render('calc_mileage', event)" class="flex flex-col items-center text-blue-600 font-bold w-1/6 transition-colors">
             <i class="fas fa-calculator text-lg mb-1"></i>精算哩程
@@ -198,7 +200,7 @@
                 app.innerHTML = `
                     <div class="bg-white p-5 rounded-2xl shadow mb-10 border-t-4 border-blue-600">
                         <h3 class="font-bold text-lg mb-3 text-center text-blue-800">🚀 已遷移至專屬 APP</h3>
-                        <p class="text-sm text-gray-600 text-center mb-4 leading-relaxed">我們已為信用卡決策打造了專屬的全新全螢幕 APP，支援三卡切換與智慧封頂計算！</p>
+                        <p class="text-sm text-gray-600 text-center mb-4 leading-relaxed">我們已為信用卡決策打造了專屬的全新全螢幕 APP，支援多卡切換與智慧封頂計算！</p>
                         <a href="https://card.fongarea.com" target="_blank" class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl text-center shadow transition-colors">
                             前往【信用卡切換速查】
                         </a>
@@ -551,7 +553,7 @@
                 </table>`;
         }
 
-        // IHG 精算邏輯 (依照使用者指令：將 UI 與底層母數皆修改為「會籍積分 tierPoints」)
+        // IHG 精算邏輯
         function drawIhgCalc() {
             const container = document.getElementById('ihg_calc_table_result'); 
             if (!container) return;
