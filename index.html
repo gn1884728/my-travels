@@ -320,7 +320,7 @@
                         </table>
                     </div>
 
-                    <!-- IHG 精算區塊 (修正版，移除4x選項) -->
+                    <!-- IHG 精算區塊 -->
                     <div class="bg-white p-5 rounded-2xl shadow mb-8">
                         <h3 class="font-bold text-lg mb-4 text-center text-orange-600">IHG 積分 vs 長榮哩程 精算</h3>
                         <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
@@ -360,13 +360,13 @@
                         </div>
                         <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
                             <div>
-                                <label class="block text-gray-500 text-[11px] mb-1 font-bold">每晚加贈活動</label>
-                                <select id="ihg_calc_per_night_bonus" onchange="drawIhgCalc()" class="w-full p-2.5 border rounded-xl bg-gray-50">
-                                    <option value="0">無</option>
+                                <label class="block text-rose-600 text-[11px] mb-1 font-bold">當季檔期活動</label>
+                                <select id="ihg_calc_per_night_bonus" onchange="drawIhgCalc()" class="w-full p-2.5 border rounded-xl bg-rose-50 text-rose-800 font-bold border-rose-200">
+                                    <option value="triple" selected>🔥🔥🔥 10/1-12/31 三倍積分 (3x)</option>
+                                    <option value="0">無加贈活動</option>
+                                    <option value="double">🔥🔥 雙倍積分 (2x)</option>
                                     <option value="4n8k">4N8K</option>
                                     <option value="2n2k">2N2K</option>
-                                    <option value="double">🔥🔥 雙倍積分 (2x)</option>
-                                    <option value="triple">🔥🔥🔥 三倍積分 (3x)</option>
                                 </select>
                             </div>
                             <div>
@@ -551,7 +551,7 @@
                 </table>`;
         }
 
-        // IHG 精算邏輯 (升級版：支援3倍數促銷演算法)
+        // IHG 精算邏輯 (分離哩程與積分活動邏輯)
         function drawIhgCalc() {
             const container = document.getElementById('ihg_calc_table_result'); 
             if (!container) return;
@@ -581,15 +581,15 @@
             let promoBonus = 0;
             if (promoType === '4n8k') promoBonus = nights * 2000;
             else if (promoType === '2n2k') promoBonus = nights * 1000;
-            else if (promoType === 'double') promoBonus = basePoints; // 2x = 多送1倍基礎
-            else if (promoType === 'triple') promoBonus = basePoints * 2; // 3x = 多送2倍基礎
+            else if (promoType === 'double') promoBonus = basePoints; 
+            else if (promoType === 'triple') promoBonus = basePoints * 2; 
             
             const scenarios = [{ name: "基本累積<br>(基礎+會籍)", pts: basePoints + tierPoints + welcomeGift, promo: 0 }];
             
             if (promoType !== '0') {
                 let promoName = "疊加活動加贈";
                 if(promoType === 'double') promoName = "🔥 雙倍積分 (2x)<br><span class='text-[10px] text-gray-500 font-normal'>額外贈 1x 基礎分</span>";
-                if(promoType === 'triple') promoName = "🔥🔥 三倍積分 (3x)<br><span class='text-[10px] text-gray-500 font-normal'>額外贈 2x 基礎分</span>";
+                if(promoType === 'triple') promoName = "🔥🔥🔥 Q4 三倍積分<br><span class='text-[10px] text-gray-500 font-normal'>額外贈 2x 基礎分</span>";
                 scenarios.push({ name: promoName, pts: basePoints + tierPoints + welcomeGift + promoBonus, promo: promoBonus });
             }
             
@@ -597,14 +597,16 @@
                 const pointValueNTD = Math.round(s.pts * 0.15); 
                 const pointNetRoomCost = totalCostNTD - pointValueNTD; 
                 
-                const evaExtraPts = welcomeGift + s.promo; 
+                // 修正：選擇累積航空哩程時，無法享有任何「促銷活動積分 (s.promo)」。
+                // 僅保留會員 check-in 時可能獨立給予的「迎賓點數 (welcomeGift)」
+                const evaExtraPts = welcomeGift; 
                 const evaExtraValueNTD = Math.round(evaExtraPts * 0.15);
                 const totalEvaValueNTD = 225 + evaExtraValueNTD;
                 const evaNetRoomCost = totalCostNTD - totalEvaValueNTD;
                 
                 let evaDisplay = `500哩<br><span class="text-[10px] text-gray-500">(NT$ 225)</span>`;
                 if (evaExtraPts > 0) {
-                    evaDisplay = `500哩<br><span class="text-rose-500 font-bold">+${evaExtraPts.toLocaleString()}點</span><br><span class="text-[10px] text-gray-500">(總值 NT$ ${totalEvaValueNTD.toLocaleString()})</span>`;
+                    evaDisplay = `500哩<br><span class="text-orange-500 font-bold">+${evaExtraPts.toLocaleString()}點(迎賓)</span><br><span class="text-[10px] text-gray-500">(總值 NT$ ${totalEvaValueNTD.toLocaleString()})</span>`;
                 }
 
                 const pointNetText = pointNetRoomCost <= 0 ? `倒賺 NT$ ${Math.abs(pointNetRoomCost).toLocaleString()}` : `NT$ ${pointNetRoomCost.toLocaleString()}`;
