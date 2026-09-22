@@ -124,7 +124,6 @@
             render('calc_mileage'); 
         });
 
-        // 萬豪轉點合作航司完整清單
         const marriottAirlines = [
             { id: 'AS', name: '阿拉斯加航空 (Alaska Mileage Plan)', ratio: '3:1 (6萬送5千)', bonus: true },
             { id: 'AC', name: '加拿大航空 (Air Canada Aeroplan)', ratio: '3:1 (6萬送5千)', bonus: true },
@@ -146,7 +145,16 @@
             { id: 'MH', name: '馬來西亞航空 (Malaysia Airlines Enrich)', ratio: '3:1 (6萬送5千)', bonus: true }
         ];
 
-        // 切換收合面板邏輯
+        // 點擊頂部按鈕直接滑動展開對應面板
+        function scrollToCard(id) {
+            const content = document.getElementById(id);
+            if (!content.classList.contains('expanded')) {
+                content.classList.add('expanded');
+                content.parentElement.classList.add('ring-2', 'ring-blue-400');
+            }
+            content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
         function toggleAccordion(id) {
             const content = document.getElementById(id);
             const container = content.parentElement;
@@ -157,11 +165,9 @@
 
         function switchMarriottAirline(airlineId) {
             const selected = marriottAirlines.find(a => a.id === airlineId);
-            const titleEl = document.getElementById('m-airline-title');
             const bonusEl = document.getElementById('m-airline-bonus');
-            if(selected) {
-                if(titleEl) titleEl.innerHTML = `<i class="fas fa-exchange-alt mr-2 text-blue-600"></i>萬豪轉點 【${selected.name}】`;
-                if(bonusEl) bonusEl.innerText = `兌換比例：${selected.ratio}`;
+            if(selected && bonusEl) {
+                bonusEl.innerText = `兌換比例：${selected.ratio}`;
             }
             calcMCost();
         }
@@ -268,7 +274,39 @@
                 let airlineOptionsHtml = marriottAirlines.map(a => `<option value="${a.id}">${a.name}</option>`).join('');
 
                 app.innerHTML = `
-                    <!-- 💡 卡片式收合面板 1：萬豪住房點數專業精算 -->
+                    <!-- 💡 頂部小 Logo 快捷按鈕導航列 (點擊直接捲動並展開) -->
+                    <div class="grid grid-cols-2 gap-2 mb-5">
+                        <button onclick="scrollToCard('acc-marriott-hotel')" class="bg-white hover:bg-blue-50 border border-blue-100 p-3 rounded-xl shadow-sm flex items-center gap-2.5 transition text-left">
+                            <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center font-bold shrink-0"><i class="fas fa-hotel"></i></div>
+                            <div>
+                                <div class="text-[10px] text-gray-400 font-bold">精算工具 1</div>
+                                <div class="text-xs font-black text-gray-800">萬豪住房點數</div>
+                            </div>
+                        </button>
+                        <button onclick="scrollToCard('acc-marriott-transfer')" class="bg-white hover:bg-blue-50 border border-blue-100 p-3 rounded-xl shadow-sm flex items-center gap-2.5 transition text-left">
+                            <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold shrink-0"><i class="fas fa-exchange-alt"></i></div>
+                            <div>
+                                <div class="text-[10px] text-gray-400 font-bold">精算工具 2</div>
+                                <div class="text-xs font-black text-gray-800">萬豪轉點航司</div>
+                            </div>
+                        </button>
+                        <button onclick="scrollToCard('acc-ihg')" class="bg-white hover:bg-orange-50 border border-orange-100 p-3 rounded-xl shadow-sm flex items-center gap-2.5 transition text-left">
+                            <div class="w-8 h-8 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center font-bold shrink-0"><i class="fas fa-bed"></i></div>
+                            <div>
+                                <div class="text-[10px] text-gray-400 font-bold">精算工具 3</div>
+                                <div class="text-xs font-black text-gray-800">IHG 住房精算</div>
+                            </div>
+                        </button>
+                        <a href="https://points.fongarea.com" target="_blank" class="bg-white hover:bg-cyan-50 border border-cyan-100 p-3 rounded-xl shadow-sm flex items-center gap-2.5 transition text-left no-underline">
+                            <div class="w-8 h-8 rounded-lg bg-cyan-100 text-cyan-600 flex items-center justify-center font-bold shrink-0"><i class="fas fa-plane"></i></div>
+                            <div>
+                                <div class="text-[10px] text-gray-400 font-bold">外部捷徑</div>
+                                <div class="text-xs font-black text-cyan-700">哩程票兌換APP ↗</div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- 1：萬豪住房點數專業精算 -->
                     <div class="bg-white rounded-2xl shadow mb-4 overflow-hidden border border-gray-100 transition-all">
                         <div onclick="toggleAccordion('acc-marriott-hotel')" class="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 flex justify-between items-center cursor-pointer select-none">
                             <div class="flex items-center font-bold text-blue-800 text-base">
@@ -337,10 +375,10 @@
                         </div>
                     </div>
 
-                    <!-- 💡 卡片式收合面板 2：萬豪轉點 夥伴航司精算 -->
+                    <!-- 2：萬豪轉點 夥伴航司精算 -->
                     <div class="bg-white rounded-2xl shadow mb-4 overflow-hidden border border-gray-100 transition-all">
                         <div onclick="toggleAccordion('acc-marriott-transfer')" class="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 flex justify-between items-center cursor-pointer select-none">
-                            <div class="flex items-center font-bold text-blue-800 text-base" id="m-airline-title">
+                            <div class="flex items-center font-bold text-blue-800 text-base">
                                 <i class="fas fa-exchange-alt mr-2 text-blue-600"></i>萬豪轉點 夥伴航司精算
                             </div>
                             <i class="fas fa-chevron-down rotate-icon text-blue-600 text-sm"></i>
@@ -402,7 +440,7 @@
                         </div>
                     </div>
 
-                    <!-- 💡 卡片式收合面板 3：IHG 積分 vs 長榮哩程精算 -->
+                    <!-- 3：IHG 積分 vs 長榮哩程精算 -->
                     <div class="bg-white rounded-2xl shadow mb-8 overflow-hidden border border-gray-100 transition-all">
                         <div onclick="toggleAccordion('acc-ihg')" class="p-4 bg-gradient-to-r from-orange-50 to-amber-50 flex justify-between items-center cursor-pointer select-none">
                             <div class="flex items-center font-bold text-orange-800 text-base">
