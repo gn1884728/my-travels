@@ -21,6 +21,24 @@
         .markdown-body table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; margin-bottom: 1rem; font-size: 0.75rem; white-space: nowrap; }
         .markdown-body th { background-color: #f3f4f6; font-weight: bold; text-align: left; }
         .markdown-body th, .markdown-body td { border: 1px solid #e5e7eb; padding: 0.5rem; }
+        
+        /* 摺疊面板滑順動畫 */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+            opacity: 0;
+        }
+        .accordion-content.expanded {
+            max-height: 2000px;
+            opacity: 1;
+        }
+        .rotate-icon {
+            transition: transform 0.3s ease;
+        }
+        .expanded .rotate-icon {
+            transform: rotate(180deg);
+        }
     </style>
 </head>
 <body class="bg-gray-100 h-screen flex flex-col font-sans max-w-md mx-auto overflow-hidden">
@@ -106,7 +124,7 @@
             render('calc_mileage'); 
         });
 
-        // 萬豪轉點 38 家航司完整資料庫 (包含 60000 點送 5000 哩優惠與標準 3:1 比例)
+        // 萬豪轉點合作航司完整清單
         const marriottAirlines = [
             { id: 'AS', name: '阿拉斯加航空 (Alaska Mileage Plan)', ratio: '3:1 (6萬送5千)', bonus: true },
             { id: 'AC', name: '加拿大航空 (Air Canada Aeroplan)', ratio: '3:1 (6萬送5千)', bonus: true },
@@ -122,69 +140,28 @@
             { id: 'DL', name: '達美航空 (Delta Air Lines SkyMiles)', ratio: '3:1 (6萬送5千)', bonus: true },
             { id: 'AA', name: '美國航空 (American Airlines AAdvantage)', ratio: '3:1 (6萬送5千)', bonus: true },
             { id: 'QF', name: '澳洲航空 (Qantas Frequent Flyer)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'NZ', name: '紐西蘭航空 (Air New Zealand Airpoints)', ratio: '200:1', bonus: false },
             { id: 'NH', name: '全日空 (ANA Mileage Club)', ratio: '3:1 (6萬送5千)', bonus: true },
             { id: 'KE', name: '大韓航空 (Korean Air SKYPASS)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'OS', name: '奧地利航空 (Austrian Airlines Miles & More)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'LH', name: '漢莎航空 (Lufthansa Miles & More)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'LX', name: '瑞士國際航空 (SWISS Miles & More)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'SN', name: '布魯塞爾航空 (Brussels Airlines Miles & More)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'TP', name: '葡萄牙航空 (TAP Air Portugal Miles&Go)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'AZ', name: '義大利航空/ITA (ITA Airways Volare)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'AM', name: '墨西哥航空 (Aeromexico Club Premier)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'AR', name: '阿根廷航空 (Aerolineas Argentinas Aerolineas Plus)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'AV', name: '哥倫比亞航空 (Avianca LifeMiles)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'CM', name: '巴拿馬航空 (Copa Airlines ConnectMiles)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'CZ', name: '中國南方航空 (China Southern Airlines Sky Pearl)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'HA', name: '夏威夷航空 (Hawaiian Airlines HawaiianMiles)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'JJ', name: '智利南美航空 (LATAM Pass)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'MH', name: '馬來西亞航空 (Malaysia Airlines Enrich)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'PR', name: '菲律賓航空 (Philippine Airlines Mabuhay Miles)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'SV', name: '沙烏地阿拉伯航空 (Saudia Alfursan)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'UL', name: '斯里蘭卡航空 (SriLankan Airlines FlySmiLes)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'VN', name: '越南航空 (Vietnam Airlines Lotusmiles)', ratio: '3:1 (6萬送5千)', bonus: true },
             { id: 'VS', name: '維珍航空 (Virgin Atlantic Flying Club)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'VA', name: '維珍澳洲航空 (Virgin Australia Velocity)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'WN', name: '西南航空 (Southwest Airlines Rapid Rewards)', ratio: '3:1 (6萬送5千)', bonus: true }
+            { id: 'MH', name: '馬來西亞航空 (Malaysia Airlines Enrich)', ratio: '3:1 (6萬送5千)', bonus: true }
         ];
+
+        // 切換收合面板邏輯
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            const container = content.parentElement;
+            content.classList.toggle('expanded');
+            container.classList.toggle('ring-2');
+            container.classList.toggle('ring-blue-400');
+        }
 
         function switchMarriottAirline(airlineId) {
             const selected = marriottAirlines.find(a => a.id === airlineId);
             const titleEl = document.getElementById('m-airline-title');
             const bonusEl = document.getElementById('m-airline-bonus');
-            const tableRowsEl = document.getElementById('m-table-rows');
-
             if(selected) {
-                if(titleEl) titleEl.innerHTML = `<i class="fas fa-exchange-alt mr-2"></i>萬豪轉點 【${selected.name}】 精算`;
+                if(titleEl) titleEl.innerHTML = `<i class="fas fa-exchange-alt mr-2 text-blue-600"></i>萬豪轉點 【${selected.name}】`;
                 if(bonusEl) bonusEl.innerText = `兌換比例：${selected.ratio}`;
-
-                if(tableRowsEl) {
-                    if(selected.bonus) {
-                        tableRowsEl.innerHTML = `
-                            <tr class="border-b">
-                                <td class="border p-2">30,000 點</td>
-                                <td class="border p-2 text-gray-800">10,000 哩</td>
-                                <td class="border p-2">3 : 1</td>
-                            </tr>
-                            <tr class="bg-rose-50 border-b border-rose-100">
-                                <td class="border border-rose-100 p-2 text-rose-600 font-bold">60,000 點</td>
-                                <td class="border border-rose-100 p-2 text-rose-600 text-sm font-bold">25,000 哩</td>
-                                <td class="border border-rose-100 p-2 text-rose-600 font-bold">2.4 : 1</td>
-                            </tr>
-                            <tr>
-                                <td class="border p-2">120,000 點</td>
-                                <td class="border p-2 text-gray-800">50,000 哩</td>
-                                <td class="border p-2">2.4 : 1</td>
-                            </tr>
-                        `;
-                    } else {
-                        tableRowsEl.innerHTML = `
-                            <tr>
-                                <td class="border p-2" colspan="3">此航司採用特殊兌換比例 (如 200:1)，請依萬豪官方即時公告為準。</td>
-                            </tr>
-                        `;
-                    }
-                }
             }
             calcMCost();
         }
@@ -194,7 +171,6 @@
             if(!input) return;
             let pointCost = parseFloat(input.value) || 0;
             let totalCost = Math.round(60000 * pointCost);
-            // 6萬點換25000哩 (含5000哩加碼)
             let mileCost = (totalCost / 25000).toFixed(2);
             
             document.getElementById('m-total-cost').innerText = `NT$ ${totalCost.toLocaleString()}`;
@@ -289,195 +265,215 @@
                     </div>`;
             } 
             else if (tab === 'calc_mileage') {
-                // 動態產生近 40 家航司選項
                 let airlineOptionsHtml = marriottAirlines.map(a => `<option value="${a.id}">${a.name}</option>`).join('');
 
                 app.innerHTML = `
-                    <!-- 萬豪精算區塊 -->
-                    <div class="bg-white p-5 rounded-2xl shadow mb-6">
-                        <h3 class="font-bold text-lg mb-4 text-center text-blue-700"><i class="fas fa-calculator mr-2"></i>萬豪住房點數專業精算</h3>
-                        <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
-                            <div>
-                                <label class="block text-gray-500 text-[11px] mb-1 font-bold">結帳幣別</label>
-                                <select id="calc_currency" onchange="updateCurrencyRate('calc')" class="w-full p-2.5 border rounded-xl bg-blue-50 text-blue-800 font-bold">
-                                    <option value="CNY">人民幣 (CNY)</option>
-                                    <option value="USD">美元 (USD)</option>
-                                    <option value="TWD" selected>台幣 (TWD)</option>
-                                    <option value="JPY">日幣 (JPY)</option>
-                                </select>
+                    <!-- 💡 卡片式收合面板 1：萬豪住房點數專業精算 -->
+                    <div class="bg-white rounded-2xl shadow mb-4 overflow-hidden border border-gray-100 transition-all">
+                        <div onclick="toggleAccordion('acc-marriott-hotel')" class="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 flex justify-between items-center cursor-pointer select-none">
+                            <div class="flex items-center font-bold text-blue-800 text-base">
+                                <i class="fas fa-hotel mr-2 text-blue-600"></i>萬豪住房點數專業精算
                             </div>
-                            <div>
-                                <label class="block text-gray-500 text-[11px] mb-1 font-bold">兌美金匯率</label>
-                                <input type="number" id="calc_rate" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm text-gray-400" oninput="drawProCalc()">
-                            </div>
+                            <i class="fas fa-chevron-down rotate-icon text-blue-600 text-sm"></i>
                         </div>
-                        <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
-                            <div>
-                                <label class="block text-gray-500 text-[11px] mb-1 font-bold">計分單晚房費</label>
-                                <input type="number" id="calc_night_price" value="6000" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawProCalc()">
-                            </div>
-                            <div>
-                                <label class="block text-gray-500 text-[11px] mb-1 font-bold">稅費扣除</label>
-                                <select id="calc_tax" onchange="drawProCalc()" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-xs"></select>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
-                            <div>
-                                <label class="block text-gray-500 text-[11px] mb-1 font-bold">晚數</label>
-                                <input type="number" id="calc_nights" value="2" min="1" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawProCalc()">
-                            </div>
-                            <div>
-                                <label class="block text-emerald-600 text-[11px] mb-1 font-bold">實際總支付 (同幣別)</label>
-                                <input type="number" id="calc_actual_paid" placeholder="若折扣免填" class="w-full p-2.5 border rounded-xl bg-emerald-50 text-emerald-800 border-emerald-200 font-medium text-sm" oninput="drawProCalc()">
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
-                            <div>
-                                <label class="block text-gray-500 text-[11px] mb-1 font-bold">萬豪會籍</label>
-                                <select id="calc_tier" onchange="drawProCalc()" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium">
-                                    <option value="0">白板 (0%)</option>
-                                    <option value="0.5">白金卡 (+50%)</option>
-                                    <option value="0.75" selected>鈦金/大使 (+75%)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-gray-500 text-[11px] mb-1 font-bold">迎賓禮</label>
-                                <input type="number" id="calc_welcome_gift" value="1000" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawProCalc()">
-                            </div>
-                        </div>
-                        <div class="mb-4 text-sm">
-                            <label class="block text-rose-600 text-[11px] mb-1 font-bold">當季檔期活動</label>
-                            <select id="calc_promo" onchange="drawProCalc()" class="w-full p-2.5 border rounded-xl bg-rose-50 text-rose-800 font-bold border-rose-200">
-                                <option value="q3_1500" selected>🔥 Q3活動：連住 2 晚贈 1,500 點</option>
-                                <option value="0">無加贈活動</option>
-                            </select>
-                        </div>
-                        <div id="calc_table_result" class="mt-4"></div>
-                    </div>
-
-                    <!-- 萬豪轉點 38家航司精算器 (不佔版面、支援即時切換) -->
-                    <div class="bg-white p-5 rounded-2xl shadow mb-6">
-                        <div class="flex flex-col gap-2 mb-3">
-                            <h3 class="font-bold text-sm text-blue-800" id="m-airline-title"><i class="fas fa-exchange-alt mr-2"></i>萬豪轉點 夥伴航司精算</h3>
-                            <!-- 完整近40家航司快速下拉選單 -->
-                            <select onchange="switchMarriottAirline(this.value)" class="w-full text-xs p-2.5 border rounded-xl bg-blue-50 font-bold text-blue-700 shadow-sm focus:ring-2 focus:ring-blue-400">
-                                ${airlineOptionsHtml}
-                            </select>
-                        </div>
-                        <p class="text-[11px] text-gray-500 mb-4 text-center font-bold" id="m-airline-bonus">最佳比例：每轉 60,000 點加贈 5,000 哩</p>
-                        
-                        <div class="bg-blue-50 rounded-xl p-4 mb-4 border border-blue-100">
-                            <label class="block mb-2 text-[11px] font-bold text-blue-800 text-center">萬豪點數取得成本 (NT$ / 點)</label>
-                            <div class="flex items-center justify-center mb-4">
-                                <span class="text-gray-500 font-bold mr-2">NT$</span>
-                                <input type="number" step="0.01" id="m-cost-per-point" value="0.25" class="w-24 p-2 text-center border border-white rounded-lg text-blue-900 font-bold outline-none focus:ring-2 focus:ring-blue-400 shadow-sm" oninput="calcMCost()">
-                            </div>
-                            
-                            <div class="grid grid-cols-2 gap-3 text-center">
-                                <div class="bg-white p-2 rounded-lg shadow-sm border border-gray-50">
-                                    <div class="text-[10px] text-gray-400 font-bold mb-1">6萬點總成本</div>
-                                    <div class="text-sm font-bold text-gray-800" id="m-total-cost">NT$ 15,000</div>
+                        <div id="acc-marriott-hotel" class="accordion-content p-5">
+                            <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
+                                <div>
+                                    <label class="block text-gray-500 text-[11px] mb-1 font-bold">結帳幣別</label>
+                                    <select id="calc_currency" onchange="updateCurrencyRate('calc')" class="w-full p-2.5 border rounded-xl bg-blue-50 text-blue-800 font-bold">
+                                        <option value="CNY">人民幣 (CNY)</option>
+                                        <option value="USD">美元 (USD)</option>
+                                        <option value="TWD" selected>台幣 (TWD)</option>
+                                        <option value="JPY">日幣 (JPY)</option>
+                                    </select>
                                 </div>
-                                <div class="bg-white p-2 rounded-lg shadow-sm border border-gray-50">
-                                    <div class="text-[10px] text-gray-400 font-bold mb-1">換算哩程單價</div>
-                                    <div class="text-sm font-bold text-rose-600" id="m-mile-cost">NT$ 0.60 / 哩</div>
+                                <div>
+                                    <label class="block text-gray-500 text-[11px] mb-1 font-bold">兌美金匯率</label>
+                                    <input type="number" id="calc_rate" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm text-gray-400" oninput="drawProCalc()">
                                 </div>
                             </div>
-                        </div>
-
-                        <table class="w-full border-collapse border border-gray-200 text-center bg-white shadow-sm rounded-xl overflow-hidden text-xs">
-                            <thead class="bg-blue-50 text-blue-700 font-bold">
-                                <tr>
-                                    <th class="border border-blue-100 p-2">萬豪點數</th>
-                                    <th class="border border-blue-100 p-2">兌換哩程</th>
-                                    <th class="border border-blue-100 p-2">等效比例</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-gray-600 font-bold" id="m-table-rows">
-                                <tr class="border-b">
-                                    <td class="border p-2">30,000 點</td>
-                                    <td class="border p-2 text-gray-800">10,000 哩</td>
-                                    <td class="border p-2">3 : 1</td>
-                                </tr>
-                                <tr class="bg-rose-50 border-b border-rose-100">
-                                    <td class="border border-rose-100 p-2 text-rose-600">60,000 點</td>
-                                    <td class="border border-rose-100 p-2 text-rose-600 text-sm">25,000 哩</td>
-                                    <td class="border border-rose-100 p-2 text-rose-600">2.4 : 1</td>
-                                </tr>
-                                <tr>
-                                    <td class="border p-2">120,000 點</td>
-                                    <td class="border p-2 text-gray-800">50,000 哩</td>
-                                    <td class="border p-2">2.4 : 1</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- IHG 精算區塊 (完整補回) -->
-                    <div class="bg-white p-5 rounded-2xl shadow mb-8">
-                        <h3 class="font-bold text-lg mb-4 text-center text-orange-600">IHG 積分 vs 長榮哩程 精算</h3>
-                        <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
-                            <div>
-                                <label class="block text-gray-500 text-[11px] mb-1 font-bold">結帳幣別</label>
-                                <select id="ihg_calc_currency" onchange="updateCurrencyRate('ihg_calc')" class="w-full p-2.5 border rounded-xl bg-orange-50 font-bold">
-                                    <option value="CNY">人民幣 (CNY)</option>
-                                    <option value="USD">美元 (USD)</option>
-                                    <option value="TWD" selected>台幣 (TWD)</option>
-                                    <option value="JPY">日幣 (JPY)</option>
-                                </select>
+                            <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
+                                <div>
+                                    <label class="block text-gray-500 text-[11px] mb-1 font-bold">計分單晚房費</label>
+                                    <input type="number" id="calc_night_price" value="6000" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawProCalc()">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-500 text-[11px] mb-1 font-bold">稅費扣除</label>
+                                    <select id="calc_tax" onchange="drawProCalc()" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-xs"></select>
+                                </div>
                             </div>
-                            <div>
-                                <label class="block text-gray-500 text-[11px] mb-1 font-bold">兌美金匯率</label>
-                                <input type="number" id="ihg_calc_rate" class="w-full p-2.5 border rounded-xl bg-gray-50 text-gray-400" oninput="drawIhgCalc()">
+                            <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
+                                <div>
+                                    <label class="block text-gray-500 text-[11px] mb-1 font-bold">晚數</label>
+                                    <input type="number" id="calc_nights" value="2" min="1" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawProCalc()">
+                                </div>
+                                <div>
+                                    <label class="block text-emerald-600 text-[11px] mb-1 font-bold">實際總支付 (同幣別)</label>
+                                    <input type="number" id="calc_actual_paid" placeholder="若折扣免填" class="w-full p-2.5 border rounded-xl bg-emerald-50 text-emerald-800 border-emerald-200 font-medium text-sm" oninput="drawProCalc()">
+                                </div>
                             </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
-                            <div>
-                                <label class="block text-gray-500 text-[11px] mb-1 font-bold">計分單晚房費</label>
-                                <input type="number" id="ihg_calc_night_price" value="3000" class="w-full p-2.5 border rounded-xl bg-gray-50" oninput="drawIhgCalc()">
+                            <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
+                                <div>
+                                    <label class="block text-gray-500 text-[11px] mb-1 font-bold">萬豪會籍</label>
+                                    <select id="calc_tier" onchange="drawProCalc()" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium">
+                                        <option value="0">白板 (0%)</option>
+                                        <option value="0.5">白金卡 (+50%)</option>
+                                        <option value="0.75" selected>鈦金/大使 (+75%)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-500 text-[11px] mb-1 font-bold">迎賓禮</label>
+                                    <input type="number" id="calc_welcome_gift" value="1000" class="w-full p-2.5 border rounded-xl bg-gray-50 font-medium text-sm" oninput="drawProCalc()">
+                                </div>
                             </div>
-                            <div>
-                                <label class="block text-gray-500 text-[11px] mb-1 font-bold">稅費扣除</label>
-                                <select id="ihg_calc_tax" onchange="drawIhgCalc()" class="w-full p-2.5 border rounded-xl bg-gray-50 text-xs"></select>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
-                            <div>
-                                <label class="block text-gray-500 text-[11px] mb-1 font-bold">晚數</label>
-                                <input type="number" id="ihg_calc_nights" value="1" min="1" class="w-full p-2.5 border rounded-xl bg-gray-50" oninput="drawIhgCalc()">
-                            </div>
-                            <div>
-                                <label class="block text-emerald-600 text-[11px] mb-1 font-bold">實際總支付 (同幣別)</label>
-                                <input type="number" id="ihg_calc_actual_paid" placeholder="若折扣免填" class="w-full p-2.5 border rounded-xl bg-emerald-50 text-emerald-800 border-emerald-200" oninput="drawIhgCalc()">
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
-                            <div>
+                            <div class="mb-4 text-sm">
                                 <label class="block text-rose-600 text-[11px] mb-1 font-bold">當季檔期活動</label>
-                                <select id="ihg_calc_per_night_bonus" onchange="drawIhgCalc()" class="w-full p-2.5 border rounded-xl bg-rose-50 text-rose-800 font-bold border-rose-200">
-                                    <option value="triple" selected>🔥🔥🔥 10/1-12/31 三倍積分 (3x)</option>
+                                <select id="calc_promo" onchange="drawProCalc()" class="w-full p-2.5 border rounded-xl bg-rose-50 text-rose-800 font-bold border-rose-200">
+                                    <option value="q3_1500" selected>🔥 Q3活動：連住 2 晚贈 1,500 點</option>
                                     <option value="0">無加贈活動</option>
-                                    <option value="double">🔥🔥 雙倍積分 (2x)</option>
-                                    <option value="4n8k">4N8K</option>
-                                    <option value="2n2k">2N2K</option>
                                 </select>
                             </div>
-                            <div>
-                                <label class="block text-gray-500 text-[11px] mb-1 font-bold">迎賓禮 (點數)</label>
-                                <input type="number" id="ihg_calc_welcome_gift" value="600" class="w-full p-2.5 border rounded-xl bg-gray-50" oninput="drawIhgCalc()">
-                            </div>
+                            <div id="calc_table_result" class="mt-4"></div>
                         </div>
-                        <div class="grid grid-cols-2 gap-3 mb-4 text-sm">
-                            <div>
-                                <label class="block text-gray-500 text-[11px] mb-1 font-bold">IHG 會籍</label>
-                                <select id="ihg_calc_tier" onchange="drawIhgCalc()" class="w-full p-2.5 border rounded-xl bg-gray-50">
-                                    <option value="0">俱樂部 (0%)</option>
-                                    <option value="0.6">白金卡 (+60%)</option>
-                                    <option value="1.0" selected>鑽石卡 (+100%)</option>
+                    </div>
+
+                    <!-- 💡 卡片式收合面板 2：萬豪轉點 夥伴航司精算 -->
+                    <div class="bg-white rounded-2xl shadow mb-4 overflow-hidden border border-gray-100 transition-all">
+                        <div onclick="toggleAccordion('acc-marriott-transfer')" class="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 flex justify-between items-center cursor-pointer select-none">
+                            <div class="flex items-center font-bold text-blue-800 text-base" id="m-airline-title">
+                                <i class="fas fa-exchange-alt mr-2 text-blue-600"></i>萬豪轉點 夥伴航司精算
+                            </div>
+                            <i class="fas fa-chevron-down rotate-icon text-blue-600 text-sm"></i>
+                        </div>
+                        <div id="acc-marriott-transfer" class="accordion-content p-5">
+                            <div class="mb-3">
+                                <label class="block text-gray-500 text-[11px] mb-1 font-bold">選擇目標航司</label>
+                                <select onchange="switchMarriottAirline(this.value)" class="w-full text-xs p-2.5 border rounded-xl bg-blue-50 font-bold text-blue-700 shadow-sm focus:ring-2 focus:ring-blue-400">
+                                    ${airlineOptionsHtml}
                                 </select>
                             </div>
+                            <p class="text-[11px] text-gray-500 mb-4 text-center font-bold" id="m-airline-bonus">最佳比例：每轉 60,000 點加贈 5,000 哩</p>
+                            
+                            <div class="bg-blue-50 rounded-xl p-4 mb-4 border border-blue-100">
+                                <label class="block mb-2 text-[11px] font-bold text-blue-800 text-center">萬豪點數取得成本 (NT$ / 點)</label>
+                                <div class="flex items-center justify-center mb-4">
+                                    <span class="text-gray-500 font-bold mr-2">NT$</span>
+                                    <input type="number" step="0.01" id="m-cost-per-point" value="0.25" class="w-24 p-2 text-center border border-white rounded-lg text-blue-900 font-bold outline-none focus:ring-2 focus:ring-blue-400 shadow-sm" oninput="calcMCost()">
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-3 text-center">
+                                    <div class="bg-white p-2 rounded-lg shadow-sm border border-gray-50">
+                                        <div class="text-[10px] text-gray-400 font-bold mb-1">6萬點總成本</div>
+                                        <div class="text-sm font-bold text-gray-800" id="m-total-cost">NT$ 15,000</div>
+                                    </div>
+                                    <div class="bg-white p-2 rounded-lg shadow-sm border border-gray-50">
+                                        <div class="text-[10px] text-gray-400 font-bold mb-1">換算哩程單價</div>
+                                        <div class="text-sm font-bold text-rose-600" id="m-mile-cost">NT$ 0.60 / 哩</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <table class="w-full border-collapse border border-gray-200 text-center bg-white shadow-sm rounded-xl overflow-hidden text-xs">
+                                <thead class="bg-blue-50 text-blue-700 font-bold">
+                                    <tr>
+                                        <th class="border border-blue-100 p-2">萬豪點數</th>
+                                        <th class="border border-blue-100 p-2">兌換哩程</th>
+                                        <th class="border border-blue-100 p-2">等效比例</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-gray-600 font-bold" id="m-table-rows">
+                                    <tr class="border-b">
+                                        <td class="border p-2">30,000 點</td>
+                                        <td class="border p-2 text-gray-800">10,000 哩</td>
+                                        <td class="border p-2">3 : 1</td>
+                                    </tr>
+                                    <tr class="bg-rose-50 border-b border-rose-100">
+                                        <td class="border border-rose-100 p-2 text-rose-600 font-bold">60,000 點</td>
+                                        <td class="border border-rose-100 p-2 text-rose-600 text-sm font-bold">25,000 哩</td>
+                                        <td class="border border-rose-100 p-2 text-rose-600 font-bold">2.4 : 1</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border p-2">120,000 點</td>
+                                        <td class="border p-2 text-gray-800">50,000 哩</td>
+                                        <td class="border p-2">2.4 : 1</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div id="ihg_calc_table_result" class="mt-4"></div>
+                    </div>
+
+                    <!-- 💡 卡片式收合面板 3：IHG 積分 vs 長榮哩程精算 -->
+                    <div class="bg-white rounded-2xl shadow mb-8 overflow-hidden border border-gray-100 transition-all">
+                        <div onclick="toggleAccordion('acc-ihg')" class="p-4 bg-gradient-to-r from-orange-50 to-amber-50 flex justify-between items-center cursor-pointer select-none">
+                            <div class="flex items-center font-bold text-orange-800 text-base">
+                                <i class="fas fa-bed mr-2 text-orange-600"></i>IHG 積分 vs 長榮哩程精算
+                            </div>
+                            <i class="fas fa-chevron-down rotate-icon text-orange-600 text-sm"></i>
+                        </div>
+                        <div id="acc-ihg" class="accordion-content p-5">
+                            <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
+                                <div>
+                                    <label class="block text-gray-500 text-[11px] mb-1 font-bold">結帳幣別</label>
+                                    <select id="ihg_calc_currency" onchange="updateCurrencyRate('ihg_calc')" class="w-full p-2.5 border rounded-xl bg-orange-50 font-bold">
+                                        <option value="CNY">人民幣 (CNY)</option>
+                                        <option value="USD">美元 (USD)</option>
+                                        <option value="TWD" selected>台幣 (TWD)</option>
+                                        <option value="JPY">日幣 (JPY)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-500 text-[11px] mb-1 font-bold">兌美金匯率</label>
+                                    <input type="number" id="ihg_calc_rate" class="w-full p-2.5 border rounded-xl bg-gray-50 text-gray-400" oninput="drawIhgCalc()">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
+                                <div>
+                                    <label class="block text-gray-500 text-[11px] mb-1 font-bold">計分單晚房費</label>
+                                    <input type="number" id="ihg_calc_night_price" value="3000" class="w-full p-2.5 border rounded-xl bg-gray-50" oninput="drawIhgCalc()">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-500 text-[11px] mb-1 font-bold">稅費扣除</label>
+                                    <select id="ihg_calc_tax" onchange="drawIhgCalc()" class="w-full p-2.5 border rounded-xl bg-gray-50 text-xs"></select>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
+                                <div>
+                                    <label class="block text-gray-500 text-[11px] mb-1 font-bold">晚數</label>
+                                    <input type="number" id="ihg_calc_nights" value="1" min="1" class="w-full p-2.5 border rounded-xl bg-gray-50" oninput="drawIhgCalc()">
+                                </div>
+                                <div>
+                                    <label class="block text-emerald-600 text-[11px] mb-1 font-bold">實際總支付 (同幣別)</label>
+                                    <input type="number" id="ihg_calc_actual_paid" placeholder="若折扣免填" class="w-full p-2.5 border rounded-xl bg-emerald-50 text-emerald-800 border-emerald-200" oninput="drawIhgCalc()">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3 mb-3 text-sm">
+                                <div>
+                                    <label class="block text-rose-600 text-[11px] mb-1 font-bold">當季檔期活動</label>
+                                    <select id="ihg_calc_per_night_bonus" onchange="drawIhgCalc()" class="w-full p-2.5 border rounded-xl bg-rose-50 text-rose-800 font-bold border-rose-200">
+                                        <option value="triple" selected>🔥🔥🔥 10/1-12/31 三倍積分 (3x)</option>
+                                        <option value="0">無加贈活動</option>
+                                        <option value="double">🔥🔥 雙倍積分 (2x)</option>
+                                        <option value="4n8k">4N8K</option>
+                                        <option value="2n2k">2N2K</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-500 text-[11px] mb-1 font-bold">迎賓禮 (點數)</label>
+                                    <input type="number" id="ihg_calc_welcome_gift" value="600" class="w-full p-2.5 border rounded-xl bg-gray-50" oninput="drawIhgCalc()">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3 mb-4 text-sm">
+                                <div>
+                                    <label class="block text-gray-500 text-[11px] mb-1 font-bold">IHG 會籍</label>
+                                    <select id="ihg_calc_tier" onchange="drawIhgCalc()" class="w-full p-2.5 border rounded-xl bg-gray-50">
+                                        <option value="0">俱樂部 (0%)</option>
+                                        <option value="0.6">白金卡 (+60%)</option>
+                                        <option value="1.0" selected>鑽石卡 (+100%)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="ihg_calc_table_result" class="mt-4"></div>
+                        </div>
                     </div>
                 `;
                 
