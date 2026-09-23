@@ -111,28 +111,27 @@
             render('calc_mileage'); 
         });
 
+        // 萬豪轉點航司完整對照清單 (嚴格對應您的 Google Sheet 後台規則，區分有加碼與純3:1無加碼組)[cite: 13]
         const marriottAirlines = [
-            { id: 'AS', name: '阿拉斯加航空 (Alaska Mileage Plan)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'AC', name: '加拿大航空 (Air Canada Aeroplan)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'SQ', name: '新加坡航空 (Singapore Airlines KrisFlyer)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'CX', name: '國泰航空 (Cathay Pacific Asia Miles)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'JL', name: '日本航空 (Japan Airlines JAL Mileage Bank)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'AF', name: '法航荷航 (Air France/KLM Flying Blue)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'BA', name: '英國航空 (British Airways Executive Club)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'QR', name: '卡達航空 (Qatar Airways Privilege Club)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'EK', name: '阿聯酋航空 (Emirates Skywards)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'EY', name: '阿提哈德航空 (Etihad Guest)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'UA', name: '聯合航空 (United Airlines MileagePlus)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'DL', name: '達美航空 (Delta Air Lines SkyMiles)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'AA', name: '美國航空 (American Airlines AAdvantage)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'QF', name: '澳洲航空 (Qantas Frequent Flyer)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'NH', name: '全日空 (ANA Mileage Club)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'KE', name: '大韓航空 (Korean Air SKYPASS)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'VS', name: '維珍航空 (Virgin Atlantic Flying Club)', ratio: '3:1 (6萬送5千)', bonus: true },
-            { id: 'MH', name: '馬來西亞航空 (Malaysia Airlines Enrich)', ratio: '3:1 (6萬送5千)', bonus: true }
+            { id: 'AS', name: '阿拉斯加航空 (Alaska Airlines)', ratioRule: '標準組 (3:1 + 5k)', bonus: true },
+            { id: 'AC', name: '加拿大航空 (Air Canada Aeroplan)', ratioRule: '標準組 (3:1 + 5k)', bonus: true },
+            { id: 'SQ', name: '新加坡航空 (Singapore Airlines)', ratioRule: '標準組 (3:1 + 5k)', bonus: true },
+            { id: 'CX', name: '國泰航空 亞洲萬里通 (Cathay Pacific)', ratioRule: '標準組 (3:1 + 5k)', bonus: true },
+            { id: 'JL', name: '日本航空 JAL (Japan Airlines)', ratioRule: '標準組 (3:1 + 5k)', bonus: true },
+            { id: 'AF', name: '法航荷航 Flying Blue (Air France/KLM)', ratioRule: '標準組 (3:1 + 5k)', bonus: true },
+            { id: 'BA', name: '英國航空 Avios (British Airways)', ratioRule: '標準組 (3:1 + 5k)', bonus: true },
+            { id: 'QR', name: '卡達航空 Avios (Qatar Airways)', ratioRule: '標準組 (3:1 + 5k)', bonus: true },
+            { id: 'EK', name: '阿聯酋航空 (Emirates Skywards)', ratioRule: '標準組 (3:1 + 5k)', bonus: true },
+            { id: 'EY', name: '阿提哈德航空 (Etihad Airways)', ratioRule: '標準組 (3:1 + 5k)', bonus: true },
+            { id: 'AA', name: '美國航空 AA (American Airlines)', ratioRule: '無加碼組 (純 3:1)', bonus: false },
+            { id: 'DL', name: '達美航空 (Delta Air Lines)', ratioRule: '無加碼組 (純 3:1)', bonus: false },
+            { id: 'AV', name: '哥倫比亞航空 (Avianca LifeMiles)', ratioRule: '無加碼組 (純 3:1)', bonus: false },
+            { id: 'UA', name: '聯合航空 (United Airlines)', ratioRule: '標準組 (3:1 + 5k)', bonus: true },
+            { id: 'NH', name: '全日空 ANA (All Nippon Airways)', ratioRule: '標準組 (3:1 + 5k)', bonus: true },
+            { id: 'KE', name: '大韓航空 (Korean Air SKYPASS)', ratioRule: '標準組 (3:1 + 5k)', bonus: true },
+            { id: 'VS', name: '維珍航空 (Virgin Atlantic)', ratioRule: '標準組 (3:1 + 5k)', bonus: true }
         ];
 
-        // 點擊按鈕切換下方顯示的功能面板
         function switchCalcTool(toolId) {
             document.querySelectorAll('.calc-tool-panel').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.calc-btn').forEach(btn => btn.classList.remove('ring-2', 'ring-blue-600', 'bg-blue-50/50'));
@@ -143,27 +142,77 @@
             if (targetPanel) targetPanel.classList.remove('hidden');
             if (targetBtn) targetBtn.classList.add('ring-2', 'ring-blue-600', 'bg-blue-50/50');
             
-            // 觸發對應的計算初始化
             if (toolId === 'tool-marriott-hotel') updateCurrencyRate('calc');
             if (toolId === 'tool-marriott-transfer') calcMCost();
             if (toolId === 'tool-ihg') updateCurrencyRate('ihg_calc');
         }
 
+        // 動態切換航司並即時計算對應哩程與單價
         function switchMarriottAirline(airlineId) {
             const selected = marriottAirlines.find(a => a.id === airlineId);
             const bonusEl = document.getElementById('m-airline-bonus');
-            if(selected && bonusEl) {
-                bonusEl.innerText = `兌換比例：${selected.ratio}`;
+            const tableRowsEl = document.getElementById('m-table-rows');
+
+            if(selected && bonusEl && tableRowsEl) {
+                bonusEl.innerText = `轉點規則：${selected.ratioRule}`;
+                
+                if (selected.bonus) {
+                    // 有加碼組 (3:1 + 5k)
+                    tableRowsEl.innerHTML = `
+                        <tr class="border-b">
+                            <td class="border p-2">30,000 點</td>
+                            <td class="border p-2 text-gray-800">10,000 哩</td>
+                            <td class="border p-2">3 : 1</td>
+                        </tr>
+                        <tr class="bg-rose-50 border-b border-rose-100">
+                            <td class="border border-rose-100 p-2 text-rose-600 font-bold">60,000 點</td>
+                            <td class="border border-rose-100 p-2 text-rose-600 text-sm font-bold">25,000 哩</td>
+                            <td class="border border-rose-100 p-2 text-rose-600 font-bold">2.4 : 1</td>
+                        </tr>
+                        <tr>
+                            <td class="border p-2">120,000 點</td>
+                            <td class="border p-2 text-gray-800">50,000 哩</td>
+                            <td class="border p-2">2.4 : 1</td>
+                        </tr>
+                    `;
+                } else {
+                    // 無加碼組 (純 3:1) -> 6萬點只拿2萬哩[cite: 13]
+                    tableRowsEl.innerHTML = `
+                        <tr class="border-b">
+                            <td class="border p-2">30,000 點</td>
+                            <td class="border p-2 text-gray-800">10,000 哩</td>
+                            <td class="border p-2">3 : 1</td>
+                        </tr>
+                        <tr class="bg-amber-50 border-b border-amber-100">
+                            <td class="border border-amber-100 p-2 text-amber-700 font-bold">60,000 點</td>
+                            <td class="border border-amber-100 p-2 text-amber-700 text-sm font-bold">20,000 哩[cite: 13]</td>
+                            <td class="border border-amber-100 p-2 text-amber-700 font-bold">3 : 1 (無加碼)[cite: 13]</td>
+                        </tr>
+                        <tr>
+                            <td class="border p-2">120,000 點</td>
+                            <td class="border p-2 text-gray-800">40,000 哩</td>
+                            <td class="border border-p">3 : 1</td>
+                        </tr>
+                    `;
+                }
             }
             calcMCost();
         }
 
         function calcMCost() {
             const input = document.getElementById('m-cost-per-point');
+            const selectEl = document.querySelector('select[onchange="switchMarriottAirline(this.value)"]');
             if(!input) return;
+            
             let pointCost = parseFloat(input.value) || 0;
             let totalCost = Math.round(60000 * pointCost);
-            let mileCost = (totalCost / 25000).toFixed(2);
+            
+            // 判斷當前選中的航司是否有參與加碼
+            let currentAirlineId = selectEl ? selectEl.value : 'AS';
+            let currentAirline = marriottAirlines.find(a => a.id === currentAirlineId);
+            let targetMiles = (currentAirline && !currentAirline.bonus) ? 20000 : 25000; // AA等無加碼拿20000哩[cite: 13]
+            
+            let mileCost = (totalCost / targetMiles).toFixed(2);
             
             document.getElementById('m-total-cost').innerText = `NT$ ${totalCost.toLocaleString()}`;
             document.getElementById('m-mile-cost').innerText = `NT$ ${mileCost} / 哩`;
@@ -257,7 +306,7 @@
                     </div>`;
             } 
             else if (tab === 'calc_mileage') {
-                let airlineOptionsHtml = marriottAirlines.map(a => `<option value="${a.id}">${a.name}</option>`).join('');
+                let airlineOptionsHtml = marriottAirlines.map(a => `<option value="${a.id}">${a.name} [${a.ratioRule}]</option>`).join('');
 
                 app.innerHTML = `
                     <!-- 💡 四宮格快捷按鈕導航列 -->
@@ -354,7 +403,7 @@
                         <div id="calc_table_result" class="mt-4"></div>
                     </div>
 
-                    <!-- 工具 2：萬豪轉點 夥伴航司精算面板 -->
+                    <!-- 工具 2：萬豪轉點 夥伴航司精算面板 (精準對應 Sheet 的加碼與無加碼組) -->
                     <div id="tool-marriott-transfer" class="calc-tool-panel bg-white p-5 rounded-2xl shadow mb-8 border border-gray-100 hidden">
                         <div class="mb-3">
                             <label class="block text-gray-500 text-[11px] mb-1 font-bold">選擇目標航司</label>
@@ -362,7 +411,7 @@
                                 ${airlineOptionsHtml}
                             </select>
                         </div>
-                        <p class="text-[11px] text-gray-500 mb-4 text-center font-bold" id="m-airline-bonus">最佳比例：每轉 60,000 點加贈 5,000 哩</p>
+                        <p class="text-[11px] text-gray-500 mb-4 text-center font-bold" id="m-airline-bonus">轉點規則：標準組 (3:1 + 5k)</p>
                         
                         <div class="bg-blue-50 rounded-xl p-4 mb-4 border border-blue-100">
                             <label class="block mb-2 text-[11px] font-bold text-blue-800 text-center">萬豪點數取得成本 (NT$ / 點)</label>
