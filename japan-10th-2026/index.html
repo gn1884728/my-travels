@@ -6,7 +6,6 @@
     <title>2026 秋季家族自駕遊</title>
     
     <meta name="theme-color" content="#1E3A8A">
-    
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="日本秋遊">
@@ -144,7 +143,7 @@
         .flight-divider { height: 1px; background: rgba(255,255,255,0.15); margin: 10px 0; }
         .starlux-gold { color: #f0c060; }
         
-        /* 🛠️ 行程卡片動態操作按鈕樣式 (AI 為您加入的) */
+        /* 🛠️ 行程卡片動態操作按鈕樣式 */
         .card-actions { position: absolute; top: 12px; right: 12px; display: flex; gap: 4px; z-index: 10; }
         .action-btn { background: #f1f5f9; border: none; border-radius: 4px; width: 24px; height: 24px; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #475569; transition: background 0.2s; }
         .action-btn:hover { background: #e2e8f0; color: #1e293b; }
@@ -187,32 +186,14 @@
                     <span class="flight-class-badge">商務艙 Business</span>
                 </div>
                 <div class="flight-route">
-                    <div class="flight-city">
-                        <div class="flight-iata">TPE</div>
-                        <div class="flight-cityname">台北 桃園</div>
-                    </div>
-                    <div class="flight-line">
-                        <div class="flight-duration">3h 10m</div>
-                        <div class="flight-arrow">✈</div>
-                        <div style="height:1px;background:rgba(255,255,255,0.3);width:100%;"></div>
-                    </div>
-                    <div class="flight-city">
-                        <div class="flight-iata">SDJ</div>
-                        <div class="flight-cityname">仙台</div>
-                    </div>
+                    <div class="flight-city"><div class="flight-iata">TPE</div><div class="flight-cityname">台北 桃園</div></div>
+                    <div class="flight-line"><div class="flight-duration">3h 10m</div><div class="flight-arrow">✈</div><div style="height:1px;background:rgba(255,255,255,0.3);width:100%;"></div></div>
+                    <div class="flight-city"><div class="flight-iata">SDJ</div><div class="flight-cityname">仙台</div></div>
                 </div>
                 <div class="flight-divider"></div>
                 <div class="flight-times">
-                    <div class="flight-time-block">
-                        <div class="flight-time starlux-gold">11:50</div>
-                        <div class="flight-date">2026/10/25 (日)</div>
-                        <div class="flight-date">第一航廈</div>
-                    </div>
-                    <div class="flight-time-block" style="text-align:right;">
-                        <div class="flight-time starlux-gold">16:00</div>
-                        <div class="flight-date">2026/10/25 (日)</div>
-                        <div class="flight-date">仙台國際機場</div>
-                    </div>
+                    <div class="flight-time-block"><div class="flight-time starlux-gold">11:50</div><div class="flight-date">2026/10/25 (日)</div><div class="flight-date">第一航廈</div></div>
+                    <div class="flight-time-block" style="text-align:right;"><div class="flight-time starlux-gold">16:00</div><div class="flight-date">2026/10/25 (日)</div><div class="flight-date">仙台國際機場</div></div>
                 </div>
                 <div class="flight-number">JX 862 ｜ 實際營運：STARLUX AIRLINES</div>
             </div>
@@ -382,7 +363,7 @@
                 </div>
                 <div style="background:white; padding:10px; border-radius:8px; margin-bottom:8px; border:1px solid #fde68a;">
                     <div style="font-weight:bold; color:#92400e;">1️⃣ 盛岡開運橋（遠眺岩手山初冠雪）</div>
-                    <div style="fontSize:13px; color:#451a03; margin:4px 0;">從盛岡站步行約 5 分鐘（約 400 公尺）。站在橋上向北望去，北上川河畔與頂部覆蓋著初冠雪白霜的宏偉岩手山盡收眼底，景色極美！</div>
+                    <div style="fontSize:13px; color:#451a03; margin:4px 0;">從盛岡站步行約 5 分鐘（約 400 公尺）。站在橋上向北望去，北上川河畔與頂部覆蓋著初冠雪白霜的宏偉岩手山盡收眼底，景色極美！[cite: 2]</div>
                     <a href="https://www.google.com/maps/search/?api=1&query=盛岡開運橋" class="btn-map" style="padding:6px; font-size:12px;" target="_blank">📍 導航至盛岡開運橋</a>
                 </div>
                 <div style="background:white; padding:10px; border-radius:8px; margin-bottom:8px; border:1px solid #fde68a;">
@@ -403,7 +384,7 @@
             </div></div>
             <div class="card highlight" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">17:35</span><div class="event-group">
                 <div class="event">上野飯店 Check-in 🏨</div>
-                <div class="desc">抵達上野站後，先至「東京上野喜來登福朋飯店」辦理入住並放好行李。</div>
+                <div class="desc">抵達上野站後，先至「東京上野喜來登福朋飯店」辦理入住並放好行李。<br><small style="color:#0284c7;">📌 預訂確認號：94712401｜房費金額：¥14,881</small></div>
                 <div class="hotel-tag">🏨 吳哥宿：東京上野喜來登福朋飯店</div>
             </div></div>
             <div class="card highlight" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">19:00</span><div class="event-group">
@@ -423,7 +404,7 @@
             <div class="card" style="background: #eff6ff; border-left: 4px solid #2563eb; position:relative;">
                 <div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div>
                 <div class="event" style="color: #1d4ed8;">🗺️ 關東富士 3 日自駕大環線</div>
-                <div class="desc" style="color: #1e3a8a;">串聯東京 ➔ Costco ➔ 橫濱 ➔ 鎌倉 ➔ 高尾山 ➔ 河口湖 ➔ 御殿場 ➔ 返回東京。</div>
+                <div class="desc" style="color: #1e3a8a;">串聯東京 ➔ Costco ➔ 橫濱 ➔ 鎌倉 ➔ 高尾山 ➔ 河口湖 ➔ 御殿場 ➔ 返回東京。[cite: 2]</div>
                 <a href="https://www.google.com/maps/dir/トヨタレンタカー上野駅前店/コストコホールセール川崎倉庫店/ヨコハマグランドインターコンチネンタルホテル/鶴岡八幡宮/鎌倉高校前駅/高尾山ケーブルカー清滝駅/東横INN富士河口湖大橋/新倉富士浅間神社/御殿場プレミアム・アウトレット/トヨタレンタカー上野駅前店/" class="btn-link" style="background: #2563eb; color: white; margin-top: 8px;" target="_blank">📍 點我開啟 Google Map 總路線</a>
             </div>
             <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">08:30</span><div class="event-group">
@@ -442,16 +423,23 @@
             </div></div>
             <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">13:45</span><div class="event-group">
                 <div class="event">橫濱洲際卸載重物</div>
-                <div class="desc">辦理提早入住，卸載大行李。</div>
+                <div class="desc">辦理提早入住，卸載大行李。[cite: 2]</div>
                 <div class="drive-info">🚗 距 Costco：約 15 km / 30 分鐘</div>
                 <a href="https://www.google.com/travel/hotels/s/g2i9DcuFeUbQMmQq7" class="btn-map" target="_blank">📍 導航至橫濱洲際酒店</a>
             </div></div>
             <div class="card highlight" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">14:30</span><div class="event-group">
-                <div class="event">鎌倉精華大滿貫 ⛩️</div>
-                <div class="desc">鶴岡八幡宮 ➔ 鎌倉大佛 ➔ 鎌倉高校前平交道日落 ➔ 18:00 返回橫濱洲際。</div>
-                <div class="drive-info">🚗 橫濱來回鎌倉：單趟約 25 km / 45 分鐘</div>
-                <a href="https://maps.app.goo.gl/qjyh7tUAHu1c7xK3A" class="btn-map" target="_blank">📍 導航至鶴岡八幡宮附設停車場</a>
-                <br><div class="hotel-tag">🏨 宿：橫濱洲際酒店 (房費 NT$3500 * 2間)</div>
+                <div class="event">鎌倉鶴岡八幡宮 ＆ 大佛 ⛩️</div>
+                <div class="desc">自橫濱出發，先參拜鶴岡八幡宮，接著前往高德院看鎌倉大佛。[cite: 2]</div>
+                <a href="https://maps.app.goo.gl/qjyh7tUAHu1c7xK3A" class="btn-map" target="_blank">📍 導航至鶴岡八幡宮</a>
+            </div></div>
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">15:30</span><div class="event-group">
+                <div class="event">行合橋與鎌倉高校前 🌊</div>
+                <div class="desc">順著海岸線開，先在人潮較少的美拍秘境「行合橋」拍絕美看海路口，再前往經典的「鎌倉高校前平交道」朝聖。[cite: 2]</div>
+            </div></div>
+            <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">16:45</span><div class="event-group">
+                <div class="event">江島神社 (邊津宮) ⛩️</div>
+                <div class="desc">傍晚前往江之島，參拜江島神社。[cite: 2] 結束後返回橫濱卸下裝備休息。</div>
+                <div class="hotel-tag">🏨 宿：橫濱洲際度假酒店 (房費 NT$3500 * 2間)</div>
             </div></div>
             <button class="add-card-btn" onclick="addNewCard(this)">➕ 在此日新增自訂行程</button>
         </div>
@@ -504,14 +492,20 @@
             </div></div>
             <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">11:00</span><div class="event-group">
                 <div class="event">新倉山淺間神社</div>
-                <div class="desc">富士山經典五重塔絕景拍攝。</div>
+                <div class="desc">富士山經典五重塔絕景拍攝，拍完後準備往南大移動。</div>
                 <div class="drive-info">🚗 距天上山：約 5 km / 15 分鐘</div>
                 <a href="https://maps.app.goo.gl/UtuaacWW1zFDWYnt5" class="btn-map" target="_blank">📍 導航至新倉山淺間神社第2駐車場</a>
             </div></div>
-            <div class="card highlight" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">13:30</span><div class="event-group">
-                <div class="event">御殿場 Outlet 爆買 🛍️ (移至今日)</div>
-                <div class="desc">趁退稅新制上路前，全家集中火力大爆買 3 小時。16:30 離開。</div>
-                <div class="drive-info">🚗 距新倉山：約 45 km / 50 分鐘</div>
+            <div class="card highlight" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">13:15</span><div class="event-group">
+                <div class="event">富士山夢之大橋 🌉</div>
+                <div class="desc">超紅 IG 打卡點！中央分隔島已有 1.8m 圍欄，務必於「行人天橋階梯」安全取景，並停放於合法的觀光客車位。</div>
+                <div class="drive-info">🚗 距新倉山：約 55 km / 1 小時 15 分鐘</div>
+                <a href="https://www.google.com/maps/search/?api=1&query=富士山夢の大橋" class="btn-map" target="_blank">📍 導航至夢之大橋</a>
+            </div></div>
+            <div class="card highlight" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">14:45</span><div class="event-group">
+                <div class="event">御殿場 Outlet 爆買 🛍️</div>
+                <div class="desc">趁退稅新制上路前，全家集中火力大爆買 3 小時。17:45 準時離開。</div>
+                <div class="drive-info">🚗 距夢之大橋：約 32 km / 40 分鐘</div>
                 <a href="https://maps.app.goo.gl/PqJrYLgem2oqhWwF8" class="btn-map" target="_blank">📍 導航至御殿場 PREMIUM OUTLETS</a>
             </div></div>
             <div class="card" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">20:00</span><div class="event-group">
@@ -519,7 +513,7 @@
                 <div class="desc">由御殿場開回東京上野站前店歸還 W2 車款（20:00 準時還車）。</div>
                 <div class="drive-info">🚗 距御殿場：約 100 km / 1 小時 40 分鐘</div>
                 <a href="https://maps.app.goo.gl/B9Z2KqE" class="btn-map" target="_blank">📍 導航至 Toyota 上野站前店 (還車)</a>
-                <br><div class="hotel-tag">🏨 宿：東京上野喜來登福朋飯店｜萬豪官網 ¥25,112（≒ NT$4,947）</div>
+                <br><div class="hotel-tag">🏨 宿：東京上野喜來登福朋飯店｜確認號：75006100｜金額：¥24,035</div>
             </div></div>
             <button class="add-card-btn" onclick="addNewCard(this)">➕ 在此日新增自訂行程</button>
         </div>
@@ -757,8 +751,11 @@
             </div>
         </div>
         <div class="card" style="border-left: 4px solid #1E3A8A;">
-            <div class="event">🏨 東京上野喜來登福朋飯店</div>
-            <div class="desc">預訂平台：Trip.com｜入住：10/28｜金額：<strong>NT$ 3,065</strong></div>
+            <div class="event">🏨 東京上野喜來登福朋飯店 (共 2 晚)</div>
+            <div class="desc" style="line-height: 1.8;">
+                • 10/28 入住｜確認號：94712401｜金額：<strong>¥14,881</strong><br>
+                • 10/31 入住｜確認號：75006100｜金額：<strong>¥24,035</strong>
+            </div>
         </div>
         <div class="card" style="border-left: 4px solid #8b5cf6;">
             <div class="event">🏨 SOLASIA Residence 北上野 601</div>
@@ -804,7 +801,7 @@
                 <tbody>
                     <tr><td>🚗 東北租車 (仙台借/盛岡還)</td><td>¥37,682</td><td>含免責與NOC，48H</td></tr>
                     <tr><td>🚗 關東租車 (上野借/還)</td><td>¥59,917</td><td>W2 級距油電車 (10/29-10/31)</td></tr>
-                    <tr><td>🛣️ 高速過路費 ＋ 油資</td><td>¥15,000</td><td>東北 ＋ 關東實支實付預估</td></tr>
+                    <tr><td>🛣️️ 高速過路費 ＋ 油資</td><td>¥15,000</td><td>東北 ＋ 關東實支實付預估</td></tr>
                     <tr><td>🚄 回程新幹線</td><td>¥29,620</td><td>盛岡 ➔ 上野 (2人)</td></tr>
                     <tr class="total-row"><td>💰 花費總計 (日圓)</td><td id="budget-jpy-total">¥142,219</td><td id="budget-twd-total">約 NT$ 30,577</td></tr>
                 </tbody>
