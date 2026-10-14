@@ -297,6 +297,67 @@
             }
         }
     },
-    "news": [],
-    "last_updated": "2026-10-13 23:39:55"
+    "news": [
+        {
+            "brand": "遠見",
+            "title": "美國對台達電、鴻海、廣達啟動337調查！業者、經濟部都回應了 - 遠見雜誌",
+            "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE45cV9QRUpXUlFKOXVLb1VjdEoxUlpOT1ZENGgzUW5rUS1IMFZneGFSNnZxT0lmZDF3U1ZUejdRUlliemJEZVlUelV1Q0QyQQ?oc=5",
+            "time": "13:29"
+        },
+        {
+            "brand": "遠見",
+            "title": "簽「都更同意書」前必懂：分回坪數、估價，地主該先建立的5大核心能力 - 遠見雜誌",
+            "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE05NEt0YzhRWlVET2FvTllXUmpITTYwbnRDazBVNk45bkJUeENzTF9XUV9CbXB6OUNwSHJHcERUNkhqSTlKa05DX29fUC1QQQ?oc=5",
+            "time": "13:29"
+        },
+        {
+            "brand": "遠見",
+            "title": "全球最乾淨的10大航空公司！星宇奪下世界第1，長榮和華航也擠進前10名 - 遠見雜誌",
+            "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFB2WmxWOWdaVjlmQjlPOUxfSWMtLTgxUmNPRHR4X0RhdXF0YkdpdG1mZVpRWEtIMnpTVlZYRk5KMHJtdmtwcDdqMjM0Q1dhQQ?oc=5",
+            "time": "13:29"
+        },
+        {
+            "brand": "遠見",
+            "title": "教育迎來典範轉移，人性素養成最佳防線 - 遠見雜誌",
+            "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFAxY0ZzSWt1bThPSklhSjJEb1pKcUJsWVhucFRqTjNzdE9yMDJvc2FXcjFvMXJlRlJBcndrUWVmbU92cEVkUFppdl9YbDl4QQ?oc=5",
+            "time": "13:29"
+        },
+        {
+            "brand": "遠見",
+            "title": "邁向智慧城市，需要懂人心的操盤手 - 遠見雜誌",
+            "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1hcmhlZUpvSW1qa3N2aWhKSC15NkowVHRNY3VMQm5iamVtRHgwbjBjWUhQMmlTaVdQYUNTRTNpOVJ3UWd4cWNVRXBIZEZnZw?oc=5",
+            "time": "13:29"
+        },
+        {
+            "brand": "商周",
+            "title": "從「被逼出海」到全球布局，台商決勝下一局的關鍵拼圖破解韌性弔詭、尋找跨國橋接者！政大 EMBA 打造最強出海戰隊 - 商業周刊",
+            "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5UTC1lN1RmbU5kVmtsclZmdTFqbmVrQW5oa19zcUt1T1djdXBMMHluUGVRUVQyTWxRTm1kSGdjNDJ3aWFaY3J4dXA5WDFIUG1BVjItOUVHQzByM3BuZ0hSRUQtbmo?oc=5",
+            "time": "13:29"
+        },
+        {
+            "brand": "商周",
+            "title": "3年飆萬店！建商、科技業搶賣藥 大藥局玩家為何爆關店潮 - 商業周刊",
+            "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1aUG5GTE9URlE5SUdYd25pcnhzdVZVallQMzFQa2NhSjc3T1VnejFLXzVfZ3h4TDFLcXc4dWRDMXBaR0JZUGI1S0ZKNE5jR3VFUk44cV8tdnZJcDRHNHByczc5TFhQS052bVlkWVB1alk?oc=5",
+            "time": "13:29"
+        },
+        {
+            "brand": "商周",
+            "title": "【與永續者同行】35％使用再生材料，你的舊iPhone真的變成新iPhone了嗎？ - 商業周刊",
+            "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1BeldoYTRyOGlYMTNsV19wd2ktVmRRQzI0X2kyQ0RXMFdiR1ZwZ1lBWlFISlBEa3V4MkV5ZnRZeUNpb1d5V1JNVFBYd09lWWxwS1BaU2hqTzNkNW9RTnFPVXl2NURSa28?oc=5",
+            "time": "13:29"
+        },
+        {
+            "brand": "商周",
+            "title": "日本頂級超市「成城石井」首度登台！從東京高級住宅區起家，百年超市如何開出逾230店？ - 商業周刊",
+            "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFBlOHJMTkVkVW1DZmJVY2lNX1VsOWhvVmFGZzYtMmRtSzZGS2NTVU92MC1faUJnU0lSUmpLVUN0c18waERaTjZJZDBuQlJhcFV6a1FJWkkwUjZ3VE53amdfSHh1dG5ZUQ?oc=5",
+            "time": "13:29"
+        },
+        {
+            "brand": "商周",
+            "title": "13座晶圓廠興建潮下的贏家 他51歲創業、靠電工稱霸！ - 商業周刊",
+            "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE85NDZ0R1VVbGpJUVJGUTVRV2h4Q2wxLWNzT3g4dTNGdU5FM09OTDJ0TUpIYkdZdmEzMWxORGlobFBtM0ROSDRWZE92MWNpTy1SV1VfTnRydy13NDlyUDJibVRvblFzbnhESjhHVmVSUHU?oc=5",
+            "time": "13:29"
+        }
+    ],
+    "last_updated": "2026-10-14 13:29:05"
 }
