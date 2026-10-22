@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>2026 秋季家族自駕遊</title>
+    <!-- 加入 FontAwesome 圖示庫支援 UBER 等圖示 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <meta name="theme-color" content="#1E3A8A">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -387,11 +389,13 @@
                 <div class="desc">抵達上野站後，先至「東京上野喜來登福朋飯店」辦理入住並放好行李。<br><small style="color:#0284c7;">📌 預訂確認號：94712401｜房費金額：¥14,881</small></div>
                 <div class="hotel-tag">🏨 吳哥宿：東京上野喜來登福朋飯店</div>
             </div></div>
-            <div class="card highlight" style="position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">19:00</span><div class="event-group">
-                <div class="event">美國運通雙人美饌晚餐 🥂</div>
-                <div class="desc">與太太搭乘 **UBER** 從飯店前往 TORI bien 享用 19:00 的美國運通白金美饌晚餐。用餐完畢後返回上野與大舅子等人會合！</div>
+            
+            <div class="card highlight" style="border-left: 4px solid #4f46e5; position:relative;"><div class="card-actions"><button class="action-btn" onclick="moveCard(this, -1)">▲</button><button class="action-btn" onclick="moveCard(this, 1)">▼</button><button class="action-btn delete" onclick="deleteCard(this)">✕</button></div><span class="time">18:30</span><div class="event-group">
+                <div class="event" style="color: #4f46e5;">美國運通雙人美饌晚餐 🥂</div>
+                <div class="desc">搭乘 <strong><i class="fa-brands fa-uber"></i> UBER</strong> 從飯店前往 TORI bien，提早入席享用 18:30 的美國運通白金美饌晚餐。用餐完畢後返回上野與大舅子等人會合！</div>
                 <div class="hotel-tag">🏨 大舅子宿：SOLASIA Residence 北上野 601</div>
             </div></div>
+            
             <button class="add-card-btn" onclick="addNewCard(this)">➕ 在此日新增自訂行程</button>
         </div>
         
@@ -734,7 +738,7 @@
 <!-- 帳本 -->
 <div id="view-expenses" class="main-view">
     <div class="container">
-        <div class="date-header">💰 雲端總帳本 ＆ 即時記帳</div>
+        <div class="date-header">💰 雲端總帳本 ＆ 雙人預算</div>
         <div class="currency-card">
             <div class="currency-title">
                 <span>💱 匯率即時換算與設定</span>
@@ -796,16 +800,23 @@
             <div class="expense-total" id="expense-total" style="display:none;"></div>
         </div>
         
+        <!-- 🔥 全新吳哥夫妻專屬預算清單（替換舊版預算表） -->
         <div class="card" style="border-left: 4px solid #10b981;">
-            <div class="event" style="color: #166534;">📊 雙人自駕預算估算</div>
-            <table class="budget-table">
-                <thead><tr><th>預算項目</th><th>預估金額</th><th>備註</th></tr></thead>
+            <div class="event" style="color: #166534;">📊 吳哥夫妻專屬預算 (含住宿與交通)</div>
+            <table class="budget-table" style="font-size: 13px;">
+                <thead><tr><th>日期/分類</th><th>項目明細</th><th>金額(台幣)</th></tr></thead>
                 <tbody>
-                    <tr><td>🚗 東北租車 (仙台借/盛岡還)</td><td>¥37,682</td><td>含免責與NOC，48H</td></tr>
-                    <tr><td>🚗 關東租車 (上野借/還)</td><td>¥59,917</td><td>W2 級距油電車 (10/29-10/31)</td></tr>
-                    <tr><td>🛣️ 高速過路費 ＋ 油資</td><td>¥15,000</td><td>東北 ＋ 關東實支實付預估</td></tr>
-                    <tr><td>🚄 回程新幹線</td><td>¥29,620</td><td>盛岡 ➔ 上野 (2人)</td></tr>
-                    <tr class="total-row"><td>💰 花費總計 (日圓)</td><td id="budget-jpy-total">¥142,219</td><td id="budget-twd-total">約 NT$ 30,577</td></tr>
+                    <tr><td>🏨 10/25</td><td>仙台西舒適酒店</td><td>$1,800</td></tr>
+                    <tr><td>🏨 10/26</td><td>安比高原皇冠酒店</td><td>$3,250</td></tr>
+                    <tr><td>🏨 10/27</td><td>盛岡 ART 飯店 <br><small class="text-gray-400">(保留較貴備案)</small></td><td>$1,531</td></tr>
+                    <tr><td>🏨 10/28</td><td>上野福朋喜來登 <br><small class="text-gray-400">(官網訂單)</small></td><td>$3,000</td></tr>
+                    <tr><td>🏨 10/29</td><td>橫濱洲際酒店</td><td>$3,500</td></tr>
+                    <tr><td>🏨 10/30</td><td>河口湖東橫 INN</td><td>$2,760</td></tr>
+                    <tr><td>🏨 10/31</td><td>上野福朋喜來登</td><td>$4,810</td></tr>
+                    <tr><td>🚄 交通</td><td>JR新幹線 (盛岡→上野)</td><td>$6,846</td></tr>
+                    <tr><td>🚗 東北自駕</td><td>租車 (吳哥全額)</td><td>$8,102</td></tr>
+                    <tr><td>🚗 關東自駕</td><td>租車+油資 (負擔 1/3)</td><td>$5,369</td></tr>
+                    <tr class="total-row"><td colspan="2">💰 吳哥夫妻總額估算</td><td>NT$ 40,968</td></tr>
                 </tbody>
             </table>
         </div>
@@ -913,6 +924,7 @@ function addNewCard(btn) {
 
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbz-Ut5BZXa4daIX_BylaaaC8LlWWlj-EQKUgq9mIoyMddZwFAz-nlSTlYqiw37376Iw/exec';
 let globalExchangeRate = 0.215;
+
 function updateGlobalRate(val) {
     const rate = parseFloat(val);
     if (!isNaN(rate) && rate > 0) {
@@ -920,9 +932,9 @@ function updateGlobalRate(val) {
         localStorage.setItem('user_global_rate', rate);
         calcCurrency('jpy');
         loadExpenses();
-        updateBudgetTable();
     }
 }
+
 function calcCurrency(type) {
     const jpyInput = document.getElementById('calc-jpy');
     const twdInput = document.getElementById('calc-twd');
@@ -936,19 +948,14 @@ function calcCurrency(type) {
         else jpyInput.value = '';
     }
 }
-function updateBudgetTable() {
-    const budgetJpy = 142219;
-    const twdTarget = document.getElementById('budget-twd-total');
-    if (twdTarget) {
-        twdTarget.textContent = `約 NT$ ${Math.round(budgetJpy * globalExchangeRate).toLocaleString()}`;
-    }
-}
+
 function formatLocalTime(timeStr) {
     if (!timeStr) return '';
     const d = new Date(timeStr);
     if (isNaN(d.getTime())) return timeStr;
     return d.toLocaleString('zh-TW', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
 }
+
 function switchView(id, btn) {
     document.querySelectorAll('.main-view').forEach(el => el.classList.remove('active'));
     document.getElementById(id).classList.add('active');
@@ -958,6 +965,7 @@ function switchView(id, btn) {
     if (id === 'view-checkin') loadCheckinLog();
     if (id === 'view-expenses') loadExpenses();
 }
+
 function showDay(id, btn) {
     document.querySelectorAll('.day-content').forEach(el => el.style.display = 'none');
     const target = document.getElementById(id);
@@ -966,6 +974,7 @@ function showDay(id, btn) {
     btn.classList.add('active');
     btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 }
+
 function markAsBought(btn, idx) {
     const card = btn.closest('.ticket-card');
     const platform = prompt('請輸入購買平台：', 'Klook');
@@ -978,6 +987,7 @@ function markAsBought(btn, idx) {
     localStorage.setItem('ticket_' + idx, JSON.stringify(data));
     applyTicketBought(card, data);
 }
+
 function applyTicketBought(card, data) {
     const badge = card.querySelector('.status-badge');
     badge.className = 'status-badge bought';
@@ -990,6 +1000,7 @@ function applyTicketBought(card, data) {
     const markBtn = card.querySelector('.btn-mark');
     if (markBtn) markBtn.style.display = 'none';
 }
+
 function toggleFoodVisited(cardId, btn) {
     const card = document.getElementById(cardId);
     const stamp = card.querySelector('.food-visited-stamp');
@@ -1008,6 +1019,7 @@ function toggleFoodVisited(cardId, btn) {
         card.style.opacity = '0.7';
     }
 }
+
 async function addExpense(btn) {
     const name = document.getElementById('exp-name').value.trim();
     const cat = document.getElementById('exp-cat').value;
@@ -1031,6 +1043,7 @@ async function addExpense(btn) {
         btn.disabled = false;
     }
 }
+
 async function loadExpenses() {
     const list = document.getElementById('expense-list');
     const total = document.getElementById('expense-total');
@@ -1055,6 +1068,7 @@ async function loadExpenses() {
         list.innerHTML = '<div class="checkin-empty">❌ 讀取失敗</div>';
     }
 }
+
 async function submitCheckin() {
     const member = document.getElementById('ci-member').value;
     const place = document.getElementById('ci-place').value;
@@ -1072,6 +1086,7 @@ async function submitCheckin() {
         status.textContent = '❌ 失敗';
     }
 }
+
 async function loadCheckinLog() {
     try {
         const res = await fetch(GAS_URL + '?action=getCheckins');
@@ -1081,15 +1096,16 @@ async function loadCheckinLog() {
         renderCheckinLog([]);
     }
 }
+
 function renderCheckinLog(list) {
     const container = document.getElementById('checkin-log-list');
     if (!list || list.length === 0) { container.innerHTML = '<div class="checkin-empty">尚無打卡記錄</div>'; return; }
     container.innerHTML = list.slice(0, 15).map(c => `<div class="checkin-item"><b>👤 ${c.member}</b> ➔ ${c.place}<br><small>${c.msg || ''}</small></div>`).join('');
 }
+
 document.addEventListener('DOMContentLoaded', () => {
     const savedRate = localStorage.getItem('user_global_rate');
     if (savedRate) { globalExchangeRate = parseFloat(savedRate); document.getElementById('global-rate').value = savedRate; }
-    updateBudgetTable();
     loadCheckinLog();
     loadExpenses();
 });
